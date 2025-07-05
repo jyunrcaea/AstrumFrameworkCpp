@@ -1,9 +1,7 @@
 #include "AstrumGroupObject.hpp"
 #include "IAstrumObject.hpp"
 
-AstrumGroupObject::AstrumGroupObject()
-    : selfPtr(std::shared_ptr<AstrumObject>(this, [](AstrumObject*){})),
-      objects(std::make_shared<AstrumObjectList>(selfPtr)) {
+AstrumGroupObject::AstrumGroupObject() : objects(std::make_shared<AstrumObjectList>(this)) {
 }
 
 void AstrumGroupObject::Update() {

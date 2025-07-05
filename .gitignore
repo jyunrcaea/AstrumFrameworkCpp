@@ -55,6 +55,7 @@ nunit-*.xml
 
 .vs/
 .AstrumFramework/
+.vscode/
 
 *.sln
 **/*.sln
