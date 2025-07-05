@@ -148,6 +148,7 @@
     <ClCompile Include="AstrumShader.cpp" />
     <ClCompile Include="AstrumShaderPipeline.cpp" />
     <ClCompile Include="AstrumShaderPipeline.hpp" />
+    <ClCompile Include="AstrumTriangleObject.cpp" />
     <ClCompile Include="AstrumVector2.cpp" />
     <ClCompile Include="AstrumVector3.cpp" />
     <ClCompile Include="AstrumVector4.cpp" />
