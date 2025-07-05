@@ -132,7 +132,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AstrumChrono.cpp" />
     <ClCompile Include="AstrumChrono.hpp" />
+    <ClCompile Include="AstrumConstantBuffer.cpp" />
     <ClCompile Include="AstrumDirectInput.cpp" />
     <ClCompile Include="AstrumDomainShader.cpp" />
     <ClCompile Include="AstrumDrawableObject.cpp" />
@@ -140,6 +142,7 @@
     <ClCompile Include="AstrumGeometryShader.cpp" />
     <ClCompile Include="AstrumGroupObject.cpp" />
     <ClCompile Include="AstrumHullShader.cpp" />
+    <ClCompile Include="AstrumMatrix.cpp" />
     <ClCompile Include="AstrumObject.cpp" />
     <ClCompile Include="AstrumObjectList.cpp" />
     <ClCompile Include="AstrumPixelShader.cpp" />
@@ -148,6 +151,7 @@
     <ClCompile Include="AstrumShader.cpp" />
     <ClCompile Include="AstrumShaderPipeline.cpp" />
     <ClCompile Include="AstrumShaderPipeline.hpp" />
+    <ClCompile Include="AstrumTransformConstantBuffer.cpp" />
     <ClCompile Include="AstrumTriangleObject.cpp" />
     <ClCompile Include="AstrumVector2.cpp" />
     <ClCompile Include="AstrumVector3.cpp" />

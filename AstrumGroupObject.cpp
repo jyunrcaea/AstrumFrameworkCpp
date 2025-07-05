@@ -1,11 +1,11 @@
 #include "AstrumGroupObject.hpp"
 #include "IAstrumObject.hpp"
 
-AstrumGroupObject::AstrumGroupObject() : objects(std::make_shared<AstrumObjectList>(this)) {
+AstrumGroupObject::AstrumGroupObject() : objects(std::make_unique<AstrumObjectList>(this)) {
 }
 
 void AstrumGroupObject::Update() {
-    objects->ForEach([](std::shared_ptr<IAstrumObject> obj) {
+    objects->ForEach([](shared_ptr<IAstrumObject> obj) {
         obj->Update();
     });
 }
@@ -16,10 +16,10 @@ void AstrumGroupObject::Release() {
 
 void AstrumGroupObject::Draw() {
     if (visible) {
-        objects->ForEach([](std::shared_ptr<IAstrumObject> obj) {
+        objects->ForEach([](shared_ptr<IAstrumObject> obj) {
             obj->Draw();
         });
     }
 }
 
-std::shared_ptr<AstrumObjectList>& AstrumGroupObject::GetObjects() { return objects; }
+AstrumObjectList* AstrumGroupObject::GetObjects() { return objects.get(); }
