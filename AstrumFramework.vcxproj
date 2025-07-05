@@ -135,8 +135,10 @@
     <ClCompile Include="AstrumChrono.hpp" />
     <ClCompile Include="AstrumDirectInput.cpp" />
     <ClCompile Include="AstrumDomainShader.cpp" />
+    <ClCompile Include="AstrumDrawableObject.cpp" />
     <ClCompile Include="AstrumException.hpp" />
     <ClCompile Include="AstrumGeometryShader.cpp" />
+    <ClCompile Include="AstrumGroupObject.cpp" />
     <ClCompile Include="AstrumHullShader.cpp" />
     <ClCompile Include="AstrumObject.cpp" />
     <ClCompile Include="AstrumObjectList.cpp" />
