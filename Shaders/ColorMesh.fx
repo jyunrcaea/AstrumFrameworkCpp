@@ -16,7 +16,6 @@ VS_Output_Color ColorMeshVS(VS_Input_Color input)
 {
 	VS_Output_Color output = (VS_Output_Color) 0;
 
-	//output.Pos = float4(input.Pos, 1.f);
 	output.Pos = mul(float4(input.Pos, 1.f), gmatWVP);
 	output.Color = input.Color;
     

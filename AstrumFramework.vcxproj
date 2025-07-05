@@ -138,6 +138,7 @@
     <ClCompile Include="AstrumException.hpp" />
     <ClCompile Include="AstrumGeometryShader.cpp" />
     <ClCompile Include="AstrumHullShader.cpp" />
+    <ClCompile Include="AstrumObject.cpp" />
     <ClCompile Include="AstrumObjectList.cpp" />
     <ClCompile Include="AstrumPixelShader.cpp" />
     <ClCompile Include="AstrumPolygons.cpp" />
@@ -145,6 +146,7 @@
     <ClCompile Include="AstrumShader.cpp" />
     <ClCompile Include="AstrumShaderPipeline.cpp" />
     <ClCompile Include="AstrumShaderPipeline.hpp" />
+    <ClCompile Include="AstrumVector2.cpp" />
     <ClCompile Include="AstrumVector3.cpp" />
     <ClCompile Include="AstrumVector4.cpp" />
     <ClCompile Include="AstrumVector4.hpp" />
