@@ -1,13 +1,10 @@
 #include "AstrumTriangleObject.hpp"
 
-AstrumTriangleObject::AstrumTriangleObject()
-    : AstrumTriangleObject({}, {}, {})
+AstrumTriangleObject::AstrumTriangleObject() : AstrumTriangleObject({}, {}, {})
 {
 }
 
-AstrumTriangleObject::AstrumTriangleObject(const AstrumVertexColor& a,
-                                           const AstrumVertexColor& b,
-                                           const AstrumVertexColor& c)
+AstrumTriangleObject::AstrumTriangleObject(const AstrumVertexColor& a, const AstrumVertexColor& b, const AstrumVertexColor& c)
 {
     std::vector<AstrumVertexColor> vertices = { a, b, c };
     std::vector<uint16_t> indices = { 0, 1, 2 };
