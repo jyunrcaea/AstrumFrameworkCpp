@@ -54,8 +54,10 @@ TestResult.xml
 nunit-*.xml
 
 .vs/
-.AstrumFramework/
+AstrumFramework/
 .vscode/
+packages/
+packages.config
 
 *.sln
 **/*.sln
