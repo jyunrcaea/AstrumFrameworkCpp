@@ -103,27 +103,29 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp23</LanguageStandard>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;dxguid.lib;dinput8.lib;User32.lib;Gdi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;dxguid.lib;dinput8.lib;User32.lib;Gdi32.lib;Ole32.lib;Propsys.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp23</LanguageStandard>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -132,19 +134,32 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AstrumChrono.cpp" />
     <ClCompile Include="AstrumChrono.hpp" />
+    <ClCompile Include="AstrumCircleObject.cpp" />
+    <ClCompile Include="AstrumConstantBuffer.cpp" />
     <ClCompile Include="AstrumDirectInput.cpp" />
     <ClCompile Include="AstrumDomainShader.cpp" />
+    <ClCompile Include="AstrumDrawableObject.cpp" />
     <ClCompile Include="AstrumException.hpp" />
     <ClCompile Include="AstrumGeometryShader.cpp" />
+    <ClCompile Include="AstrumGroupObject.cpp" />
     <ClCompile Include="AstrumHullShader.cpp" />
+    <ClCompile Include="AstrumImage.cpp" />
+    <ClCompile Include="AstrumMatrix.cpp" />
+    <ClCompile Include="AstrumObject.cpp" />
     <ClCompile Include="AstrumObjectList.cpp" />
     <ClCompile Include="AstrumPixelShader.cpp" />
     <ClCompile Include="AstrumPolygons.cpp" />
+    <ClCompile Include="AstrumRectangleObject.cpp" />
     <ClCompile Include="AstrumRenderer.cpp" />
     <ClCompile Include="AstrumShader.cpp" />
     <ClCompile Include="AstrumShaderPipeline.cpp" />
     <ClCompile Include="AstrumShaderPipeline.hpp" />
+    <ClCompile Include="AstrumTexture.cpp" />
+    <ClCompile Include="AstrumTransformConstantBuffer.cpp" />
+    <ClCompile Include="AstrumTriangleObject.cpp" />
+    <ClCompile Include="AstrumVector2.cpp" />
     <ClCompile Include="AstrumVector3.cpp" />
     <ClCompile Include="AstrumVector4.cpp" />
     <ClCompile Include="AstrumVector4.hpp" />
@@ -152,8 +167,12 @@
     <ClCompile Include="AstrumWindow.cpp" />
     <ClCompile Include="Framework.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="AstrumObservedVector2.cpp" />
+    <ClCompile Include="AstrumObservedVector3.cpp" />
+    <ClCompile Include="AstrumObservedVector4.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AstrumCircleObject.hpp" />
     <ClInclude Include="AstrumColor.hpp" />
     <ClInclude Include="AstrumConstantBuffer.hpp" />
     <ClInclude Include="AstrumDirectInput.hpp" />
@@ -162,6 +181,7 @@
     <ClInclude Include="AstrumGeometryShader.hpp" />
     <ClInclude Include="AstrumGroupObject.hpp" />
     <ClInclude Include="AstrumHullShader.hpp" />
+    <ClInclude Include="AstrumImage.hpp" />
     <ClInclude Include="AstrumMatrix.hpp" />
     <ClInclude Include="AstrumObject.hpp" />
     <ClInclude Include="AstrumObjectForward.hpp" />
@@ -171,9 +191,11 @@
     <ClInclude Include="AstrumRectangleObject.hpp" />
     <ClInclude Include="AstrumRenderer.hpp" />
     <ClInclude Include="AstrumShader.hpp" />
+    <ClInclude Include="AstrumTexture.hpp" />
     <ClInclude Include="AstrumTransformConstantBuffer.hpp" />
     <ClInclude Include="AstrumTransformData.hpp" />
     <ClInclude Include="AstrumTriangleObject.hpp" />
+    <ClInclude Include="AstrumUnit.hpp" />
     <ClInclude Include="AstrumVector2.hpp" />
     <ClInclude Include="AstrumVector3.hpp" />
     <ClInclude Include="AstrumVertexColor.hpp" />
@@ -185,9 +207,24 @@
     <ClInclude Include="IAstrumObjectList.hpp" />
     <ClInclude Include="IAstrumRenderable.hpp" />
     <ClInclude Include="IAstrumShaders.hpp" />
+    <ClInclude Include="AstrumObservedVector2.hpp" />
+    <ClInclude Include="AstrumObservedVector3.hpp" />
+    <ClInclude Include="AstrumObservedVector4.hpp" />
     <ClInclude Include="Singleton.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="packages\directxtk_desktop_win10.2025.3.21.2\build\native\directxtk_desktop_win10.targets" Condition="Exists('packages\directxtk_desktop_win10.2025.3.21.2\build\native\directxtk_desktop_win10.targets')" />
+    <Import Project="packages\directxtex_desktop_win10.2025.3.25.2\build\native\directxtex_desktop_win10.targets" Condition="Exists('packages\directxtex_desktop_win10.2025.3.25.2\build\native\directxtex_desktop_win10.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\directxtk_desktop_win10.2025.3.21.2\build\native\directxtk_desktop_win10.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\directxtk_desktop_win10.2025.3.21.2\build\native\directxtk_desktop_win10.targets'))" />
+    <Error Condition="!Exists('packages\directxtex_desktop_win10.2025.3.25.2\build\native\directxtex_desktop_win10.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\directxtex_desktop_win10.2025.3.25.2\build\native\directxtex_desktop_win10.targets'))" />
+  </Target>
 </Project>
