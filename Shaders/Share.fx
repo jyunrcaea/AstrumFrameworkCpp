@@ -11,3 +11,16 @@ cbuffer Transform : register(b0)
     matrix gmatWV;
     matrix gmatWVP;
 }
+
+cbuffer Material : register(b1)
+{
+    float4 gMtrlBaseColor;
+    float gMtrlOpacity;
+    int gMtrlTextureWidth;
+    int gMtrlTextureHeight;
+    float gMtrlEmpty;
+}
+
+SamplerState gBaseSample : register(s0);
+
+Texture2D gBaseTexture : register(t0);
