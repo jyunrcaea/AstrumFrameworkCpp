@@ -1,4 +1,5 @@
 #include "AstrumTransformConstantBuffer.hpp"
+#include "AstrumColorConstantBuffer.hpp"
 
 AstrumTransformConstantBuffer::AstrumTransformConstantBuffer() : AstrumConstantBuffer(sizeof(AstrumTransformData))
 {
@@ -19,8 +20,8 @@ void AstrumTransformConstantBuffer::UpdateBuffer() {
     WorldView.Transpose();
     WorldViewProjection.Transpose();
 
-    auto raw = std::as_bytes(std::span{ &data, 1 });
-    Update(raw);
+    Update(std::as_bytes(std::span{ &data, 1 }));
 
     AstrumRenderer::Instance().GetContext()->VSSetConstantBuffers(0, 1, buffer.GetAddressOf());
 }
+

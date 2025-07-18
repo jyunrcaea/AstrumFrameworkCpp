@@ -22,9 +22,13 @@ float AstrumObservedVector3::GetX() const { return value_.X; }
 float AstrumObservedVector3::GetY() const { return value_.Y; }
 float AstrumObservedVector3::GetZ() const { return value_.Z; }
 
-void AstrumObservedVector3::SetX(float x) { value_.X = x; Notify(); }
+void AstrumObservedVector3::SetX(float x) { value_.X = x; Notify(); } // 값이 바뀔때마다 notify()를 호출하고
 void AstrumObservedVector3::SetY(float y) { value_.Y = y; Notify(); }
 void AstrumObservedVector3::SetZ(float z) { value_.Z = z; Notify(); }
+
+void AstrumObservedVector3::AddX(float x) { value_.X += x; Notify(); }
+void AstrumObservedVector3::AddY(float y) { value_.Y += y; Notify(); }
+void AstrumObservedVector3::AddZ(float z) { value_.Z += z; Notify(); }
 
 void AstrumObservedVector3::Reset(const AstrumVector3& v) {
     value_ = v; Notify();

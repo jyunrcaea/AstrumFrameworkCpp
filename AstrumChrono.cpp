@@ -1,6 +1,6 @@
 #include "AstrumChrono.hpp"
 
-double AstrumChrono::DeltaTime() const {
+double AstrumChrono::GetDeltaTime() const {
     return deltaTime;
 }
 

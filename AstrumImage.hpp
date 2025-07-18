@@ -1,25 +1,33 @@
-#include <d3d11_1.h>
+#pragma once
 #include <string>
-#include <DirectXTex.h>
+#include <filesystem>
+#include <wincodec.h>
+#include <Windows.h>
+#include <wrl/client.h>
+#include <d3d11.h>
+#include <d3dcompiler.h>
+#include "DirectXTex.h"
 #include "AstrumRenderer.hpp"
 #include "AstrumException.hpp"
-#include <wincodec.h>
+
+#ifdef _DEBUG
+#pragma comment(lib, "ThirdParty/DirectXTex_Debug.lib")
+#else
+#pragma comment(lib, "ThirdParty/DirectXTex.lib.lib")
+#endif
 
 class AstrumImage
 {
 public:
-    AstrumImage(const std::string& filePath);
+	AstrumImage(const std::filesystem::path& path);
     ~AstrumImage();
 
-    const DirectX::ScratchImage& GetImage() const { return image; }
+	size_t GetWidth() const;
+	size_t GetHeight() const;
 
-    size_t GetWidth() const;
-    size_t GetHeight() const;
-    DXGI_FORMAT GetFormat() const;
-    Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> CreateShaderResourceView(ID3D11Device* pDevice) const;
-
+	const DirectX::Image* GetImages() const;
+	const size_t GetImageCount() const;
+	const DirectX::TexMetadata& GetMetadata() const;
 private:
-    AstrumImage(const AstrumImage&) = delete;
-    AstrumImage& operator=(const AstrumImage&) = delete;
-    DirectX::ScratchImage image;
+	DirectX::ScratchImage* image;
 };

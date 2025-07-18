@@ -1,0 +1,313 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="AstrumChrono.cpp" />
+    <ClCompile Include="AstrumChrono.hpp" />
+    <ClCompile Include="AstrumDirectInput.cpp" />
+    <ClCompile Include="AstrumException.hpp" />
+    <ClCompile Include="AstrumWindow.cpp" />
+    <ClCompile Include="Framework.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="AstrumObject.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="AstrumCircleObject.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="AstrumDrawableObject.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="AstrumGroupObject.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="AstrumRectangleObject.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="AstrumTriangleObject.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="AstrumRenderer.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="AstrumVector2.cpp">
+      <Filter>Units</Filter>
+    </ClCompile>
+    <ClCompile Include="AstrumVector3.cpp">
+      <Filter>Units</Filter>
+    </ClCompile>
+    <ClCompile Include="AstrumVector4.cpp">
+      <Filter>Units</Filter>
+    </ClCompile>
+    <ClCompile Include="AstrumVector4.hpp">
+      <Filter>Units</Filter>
+    </ClCompile>
+    <ClCompile Include="AstrumObjectList.cpp">
+      <Filter>Collections</Filter>
+    </ClCompile>
+    <ClCompile Include="AstrumObservedVector2.cpp">
+      <Filter>Units</Filter>
+    </ClCompile>
+    <ClCompile Include="AstrumObservedVector3.cpp">
+      <Filter>Units</Filter>
+    </ClCompile>
+    <ClCompile Include="AstrumObservedVector4.cpp">
+      <Filter>Units</Filter>
+    </ClCompile>
+    <ClCompile Include="AstrumPolygons.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="AstrumQuaternion.cpp">
+      <Filter>Units</Filter>
+    </ClCompile>
+    <ClCompile Include="AstrumMatrix.cpp">
+      <Filter>Units</Filter>
+    </ClCompile>
+    <ClCompile Include="AstrumComponentList.cpp">
+      <Filter>Collections</Filter>
+    </ClCompile>
+    <ClCompile Include="AstrumComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="AstrumCollisionSystem.cpp" />
+    <ClCompile Include="AstrumAABBColliderComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="AstrumCircleColliderComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="AstrumColliderComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="AstrumOBBColliderComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="AstrumRotatedRect.cpp">
+      <Filter>Units</Filter>
+    </ClCompile>
+    <ClCompile Include="AstrumTexture.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="AstrumMaterialTexture.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="AstrumMaterial.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="AstrumImage.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="AstrumDomainShader.cpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="AstrumGeometryShader.cpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="AstrumHullShader.cpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="AstrumPixelShader.cpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="AstrumShader.cpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="AstrumShaderPipeline.cpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="AstrumShaderPipeline.hpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="AstrumVertexShader.cpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="AstrumConstantBuffer.cpp">
+      <Filter>Units\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="AstrumTransformConstantBuffer.cpp">
+      <Filter>Units\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="AstrumColorConstantBuffer.cpp">
+      <Filter>Units\Buffer</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AstrumDirectInput.hpp" />
+    <ClInclude Include="AstrumWindow.hpp" />
+    <ClInclude Include="Framework.hpp" />
+    <ClInclude Include="Singleton.hpp" />
+    <ClInclude Include="AstrumObject.hpp">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumCircleObject.hpp">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumDrawableObject.hpp">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumGroupObject.hpp">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumRectangleObject.hpp">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumTriangleObject.hpp">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumRenderer.hpp">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumColor.hpp">
+      <Filter>Units</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumVector2.hpp">
+      <Filter>Units</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumVector3.hpp">
+      <Filter>Units</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumVertexColor.hpp">
+      <Filter>Units</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumCircle.hpp">
+      <Filter>Units</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumTransformData.hpp">
+      <Filter>Units</Filter>
+    </ClInclude>
+    <ClInclude Include="IAstrumObject.hpp">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="IAstrumRenderable.hpp">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="IAstrumObjectList.hpp">
+      <Filter>Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumObjectList.hpp">
+      <Filter>Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumObservedVector2.hpp">
+      <Filter>Units</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumObservedVector3.hpp">
+      <Filter>Units</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumObservedVector4.hpp">
+      <Filter>Units</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumPolygons.hpp">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumQuaternion.h">
+      <Filter>Units</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumMatrix.hpp">
+      <Filter>Units</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumComponentList.hpp">
+      <Filter>Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="IAstrumComponent.hpp" />
+    <ClInclude Include="IAstrumEvents.hpp" />
+    <ClInclude Include="AstrumComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumCollisionSystem.h" />
+    <ClInclude Include="AstrumAABBColliderComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumCircleColliderComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumColliderComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumOBBColliderComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumRect.hpp">
+      <Filter>Units</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumRotatedRect.hpp">
+      <Filter>Units</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumPosition.hpp" />
+    <ClInclude Include="AstrumTexture.hpp">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumMaterialTexture.hpp">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumMaterial.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumImage.hpp">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Test.hpp">
+      <Filter>Test</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumPixelShader.hpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumDomainShader.hpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumGeometryShader.hpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumHullShader.hpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumShader.hpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumVertexShader.hpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="IAstrumShaders.hpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumConstantBuffer.hpp">
+      <Filter>Units\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="IAstrumConstantBuffer.hpp">
+      <Filter>Units\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumTransformConstantBuffer.hpp">
+      <Filter>Units\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumColorConstantBuffer.hpp">
+      <Filter>Units\Buffer</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Objects">
+      <UniqueIdentifier>{5570f703-fe3d-4cf1-83c2-5027cfbf9e95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{422956a3-e1e0-4e2e-9d32-da739704f899}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Units">
+      <UniqueIdentifier>{e612a411-30b5-4d71-8986-8b03e03aaa0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collections">
+      <UniqueIdentifier>{ab4552d9-099d-4a43-a13f-dee4e0f21029}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components">
+      <UniqueIdentifier>{c036c422-68aa-4f11-88c9-ce16354b88fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{638d4afa-4978-4454-ba29-74b3daa8fea4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Test">
+      <UniqueIdentifier>{d1894083-7ef1-4093-818c-55b80eb5b2eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Shaders">
+      <UniqueIdentifier>{1e60c7c7-464a-4052-8af4-aa6bf350760e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Units\Buffer">
+      <UniqueIdentifier>{4766994f-fc62-45d4-85ce-b3516694818f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

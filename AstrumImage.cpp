@@ -1,54 +1,40 @@
 #include "AstrumImage.hpp"
-#include <Windows.h>
-#include <wrl/client.h>
 
-AstrumImage::AstrumImage(const std::string& filePath) {
-    int sizeNeeded = MultiByteToWideChar(CP_UTF8, 0, filePath.c_str(), -1, nullptr, 0);
-    if (sizeNeeded == 0) {
-        throw AstrumException(__LINE__, __FILE__, "Failed to convert file path to wide string.");
-    }
-    std::wstring wFilePath(sizeNeeded, 0);
-    MultiByteToWideChar(CP_UTF8, 0, filePath.c_str(), -1, &wFilePath[0], sizeNeeded);
-
-    HRESULT hr = DirectX::LoadFromWICFile(
-        wFilePath.c_str(),
-        DirectX::WIC_FLAGS_NONE,
-        nullptr,
-        image
-    );
-
-    if (FAILED(hr)) {
-        throw AstrumException(__LINE__, __FILE__, "Failed to load image from file.");
-    }
-}
-
-AstrumImage::~AstrumImage() {
+AstrumImage::AstrumImage(const std::filesystem::path& path)
+{
+	image = new DirectX::ScratchImage();
+	std::wstring ext = path.extension();
+	std::ranges::transform(ext.begin(), ext.end(), ext.begin(), ::towlower);
+	if (ext == L".dds") {
+		if (FAILED(DirectX::LoadFromDDSFile(path.c_str(), DirectX::DDS_FLAGS_NONE, nullptr, *image))) {
+			throw AstrumException("Failed to load DDS image from file: " + path.string());
+		}
+	}
+	else if (ext == L".tga") {
+		if (FAILED(DirectX::LoadFromTGAFile(path.c_str(), nullptr, *image))) {
+			throw AstrumException("Failed to load TGA image from file: " + path.string());
+		}
+	}
+	else if (ext == L".png" || ext == L".jpg" || ext == L".jpeg") {
+		if (FAILED(DirectX::LoadFromWICFile(path.c_str(), DirectX::WIC_FLAGS_NONE, nullptr, *image))) {
+			throw AstrumException("Failed to load WIC image from file: " + path.string());
+		}
+	}
+	else throw AstrumException("Unsupported image format: " + std::string(ext.begin(), ext.end()));		
 
 }
 
-size_t AstrumImage::GetWidth() const {
-    return image.GetMetadata().width;
+AstrumImage::~AstrumImage()
+{
+	if (image) {
+		delete image;
+		image = nullptr;
+	}
 }
 
-size_t AstrumImage::GetHeight() const {
-    return image.GetMetadata().height;
-}
+size_t AstrumImage::GetWidth() const { return image->GetMetadata().width; }
+size_t AstrumImage::GetHeight() const { return image->GetMetadata().height; }
 
-DXGI_FORMAT AstrumImage::GetFormat() const {
-    return image.GetMetadata().format;
-}
-
-Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> AstrumImage::CreateShaderResourceView(ID3D11Device* pDevice) const {
-    Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> srv;
-    HRESULT hr = DirectX::CreateShaderResourceView(
-        pDevice,
-        image.GetImages(),
-        image.GetImageCount(),
-        image.GetMetadata(),
-        srv.GetAddressOf()
-    );
-    if (FAILED(hr)) {
-        throw AstrumException(__LINE__, __FILE__, "Failed to create shader resource view.");
-    }
-    return srv;
-}
+const DirectX::Image* AstrumImage::GetImages() const { return image->GetImages(); }
+const size_t AstrumImage::GetImageCount() const { return image->GetImageCount(); }
+const DirectX::TexMetadata& AstrumImage::GetMetadata() const { return image->GetMetadata(); }

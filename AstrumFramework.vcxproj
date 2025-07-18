@@ -109,11 +109,12 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp23</LanguageStandard>
       <MultiProcessorCompilation>false</MultiProcessorCompilation>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;dxguid.lib;dinput8.lib;User32.lib;Gdi32.lib;Ole32.lib;Propsys.lib</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;dxguid.lib;dinput8.lib;User32.lib;Gdi32.lib;Ole32.lib;comdlg32.lib;winspool.lib;uuid.lib;odbc32.lib;odbccp32.lib;oleaut32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -126,17 +127,25 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp23</LanguageStandard>
       <MultiProcessorCompilation>false</MultiProcessorCompilation>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;dxguid.lib;dinput8.lib;User32.lib;Gdi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;dxguid.lib;dinput8.lib;User32.lib;Gdi32.lib;Ole32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AstrumAABBColliderComponent.cpp" />
     <ClCompile Include="AstrumChrono.cpp" />
     <ClCompile Include="AstrumChrono.hpp" />
+    <ClCompile Include="AstrumCircleColliderComponent.cpp" />
     <ClCompile Include="AstrumCircleObject.cpp" />
+    <ClCompile Include="AstrumColliderComponent.cpp" />
+    <ClCompile Include="AstrumCollisionSystem.cpp" />
+    <ClCompile Include="AstrumColorConstantBuffer.cpp" />
+    <ClCompile Include="AstrumComponent.cpp" />
+    <ClCompile Include="AstrumComponentList.cpp" />
     <ClCompile Include="AstrumConstantBuffer.cpp" />
     <ClCompile Include="AstrumDirectInput.cpp" />
     <ClCompile Include="AstrumDomainShader.cpp" />
@@ -146,13 +155,18 @@
     <ClCompile Include="AstrumGroupObject.cpp" />
     <ClCompile Include="AstrumHullShader.cpp" />
     <ClCompile Include="AstrumImage.cpp" />
+    <ClCompile Include="AstrumMaterial.cpp" />
+    <ClCompile Include="AstrumMaterialTexture.cpp" />
     <ClCompile Include="AstrumMatrix.cpp" />
+    <ClCompile Include="AstrumOBBColliderComponent.cpp" />
     <ClCompile Include="AstrumObject.cpp" />
     <ClCompile Include="AstrumObjectList.cpp" />
     <ClCompile Include="AstrumPixelShader.cpp" />
     <ClCompile Include="AstrumPolygons.cpp" />
+    <ClCompile Include="AstrumQuaternion.cpp" />
     <ClCompile Include="AstrumRectangleObject.cpp" />
     <ClCompile Include="AstrumRenderer.cpp" />
+    <ClCompile Include="AstrumRotatedRect.cpp" />
     <ClCompile Include="AstrumShader.cpp" />
     <ClCompile Include="AstrumShaderPipeline.cpp" />
     <ClCompile Include="AstrumShaderPipeline.hpp" />
@@ -172,8 +186,15 @@
     <ClCompile Include="AstrumObservedVector4.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AstrumAABBColliderComponent.h" />
+    <ClInclude Include="AstrumCircleColliderComponent.h" />
     <ClInclude Include="AstrumCircleObject.hpp" />
+    <ClInclude Include="AstrumColliderComponent.h" />
+    <ClInclude Include="AstrumCollisionSystem.h" />
     <ClInclude Include="AstrumColor.hpp" />
+    <ClInclude Include="AstrumColorConstantBuffer.hpp" />
+    <ClInclude Include="AstrumComponent.h" />
+    <ClInclude Include="AstrumComponentList.hpp" />
     <ClInclude Include="AstrumConstantBuffer.hpp" />
     <ClInclude Include="AstrumDirectInput.hpp" />
     <ClInclude Include="AstrumDomainShader.hpp" />
@@ -182,27 +203,35 @@
     <ClInclude Include="AstrumGroupObject.hpp" />
     <ClInclude Include="AstrumHullShader.hpp" />
     <ClInclude Include="AstrumImage.hpp" />
+    <ClInclude Include="AstrumMaterial.h" />
+    <ClInclude Include="AstrumMaterialTexture.hpp" />
     <ClInclude Include="AstrumMatrix.hpp" />
+    <ClInclude Include="AstrumOBBColliderComponent.h" />
     <ClInclude Include="AstrumObject.hpp" />
-    <ClInclude Include="AstrumObjectForward.hpp" />
     <ClInclude Include="AstrumObjectList.hpp" />
     <ClInclude Include="AstrumPixelShader.hpp" />
     <ClInclude Include="AstrumPolygons.hpp" />
+    <ClInclude Include="AstrumPosition.hpp" />
+    <ClInclude Include="AstrumQuaternion.h" />
+    <ClInclude Include="AstrumRect.hpp" />
     <ClInclude Include="AstrumRectangleObject.hpp" />
     <ClInclude Include="AstrumRenderer.hpp" />
+    <ClInclude Include="AstrumRotatedRect.hpp" />
     <ClInclude Include="AstrumShader.hpp" />
     <ClInclude Include="AstrumTexture.hpp" />
     <ClInclude Include="AstrumTransformConstantBuffer.hpp" />
     <ClInclude Include="AstrumTransformData.hpp" />
     <ClInclude Include="AstrumTriangleObject.hpp" />
-    <ClInclude Include="AstrumUnit.hpp" />
+    <ClInclude Include="AstrumCircle.hpp" />
     <ClInclude Include="AstrumVector2.hpp" />
     <ClInclude Include="AstrumVector3.hpp" />
     <ClInclude Include="AstrumVertexColor.hpp" />
     <ClInclude Include="AstrumVertexShader.hpp" />
     <ClInclude Include="AstrumWindow.hpp" />
     <ClInclude Include="Framework.hpp" />
+    <ClInclude Include="IAstrumComponent.hpp" />
     <ClInclude Include="IAstrumConstantBuffer.hpp" />
+    <ClInclude Include="IAstrumEvents.hpp" />
     <ClInclude Include="IAstrumObject.hpp" />
     <ClInclude Include="IAstrumObjectList.hpp" />
     <ClInclude Include="IAstrumRenderable.hpp" />
@@ -211,20 +240,8 @@
     <ClInclude Include="AstrumObservedVector3.hpp" />
     <ClInclude Include="AstrumObservedVector4.hpp" />
     <ClInclude Include="Singleton.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
+    <ClInclude Include="Test.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-    <Import Project="packages\directxtk_desktop_win10.2025.3.21.2\build\native\directxtk_desktop_win10.targets" Condition="Exists('packages\directxtk_desktop_win10.2025.3.21.2\build\native\directxtk_desktop_win10.targets')" />
-    <Import Project="packages\directxtex_desktop_win10.2025.3.25.2\build\native\directxtex_desktop_win10.targets" Condition="Exists('packages\directxtex_desktop_win10.2025.3.25.2\build\native\directxtex_desktop_win10.targets')" />
-  </ImportGroup>
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('packages\directxtk_desktop_win10.2025.3.21.2\build\native\directxtk_desktop_win10.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\directxtk_desktop_win10.2025.3.21.2\build\native\directxtk_desktop_win10.targets'))" />
-    <Error Condition="!Exists('packages\directxtex_desktop_win10.2025.3.25.2\build\native\directxtex_desktop_win10.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\directxtex_desktop_win10.2025.3.25.2\build\native\directxtex_desktop_win10.targets'))" />
-  </Target>
+  <ImportGroup Label="ExtensionTargets" />
 </Project>

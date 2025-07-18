@@ -1,20 +1,20 @@
+#pragma once
 #include <d3d11_1.h>
 #include <string>
-#include <DirectXTex.h>
+#include "AstrumImage.hpp"
 #include "AstrumRenderer.hpp"
 #include "AstrumException.hpp"
 
 class AstrumTexture
 {
-public:
-    AstrumTexture(const std::string& filePath);
-    ~AstrumTexture();
-
-    ID3D11ShaderResourceView* GetShaderResourceView() const;
-
 private:
     AstrumTexture(const AstrumTexture&) = delete;
     AstrumTexture& operator=(const AstrumTexture&) = delete;
+public:
+    AstrumTexture(const AstrumImage& image);
+    ~AstrumTexture();
 
+    ID3D11ShaderResourceView* GetShaderResourceView() const;
+private:
     ID3D11ShaderResourceView* shaderResourceView = nullptr;
 };
