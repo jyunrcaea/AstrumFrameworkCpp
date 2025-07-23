@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <span>
 #include "AstrumConstantBuffer.hpp"
 #include "AstrumVector4.hpp"
@@ -11,5 +11,4 @@ public:
 	AstrumVector4 Data{ 1.f, 1.f, 1.f, 1.f };
 
 	void UpdateBuffer();
-private:
 };

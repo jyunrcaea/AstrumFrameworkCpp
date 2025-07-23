@@ -1,7 +1,7 @@
-#pragma once
+﻿#pragma once
 #include "IAstrumComponent.hpp"
 
-class AstrumComponent : public IAstrumComponent, public std::enable_shared_from_this<AstrumComponent>
+class AstrumComponent : public IAstrumComponent
 {
 public:
 	virtual ~AstrumComponent() = default;

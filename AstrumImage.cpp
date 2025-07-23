@@ -1,4 +1,4 @@
-#include "AstrumImage.hpp"
+﻿#include "AstrumImage.hpp"
 
 AstrumImage::AstrumImage(const std::filesystem::path& path)
 {
@@ -20,7 +20,7 @@ AstrumImage::AstrumImage(const std::filesystem::path& path)
 			throw AstrumException("Failed to load WIC image from file: " + path.string());
 		}
 	}
-	else throw AstrumException("Unsupported image format: " + std::string(ext.begin(), ext.end()));		
+	else throw AstrumException(L"Unsupported image format: {}" + ext);
 
 }
 

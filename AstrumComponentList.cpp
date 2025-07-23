@@ -1,4 +1,4 @@
-#include "AstrumComponentList.hpp"
+﻿#include "AstrumComponentList.hpp"
 
 AstrumComponentList::AstrumComponentList(IAstrumObject* ownerObject) : owner(ownerObject) {}
 
@@ -21,6 +21,7 @@ bool AstrumComponentList::Add(std::shared_ptr<IAstrumComponent> const component)
 
 	this->push_back(component);
 	component->SetOwner(owner);
+	component->Prepare();
 	return true;
 }
 

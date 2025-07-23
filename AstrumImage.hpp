@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <string>
 #include <filesystem>
 #include <wincodec.h>
@@ -13,7 +13,7 @@
 #ifdef _DEBUG
 #pragma comment(lib, "ThirdParty/DirectXTex_Debug.lib")
 #else
-#pragma comment(lib, "ThirdParty/DirectXTex.lib.lib")
+#pragma comment(lib, "ThirdParty/DirectXTex.lib")
 #endif
 
 class AstrumImage

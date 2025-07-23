@@ -1,4 +1,4 @@
-#include "AstrumCollisionSystem.h"
+﻿#include "AstrumCollisionSystem.h"
 #include "AstrumAABBColliderComponent.h"
 #include "AstrumCircleColliderComponent.h"
 #include "AstrumOBBColliderComponent.h"
@@ -79,7 +79,7 @@ void AstrumCollisionSystem::Update()
 			int colliderTypeX = colliderX->GetColliderType();
 			int colliderTypeY = colliderY->GetColliderType();
 
-			if (colliderTypeX == AstrumColliderType::None || colliderTypeY == AstrumColliderType::None)
+			if (colliderTypeX == AstrumColliderType::AstrumColliderType_None || colliderTypeY == AstrumColliderType::AstrumColliderType_None)
 				continue;
 
 			if (colliderTypeX < colliderTypeY)
