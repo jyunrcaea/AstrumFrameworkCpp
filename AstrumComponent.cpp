@@ -1,4 +1,5 @@
-#include "AstrumComponent.h"
+﻿#include "AstrumComponent.h"
+#include "AstrumFrameAnimationComponent.h"
 
 void AstrumComponent::Prepare() { }
 void AstrumComponent::Update() { }

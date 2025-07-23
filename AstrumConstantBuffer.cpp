@@ -1,6 +1,6 @@
-#include "AstrumConstantBuffer.hpp"
+﻿#include "AstrumConstantBuffer.hpp"
 
-AstrumConstantBuffer::AstrumConstantBuffer(uint32_t size) : size(size)
+AstrumConstantBuffer::AstrumConstantBuffer(unsigned int size) : bufferSize(size)
 {
     D3D11_BUFFER_DESC desc = {};
     desc.Usage = D3D11_USAGE_DYNAMIC;
@@ -33,6 +33,6 @@ void AstrumConstantBuffer::Update(std::span<const std::byte> data) {
     if (FAILED(context->Map(buffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped)))
         throw AstrumException("Failed to map constant buffer.");
 
-    std::memcpy(mapped.pData, data.data(), size);
+    std::memcpy(mapped.pData, data.data(), bufferSize);
     context->Unmap(buffer.Get(), 0);
 }

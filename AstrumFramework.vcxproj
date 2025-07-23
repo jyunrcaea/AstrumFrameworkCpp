@@ -103,7 +103,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
@@ -119,7 +119,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
@@ -137,8 +137,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AstrumAABBColliderComponent.cpp" />
+    <ClCompile Include="AstrumAnimatorComponent.cpp" />
     <ClCompile Include="AstrumChrono.cpp" />
-    <ClCompile Include="AstrumChrono.hpp" />
     <ClCompile Include="AstrumCircleColliderComponent.cpp" />
     <ClCompile Include="AstrumCircleObject.cpp" />
     <ClCompile Include="AstrumColliderComponent.cpp" />
@@ -150,13 +150,14 @@
     <ClCompile Include="AstrumDirectInput.cpp" />
     <ClCompile Include="AstrumDomainShader.cpp" />
     <ClCompile Include="AstrumDrawableObject.cpp" />
-    <ClCompile Include="AstrumException.hpp" />
+    <ClCompile Include="AstrumFrameAnimationComponent.cpp" />
     <ClCompile Include="AstrumGeometryShader.cpp" />
     <ClCompile Include="AstrumGroupObject.cpp" />
     <ClCompile Include="AstrumHullShader.cpp" />
     <ClCompile Include="AstrumImage.cpp" />
     <ClCompile Include="AstrumMaterial.cpp" />
-    <ClCompile Include="AstrumMaterialTexture.cpp" />
+    <ClCompile Include="AstrumMaterialConstantBuffer.cpp" />
+    <ClCompile Include="AstrumMaterialObject.cpp" />
     <ClCompile Include="AstrumMatrix.cpp" />
     <ClCompile Include="AstrumOBBColliderComponent.cpp" />
     <ClCompile Include="AstrumObject.cpp" />
@@ -169,17 +170,20 @@
     <ClCompile Include="AstrumRotatedRect.cpp" />
     <ClCompile Include="AstrumShader.cpp" />
     <ClCompile Include="AstrumShaderPipeline.cpp" />
-    <ClCompile Include="AstrumShaderPipeline.hpp" />
     <ClCompile Include="AstrumTexture.cpp" />
+    <ClCompile Include="AstrumTextureSampler.cpp" />
     <ClCompile Include="AstrumTransformConstantBuffer.cpp" />
     <ClCompile Include="AstrumTriangleObject.cpp" />
     <ClCompile Include="AstrumVector2.cpp" />
     <ClCompile Include="AstrumVector3.cpp" />
     <ClCompile Include="AstrumVector4.cpp" />
-    <ClCompile Include="AstrumVector4.hpp" />
     <ClCompile Include="AstrumVertexShader.cpp" />
     <ClCompile Include="AstrumWindow.cpp" />
-    <ClCompile Include="Framework.cpp" />
+    <ClCompile Include="AstrumFramework.cpp" />
+    <ClCompile Include="IAstrumFrameAnimationComponent.cpp" />
+    <ClCompile Include="IAstrumGroupObject.cpp" />
+    <ClCompile Include="IAstrumMaterialObject.cpp" />
+    <ClCompile Include="IAstrumObject.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="AstrumObservedVector2.cpp" />
     <ClCompile Include="AstrumObservedVector3.cpp" />
@@ -187,6 +191,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AstrumAABBColliderComponent.h" />
+    <ClInclude Include="AstrumAnimatorComponent.h" />
     <ClInclude Include="AstrumCircleColliderComponent.h" />
     <ClInclude Include="AstrumCircleObject.hpp" />
     <ClInclude Include="AstrumColliderComponent.h" />
@@ -199,13 +204,17 @@
     <ClInclude Include="AstrumDirectInput.hpp" />
     <ClInclude Include="AstrumDomainShader.hpp" />
     <ClInclude Include="AstrumDrawableObject.hpp" />
+    <ClInclude Include="AstrumFrameAnimationComponent.h" />
     <ClInclude Include="AstrumGeometryShader.hpp" />
     <ClInclude Include="AstrumGroupObject.hpp" />
     <ClInclude Include="AstrumHullShader.hpp" />
     <ClInclude Include="AstrumImage.hpp" />
-    <ClInclude Include="AstrumMaterial.h" />
-    <ClInclude Include="AstrumMaterialTexture.hpp" />
+    <ClInclude Include="AstrumMaterial.hpp" />
+    <ClInclude Include="AstrumMaterialConstantBuffer.hpp" />
+    <ClInclude Include="AstrumMaterialData.hpp" />
+    <ClInclude Include="AstrumMaterialObject.hpp" />
     <ClInclude Include="AstrumMatrix.hpp" />
+    <ClInclude Include="AstrumMesh.hpp" />
     <ClInclude Include="AstrumOBBColliderComponent.h" />
     <ClInclude Include="AstrumObject.hpp" />
     <ClInclude Include="AstrumObjectList.hpp" />
@@ -218,7 +227,9 @@
     <ClInclude Include="AstrumRenderer.hpp" />
     <ClInclude Include="AstrumRotatedRect.hpp" />
     <ClInclude Include="AstrumShader.hpp" />
+    <ClInclude Include="AstrumShapeObject.hpp" />
     <ClInclude Include="AstrumTexture.hpp" />
+    <ClInclude Include="AstrumTextureSampler.hpp" />
     <ClInclude Include="AstrumTransformConstantBuffer.hpp" />
     <ClInclude Include="AstrumTransformData.hpp" />
     <ClInclude Include="AstrumTriangleObject.hpp" />
@@ -227,11 +238,15 @@
     <ClInclude Include="AstrumVector3.hpp" />
     <ClInclude Include="AstrumVertexColor.hpp" />
     <ClInclude Include="AstrumVertexShader.hpp" />
+    <ClInclude Include="AstrumTextureVertex.hpp" />
     <ClInclude Include="AstrumWindow.hpp" />
-    <ClInclude Include="Framework.hpp" />
+    <ClInclude Include="AstrumFramework.hpp" />
     <ClInclude Include="IAstrumComponent.hpp" />
     <ClInclude Include="IAstrumConstantBuffer.hpp" />
     <ClInclude Include="IAstrumEvents.hpp" />
+    <ClInclude Include="IAstrumFrameAnimationComponent.h" />
+    <ClInclude Include="IAstrumGroupObject.hpp" />
+    <ClInclude Include="IAstrumMaterialObject.h" />
     <ClInclude Include="IAstrumObject.hpp" />
     <ClInclude Include="IAstrumObjectList.hpp" />
     <ClInclude Include="IAstrumRenderable.hpp" />
@@ -239,6 +254,14 @@
     <ClInclude Include="AstrumObservedVector2.hpp" />
     <ClInclude Include="AstrumObservedVector3.hpp" />
     <ClInclude Include="AstrumObservedVector4.hpp" />
+    <ClInclude Include="MyCircle.hpp" />
+    <ClInclude Include="MyDotnet.hpp" />
+    <ClInclude Include="MyDotnetBot.hpp" />
+    <ClInclude Include="MyFrameAnimationObject.hpp" />
+    <ClInclude Include="MyFrameCounter.hpp" />
+    <ClInclude Include="MyOBBRectangle.hpp" />
+    <ClInclude Include="MyRectangle.hpp" />
+    <ClInclude Include="MyTriangle.hpp" />
     <ClInclude Include="Singleton.hpp" />
     <ClInclude Include="Test.hpp" />
   </ItemGroup>

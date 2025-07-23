@@ -1,4 +1,4 @@
-#include "AstrumDrawableObject.hpp"
+﻿#include "AstrumDrawableObject.hpp"
 #include <DirectXMath.h>
 
 AstrumDrawableObject::AstrumDrawableObject() : AstrumObject() { }
@@ -7,10 +7,12 @@ void AstrumDrawableObject::Draw() {
     AstrumRenderer::Instance().EnqueueRenderable(shared_from_this());
 }
 
-void AstrumDrawableObject::Render() { }
+void AstrumDrawableObject::Render() {
+	(CustomShaderPipeline ? CustomShaderPipeline : GetDefaultShaderPipeline())->SetShader();
+}
 
 // 어디서 많이 봤죠
-void AstrumDrawableObject::Rendering() {
+void AstrumDrawableObject::PreRender() {
 	AstrumMatrix scaleMat, rotMat, transMat;
 
 	// 여기서 그 절대 크기/회전/좌표가 사용되요

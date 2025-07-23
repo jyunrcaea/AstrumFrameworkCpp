@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <algorithm>
 #include <cmath>
 #include <DirectXMath.h>
@@ -10,7 +10,7 @@
 class AstrumOBBColliderComponent : public AstrumColliderComponent
 {
 public:
-	virtual AstrumColliderType GetColliderType() const override { return AstrumColliderType::OBB; }
+	virtual AstrumColliderType GetColliderType() const override { return AstrumColliderType::AstrumColliderType_OBB; }
 	virtual AstrumRotatedRect GetRotatedRect() const;
 
 	bool IsOverlap(const AstrumOBBColliderComponent& other) const;

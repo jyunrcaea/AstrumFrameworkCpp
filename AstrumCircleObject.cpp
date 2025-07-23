@@ -1,4 +1,4 @@
-#include "AstrumCircleObject.hpp"
+﻿#include "AstrumCircleObject.hpp"
 
 AstrumCircleObject::AstrumCircleObject(const AstrumVertexColor& center, float radius, const unsigned short segment) {
     std::vector<AstrumVertexColor> vertices;
@@ -46,6 +46,7 @@ AstrumCircleObject::AstrumCircleObject(const AstrumVertexColor& center, float ra
 
 void AstrumCircleObject::Render() {
     AstrumDrawableObject::Render();
+
     if (circlePolygon) {
         circlePolygon->Render();
     }

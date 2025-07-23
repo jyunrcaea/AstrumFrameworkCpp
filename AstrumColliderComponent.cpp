@@ -1,4 +1,4 @@
-#include "AstrumColliderComponent.h"
+﻿#include "AstrumColliderComponent.h"
 
 //AstrumColliderComponent::AstrumColliderComponent(IAstrumObject* owner)
 //{
@@ -29,5 +29,5 @@ void AstrumColliderComponent::Release()
 void AstrumColliderComponent::InvokeOnCollisionEnter(AstrumColliderComponent* const other) { if (onCollisionEnter) onCollisionEnter(other); }
 void AstrumColliderComponent::InvokeOnCollisionExit(AstrumColliderComponent* const other) { if (onCollisionExit) onCollisionExit(other); }
 
-AstrumColliderType AstrumColliderComponent::GetColliderType() const { return AstrumColliderType::None; }
+AstrumColliderType AstrumColliderComponent::GetColliderType() const { return AstrumColliderType::AstrumColliderType_None; }
 void AstrumColliderComponent::SetOwner(IAstrumObject* const obj) { AstrumComponent::SetOwner(obj); }

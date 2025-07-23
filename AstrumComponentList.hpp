@@ -1,7 +1,10 @@
-#pragma once
+﻿#pragma once
 #include <memory>
-#include "IAstrumComponent.hpp"
+#include  "IAstrumComponent.hpp"
 #include "AstrumException.hpp"
+
+struct IAstrumComponent;
+struct IAstrumObject;
 
 class AstrumComponentList : private std::vector<std::shared_ptr<IAstrumComponent>>, public IAstrumPrepareEvent, public  IAstrumUpdateEvent, public  IAstrumReleaseEvent
 {

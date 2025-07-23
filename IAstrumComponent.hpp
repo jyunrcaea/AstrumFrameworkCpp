@@ -1,9 +1,11 @@
-#pragma once
+﻿#pragma once
 #include <memory>
 #include "IAstrumEvents.hpp"
 #include "IAstrumObject.hpp"
 
-class IAstrumComponent : public IAstrumPrepareEvent, public IAstrumUpdateEvent, public IAstrumReleaseEvent
+struct IAstrumObject;
+
+struct IAstrumComponent : public IAstrumPrepareEvent, public IAstrumUpdateEvent, public IAstrumReleaseEvent
 {
 public:
 	virtual ~IAstrumComponent() = default;

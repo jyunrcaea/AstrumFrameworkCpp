@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <functional>
 #include <memory>
 #include "AstrumComponent.h"
@@ -6,11 +6,11 @@
 
 enum AstrumColliderType
 {
-	None = 0,
-	AABB,
-	Circle,
-	OBB,
-	Count
+	AstrumColliderType_None = 0,
+	AstrumColliderType_AABB,
+	AstrumColliderType_Circle,
+	AstrumColliderType_OBB,
+	AstrumColliderType_Count
 };
 
 class AstrumColliderComponent : public AstrumComponent, public std::enable_shared_from_this<AstrumColliderComponent>

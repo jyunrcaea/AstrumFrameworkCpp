@@ -1,10 +1,10 @@
-#include <vector>
-#include "AstrumDrawableObject.hpp"
+﻿#include <vector>
+#include "AstrumShapeObject.hpp"
 #include "AstrumVertexColor.hpp"
 #include "AstrumPolygons.hpp"
 #include "AstrumVector3.hpp"
 
-class AstrumCircleObject : public AstrumDrawableObject {
+class AstrumCircleObject : public AstrumShapeObject {
 public:
     AstrumCircleObject(const AstrumVertexColor& center, float radius, const unsigned short segment = 128);
     AstrumCircleObject(const AstrumVertexColor& center, float radius, const std::vector<AstrumColor>& colors, const unsigned short segment = 128);
