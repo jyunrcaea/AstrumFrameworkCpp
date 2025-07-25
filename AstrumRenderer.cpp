@@ -63,7 +63,7 @@ void AstrumRenderer::Initialize(uint16_t width, uint16_t height, bool windowMode
         throw AstrumException("Get buffer from swap chain failed.");
     }
 
-    if (FAILED(device->CreateRenderTargetView(backBuffer.Get(), nullptr, &rtv))) {
+    if (FAILED(device->CreateRenderTargetView(backBuffer.Get(), nullptr, &renderTargetView))) {
         throw AstrumException("Render target view creating failed.");
     }
 
@@ -80,7 +80,7 @@ void AstrumRenderer::Initialize(uint16_t width, uint16_t height, bool windowMode
     if (FAILED(device->CreateTexture2D(&depthDesc, nullptr, &depthBuffer))) {
         throw AstrumException("Create depth buffer failed.");
     }
-    if (FAILED(device->CreateDepthStencilView(depthBuffer.Get(), nullptr, &dsv))) {
+    if (FAILED(device->CreateDepthStencilView(depthBuffer.Get(), nullptr, &depthStencilView))) {
         throw AstrumException("Create depth stencil view failed.");
     }
 
@@ -126,13 +126,18 @@ void AstrumRenderer::Rendering() {
     const auto& c = AstrumWindow::Instance().BackgroundColor;
     float bg[4] = { c.Red, c.Green, c.Blue, c.Alpha };
 
-    context->ClearRenderTargetView(rtv.Get(), bg);
-    context->ClearDepthStencilView(dsv.Get(),
+    context->ClearRenderTargetView(renderTargetView.Get(), bg);
+    context->ClearDepthStencilView(depthStencilView.Get(),
         D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
-    context->OMSetRenderTargets(1, rtv.GetAddressOf(), dsv.Get());
-    // 추가: DepthStencilState 바인딩
+    context->OMSetRenderTargets(1, renderTargetView.GetAddressOf(), depthStencilView.Get());
+    // DepthStencilState 바인딩
     context->OMSetDepthStencilState(depthStencilState.Get(), 1);
-    // 추가: 알파 블렌딩 켜기
+    // 이전 블렌딩 백업
+    ID3D11BlendState* prevBlendState;
+    float prevBlendFactor[4];
+    unsigned int prevSampleMask;
+    context->OMGetBlendState(&prevBlendState, prevBlendFactor, &prevSampleMask);
+    // 알파 블렌딩 켜기
     float blendFactor[4] = { 0,0,0,0 };
     UINT  sampleMask = 0xFFFFFFFF;
     context->OMSetBlendState(blendState.Get(), blendFactor, sampleMask);
@@ -141,7 +146,11 @@ void AstrumRenderer::Rendering() {
         renderQueue.front()->PreRender();
         renderQueue.pop();
     }
+    
+    // 이전 블렌딩 돌려놓기
+    context->OMSetBlendState(prevBlendState, prevBlendFactor, prevSampleMask);
 
+    // 진짜 출력
     swapChain->Present(0, 0);
 }
 
@@ -154,12 +163,6 @@ void AstrumRenderer::Dispose() {
     AstrumTextureSampler::Instance().Dispose(); // Same. Just for design.
 }
 
-ID3D11Device* AstrumRenderer::GetDevice() const {
-    return device.Get();
-}
-ID3D11DeviceContext* AstrumRenderer::GetContext() const {
-    return context.Get();
-}
-uint32_t AstrumRenderer::SampleCount() const {
-    return sampleCount;
-}
+ID3D11Device* AstrumRenderer::GetDevice() const { return device.Get(); }
+ID3D11DeviceContext* AstrumRenderer::GetContext() const { return context.Get(); }
+uint32_t AstrumRenderer::SampleCount() const { return sampleCount; }

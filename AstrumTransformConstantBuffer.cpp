@@ -1,10 +1,11 @@
-#include "AstrumTransformConstantBuffer.hpp"
+﻿#include "AstrumTransformConstantBuffer.hpp"
 #include "AstrumColorConstantBuffer.hpp"
 
-AstrumTransformConstantBuffer::AstrumTransformConstantBuffer() : AstrumConstantBuffer(sizeof(AstrumTransformData))
+AstrumTransformConstantBuffer::AstrumTransformConstantBuffer()
+    : AstrumConstantBuffer(GetBufferSize())
 {
 #if _DEBUG
-    if (size % 16 != 0)
+    if (GetBufferSize() % 16 != 0)
         throw AstrumException("Constant buffer size must be 16-byte aligned.");
 #endif
     data.View = AstrumMatrix::Identity;
@@ -23,5 +24,7 @@ void AstrumTransformConstantBuffer::UpdateBuffer() {
     Update(std::as_bytes(std::span{ &data, 1 }));
 
     AstrumRenderer::Instance().GetContext()->VSSetConstantBuffers(0, 1, buffer.GetAddressOf());
+#if _DEBUG
+    if (nullptr == buffer) throw AstrumException("Buffer be nullptr.");
+#endif
 }
-
