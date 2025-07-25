@@ -21,7 +21,7 @@ bool AstrumComponentList::Add(std::shared_ptr<IAstrumComponent> const component)
 
 	this->push_back(component);
 	component->SetOwner(owner);
-	component->Prepare();
+	if (owner->IsPrepared()) component->Prepare();
 	return true;
 }
 
