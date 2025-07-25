@@ -14,4 +14,4 @@ AstrumMaterial::AstrumMaterial(const std::shared_ptr<AstrumTexture>& texture) {
 }
 AstrumMaterial::~AstrumMaterial() { }
 
-AstrumTexture& AstrumMaterial::GetTexture() const { return *texture; }
+std::shared_ptr<AstrumTexture> AstrumMaterial::GetTexture() const { return texture; }

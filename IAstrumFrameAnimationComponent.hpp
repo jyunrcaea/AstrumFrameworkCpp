@@ -2,7 +2,7 @@
 #include <vector>
 #include <memory>
 #include "AstrumMaterial.hpp"
-#include "IAstrumMaterialObject.h"
+#include "IAstrumMaterialObject.hpp"
 
 struct IAstrumFrameAnimationComponent
 {

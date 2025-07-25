@@ -33,32 +33,34 @@ public:
 
     virtual AstrumComponentList& GetComponents() override;
 protected:
-    AstrumObservedVector3 position;
-    AstrumObservedVector3 rotation;
-    AstrumObservedVector3 scale;
+    // 객체의 좌표입니다. (전체를 재할당 할경우 Absolute 값이 갱신되지 않습니다. Reset() 맴버 함수를 사용해보세요.)
+    AstrumObservedVector3 Position;
+    // 객체의 회전값입니다. 육십분법을 사용합니다. (전체를 재할당 할경우 Absolute 값이 갱신되지 않습니다. Reset() 맴버 함수를 사용해보세요.)
+    AstrumObservedVector3 Rotation;
+    // 객체의 크기값입니다. (전체를 재할당 할경우 Absolute 값이 갱신되지 않습니다. Reset() 맴버 함수를 사용해보세요.)
+    AstrumObservedVector3 Scale;
 
     virtual void UpdateAbsolutePosition() override;
     virtual void UpdateAbsoluteRotation() override;
     virtual void UpdateAbsoluteScale() override;
     
-    AstrumComponentList components;
-
-	// 그리고 여기서 절대적인 위치, 회전, 크기를 저장해요 (렌더링이랑 충돌에 써야되서 항상 계산해놔야해요)
-    // 이걸 업데이트 해줘요. (부모가 갱신되거나, 자신의 그냥 좌표/회전/크기값이 바뀌거나)
-    AstrumVector3 absolutePosition;
-    AstrumVector3 absoluteRotation;
-    AstrumVector3 absoluteScale;
+    AstrumComponentList Components;
 
     void SetAbsolutePosition(const AstrumVector3& vec);
     void SetAbsoluteRotation(const AstrumVector3& vec);
     void SetAbsoluteScale(const AstrumVector3& vec);
+
 public:
-    bool visible = true;
+    bool Visible = true;
     
     virtual bool IsPrepared() const override;
 private:
     bool isPrepared = false;
 
 private:
+    AstrumVector3 absolutePosition;
+    AstrumVector3 absoluteRotation;
+    AstrumVector3 absoluteScale;
+
     IAstrumObject* parent = nullptr; // Parent reference me by shared_ptr, and parent did allocate it. so do not use shared_ptr.
 };

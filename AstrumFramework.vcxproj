@@ -80,7 +80,7 @@
       <LanguageStandard>stdcpp23</LanguageStandard>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;dxguid.lib;dinput8.lib;User32.lib;Gdi32.lib</AdditionalDependencies>
     </Link>
@@ -112,7 +112,7 @@
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;dxguid.lib;dinput8.lib;User32.lib;Gdi32.lib;Ole32.lib;comdlg32.lib;winspool.lib;uuid.lib;odbc32.lib;odbccp32.lib;oleaut32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
@@ -185,7 +185,6 @@
     <ClCompile Include="AstrumVertexShader.cpp" />
     <ClCompile Include="AstrumWindow.cpp" />
     <ClCompile Include="AstrumFramework.cpp" />
-    <ClCompile Include="Framework.cpp" />
     <ClCompile Include="IAstrumFrameAnimationComponent.cpp" />
     <ClCompile Include="IAstrumGroupObject.cpp" />
     <ClCompile Include="IAstrumMaterialObject.cpp" />
@@ -258,12 +257,11 @@
     <ClInclude Include="AstrumTextureVertex.hpp" />
     <ClInclude Include="AstrumWindow.hpp" />
     <ClInclude Include="AstrumFramework.hpp" />
-    <ClInclude Include="Framework.hpp" />
     <ClInclude Include="IAstrumComponent.hpp" />
     <ClInclude Include="IAstrumConstantBuffer.hpp" />
     <ClInclude Include="IAstrumFrameAnimationComponent.hpp" />
     <ClInclude Include="IAstrumGroupObject.hpp" />
-    <ClInclude Include="IAstrumMaterialObject.h" />
+    <ClInclude Include="IAstrumMaterialObject.hpp" />
     <ClInclude Include="IAstrumObject.hpp" />
     <ClInclude Include="IAstrumObjectList.hpp" />
     <ClInclude Include="IAstrumRenderable.hpp" />
@@ -271,9 +269,10 @@
     <ClInclude Include="AstrumObservedVector2.hpp" />
     <ClInclude Include="AstrumObservedVector3.hpp" />
     <ClInclude Include="AstrumObservedVector4.hpp" />
-    <ClInclude Include="MyFrameCounter.hpp" />
+    <ClInclude Include="MainScene.hpp" />
     <ClInclude Include="Singleton.hpp" />
-    <ClInclude Include="Test.hpp" />
+    <ClInclude Include="Program.hpp" />
+    <ClInclude Include="TestScene.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

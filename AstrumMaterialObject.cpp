@@ -20,7 +20,7 @@ void AstrumMaterialObject::Render() {
 
     AstrumDrawableObject::Render();
     auto* const context = AstrumRenderer::Instance().GetContext();
-    auto* const srv = material->GetTexture().GetShaderResourceView();
+    auto* const srv = material->GetTexture()->GetShaderResourceView();
     context->PSSetShaderResources(0, 1, &srv);
     mesh->Render();
 }

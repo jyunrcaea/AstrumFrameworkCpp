@@ -1,4 +1,4 @@
-﻿#include "Test.hpp"
+﻿#include "Program.hpp"
 
 #ifdef _DEBUG
 #define _CRTDBG_MAP_ALLOC
@@ -16,4 +16,9 @@ int main()
 #endif
 
     Program::Instance().Main();
+}
+
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
+{
+    return main();
 }

@@ -170,7 +170,6 @@
     <ClCompile Include="AstrumChannelGroup.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
-    <ClCompile Include="Framework.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AstrumObject.hpp">
@@ -323,7 +322,7 @@
     <ClInclude Include="AstrumTextureVertex.hpp">
       <Filter>Units</Filter>
     </ClInclude>
-    <ClInclude Include="IAstrumMaterialObject.h">
+    <ClInclude Include="IAstrumMaterialObject.hpp">
       <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="AstrumFrameAnimationComponent.hpp">
@@ -390,15 +389,15 @@
       <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="AstrumException.hpp" />
-    <ClInclude Include="Test.hpp" />
+    <ClInclude Include="Program.hpp" />
     <ClInclude Include="AstrumVector4.hpp">
       <Filter>Units</Filter>
     </ClInclude>
     <ClInclude Include="AstrumShaderPipeline.hpp">
       <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Framework.hpp" />
-    <ClInclude Include="MyFrameCounter.hpp" />
+    <ClInclude Include="MainScene.hpp" />
+    <ClInclude Include="TestScene.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Objects">
