@@ -181,12 +181,11 @@
     <ClCompile Include="AstrumTextureSampler.cpp" />
     <ClCompile Include="AstrumTransformConstantBuffer.cpp" />
     <ClCompile Include="AstrumTriangleObject.cpp" />
-    <ClCompile Include="AstrumVector2.cpp" />
-    <ClCompile Include="AstrumVector3.cpp" />
     <ClCompile Include="AstrumVector4.cpp" />
     <ClCompile Include="AstrumVertexShader.cpp" />
     <ClCompile Include="AstrumWindow.cpp" />
     <ClCompile Include="AstrumFramework.cpp" />
+    <ClCompile Include="Framework.cpp" />
     <ClCompile Include="IAstrumFrameAnimationComponent.cpp" />
     <ClCompile Include="IAstrumGroupObject.cpp" />
     <ClCompile Include="IAstrumMaterialObject.cpp" />
@@ -233,7 +232,7 @@
     <ClInclude Include="AstrumPolygons.hpp" />
     <ClInclude Include="AstrumPolygonsObject.hpp" />
     <ClInclude Include="AstrumPosition.hpp" />
-    <ClInclude Include="AstrumQuaternion.h" />
+    <ClInclude Include="AstrumQuaternion.hpp" />
     <ClInclude Include="AstrumRect.hpp" />
     <ClInclude Include="AstrumRectangleObject.hpp" />
     <ClInclude Include="AstrumRenderer.hpp" />
@@ -259,6 +258,7 @@
     <ClInclude Include="AstrumTextureVertex.hpp" />
     <ClInclude Include="AstrumWindow.hpp" />
     <ClInclude Include="AstrumFramework.hpp" />
+    <ClInclude Include="Framework.hpp" />
     <ClInclude Include="IAstrumComponent.hpp" />
     <ClInclude Include="IAstrumConstantBuffer.hpp" />
     <ClInclude Include="IAstrumFrameAnimationComponent.hpp" />
@@ -271,6 +271,7 @@
     <ClInclude Include="AstrumObservedVector2.hpp" />
     <ClInclude Include="AstrumObservedVector3.hpp" />
     <ClInclude Include="AstrumObservedVector4.hpp" />
+    <ClInclude Include="MyFrameCounter.hpp" />
     <ClInclude Include="Singleton.hpp" />
     <ClInclude Include="Test.hpp" />
   </ItemGroup>

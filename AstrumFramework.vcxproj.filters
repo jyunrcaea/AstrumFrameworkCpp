@@ -23,12 +23,6 @@
     <ClCompile Include="AstrumRenderer.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="AstrumVector2.cpp">
-      <Filter>Units</Filter>
-    </ClCompile>
-    <ClCompile Include="AstrumVector3.cpp">
-      <Filter>Units</Filter>
-    </ClCompile>
     <ClCompile Include="AstrumVector4.cpp">
       <Filter>Units</Filter>
     </ClCompile>
@@ -176,6 +170,7 @@
     <ClCompile Include="AstrumChannelGroup.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
+    <ClCompile Include="Framework.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AstrumObject.hpp">
@@ -241,7 +236,7 @@
     <ClInclude Include="AstrumPolygons.hpp">
       <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="AstrumQuaternion.h">
+    <ClInclude Include="AstrumQuaternion.hpp">
       <Filter>Units</Filter>
     </ClInclude>
     <ClInclude Include="AstrumMatrix.hpp">
@@ -402,6 +397,8 @@
     <ClInclude Include="AstrumShaderPipeline.hpp">
       <Filter>Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Framework.hpp" />
+    <ClInclude Include="MyFrameCounter.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Objects">
