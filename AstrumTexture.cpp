@@ -1,4 +1,9 @@
-#include "AstrumTexture.hpp"
+﻿#include "AstrumTexture.hpp"
+
+AstrumTexture::AstrumTexture(const std::wstring& path)
+    : AstrumTexture(AstrumImage(path))
+{
+}
 
 AstrumTexture::AstrumTexture(const AstrumImage& image)
 {
@@ -11,6 +16,9 @@ AstrumTexture::AstrumTexture(const AstrumImage& image)
     {
         throw AstrumException(__LINE__, __FILE__, "Failed to create shader resource view for texture.");
 	}
+
+    width = static_cast<unsigned short>(image.GetImages()[0].width);
+    height = static_cast<unsigned short>(image.GetImages()[0].height);
 }
 
 AstrumTexture::~AstrumTexture()
@@ -22,7 +30,6 @@ AstrumTexture::~AstrumTexture()
     }
 }
 
-ID3D11ShaderResourceView* AstrumTexture::GetShaderResourceView() const
-{
-    return shaderResourceView;
-}
+ID3D11ShaderResourceView* AstrumTexture::GetShaderResourceView() const { return shaderResourceView; }
+unsigned int AstrumTexture::GetWidth() const { return width; }
+unsigned int AstrumTexture::GetHeight() const { return height; }

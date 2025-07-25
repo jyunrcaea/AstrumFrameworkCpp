@@ -18,7 +18,7 @@ cbuffer Material : register(b1)
     float gMtrlOpacity;
     int gMtrlTextureWidth;
     int gMtrlTextureHeight;
-    float gMtrlEmpty;
+    int gMtrlFlip;
 }
 
 SamplerState gBaseSample : register(s0);

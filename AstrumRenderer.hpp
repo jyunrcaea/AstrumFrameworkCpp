@@ -54,8 +54,8 @@ private:
     ComPtr<ID3D11Device> device;
     ComPtr<ID3D11DeviceContext> context;
     ComPtr<IDXGISwapChain> swapChain;
-    ComPtr<ID3D11RenderTargetView> rtv;
-    ComPtr<ID3D11DepthStencilView> dsv;
+    ComPtr<ID3D11RenderTargetView> renderTargetView;
+    ComPtr<ID3D11DepthStencilView> depthStencilView;
     ComPtr<ID3D11DepthStencilState> depthStencilState;
     ComPtr<ID3D11BlendState> blendState;
 };

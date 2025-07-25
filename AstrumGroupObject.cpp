@@ -8,23 +8,29 @@ AstrumGroupObject::AstrumGroupObject() : objects(this) { }
 void AstrumGroupObject::Prepare()
 {
     AstrumObject::Prepare();
-    //objects->ForEach([](std::shared_ptr<IAstrumObject> obj) {
-    //    obj->Prepare();
-    //});
+    objects.ForEach([](const std::shared_ptr<IAstrumObject>& obj) {
+        obj->Prepare();
+    });
 }
 
 //이렇게 자식까지 호출되도록 로직을 구성했어요.
 void AstrumGroupObject::Update() {
-    objects.ForEach([](shared_ptr<IAstrumObject> obj) {
+    AstrumObject::Update();
+    objects.ForEach([](const std::shared_ptr<IAstrumObject>& obj) {
         obj->Update();
     });
 }
 
-void AstrumGroupObject::Release() { objects.Clear(); }
+void AstrumGroupObject::Release() { 
+    AstrumObject::Release();
+    objects.ForEach([](const std::shared_ptr<IAstrumObject>& obj) {
+        obj->Release();
+    });
+}
 
 void AstrumGroupObject::Draw() {
     if (visible) {
-        objects.ForEach([](shared_ptr<IAstrumObject> obj) {
+        objects.ForEach([](const std::shared_ptr<IAstrumObject>& obj) {
             obj->Draw();
         });
     }
@@ -37,7 +43,7 @@ void AstrumGroupObject::UpdateAbsolutePosition()
 {
     AstrumObject::UpdateAbsolutePosition();
     //이건 자식도 같이 업데이트하도록 순회하는 코드
-    objects.ForEach([](shared_ptr<IAstrumObject> obj) {
+    objects.ForEach([](const std::shared_ptr<IAstrumObject>& obj) {
         obj->UpdateAbsolutePosition();
 	});
 }
@@ -45,7 +51,7 @@ void AstrumGroupObject::UpdateAbsolutePosition()
 void AstrumGroupObject::UpdateAbsoluteRotation()
 {
     AstrumObject::UpdateAbsoluteRotation();
-    objects.ForEach([](shared_ptr<IAstrumObject> obj) {
+    objects.ForEach([](const std::shared_ptr<IAstrumObject>& obj) {
         obj->UpdateAbsoluteRotation();
         obj->UpdateAbsolutePosition();
     });
@@ -54,7 +60,7 @@ void AstrumGroupObject::UpdateAbsoluteRotation()
 void AstrumGroupObject::UpdateAbsoluteScale()
 {
     AstrumObject::UpdateAbsoluteScale();
-    objects.ForEach([](shared_ptr<IAstrumObject> obj) {
+    objects.ForEach([](const std::shared_ptr<IAstrumObject>& obj) {
         obj->UpdateAbsoluteScale();
         obj->UpdateAbsolutePosition();
     });

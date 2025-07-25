@@ -3,13 +3,7 @@
 #include <memory>
 #include <string>
 #include <cstdint>
-#include "AstrumWindow.hpp"
-#include "AstrumRenderer.hpp"
-#include "AstrumDirectInput.hpp"
-#include "AstrumChrono.hpp"
-#include "AstrumException.hpp"
 #include "AstrumGroupObject.hpp"
-#include "AstrumCollisionSystem.h"
 #include "singleton.hpp"
 
 class AstrumFramework : public Singleton<AstrumFramework> {

@@ -2,7 +2,6 @@
 #include "singleton.hpp"
 #include "AstrumColor.hpp"
 #include "AstrumException.hpp"
-#include "AstrumFramework.hpp"
 #include <string>
 #include <windows.h>
 

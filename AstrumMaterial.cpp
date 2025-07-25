@@ -1,7 +1,7 @@
 ﻿#include "AstrumMaterial.hpp"
 
-AstrumMaterial::AstrumMaterial(const wstring& path)
-	: AstrumMaterial(make_shared<AstrumTexture>(path))
+AstrumMaterial::AstrumMaterial(const std::wstring& path)
+	: AstrumMaterial(std::make_shared<AstrumTexture>(path))
 {
 }
 

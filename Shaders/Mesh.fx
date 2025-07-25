@@ -26,6 +26,11 @@ PS_Output_Single DefaultMaterialPS(VS_Output_Tex input)
 {
     PS_Output_Single output = (PS_Output_Single) 0;
     
+    if (gMtrlFlip & 1)
+        input.UV.x = 1 - input.UV.x;
+    if (gMtrlFlip & 2)
+        input.UV.y = 1 - input.UV.y;
+    
     float4 color = gBaseTexture.Sample(gBaseSample, input.UV);
     
     color.rgb *= gMtrlBaseColor.rgb;
