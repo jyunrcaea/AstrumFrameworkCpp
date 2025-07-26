@@ -18,11 +18,10 @@ namespace {
 	}
 }
 
-void AstrumSoundManager::Initialize() {
+void AstrumSoundManagerSingleton::Initialize() {
 	FMOD_RESULT result;
 	auto throwException = [result](const char* message) { ThrowInitalizeException(message, result); };
 
-	
 	if (FMOD::System* systemPtr = nullptr; result = FMOD::System_Create(&systemPtr)) {
 		throwException("Failed to create fmod system");
 		return;
@@ -42,11 +41,11 @@ void AstrumSoundManager::Initialize() {
 	masterChannelGroup = std::make_shared<AstrumChannelGroup>(masterChannelGroupPointer);
 }
 
-void AstrumSoundManager::Update() {
+void AstrumSoundManagerSingleton::Update() {
 	system->update();
 }
 
-void AstrumSoundManager::Dispose() {
+void AstrumSoundManagerSingleton::Dispose() {
 	masterChannelGroup.reset();
 
 	if (system) {
@@ -56,12 +55,12 @@ void AstrumSoundManager::Dispose() {
 	}
 }
 
-void AstrumSoundManager::SetMasterChannelVolume(float volume) const
+void AstrumSoundManagerSingleton::SetMasterChannelVolume(float volume) const
 {
 	masterChannelGroup->SetVolume(volume);
 }
 
-std::shared_ptr<AstrumChannelGroup> AstrumSoundManager::CreateChannelGroup(const std::string& name) const
+std::shared_ptr<AstrumChannelGroup> AstrumSoundManagerSingleton::CreateChannelGroup(const std::string& name) const
 {
 	FMOD::ChannelGroup* group;
 
@@ -74,5 +73,5 @@ std::shared_ptr<AstrumChannelGroup> AstrumSoundManager::CreateChannelGroup(const
 	return std::make_shared<AstrumChannelGroup>(group);
 }
 
-std::shared_ptr<AstrumChannelGroup> AstrumSoundManager::GetMasterChannelGroup() const { return masterChannelGroup; }
-FMOD::System* AstrumSoundManager::GetFmodSystem() const { return system.get(); }
+std::shared_ptr<AstrumChannelGroup> AstrumSoundManagerSingleton::GetMasterChannelGroup() const { return masterChannelGroup; }
+FMOD::System* AstrumSoundManagerSingleton::GetFmodSystem() const { return system.get(); }

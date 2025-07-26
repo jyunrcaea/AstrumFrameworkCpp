@@ -7,7 +7,7 @@
 #include "AstrumDirectInput.hpp"
 #include "AstrumChrono.hpp"
 #include "AstrumFrameAnimationComponent.hpp"
-#include "AstrumTextureManager.hpp"
+#include "AstrumTextureCache.hpp"
 
 #include "AstrumMaterialObject.hpp"
 #include "AstrumRectangleObject.hpp"
@@ -21,7 +21,7 @@ public:
     MyFrameCounter() {}
 
     virtual void Update() override {
-        if ((time += static_cast<float>(AstrumChrono::Instance().GetDeltaTime())) >= 1) {
+        if ((time += static_cast<float>(AstrumChrono::GetDeltaTime())) >= 1) {
             if ((time -= 1) >= 1) time = 0;
             std::cout << "frame per second: " << count << '\n';
             count = 0;
@@ -41,7 +41,7 @@ class Program : public Singleton<Program> {
     void Prepare() {
         std::cin.tie(0)->sync_with_stdio(0);
         // 프레임워크 초기화
-        AstrumFramework::Instance().Initialize();
+        AstrumFramework::Initialize(L"AEA", 1600, 900);
 
         // 도형을 위한 셰이더
         auto shapePipeline = AstrumShaderPipeline::MakeShared();
@@ -62,11 +62,11 @@ class Program : public Singleton<Program> {
 public:
     void Main() {
         Prepare();
-        //AstrumFramework::Instance().RootObject = std::make_shared<MainScene>();
-        AstrumFramework::Instance().RootObject = std::make_shared<TestScene>();
+        AstrumFramework::RootObject() = std::make_shared<MainScene>();
+        //AstrumFramework::RootObject() = std::make_shared<TestScene>();
 #if _DEBUG
-        AstrumFramework::Instance().RootObject->AddObject(std::make_shared<MyFrameCounter>());
+        AstrumFramework::RootObject()->AddObject(std::make_shared<MyFrameCounter>());
 #endif
-        AstrumFramework::Instance().Run();
+        AstrumFramework::Run();
     }
 };

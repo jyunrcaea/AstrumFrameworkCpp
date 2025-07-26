@@ -1,6 +1,6 @@
-﻿#include "AstrumTextureManager.hpp"
+﻿#include "AstrumTextureCache.hpp"
 
-std::shared_ptr<AstrumTexture>& AstrumTextureManager::Load(const std::filesystem::path& path)
+std::shared_ptr<AstrumTexture>& AstrumTextureCacheSingleton::Load(const std::filesystem::path& path)
 {
     std::wstring name;
     if (path.is_absolute()) name = path;

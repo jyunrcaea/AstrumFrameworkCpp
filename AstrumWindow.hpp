@@ -5,10 +5,10 @@
 #include <string>
 #include <windows.h>
 
-class AstrumWindow : public Singleton<AstrumWindow> {
-    friend class Singleton<AstrumWindow>;
+class AstrumWindowSingleton : public Singleton<AstrumWindowSingleton> {
+    friend class Singleton<AstrumWindowSingleton>;
+    friend class AstrumWindow;
 
-public:
     int GetWidth() const;
     int GetHeight() const;
     bool IsFullscreen() const;
@@ -27,7 +27,7 @@ public:
     void Minimize() const;
     void Restore() const;
 
-    void Intialize(const std::wstring& title, uint16_t width, uint16_t height);
+    void Initialize(const std::wstring& title, uint16_t width, uint16_t height);
     void Dispose();
 
     HWND GetHandle() const;
@@ -45,4 +45,34 @@ private:
     bool isFullscreen = false;
 
     static LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+};
+
+class AstrumWindow {
+public:
+    static inline int GetWidth() { return AstrumWindowSingleton::Instance().GetWidth(); }
+    static inline int GetHeight() { return AstrumWindowSingleton::Instance().GetHeight(); }
+    static inline bool IsFullscreen() { return AstrumWindowSingleton::Instance().IsFullscreen(); }
+
+    static inline std::wstring GetTitle() { return AstrumWindowSingleton::Instance().GetTitle(); }
+    static inline void SetTitle(const std::wstring& title) { AstrumWindowSingleton::Instance().SetTitle(title); }
+    static inline std::wstring GetClassName() { return AstrumWindowSingleton::Instance().GetClassName(); }
+
+    static inline std::pair<int, int> GetPosition() { return AstrumWindowSingleton::Instance().GetPosition(); }
+    static inline void SetPosition(int x, int y) { AstrumWindowSingleton::Instance().SetPosition(x, y); }
+
+    static inline std::pair<int, int> GetSize() { return AstrumWindowSingleton::Instance().GetSize(); }
+    static inline void SetSize(int w, int h) { AstrumWindowSingleton::Instance().SetSize(w, h); }
+
+    static inline void Maximize() { AstrumWindowSingleton::Instance().Maximize(); }
+    static inline void Minimize() { AstrumWindowSingleton::Instance().Minimize(); }
+    static inline void Restore() { AstrumWindowSingleton::Instance().Restore(); }
+
+    static inline void Initialize(const std::wstring& title, uint16_t width, uint16_t height) { AstrumWindowSingleton::Instance().Initialize(title, width, height); }
+    static inline void Dispose() { AstrumWindowSingleton::Instance().Dispose(); }
+
+    static inline HWND GetHandle() { return AstrumWindowSingleton::Instance().GetHandle(); }
+    static inline HINSTANCE GetInstanceHandle() { return AstrumWindowSingleton::Instance().GetInstanceHandle(); }
+
+    static inline bool& StopWhenClose() { return AstrumWindowSingleton::Instance().StopWhenClose; }
+    static inline AstrumColor& BackgroundColor() { return AstrumWindowSingleton::Instance().BackgroundColor; }
 };

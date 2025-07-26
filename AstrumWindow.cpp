@@ -3,7 +3,7 @@
 #include "AstrumChrono.hpp"
 #include "AstrumDirectInput.hpp"
 
-void AstrumWindow::Intialize(const std::wstring& title, uint16_t w, uint16_t h) {
+void AstrumWindowSingleton::Initialize(const std::wstring& title, uint16_t w, uint16_t h) {
     instanceHandle = GetModuleHandleW(nullptr);
     className = title;
 
@@ -37,7 +37,7 @@ void AstrumWindow::Intialize(const std::wstring& title, uint16_t w, uint16_t h) 
     UpdateWindow(handle);
 }
 
-void AstrumWindow::Dispose() {
+void AstrumWindowSingleton::Dispose() {
     if (!handle)
         throw AstrumException("Window handle is null.");
 
@@ -47,69 +47,69 @@ void AstrumWindow::Dispose() {
     instanceHandle = nullptr;
 }
 
-LRESULT CALLBACK AstrumWindow::WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+LRESULT CALLBACK AstrumWindowSingleton::WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     switch (msg) {
     case WM_ERASEBKGND: return 1;
     case WM_CLOSE:
-        if (Instance().StopWhenClose)
-            AstrumFramework::Instance().Stop();
+        if (AstrumWindowSingleton::Instance().StopWhenClose)
+            AstrumFramework::Stop();
         PostQuitMessage(0);
         return 0;
     case WM_SETFOCUS:
-        AstrumDirectInput::Instance().Prepare();
+        AstrumDirectInput::Prepare();
         break;
     case WM_KILLFOCUS:
-        AstrumDirectInput::Instance().Release();
-		break;
+        AstrumDirectInput::Release();
+        break;
     case WM_ACTIVATE:
-        if (LOWORD(wParam) == WA_INACTIVE) AstrumDirectInput::Instance().Release();
-        else AstrumDirectInput::Instance().Prepare();
+        if (LOWORD(wParam) == WA_INACTIVE) AstrumDirectInput::Release();
+        else AstrumDirectInput::Prepare();
         break;
     }
     return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
-int AstrumWindow::GetWidth() const { return width; }
-int AstrumWindow::GetHeight() const { return height; }
-bool AstrumWindow::IsFullscreen() const { return isFullscreen; }
+int AstrumWindowSingleton::GetWidth() const { return width; }
+int AstrumWindowSingleton::GetHeight() const { return height; }
+bool AstrumWindowSingleton::IsFullscreen() const { return isFullscreen; }
 
-std::wstring AstrumWindow::GetTitle() const {
+std::wstring AstrumWindowSingleton::GetTitle() const {
     wchar_t buffer[256];
     GetWindowTextW(handle, buffer, 256);
     return buffer;
 }
 
-void AstrumWindow::SetTitle(const std::wstring& title) {
+void AstrumWindowSingleton::SetTitle(const std::wstring& title) {
     SetWindowTextW(handle, title.c_str());
 }
 
-std::wstring AstrumWindow::GetClassName() const { return className; }
+std::wstring AstrumWindowSingleton::GetClassName() const { return className; }
 
-std::pair<int, int> AstrumWindow::GetPosition() const {
+std::pair<int, int> AstrumWindowSingleton::GetPosition() const {
     RECT rect{};
     GetWindowRect(handle, &rect);
     return { rect.left, rect.top };
 }
 
-void AstrumWindow::SetPosition(int x, int y) {
+void AstrumWindowSingleton::SetPosition(int x, int y) {
     SetWindowPos(handle, nullptr, x, y, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 }
 
-std::pair<int, int> AstrumWindow::GetSize() const {
+std::pair<int, int> AstrumWindowSingleton::GetSize() const {
     RECT rect{};
     GetWindowRect(handle, &rect);
     return { rect.right - rect.left, rect.bottom - rect.top };
 }
 
-void AstrumWindow::SetSize(int w, int h) {
+void AstrumWindowSingleton::SetSize(int w, int h) {
     width = w;
     height = h;
     SetWindowPos(handle, nullptr, 0, 0, width, height, SWP_NOMOVE | SWP_NOZORDER);
 }
 
-void AstrumWindow::Maximize() const { ShowWindow(handle, SW_MAXIMIZE); }
-void AstrumWindow::Minimize() const { ShowWindow(handle, SW_MINIMIZE); }
-void AstrumWindow::Restore() const { ShowWindow(handle, SW_RESTORE); }
+void AstrumWindowSingleton::Maximize() const { ShowWindow(handle, SW_MAXIMIZE); }
+void AstrumWindowSingleton::Minimize() const { ShowWindow(handle, SW_MINIMIZE); }
+void AstrumWindowSingleton::Restore() const { ShowWindow(handle, SW_RESTORE); }
 
-HWND AstrumWindow::GetHandle() const { return handle; }
-HINSTANCE AstrumWindow::GetInstanceHandle() const { return instanceHandle; }
+HWND AstrumWindowSingleton::GetHandle() const { return handle; }
+HINSTANCE AstrumWindowSingleton::GetInstanceHandle() const { return instanceHandle; }

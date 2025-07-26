@@ -176,7 +176,7 @@
     <ClCompile Include="AstrumSound.cpp" />
     <ClCompile Include="AstrumSoundManager.cpp" />
     <ClCompile Include="AstrumTexture.cpp" />
-    <ClCompile Include="AstrumTextureManager.cpp" />
+    <ClCompile Include="AstrumTextureCache.cpp" />
     <ClCompile Include="AstrumTextureMesh.cpp" />
     <ClCompile Include="AstrumTextureSampler.cpp" />
     <ClCompile Include="AstrumTransformConstantBuffer.cpp" />
@@ -242,7 +242,7 @@
     <ClInclude Include="AstrumSound.hpp" />
     <ClInclude Include="AstrumSoundManager.hpp" />
     <ClInclude Include="AstrumTexture.hpp" />
-    <ClInclude Include="AstrumTextureManager.hpp" />
+    <ClInclude Include="AstrumTextureCache.hpp" />
     <ClInclude Include="AstrumTextureMesh.hpp" />
     <ClInclude Include="AstrumTextureSampler.hpp" />
     <ClInclude Include="AstrumTransformConstantBuffer.hpp" />

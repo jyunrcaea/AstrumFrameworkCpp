@@ -6,26 +6,30 @@
 #include "AstrumGroupObject.hpp"
 #include "singleton.hpp"
 
-class AstrumFramework : public Singleton<AstrumFramework> {
-    friend class Singleton<AstrumFramework>;
-
+class AstrumFrameworkSingleton : public Singleton<AstrumFrameworkSingleton> {
+    friend class Singleton<AstrumFrameworkSingleton>;
+    friend class AstrumFramework;
 public:
     bool IsInitialized() const;
     bool IsRunning() const;
-
     void Initialize(const std::wstring& title = L"Astrum Framework", unsigned int width = 1280, unsigned int height = 720);
-
     int Run();
     void Stop();
-
     std::shared_ptr<AstrumGroupObject> RootObject = std::make_shared<AstrumGroupObject>();
-
 private:
-    AstrumFramework();
-
+    AstrumFrameworkSingleton();
     bool isRunning = false;
-
     void Prepare();
     void Update();
     void Release();
+};
+
+class AstrumFramework {
+public:
+    static inline bool IsInitialized() { return AstrumFrameworkSingleton::Instance().IsInitialized(); }
+    static inline bool IsRunning() { return AstrumFrameworkSingleton::Instance().IsRunning(); }
+    static inline void Initialize(const std::wstring& title = L"Astrum Framework", unsigned int width = 1280, unsigned int height = 720) { AstrumFrameworkSingleton::Instance().Initialize(title, width, height); }
+    static inline int Run() { return AstrumFrameworkSingleton::Instance().Run(); }
+    static inline void Stop() { AstrumFrameworkSingleton::Instance().Stop(); }
+    static inline std::shared_ptr<AstrumGroupObject>& RootObject() { return AstrumFrameworkSingleton::Instance().RootObject; }
 };

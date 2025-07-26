@@ -8,29 +8,29 @@ public:
 	DotnetBot() : AstrumMaterialObject(AstrumTexture::MakeShared(L"./Resource/dotnetbot.png")) { }
 
 	virtual void Update() override {
-		const float delta = static_cast<float>(AstrumChrono::Instance().GetDeltaTime());
+		const float delta = static_cast<float>(AstrumChrono::GetDeltaTime());
 		
 		AstrumVector3 movement{};
-		if (AstrumDirectInput::Instance().IsKeyPressed(DIK_W)) movement.Y++;
-		if (AstrumDirectInput::Instance().IsKeyPressed(DIK_S)) movement.Y--;
-		if (AstrumDirectInput::Instance().IsKeyPressed(DIK_A)) movement.X--;
-		if (AstrumDirectInput::Instance().IsKeyPressed(DIK_D)) movement.X++;
+		if (AstrumDirectInput::IsKeyPressed(DIK_W)) movement.Y++;
+		if (AstrumDirectInput::IsKeyPressed(DIK_S)) movement.Y--;
+		if (AstrumDirectInput::IsKeyPressed(DIK_A)) movement.X--;
+		if (AstrumDirectInput::IsKeyPressed(DIK_D)) movement.X++;
 		if (movement.X > 0) GetMaterial()->SetFlip(AstrumMaterialFlipType_None);
 		else if (movement.X < 0) GetMaterial()->SetFlip(AstrumMaterialFlipType_X);
 		movement.Normalize();
 		Position += movement * delta * 614.0f;
 
-		if (AstrumDirectInput::Instance().IsKeyPressed(DIK_Q)) Rotation.AddZ(delta * 200.f);
-		if (AstrumDirectInput::Instance().IsKeyPressed(DIK_E)) Rotation.AddZ(delta * -200.f);
+		if (AstrumDirectInput::IsKeyPressed(DIK_Q)) Rotation.AddZ(delta * 200.f);
+		if (AstrumDirectInput::IsKeyPressed(DIK_E)) Rotation.AddZ(delta * -200.f);
 
 		AstrumVector3 scalar{};
-		if (AstrumDirectInput::Instance().IsKeyPressed(DIK_Z)) { scalar.X++; scalar.Y++; }
-		if (AstrumDirectInput::Instance().IsKeyPressed(DIK_C)) { scalar.X--; scalar.Y--; }
+		if (AstrumDirectInput::IsKeyPressed(DIK_Z)) { scalar.X++; scalar.Y++; }
+		if (AstrumDirectInput::IsKeyPressed(DIK_C)) { scalar.X--; scalar.Y--; }
 		Scale += (scalar *= delta);
 
 		float& opacity = GetMaterial()->GetOpacity();
-		if (AstrumDirectInput::Instance().IsKeyPressed(DIK_1)) opacity += delta;
-		if (AstrumDirectInput::Instance().IsKeyPressed(DIK_3)) opacity -= delta;
+		if (AstrumDirectInput::IsKeyPressed(DIK_1)) opacity += delta;
+		if (AstrumDirectInput::IsKeyPressed(DIK_3)) opacity -= delta;
 		opacity = max(0.f, min(1.f, opacity));
 			
 		AstrumMaterialObject::Update();

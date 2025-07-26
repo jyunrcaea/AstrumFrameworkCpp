@@ -152,7 +152,7 @@
     <ClCompile Include="AstrumPolygonsObject.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="AstrumTextureManager.cpp">
+    <ClCompile Include="AstrumTextureCache.cpp">
       <Filter>Singletons</Filter>
     </ClCompile>
     <ClCompile Include="AstrumTextureMesh.cpp">
@@ -370,7 +370,7 @@
     <ClInclude Include="AstrumPolygonsObject.hpp">
       <Filter>Objects</Filter>
     </ClInclude>
-    <ClInclude Include="AstrumTextureManager.hpp">
+    <ClInclude Include="AstrumTextureCache.hpp">
       <Filter>Singletons</Filter>
     </ClInclude>
     <ClInclude Include="AstrumTextureMesh.hpp">
