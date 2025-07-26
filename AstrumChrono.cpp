@@ -1,14 +1,14 @@
-#include "AstrumChrono.hpp"
+﻿#include "AstrumChrono.hpp"
 
-double AstrumChrono::GetDeltaTime() const {
+double AstrumChronoSingleton::GetDeltaTime() const {
     return deltaTime;
 }
 
-std::chrono::duration<double> AstrumChrono::RunningTime() const {
+std::chrono::duration<double> AstrumChronoSingleton::GetRunningTime() const {
     return std::chrono::steady_clock::now() - startTime;
 }
 
-void AstrumChrono::SetFramerate(uint16_t value) {
+void AstrumChronoSingleton::SetFramerate(uint16_t value) {
     framerate = value;
     if (framerate != 0) {
         deltaTick = std::chrono::nanoseconds(1'000'000'000) / framerate;
@@ -18,12 +18,12 @@ void AstrumChrono::SetFramerate(uint16_t value) {
     }
 }
 
-void AstrumChrono::Initialize() {
+void AstrumChronoSingleton::Initialize() {
     startTime = std::chrono::steady_clock::now();
     lastTick = nextTick = std::chrono::steady_clock::now();
 }
 
-bool AstrumChrono::IsUpdateNow() {
+bool AstrumChronoSingleton::IsUpdateNow() {
     auto current = std::chrono::steady_clock::now();
     if (current < nextTick) return false;
 
@@ -36,6 +36,6 @@ bool AstrumChrono::IsUpdateNow() {
     return true;
 }
 
-void AstrumChrono::Dispose() {
+void AstrumChronoSingleton::Dispose() {
     // nothing to dispose
 }

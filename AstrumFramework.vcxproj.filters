@@ -23,12 +23,6 @@
     <ClCompile Include="AstrumRenderer.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="AstrumVector2.cpp">
-      <Filter>Units</Filter>
-    </ClCompile>
-    <ClCompile Include="AstrumVector3.cpp">
-      <Filter>Units</Filter>
-    </ClCompile>
     <ClCompile Include="AstrumVector4.cpp">
       <Filter>Units</Filter>
     </ClCompile>
@@ -158,7 +152,7 @@
     <ClCompile Include="AstrumPolygonsObject.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="AstrumTextureManager.cpp">
+    <ClCompile Include="AstrumTextureCache.cpp">
       <Filter>Singletons</Filter>
     </ClCompile>
     <ClCompile Include="AstrumTextureMesh.cpp">
@@ -241,7 +235,7 @@
     <ClInclude Include="AstrumPolygons.hpp">
       <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="AstrumQuaternion.h">
+    <ClInclude Include="AstrumQuaternion.hpp">
       <Filter>Units</Filter>
     </ClInclude>
     <ClInclude Include="AstrumMatrix.hpp">
@@ -328,7 +322,7 @@
     <ClInclude Include="AstrumTextureVertex.hpp">
       <Filter>Units</Filter>
     </ClInclude>
-    <ClInclude Include="IAstrumMaterialObject.h">
+    <ClInclude Include="IAstrumMaterialObject.hpp">
       <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="AstrumFrameAnimationComponent.hpp">
@@ -376,7 +370,7 @@
     <ClInclude Include="AstrumPolygonsObject.hpp">
       <Filter>Objects</Filter>
     </ClInclude>
-    <ClInclude Include="AstrumTextureManager.hpp">
+    <ClInclude Include="AstrumTextureCache.hpp">
       <Filter>Singletons</Filter>
     </ClInclude>
     <ClInclude Include="AstrumTextureMesh.hpp">
@@ -395,13 +389,15 @@
       <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="AstrumException.hpp" />
-    <ClInclude Include="Test.hpp" />
+    <ClInclude Include="Program.hpp" />
     <ClInclude Include="AstrumVector4.hpp">
       <Filter>Units</Filter>
     </ClInclude>
     <ClInclude Include="AstrumShaderPipeline.hpp">
       <Filter>Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="MainScene.hpp" />
+    <ClInclude Include="TestScene.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Objects">

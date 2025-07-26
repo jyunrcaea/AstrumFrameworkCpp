@@ -1,4 +1,4 @@
-#include "AstrumQuaternion.h"
+﻿#include "AstrumQuaternion.hpp"
 
 namespace {
 	constexpr float DEG2RAD = static_cast<float>(std::numbers::pi / 180.0);

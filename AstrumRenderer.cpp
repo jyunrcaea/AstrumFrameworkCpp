@@ -19,7 +19,7 @@ void AstrumRenderer::Initialize(uint16_t width, uint16_t height, bool windowMode
     for (UINT p = 8; p > 1; p >>= 1) {
         UINT quality;
         if (SUCCEEDED(device->CheckMultisampleQualityLevels(
-            DXGI_FORMAT_R8G8B8A8_UNORM, p, &quality)) && quality > 0)
+            DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, p, &quality)) && quality > 0)
         {
             sampleCount = p;
             break;
@@ -35,7 +35,7 @@ void AstrumRenderer::Initialize(uint16_t width, uint16_t height, bool windowMode
     swapChainDesc.SampleDesc.Count = sampleCount;
     swapChainDesc.SampleDesc.Quality = 0;
     swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-    swapChainDesc.OutputWindow = AstrumWindow::Instance().GetHandle();
+    swapChainDesc.OutputWindow = AstrumWindow::GetHandle();
     swapChainDesc.Windowed = windowMode;
     // currently, I don't use flip model, because it is required vsync.
 #if _WIN32_WINNT >= 0x0603 && FALSE
@@ -47,7 +47,7 @@ void AstrumRenderer::Initialize(uint16_t width, uint16_t height, bool windowMode
     swapChainDesc.BufferCount = 1;
 #endif
 
-    ComPtr<IDXGIDevice>   dxgiDevice;
+    ComPtr<IDXGIDevice> dxgiDevice;
     ComPtr<IDXGIAdapter>  adapter;
     ComPtr<IDXGIFactory>  factory;
     device.As(&dxgiDevice);
@@ -123,7 +123,7 @@ void AstrumRenderer::Initialize(uint16_t width, uint16_t height, bool windowMode
 }
 
 void AstrumRenderer::Rendering() {
-    const auto& c = AstrumWindow::Instance().BackgroundColor;
+    const auto& c = AstrumWindow::BackgroundColor();
     float bg[4] = { c.Red, c.Green, c.Blue, c.Alpha };
 
     context->ClearRenderTargetView(renderTargetView.Get(), bg);

@@ -14,7 +14,7 @@ AstrumTexture::AstrumTexture(const AstrumImage& image)
         image.GetMetadata(),
         &shaderResourceView)))
     {
-        throw AstrumException(__LINE__, __FILE__, "Failed to create shader resource view for texture.");
+        throw AstrumException(__LINE__, __FILE__, "Failed to create shader resource view for texture. (HRESULT: {})");
 	}
 
     width = static_cast<unsigned short>(image.GetImages()[0].width);
