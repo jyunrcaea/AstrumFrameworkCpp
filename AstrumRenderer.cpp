@@ -38,7 +38,7 @@ void AstrumRenderer::Initialize(uint16_t width, uint16_t height, bool windowMode
     swapChainDesc.OutputWindow = AstrumWindow::Instance().GetHandle();
     swapChainDesc.Windowed = windowMode;
     // currently, I don't use flip model, because it is required vsync.
-#if _WIN32_WINNT >= 0x0603 && FALSE
+#if _WIN32_WINNT >= 0x0603
     swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
     swapChainDesc.BufferCount = 2;
     swapChainDesc.SampleDesc.Count = sampleCount = 1;

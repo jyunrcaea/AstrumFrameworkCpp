@@ -26,7 +26,8 @@ protected:
     std::shared_ptr<AstrumTextureMesh> GetTextureMesh();
     void SetTextureMesh(const std::shared_ptr<AstrumTextureMesh>& mesh);
     void SetTextureMesh(std::shared_ptr<AstrumTextureMesh>&& mesh);
-    void CreateToSetTextureMesh2D(float width = 1.0f, float height = 1.0f, float z = 0.f);
+    //너비와 높이를 입력받고, 직사각형 매시를 생성하고 할당합니다.
+    void CreateToSetTextureMesh2D(float width, float height, float z = 0.f);
 private:
     std::shared_ptr<AstrumMaterial> material = nullptr;
     std::shared_ptr<AstrumTextureMesh> mesh = nullptr;
