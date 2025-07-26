@@ -9,7 +9,7 @@
 #endif
 
 namespace {
-	void ThrowInitalizeException(const char* message, int result) {
+	void ThrowInitializeException(const char* message, int result) {
 #if _DEBUG
 		throw AstrumException(__LINE__, __FILE__,std::format("{}. (FMOD_RESULT: {})", message, result));
 #else
@@ -31,7 +31,7 @@ AstrumSound::AstrumSound(const std::filesystem::path& soundFilePath, bool loop, 
 		loop ? FMOD_LOOP_NORMAL : FMOD_DEFAULT,
 		nullptr,
 		&soundPtr
-	)) ThrowInitalizeException("Failed to load sound", result);
+	)) ThrowInitializeException("Failed to load sound", result);
 
 	sound.reset(soundPtr);
 }
