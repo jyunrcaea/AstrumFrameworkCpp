@@ -77,7 +77,7 @@ private:
 };
 
 class NoteObject : public AstrumPolygonsObject {
-    public:
+public:
     NoteObject(int lane) {
         const int leftTop = -100 + 50 * lane;
         const int leftBottom = -800 + 400 * lane;
@@ -92,8 +92,8 @@ class NoteObject : public AstrumPolygonsObject {
     }
     virtual void Update() override {
         // Logic for note movement and interaction
-	}
-}
+    }
+};
 
 class MainScene : public AstrumGroupObject {
 public:
