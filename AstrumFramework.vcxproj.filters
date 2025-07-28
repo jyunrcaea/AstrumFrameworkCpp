@@ -65,9 +65,6 @@
     <ClCompile Include="AstrumOBBColliderComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="AstrumRotatedRect.cpp">
-      <Filter>Units</Filter>
-    </ClCompile>
     <ClCompile Include="AstrumTexture.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
@@ -92,7 +89,7 @@
     <ClCompile Include="AstrumShader.cpp">
       <Filter>Graphics\Shaders</Filter>
     </ClCompile>
-    <ClCompile Include="AstrumShaderPipeline.cpp">
+    <ClCompile Include="AstrumShaderSetup.cpp">
       <Filter>Graphics\Shaders</Filter>
     </ClCompile>
     <ClCompile Include="AstrumVertexShader.cpp">
@@ -205,9 +202,6 @@
     <ClInclude Include="AstrumVertexColor.hpp">
       <Filter>Units</Filter>
     </ClInclude>
-    <ClInclude Include="AstrumCircle.hpp">
-      <Filter>Units</Filter>
-    </ClInclude>
     <ClInclude Include="AstrumTransformData.hpp">
       <Filter>Units</Filter>
     </ClInclude>
@@ -258,12 +252,6 @@
     </ClInclude>
     <ClInclude Include="AstrumOBBColliderComponent.hpp">
       <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="AstrumRect.hpp">
-      <Filter>Units</Filter>
-    </ClInclude>
-    <ClInclude Include="AstrumRotatedRect.hpp">
-      <Filter>Units</Filter>
     </ClInclude>
     <ClInclude Include="AstrumTexture.hpp">
       <Filter>Resources</Filter>
@@ -388,16 +376,31 @@
     <ClInclude Include="AstrumChannelGroup.hpp">
       <Filter>Resources</Filter>
     </ClInclude>
-    <ClInclude Include="AstrumException.hpp" />
     <ClInclude Include="Program.hpp" />
     <ClInclude Include="AstrumVector4.hpp">
       <Filter>Units</Filter>
     </ClInclude>
-    <ClInclude Include="AstrumShaderPipeline.hpp">
-      <Filter>Graphics</Filter>
+    <ClInclude Include="IAstrumAABBColliderComponent.hpp">
+      <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="MainScene.hpp" />
-    <ClInclude Include="TestScene.hpp" />
+    <ClInclude Include="IAstrumCircleColliderComponent.hpp">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="IAstrumOBBColliderComponent.hpp">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumException.hpp">
+      <Filter>Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="MainScene.hpp">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="TestScene.hpp">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumShaderSetup.hpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Objects">
@@ -426,6 +429,12 @@
     </Filter>
     <Filter Include="Buffers">
       <UniqueIdentifier>{4766994f-fc62-45d4-85ce-b3516694818f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Etc">
+      <UniqueIdentifier>{98e882a3-52e5-48a3-8df9-b3af66fe4756}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes">
+      <UniqueIdentifier>{dc9b0465-5d8c-4ec5-9f43-91e036c9664f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
