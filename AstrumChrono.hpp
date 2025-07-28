@@ -25,7 +25,7 @@ private:
 class AstrumChrono {
 public:
     static inline double GetDeltaTime() { return AstrumChronoSingleton::Instance().GetDeltaTime(); }
-    static inline std::chrono::duration<double> GetRunningTime() { AstrumChronoSingleton::Instance().GetRunningTime(); }
+    static inline double GetRunningTime() { auto duration = AstrumChronoSingleton::Instance().GetRunningTime(); return duration.count(); }
     static inline void SetFramerate(uint16_t value) { AstrumChronoSingleton::Instance().SetFramerate(value); }
     static inline void Initialize() { AstrumChronoSingleton::Instance().Initialize(); }
     static inline bool IsUpdateNow() { return AstrumChronoSingleton::Instance().IsUpdateNow(); }

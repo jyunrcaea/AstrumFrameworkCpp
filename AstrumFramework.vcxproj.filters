@@ -113,20 +113,8 @@
     <ClCompile Include="AstrumMaterialObject.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="IAstrumMaterialObject.cpp">
-      <Filter>Objects</Filter>
-    </ClCompile>
     <ClCompile Include="AstrumFrameAnimationComponent.cpp">
       <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="IAstrumFrameAnimationComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="IAstrumObject.cpp">
-      <Filter>Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="IAstrumGroupObject.cpp">
-      <Filter>Objects</Filter>
     </ClCompile>
     <ClCompile Include="AstrumAnimatorComponent.cpp">
       <Filter>Components</Filter>
@@ -167,6 +155,9 @@
     <ClCompile Include="AstrumChannelGroup.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
+    <ClCompile Include="IAstrumObject.cpp">
+      <Filter>Objects\Interface</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AstrumObject.hpp">
@@ -204,9 +195,6 @@
     </ClInclude>
     <ClInclude Include="AstrumTransformData.hpp">
       <Filter>Units</Filter>
-    </ClInclude>
-    <ClInclude Include="IAstrumObject.hpp">
-      <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="IAstrumRenderable.hpp">
       <Filter>Graphics</Filter>
@@ -310,9 +298,6 @@
     <ClInclude Include="AstrumTextureVertex.hpp">
       <Filter>Units</Filter>
     </ClInclude>
-    <ClInclude Include="IAstrumMaterialObject.hpp">
-      <Filter>Objects</Filter>
-    </ClInclude>
     <ClInclude Include="AstrumFrameAnimationComponent.hpp">
       <Filter>Components</Filter>
     </ClInclude>
@@ -321,18 +306,6 @@
     </ClInclude>
     <ClInclude Include="AstrumMesh.hpp">
       <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="IAstrumComponent.hpp">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="IAstrumFrameAnimationComponent.hpp">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="AstrumPosition.hpp">
-      <Filter>Units</Filter>
-    </ClInclude>
-    <ClInclude Include="IAstrumGroupObject.hpp">
-      <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="AstrumChrono.hpp">
       <Filter>Singletons</Filter>
@@ -380,15 +353,6 @@
     <ClInclude Include="AstrumVector4.hpp">
       <Filter>Units</Filter>
     </ClInclude>
-    <ClInclude Include="IAstrumAABBColliderComponent.hpp">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="IAstrumCircleColliderComponent.hpp">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="IAstrumOBBColliderComponent.hpp">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="AstrumException.hpp">
       <Filter>Etc</Filter>
     </ClInclude>
@@ -400,6 +364,39 @@
     </ClInclude>
     <ClInclude Include="AstrumShaderSetup.hpp">
       <Filter>Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="IAstrumAnimator.hpp">
+      <Filter>Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumMovementAnimator.hpp">
+      <Filter>Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="IAstrumAABBColliderComponent.hpp">
+      <Filter>Components\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IAstrumCircleColliderComponent.hpp">
+      <Filter>Components\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IAstrumComponent.hpp">
+      <Filter>Components\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IAstrumFrameAnimationComponent.hpp">
+      <Filter>Components\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IAstrumOBBColliderComponent.hpp">
+      <Filter>Components\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumAnimationFunctions.hpp">
+      <Filter>Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="IAstrumObject.hpp">
+      <Filter>Objects\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="IAstrumGroupObject.hpp">
+      <Filter>Objects\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="IAstrumMaterialObject.hpp">
+      <Filter>Objects\Interface</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -435,6 +432,15 @@
     </Filter>
     <Filter Include="Scenes">
       <UniqueIdentifier>{dc9b0465-5d8c-4ec5-9f43-91e036c9664f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animations">
+      <UniqueIdentifier>{71b3832c-eca5-43d8-914a-020fd668acbe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Interfaces">
+      <UniqueIdentifier>{c4ed2c7e-5d94-4805-bff4-c90630b30465}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Interface">
+      <UniqueIdentifier>{1a9ffc4a-51e5-4f2f-885f-77c5c6603222}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

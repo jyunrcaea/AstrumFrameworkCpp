@@ -184,6 +184,7 @@
     <ClCompile Include="AstrumVertexShader.cpp" />
     <ClCompile Include="AstrumWindow.cpp" />
     <ClCompile Include="AstrumFramework.cpp" />
+    <ClCompile Include="IAstrumObject.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="AstrumObservedVector2.cpp" />
     <ClCompile Include="AstrumObservedVector3.cpp" />
@@ -191,6 +192,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AstrumAABBColliderComponent.hpp" />
+    <ClInclude Include="AstrumAnimationFunctions.hpp" />
+    <ClInclude Include="AstrumMovementAnimator.hpp" />
+    <ClInclude Include="IAstrumAnimator.hpp" />
     <ClInclude Include="AstrumAnimatorComponent.hpp" />
     <ClInclude Include="AstrumCamera.hpp" />
     <ClInclude Include="AstrumChannelGroup.hpp" />

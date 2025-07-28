@@ -1,7 +1,12 @@
-﻿#include "AstrumChrono.hpp"
+﻿#pragma once
+#include <memory>
+#include "AstrumChrono.hpp"
 #include "AstrumDirectInput.hpp"
 #include "AstrumGroupObject.hpp"
 #include "AstrumMaterialObject.hpp"
+#include "AstrumAnimatorComponent.hpp"
+#include "AstrumMovementAnimator.hpp"
+#include "AstrumAnimationFunctions.hpp"
 
 class DotnetBot : public AstrumMaterialObject {
 public:
@@ -41,5 +46,12 @@ class TestScene : public AstrumGroupObject {
 public:
 	TestScene() {
 		AddObject(std::make_shared<DotnetBot>());
+
+		SetPosition(-614, -100, 0);
+
+		auto movement = AstrumMovementAnimator::MakeShared({ 614, 100, 0 }, 1.5f);
+		movement->StartTime += 2.f;
+		movement->AnimationFunction = AstrumAnimationFunctions::EaseInOutQuad;
+		AddComponent(AstrumAnimatorComponent::MakeShared(movement));
 	}
 };
