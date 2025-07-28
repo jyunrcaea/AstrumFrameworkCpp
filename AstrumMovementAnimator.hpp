@@ -3,7 +3,7 @@
 
 struct AstrumMovementAnimator :  public IAstrumAnimator {
 public:
-	AstrumMovementAnimator(const AstrumVector3& target, float animationTime) : next(target), IAstrumAnimator(animationTime) { }
+	AstrumMovementAnimator(const AstrumVector3& targetPosition, float animationTime) : next(targetPosition), IAstrumAnimator(animationTime) {}
 
 	virtual void Prepare() override {
 		previous = owner->GetPosition();
@@ -18,7 +18,7 @@ private:
 	AstrumVector3 next{};
 
 public:
-	static std::shared_ptr<AstrumMovementAnimator> MakeShared(const AstrumVector3& target, float animationTime) {
-		return std::make_shared<AstrumMovementAnimator>(target, animationTime);
+	static std::shared_ptr<AstrumMovementAnimator> MakeShared(const AstrumVector3& targetPosition, float animationTime) {
+		return std::make_shared<AstrumMovementAnimator>(targetPosition, animationTime);
 	}
 };

@@ -398,6 +398,12 @@
     <ClInclude Include="IAstrumMaterialObject.hpp">
       <Filter>Objects\Interface</Filter>
     </ClInclude>
+    <ClInclude Include="AstrumScaleAnimator.hpp">
+      <Filter>Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumRotationAnimator.hpp">
+      <Filter>Animations</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Objects">

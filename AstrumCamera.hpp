@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "AstrumMatrix.hpp"
 
+// to do : not implement yet.
 class AstrumCamera
 {
 public:

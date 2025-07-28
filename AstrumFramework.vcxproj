@@ -194,6 +194,8 @@
     <ClInclude Include="AstrumAABBColliderComponent.hpp" />
     <ClInclude Include="AstrumAnimationFunctions.hpp" />
     <ClInclude Include="AstrumMovementAnimator.hpp" />
+    <ClInclude Include="AstrumRotationAnimator.hpp" />
+    <ClInclude Include="AstrumScaleAnimator.hpp" />
     <ClInclude Include="IAstrumAnimator.hpp" />
     <ClInclude Include="AstrumAnimatorComponent.hpp" />
     <ClInclude Include="AstrumCamera.hpp" />
