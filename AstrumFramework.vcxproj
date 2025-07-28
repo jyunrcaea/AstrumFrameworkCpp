@@ -184,10 +184,6 @@
     <ClCompile Include="AstrumVertexShader.cpp" />
     <ClCompile Include="AstrumWindow.cpp" />
     <ClCompile Include="AstrumFramework.cpp" />
-    <ClCompile Include="IAstrumFrameAnimationComponent.cpp" />
-    <ClCompile Include="IAstrumGroupObject.cpp" />
-    <ClCompile Include="IAstrumMaterialObject.cpp" />
-    <ClCompile Include="IAstrumObject.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="AstrumObservedVector2.cpp" />
     <ClCompile Include="AstrumObservedVector3.cpp" />
@@ -229,7 +225,6 @@
     <ClInclude Include="AstrumPixelShader.hpp" />
     <ClInclude Include="AstrumPolygons.hpp" />
     <ClInclude Include="AstrumPolygonsObject.hpp" />
-    <ClInclude Include="AstrumPosition.hpp" />
     <ClInclude Include="AstrumQuaternion.hpp" />
     <ClInclude Include="AstrumRectangleObject.hpp" />
     <ClInclude Include="AstrumRenderer.hpp" />
