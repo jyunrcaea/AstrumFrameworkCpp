@@ -1,9 +1,9 @@
 ﻿#pragma once
 #include <chrono>
-#include "singleton.hpp"
+#include "AstrumSingleton.hpp"
 
-class AstrumChronoSingleton : public Singleton<AstrumChronoSingleton> {
-    friend class Singleton<AstrumChronoSingleton>;
+class AstrumChronoSingleton : public AstrumSingleton<AstrumChronoSingleton> {
+    friend class AstrumSingleton<AstrumChronoSingleton>;
     friend class AstrumChrono;
 
     double GetDeltaTime() const;
@@ -23,6 +23,7 @@ private:
 };
 
 class AstrumChrono {
+    AstrumChrono() = delete;
 public:
     static inline double GetDeltaTime() { return AstrumChronoSingleton::Instance().GetDeltaTime(); }
     static inline double GetRunningTime() { auto duration = AstrumChronoSingleton::Instance().GetRunningTime(); return duration.count(); }

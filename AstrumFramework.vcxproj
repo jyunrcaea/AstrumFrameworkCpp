@@ -157,6 +157,7 @@
     <ClCompile Include="AstrumGroupObject.cpp" />
     <ClCompile Include="AstrumHullShader.cpp" />
     <ClCompile Include="AstrumImage.cpp" />
+    <ClCompile Include="AstrumKeyBinder.cpp" />
     <ClCompile Include="AstrumMaterial.cpp" />
     <ClCompile Include="AstrumMaterialConstantBuffer.cpp" />
     <ClCompile Include="AstrumMaterialObject.cpp" />
@@ -197,6 +198,7 @@
   <ItemGroup>
     <ClInclude Include="AstrumAABBColliderComponent.hpp" />
     <ClInclude Include="AstrumAnimationFunctions.hpp" />
+    <ClInclude Include="AstrumKeyBinder.hpp" />
     <ClInclude Include="AstrumMovementAnimator.hpp" />
     <ClInclude Include="AstrumRenderComponent.hpp" />
     <ClInclude Include="AstrumRenderMaterialComponent.hpp" />
@@ -278,7 +280,7 @@
     <ClInclude Include="AstrumObservedVector3.hpp" />
     <ClInclude Include="AstrumObservedVector4.hpp" />
     <ClInclude Include="MainScene.hpp" />
-    <ClInclude Include="Singleton.hpp" />
+    <ClInclude Include="AstrumSingleton.hpp" />
     <ClInclude Include="Program.hpp" />
     <ClInclude Include="TestScene.hpp" />
   </ItemGroup>
