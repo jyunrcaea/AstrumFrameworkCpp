@@ -252,7 +252,7 @@
     <ClInclude Include="AstrumShaderSetup.hpp" />
     <ClInclude Include="AstrumSound.hpp" />
     <ClInclude Include="AstrumSoundManager.hpp" />
-    <ClInclude Include="AstrumStatusGraph.h" />
+    <ClInclude Include="AstrumStatusGraph.hpp" />
     <ClInclude Include="AstrumTexture.hpp" />
     <ClInclude Include="AstrumTextureCache.hpp" />
     <ClInclude Include="AstrumTextureMesh.hpp" />
