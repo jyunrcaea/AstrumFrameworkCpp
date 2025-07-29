@@ -143,6 +143,7 @@
     <ClCompile Include="AstrumChrono.cpp" />
     <ClCompile Include="AstrumCircleColliderComponent.cpp" />
     <ClCompile Include="AstrumCircleObject.cpp" />
+    <ClCompile Include="AstrumCirclePolygons.cpp" />
     <ClCompile Include="AstrumColliderComponent.cpp" />
     <ClCompile Include="AstrumCollisionSystem.cpp" />
     <ClCompile Include="AstrumColorConstantBuffer.cpp" />
@@ -151,7 +152,6 @@
     <ClCompile Include="AstrumConstantBuffer.cpp" />
     <ClCompile Include="AstrumDirectInput.cpp" />
     <ClCompile Include="AstrumDomainShader.cpp" />
-    <ClCompile Include="AstrumDrawableObject.cpp" />
     <ClCompile Include="AstrumFrameAnimationComponent.cpp" />
     <ClCompile Include="AstrumGeometryShader.cpp" />
     <ClCompile Include="AstrumGroupObject.cpp" />
@@ -170,9 +170,11 @@
     <ClCompile Include="AstrumPolygonsObject.cpp" />
     <ClCompile Include="AstrumQuaternion.cpp" />
     <ClCompile Include="AstrumRectangleObject.cpp" />
+    <ClCompile Include="AstrumRectanglePolygons.cpp" />
     <ClCompile Include="AstrumRenderComponent.cpp" />
     <ClCompile Include="AstrumRenderer.cpp" />
     <ClCompile Include="AstrumRenderMaterialComponent.cpp" />
+    <ClCompile Include="AstrumRenderPolygonsComponent.cpp" />
     <ClCompile Include="AstrumShader.cpp" />
     <ClCompile Include="AstrumShaderSetup.cpp" />
     <ClCompile Include="AstrumSound.cpp" />
@@ -198,10 +200,13 @@
   <ItemGroup>
     <ClInclude Include="AstrumAABBColliderComponent.hpp" />
     <ClInclude Include="AstrumAnimationFunctions.hpp" />
+    <ClInclude Include="AstrumCirclePolygons.hpp" />
     <ClInclude Include="AstrumKeyBinder.hpp" />
     <ClInclude Include="AstrumMovementAnimator.hpp" />
+    <ClInclude Include="AstrumRectanglePolygons.hpp" />
     <ClInclude Include="AstrumRenderComponent.hpp" />
     <ClInclude Include="AstrumRenderMaterialComponent.hpp" />
+    <ClInclude Include="AstrumRenderPolygonsComponent.hpp" />
     <ClInclude Include="AstrumRotationAnimator.hpp" />
     <ClInclude Include="AstrumScaleAnimator.hpp" />
     <ClInclude Include="AstrumAnimator.hpp" />
@@ -220,7 +225,7 @@
     <ClInclude Include="AstrumConstantBuffer.hpp" />
     <ClInclude Include="AstrumDirectInput.hpp" />
     <ClInclude Include="AstrumDomainShader.hpp" />
-    <ClInclude Include="AstrumDrawableObject.hpp" />
+    <ClInclude Include="AstrumShapeObject.hpp" />
     <ClInclude Include="AstrumException.hpp" />
     <ClInclude Include="AstrumFrameAnimationComponent.hpp" />
     <ClInclude Include="AstrumGeometryShader.hpp" />
@@ -244,7 +249,6 @@
     <ClInclude Include="AstrumRenderer.hpp" />
     <ClInclude Include="AstrumShader.hpp" />
     <ClInclude Include="AstrumShaderSetup.hpp" />
-    <ClInclude Include="AstrumShapeObject.hpp" />
     <ClInclude Include="AstrumSound.hpp" />
     <ClInclude Include="AstrumSoundManager.hpp" />
     <ClInclude Include="AstrumTexture.hpp" />
@@ -283,6 +287,7 @@
     <ClInclude Include="AstrumSingleton.hpp" />
     <ClInclude Include="Program.hpp" />
     <ClInclude Include="TestScene.hpp" />
+    <ClInclude Include="TestShapeScene.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />

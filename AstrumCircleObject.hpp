@@ -1,17 +1,19 @@
 ﻿#include <vector>
 #include "AstrumShapeObject.hpp"
-#include "AstrumVertexColor.hpp"
-#include "AstrumPolygons.hpp"
-#include "AstrumVector3.hpp"
+#include "AstrumCirclePolygons.hpp"
+#include "AstrumRenderPolygonsComponent.hpp"
 
 class AstrumCircleObject : public AstrumShapeObject {
 public:
+    AstrumCircleObject();
+    AstrumCircleObject(const std::shared_ptr<AstrumCirclePolygons>& circlePolygon);
     AstrumCircleObject(const AstrumVertexColor& center, float radius, const unsigned short segment = 128);
-    AstrumCircleObject(const AstrumVertexColor& center, float radius, const std::vector<AstrumColor>& colors, const unsigned short segment = 128);
 
-protected:
-    virtual void Render() override;
+    virtual void Draw() override;
+
+    std::shared_ptr<AstrumCirclePolygons> GetCirclePolygons() const;
+    void SetCirclePolygons(const std::shared_ptr<AstrumCirclePolygons>& circlePolygon);
 
 private:
-    std::unique_ptr<AstrumPolygons> circlePolygon;
+    std::shared_ptr<AstrumCirclePolygons> circlePolygon;
 };
