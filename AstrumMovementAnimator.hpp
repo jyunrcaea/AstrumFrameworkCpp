@@ -1,9 +1,9 @@
 #pragma once
-#include "IAstrumAnimator.hpp"
+#include "AstrumAnimator.hpp"
 
-struct AstrumMovementAnimator :  public IAstrumAnimator {
+struct AstrumMovementAnimator :  public AstrumAnimator {
 public:
-	AstrumMovementAnimator(const AstrumVector3& targetPosition, float animationTime) : next(targetPosition), IAstrumAnimator(animationTime) {}
+	AstrumMovementAnimator(const AstrumVector3& targetPosition, float animationTime) : next(targetPosition), AstrumAnimator(animationTime) {}
 
 	virtual void Prepare() override {
 		previous = owner->GetPosition();

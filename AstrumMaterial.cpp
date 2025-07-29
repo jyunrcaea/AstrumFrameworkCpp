@@ -1,4 +1,5 @@
 ﻿#include "AstrumMaterial.hpp"
+#include "IAstrumMaterial.hpp"
 
 AstrumMaterial::AstrumMaterial(const std::wstring& path)
 	: AstrumMaterial(std::make_shared<AstrumTexture>(path))

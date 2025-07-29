@@ -169,7 +169,9 @@
     <ClCompile Include="AstrumPolygonsObject.cpp" />
     <ClCompile Include="AstrumQuaternion.cpp" />
     <ClCompile Include="AstrumRectangleObject.cpp" />
+    <ClCompile Include="AstrumRenderComponent.cpp" />
     <ClCompile Include="AstrumRenderer.cpp" />
+    <ClCompile Include="AstrumRenderMaterialComponent.cpp" />
     <ClCompile Include="AstrumShader.cpp" />
     <ClCompile Include="AstrumShaderSetup.cpp" />
     <ClCompile Include="AstrumSound.cpp" />
@@ -184,6 +186,8 @@
     <ClCompile Include="AstrumVertexShader.cpp" />
     <ClCompile Include="AstrumWindow.cpp" />
     <ClCompile Include="AstrumFramework.cpp" />
+    <ClCompile Include="AstrumAnimator.cpp" />
+    <ClCompile Include="IAstrumMaterial.cpp" />
     <ClCompile Include="IAstrumObject.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="AstrumObservedVector2.cpp" />
@@ -194,9 +198,11 @@
     <ClInclude Include="AstrumAABBColliderComponent.hpp" />
     <ClInclude Include="AstrumAnimationFunctions.hpp" />
     <ClInclude Include="AstrumMovementAnimator.hpp" />
+    <ClInclude Include="AstrumRenderComponent.hpp" />
+    <ClInclude Include="AstrumRenderMaterialComponent.hpp" />
     <ClInclude Include="AstrumRotationAnimator.hpp" />
     <ClInclude Include="AstrumScaleAnimator.hpp" />
-    <ClInclude Include="IAstrumAnimator.hpp" />
+    <ClInclude Include="AstrumAnimator.hpp" />
     <ClInclude Include="AstrumAnimatorComponent.hpp" />
     <ClInclude Include="AstrumCamera.hpp" />
     <ClInclude Include="AstrumChannelGroup.hpp" />
@@ -255,11 +261,13 @@
     <ClInclude Include="AstrumWindow.hpp" />
     <ClInclude Include="AstrumFramework.hpp" />
     <ClInclude Include="IAstrumAABBColliderComponent.hpp" />
+    <ClInclude Include="IAstrumAnimator.hpp" />
     <ClInclude Include="IAstrumCircleColliderComponent.hpp" />
     <ClInclude Include="IAstrumComponent.hpp" />
     <ClInclude Include="IAstrumConstantBuffer.hpp" />
     <ClInclude Include="IAstrumFrameAnimationComponent.hpp" />
     <ClInclude Include="IAstrumGroupObject.hpp" />
+    <ClInclude Include="IAstrumMaterial.hpp" />
     <ClInclude Include="IAstrumMaterialObject.hpp" />
     <ClInclude Include="IAstrumOBBColliderComponent.hpp" />
     <ClInclude Include="IAstrumObject.hpp" />

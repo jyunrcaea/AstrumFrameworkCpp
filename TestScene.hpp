@@ -50,7 +50,7 @@ public:
 		SetPosition(-614, -100, 0);
 
 		auto movement = AstrumMovementAnimator::MakeShared({ 614, 100, 0 }, 1.5f);
-		movement->StartTime += 2.f;
+		movement->AddStartTime(1.f);
 		movement->AnimationFunction = AstrumAnimationFunctions::EaseInOutQuad;
 		AddComponent(AstrumAnimatorComponent::MakeShared(movement));
 	}
