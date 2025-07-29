@@ -4,10 +4,10 @@
 #include <string>
 #include <cstdint>
 #include "AstrumGroupObject.hpp"
-#include "singleton.hpp"
+#include "AstrumSingleton.hpp"
 
-class AstrumFrameworkSingleton : public Singleton<AstrumFrameworkSingleton> {
-    friend class Singleton<AstrumFrameworkSingleton>;
+class AstrumFrameworkSingleton : public AstrumSingleton<AstrumFrameworkSingleton> {
+    friend class AstrumSingleton<AstrumFrameworkSingleton>;
     friend class AstrumFramework;
 public:
     bool IsInitialized() const;
@@ -25,6 +25,7 @@ private:
 };
 
 class AstrumFramework {
+    AstrumFramework() = delete;
 public:
     static inline bool IsInitialized() { return AstrumFrameworkSingleton::Instance().IsInitialized(); }
     static inline bool IsRunning() { return AstrumFrameworkSingleton::Instance().IsRunning(); }

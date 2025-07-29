@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <d3d11.h>
 #include <wrl.h>
-#include "Singleton.hpp"
+#include "AstrumSingleton.hpp"
 #include "AstrumRenderer.hpp"
 
 enum AstrumTextureSampleType {
@@ -11,9 +11,9 @@ enum AstrumTextureSampleType {
 	AstrumTextureSampleType_Count
 };
 
-class AstrumTextureSampler : public Singleton<AstrumTextureSampler>
+class AstrumTextureSampler : public AstrumSingleton<AstrumTextureSampler>
 {
-	friend class Singleton<AstrumTextureSampler>;
+	friend class AstrumSingleton<AstrumTextureSampler>;
 
 public:
 	AstrumTextureSampler();

@@ -1,9 +1,9 @@
 #pragma once
-#include "IAstrumAnimator.hpp"
+#include "AstrumAnimator.hpp"
 
-struct AstrumScaleAnimator : public IAstrumAnimator {
+struct AstrumScaleAnimator : public AstrumAnimator {
 public:
-	AstrumScaleAnimator(const AstrumVector3& targetScale, float animationTime) : next(targetScale), IAstrumAnimator(animationTime) {}
+	AstrumScaleAnimator(const AstrumVector3& targetScale, float animationTime) : next(targetScale), AstrumAnimator(animationTime) {}
 
 	virtual void Prepare() override {
 		previous = owner->GetScale();
