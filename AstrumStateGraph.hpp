@@ -41,4 +41,7 @@ public:
 private:
 	std::unordered_map<std::string,std::vector<ConditionLine>> statusGraph;
 	std::unordered_map<std::string, std::function<void(AstrumStatusType)>> statusCallback;
+
+public:
+	static std::shared_ptr<AstrumStateGraph> MakeShared() { return std::make_shared<AstrumStateGraph>(); }
 };

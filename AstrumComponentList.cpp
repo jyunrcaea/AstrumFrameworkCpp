@@ -5,7 +5,7 @@ AstrumComponentList::AstrumComponentList(IAstrumObject* ownerObject) : owner(own
 AstrumComponentList::~AstrumComponentList()
 {
 	for (auto& component : *this) {
-		if (component != nullptr) {
+		if (nullptr != component) {
 			component->SetOwner(nullptr); // Clear owner reference
 		}
 	}
@@ -13,11 +13,11 @@ AstrumComponentList::~AstrumComponentList()
 
 bool AstrumComponentList::Add(std::shared_ptr<IAstrumComponent> const component)
 {
-	if (component == nullptr) return false;
-	if (component->GetOwner() != nullptr) {
+	if (nullptr == component) return false;
+	if (owner == component->GetOwner()) return false;
+	if (nullptr != component->GetOwner()) {
 		throw AstrumException("Component already has an owner.");
 	}
-	if (component->GetOwner() == owner) return false;
 
 	this->push_back(component);
 	component->SetOwner(owner);
@@ -27,7 +27,7 @@ bool AstrumComponentList::Add(std::shared_ptr<IAstrumComponent> const component)
 
 bool AstrumComponentList::Remove(std::shared_ptr<IAstrumComponent> const component)
 {
-	if (component == nullptr) return false;
+	if (nullptr == component) return false;
 
 	auto it = std::find(this->begin(), this->end(), component);
 	if (it == this->end()) return false;
