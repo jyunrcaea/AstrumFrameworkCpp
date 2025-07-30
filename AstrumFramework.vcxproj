@@ -179,6 +179,7 @@
     <ClCompile Include="AstrumShaderSetup.cpp" />
     <ClCompile Include="AstrumSound.cpp" />
     <ClCompile Include="AstrumSoundManager.cpp" />
+    <ClCompile Include="AstrumStateComponent.cpp" />
     <ClCompile Include="AstrumStatusGraph.cpp" />
     <ClCompile Include="AstrumTexture.cpp" />
     <ClCompile Include="AstrumTextureCache.cpp" />
@@ -252,6 +253,7 @@
     <ClInclude Include="AstrumShaderSetup.hpp" />
     <ClInclude Include="AstrumSound.hpp" />
     <ClInclude Include="AstrumSoundManager.hpp" />
+    <ClInclude Include="AstrumStateComponent.hpp" />
     <ClInclude Include="AstrumStatusGraph.hpp" />
     <ClInclude Include="AstrumTexture.hpp" />
     <ClInclude Include="AstrumTextureCache.hpp" />
