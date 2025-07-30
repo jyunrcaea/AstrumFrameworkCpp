@@ -13,7 +13,7 @@ enum AstrumStatusType
 };
 
 // 상태 그래프
-class AstrumStatusGraph
+class AstrumStateGraph
 {
 public:
 	struct ConditionLine
@@ -25,8 +25,8 @@ public:
 
 public:
 	// 상태 정점을 추가합니다.
-	bool AddStatusName(const std::string& name);
-	bool AddStatusName(const std::string& name, const std::function<void(AstrumStatusType)>& callback);
+	bool AddStateName(const std::string& name);
+	bool AddStateName(const std::string& name, const std::function<void(AstrumStatusType)>& callback);
 	// 한 정점에서 다른 정점으로 이동하는 조건 간선을 추가합니다.
 	template<typename FromType, typename ToType, typename ConditionType>
 	requires std::convertible_to<FromType, std::string>&& std::convertible_to<ToType, std::string>&& std::convertible_to<ConditionType, std::function<bool()>>
