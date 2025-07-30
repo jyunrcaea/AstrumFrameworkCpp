@@ -20,7 +20,7 @@ AstrumImage::AstrumImage(const std::filesystem::path& path)
 			throw AstrumException("Failed to load WIC image from file: " + path.string());
 		}
 	}
-	else throw AstrumException(L"Unsupported image format: {}" + ext);
+	else throw AstrumException(L"Unsupported image format: " + ext);
 }
 
 AstrumImage::~AstrumImage() { /* ScratchImage is mannaged by unique_ptr. */ }

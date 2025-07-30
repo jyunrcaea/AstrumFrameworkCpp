@@ -3,7 +3,7 @@
 
 void AstrumFrameAnimationComponent::Update()
 {
-	if (materialOwner == nullptr) return;
+	if (nullptr == materialOwner) return;
 	if (frames.empty()) return;
 	const int n = static_cast<int>(frames.size());
 
@@ -27,7 +27,7 @@ void AstrumFrameAnimationComponent::Update()
 }
 
 void AstrumFrameAnimationComponent::SetOwner(IAstrumObject* owner) {
-	if (owner == nullptr) {
+	if (nullptr == owner) {
 		materialOwner = nullptr;
 	}
 	else if (nullptr == (materialOwner = dynamic_cast<IAstrumMaterialObject*>(owner))) {

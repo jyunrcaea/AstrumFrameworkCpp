@@ -179,7 +179,9 @@
     <ClCompile Include="AstrumShaderSetup.cpp" />
     <ClCompile Include="AstrumSound.cpp" />
     <ClCompile Include="AstrumSoundManager.cpp" />
-    <ClCompile Include="AstrumStatusGraph.cpp" />
+    <ClCompile Include="AstrumStateBuilder.cpp" />
+    <ClCompile Include="AstrumStateComponent.cpp" />
+    <ClCompile Include="AstrumStateGraph.cpp" />
     <ClCompile Include="AstrumTexture.cpp" />
     <ClCompile Include="AstrumTextureCache.cpp" />
     <ClCompile Include="AstrumTextureMesh.cpp" />
@@ -252,7 +254,9 @@
     <ClInclude Include="AstrumShaderSetup.hpp" />
     <ClInclude Include="AstrumSound.hpp" />
     <ClInclude Include="AstrumSoundManager.hpp" />
-    <ClInclude Include="AstrumStatusGraph.hpp" />
+    <ClInclude Include="AstrumStateBuilder.hpp" />
+    <ClInclude Include="AstrumStateComponent.hpp" />
+    <ClInclude Include="AstrumStateGraph.hpp" />
     <ClInclude Include="AstrumTexture.hpp" />
     <ClInclude Include="AstrumTextureCache.hpp" />
     <ClInclude Include="AstrumTextureMesh.hpp" />
@@ -272,6 +276,7 @@
     <ClInclude Include="IAstrumAnimator.hpp" />
     <ClInclude Include="IAstrumCircleColliderComponent.hpp" />
     <ClInclude Include="IAstrumComponent.hpp" />
+    <ClInclude Include="IAstrumComponentList.hpp" />
     <ClInclude Include="IAstrumConstantBuffer.hpp" />
     <ClInclude Include="IAstrumFrameAnimationComponent.hpp" />
     <ClInclude Include="IAstrumGroupObject.hpp" />
@@ -285,9 +290,8 @@
     <ClInclude Include="AstrumObservedVector2.hpp" />
     <ClInclude Include="AstrumObservedVector3.hpp" />
     <ClInclude Include="AstrumObservedVector4.hpp" />
-    <ClInclude Include="MainScene.hpp" />
+    <ClInclude Include="IAstrumStateGraph.hpp" />
     <ClInclude Include="AstrumSingleton.hpp" />
-    <ClInclude Include="Program.hpp" />
     <ClInclude Include="TestScene.hpp" />
     <ClInclude Include="TestShapeScene.hpp" />
   </ItemGroup>

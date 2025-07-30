@@ -48,7 +48,7 @@ bool AstrumObject::IsPrepared() const { return this->isPrepared; }
 IAstrumObject* AstrumObject::GetParent() const { return parent; }
 
 bool AstrumObject::SetParent(IAstrumObject* const p) {
-    if (parent != nullptr) return false;
+    if (nullptr != parent) return false;
     parent = p;
     return true;
 }
@@ -63,11 +63,10 @@ AstrumComponentList& AstrumObject::GetComponents() { return Components; }
 
 void AstrumObject::UpdateAbsolutePosition()
 {
-    if (parent == nullptr) {
+    if (nullptr == parent) {
         absolutePosition = Position;
         return;
 	}
-
     // 1. 부모 회전 사원수
 	AstrumQuaternion parentRotation = AstrumQuaternion::FromEuler(parent->GetAbsoluteRotation());
     // 2. 자식 좌표 * 부모 절대크기 * 회전
@@ -78,20 +77,18 @@ void AstrumObject::UpdateAbsolutePosition()
 
 void AstrumObject::UpdateAbsoluteRotation()
 {
-    if (parent == nullptr) {
+    if (nullptr == parent) {
         absoluteRotation = Rotation;
 		return;
     }
-
 	absoluteRotation = parent->GetAbsoluteRotation() + this->Rotation;
 }
 
 void AstrumObject::UpdateAbsoluteScale()
 {
-    if (parent == nullptr) {
+    if (nullptr == parent) {
 		absoluteScale = Scale;
         return;
     }
-
     absoluteScale = parent->GetAbsoluteScale() * this->Scale;
 }

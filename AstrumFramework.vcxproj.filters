@@ -8,9 +8,6 @@
     <ClCompile Include="AstrumCircleObject.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="AstrumDrawableObject.cpp">
-      <Filter>Objects</Filter>
-    </ClCompile>
     <ClCompile Include="AstrumGroupObject.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
@@ -158,15 +155,27 @@
     <ClCompile Include="IAstrumObject.cpp">
       <Filter>Objects\Interface</Filter>
     </ClCompile>
+    <ClCompile Include="AstrumCirclePolygons.cpp" />
+    <ClCompile Include="AstrumKeyBinder.cpp" />
+    <ClCompile Include="AstrumRectanglePolygons.cpp" />
+    <ClCompile Include="AstrumRenderComponent.cpp" />
+    <ClCompile Include="AstrumRenderMaterialComponent.cpp" />
+    <ClCompile Include="AstrumRenderPolygonsComponent.cpp" />
+    <ClCompile Include="AstrumStateComponent.cpp" />
+    <ClCompile Include="AstrumStateGraph.cpp" />
+    <ClCompile Include="IAstrumMaterial.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="AstrumAnimator.cpp">
+      <Filter>Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="AstrumStateBuilder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AstrumObject.hpp">
       <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="AstrumCircleObject.hpp">
-      <Filter>Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="AstrumDrawableObject.hpp">
       <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="AstrumGroupObject.hpp">
@@ -325,9 +334,6 @@
     <ClInclude Include="AstrumAnimatorComponent.hpp">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="Singleton.hpp">
-      <Filter>Singletons</Filter>
-    </ClInclude>
     <ClInclude Include="AstrumPolygonsObject.hpp">
       <Filter>Objects</Filter>
     </ClInclude>
@@ -349,15 +355,11 @@
     <ClInclude Include="AstrumChannelGroup.hpp">
       <Filter>Resources</Filter>
     </ClInclude>
-    <ClInclude Include="Program.hpp" />
     <ClInclude Include="AstrumVector4.hpp">
       <Filter>Units</Filter>
     </ClInclude>
     <ClInclude Include="AstrumException.hpp">
       <Filter>Etc</Filter>
-    </ClInclude>
-    <ClInclude Include="MainScene.hpp">
-      <Filter>Scenes</Filter>
     </ClInclude>
     <ClInclude Include="TestScene.hpp">
       <Filter>Scenes</Filter>
@@ -404,6 +406,27 @@
     <ClInclude Include="AstrumRotationAnimator.hpp">
       <Filter>Animations</Filter>
     </ClInclude>
+    <ClInclude Include="AstrumCirclePolygons.hpp" />
+    <ClInclude Include="AstrumKeyBinder.hpp" />
+    <ClInclude Include="AstrumRectanglePolygons.hpp" />
+    <ClInclude Include="AstrumRenderComponent.hpp" />
+    <ClInclude Include="AstrumRenderMaterialComponent.hpp" />
+    <ClInclude Include="AstrumRenderPolygonsComponent.hpp" />
+    <ClInclude Include="AstrumStateComponent.hpp" />
+    <ClInclude Include="AstrumStateGraph.hpp" />
+    <ClInclude Include="AstrumSingleton.hpp" />
+    <ClInclude Include="TestShapeScene.hpp" />
+    <ClInclude Include="IAstrumMaterial.hpp">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumAnimator.hpp">
+      <Filter>Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="IAstrumComponentList.hpp">
+      <Filter>Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="AstrumStateBuilder.hpp" />
+    <ClInclude Include="IAstrumStateGraph.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Objects">
@@ -448,5 +471,8 @@
     <Filter Include="Objects\Interface">
       <UniqueIdentifier>{1a9ffc4a-51e5-4f2f-885f-77c5c6603222}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md" />
   </ItemGroup>
 </Project>

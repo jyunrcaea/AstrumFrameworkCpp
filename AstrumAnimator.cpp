@@ -50,7 +50,10 @@ void AstrumAnimator::SetAnimationTime(double time) { animationTime = time; }
 IAstrumObject* AstrumAnimator::GetOwner() const { return owner; }
 AstrumAnimatingStatusType AstrumAnimator::GetStatus() const { return status; }
 
-double AstrumAnimator::GetProgress(double current) const { return (current - startTime) / animationTime; }
+double AstrumAnimator::GetProgress(double current) const {
+	// animationTime이 0일 경우 음 또는 양의 무한이 나오므로 clamp.
+	return std::clamp((current - startTime) / animationTime, -1.0, 2.0);
+}
 
 std::function<void()> AstrumAnimator::GetAnimationEndingFunction() { return OnAnimationEnding; }
 std::function<double(double)> AstrumAnimator::GetAnimationFunction() { return AnimationFunction; }
