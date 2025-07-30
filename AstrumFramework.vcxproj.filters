@@ -35,9 +35,6 @@
     <ClCompile Include="Vectors\AstrumObservedVector4.cpp">
       <Filter>Units</Filter>
     </ClCompile>
-    <ClCompile Include="Meshes\AstrumPolygons.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="Units\AstrumQuaternion.cpp">
       <Filter>Units</Filter>
     </ClCompile>
@@ -168,6 +165,7 @@
     </ClCompile>
     <ClCompile Include="States\AstrumStateBuilder.cpp" />
     <ClCompile Include="Objects\IAstrumMaterialObject.cpp" />
+    <ClCompile Include="Components\AstrumCircleColliderComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Objects\AstrumObject.hpp">

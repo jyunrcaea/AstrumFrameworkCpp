@@ -1,4 +1,5 @@
-﻿#pragma once
+#pragma once
+#include <memory>
 #include "AstrumColliderComponent.hpp"
 #include "IAstrumAABBColliderComponent.hpp"
 
@@ -12,4 +13,9 @@ public:
 	virtual bool IsOverlapToAABB(IAstrumAABBColliderComponent* other) override;
 	virtual bool IsOverlapToOBB(IAstrumOBBColliderComponent* other) override;
 	virtual bool IsOverlapToCircle(IAstrumCircleColliderComponent* other) override;
+
+public:
+	static std::shared_ptr<AstrumAABBColliderComponent> MakeShared() {
+		return std::make_shared<AstrumAABBColliderComponent>();
+	}
 };

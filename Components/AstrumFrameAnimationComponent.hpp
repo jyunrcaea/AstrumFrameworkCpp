@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "AstrumComponent.hpp"
 #include "../Objects/IAstrumMaterialObject.hpp"
 #include "IAstrumFrameAnimationComponent.hpp"
@@ -31,4 +31,14 @@ private:
 	float sumTime = 0;
 	std::vector<std::shared_ptr<AstrumMaterial>> frames;
 	IAstrumMaterialObject* materialOwner = nullptr;
+
+public:
+	static std::shared_ptr<AstrumFrameAnimationComponent> MakeShared() {
+		return std::make_shared<AstrumFrameAnimationComponent>();
+	}
+	static std::shared_ptr<AstrumFrameAnimationComponent> MakeShared(const std::vector<std::shared_ptr<AstrumMaterial>>& frames) {
+		auto component = std::make_shared<AstrumFrameAnimationComponent>();
+		component->frames = frames;
+		return component;
+	}
 };

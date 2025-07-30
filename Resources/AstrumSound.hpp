@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <memory>
 #include <filesystem>
 #include "../Singletons/AstrumSoundManager.hpp"
@@ -30,5 +30,9 @@ private:
 
 public:
 	static inline std::filesystem::path DefaultRelativeDirectory = L"./";
+
+	static std::shared_ptr<AstrumSound> MakeShared(const std::filesystem::path& soundFilePath, bool loop = false, std::shared_ptr<AstrumChannelGroup> group = nullptr) {
+		return std::make_shared<AstrumSound>(soundFilePath, loop, group);
+	}
 };
 

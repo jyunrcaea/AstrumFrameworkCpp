@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <algorithm>
 #include <cmath>
 #include <DirectXMath.h>
@@ -19,4 +19,8 @@ public:
 	virtual bool IsOverlapToAABB(IAstrumAABBColliderComponent* other) override;
 	virtual bool IsOverlapToOBB(IAstrumOBBColliderComponent* other) override;
 	virtual bool IsOverlapToCircle(IAstrumCircleColliderComponent* other) override;
+public:
+	static std::shared_ptr<AstrumOBBColliderComponent> MakeShared() {
+		return std::make_shared<AstrumOBBColliderComponent>();
+	}
 };

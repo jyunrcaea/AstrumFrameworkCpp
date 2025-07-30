@@ -136,6 +136,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Components\AstrumCircleColliderComponent.cpp" />
     <ClCompile Include="Components\AstrumAABBColliderComponent.cpp" />
     <ClCompile Include="Components\AstrumAnimatorComponent.cpp" />
     <ClCompile Include="Graphics\AstrumCamera.cpp" />
@@ -166,7 +167,6 @@
     <ClCompile Include="Objects\AstrumObject.cpp" />
     <ClCompile Include="Collections\AstrumObjectList.cpp" />
     <ClCompile Include="Shaders\AstrumPixelShader.cpp" />
-    <ClCompile Include="Meshes\AstrumPolygons.cpp" />
     <ClCompile Include="Objects\AstrumPolygonsObject.cpp" />
     <ClCompile Include="Units\AstrumQuaternion.cpp" />
     <ClCompile Include="Objects\AstrumRectangleObject.cpp" />
