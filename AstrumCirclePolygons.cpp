@@ -9,10 +9,12 @@ namespace {
         vertices.push_back(center);
 
         for (int i = 0; i <= segment; ++i) {
-            float angle = 2.0f * 3.14159265358979323846f * static_cast<float>(i) / static_cast<float>(segment);
-            float x = center.Position.X + radius * std::cos(angle);
-            float y = center.Position.Y + radius * std::sin(angle);
-            vertices.push_back({ { x, y, center.Position.Z }, center.Color });
+            const float angle = static_cast<float>(2.0 * std::numbers::pi * i / segment);
+            vertices.emplace_back(AstrumVector3{ 
+                center.Position.X + radius * std::cos(angle), 
+                center.Position.Y + radius * std::sin(angle), 
+                center.Position.Z
+            }, center.Color);
         }
 
         return vertices;
@@ -24,10 +26,12 @@ namespace {
 
         const float sector = (float)segment / colors.size();
         for (int i = 0; i <= segment; ++i) {
-            float angle = static_cast<float>(2.0 * std::numbers::pi * i / segment);
-            float x = center.Position.X + radius * std::cos(angle);
-            float y = center.Position.Y + radius * std::sin(angle);
-            vertices.push_back({ { x, y, center.Position.Z }, colors[(int)(i / sector) % colors.size()] });
+            const float angle = static_cast<float>(2.0 * std::numbers::pi * i / segment);
+            vertices.emplace_back(AstrumVector3{
+                center.Position.X + radius * std::cos(angle),
+                center.Position.Y + radius * std::sin(angle),
+                center.Position.Z
+            }, colors[static_cast<int>(i / sector) % colors.size()]);
         }
 
         return vertices;

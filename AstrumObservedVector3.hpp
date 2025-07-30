@@ -33,7 +33,7 @@ public:
 
     void Reset(const AstrumVector3& v);
     void Reset(const AstrumObservedVector3& v);
-    void Reset(float x, float y, float z);
+    void Reset(float x, float y, float z = 0);
 
     AstrumVector3 operator+(const AstrumObservedVector3& o) const noexcept;
     AstrumVector3 operator-(const AstrumObservedVector3& o) const noexcept;

@@ -1,45 +1,28 @@
 #pragma once
-#include <memory>
-#include <vector>
-#include <string>
-#include <unordered_map>
-#include <functional>
+#include "IAstrumStateGraph.hpp"
+#include "AstrumStateBuilder.hpp"
 
-enum AstrumStateType
-{
-	AstrumStatusType_Exit = -1,
-	AstrumStatusType_None = 0,
-	AstrumStatusType_Enter = 1,
-};
-
-// 상태 그래프
-class AstrumStateGraph
+class AstrumStateGraph : public IAstrumStateGraph
 {
 public:
-	struct ConditionLine
-	{
-		std::string From;
-		std::string To;
-		std::function<bool()> Condition;
-	};
+	virtual bool AddStateName(const std::string& name) override;
+	virtual bool AddStateName(const std::string& name, const std::function<void(AstrumStateType)>& callback) override;
+	virtual void AddStateNames(const std::initializer_list<std::string>& names) override;
 
-public:
-	// 상태 정점을 추가합니다.
-	bool AddStateName(const std::string& name);
-	bool AddStateName(const std::string& name, const std::function<void(AstrumStateType)>& callback);
 	// 한 정점에서 다른 정점으로 이동하는 조건 간선을 추가합니다.
 	template<typename FromType, typename ToType, typename ConditionType>
 	requires std::convertible_to<FromType, std::string>&& std::convertible_to<ToType, std::string>&& std::convertible_to<ConditionType, std::function<bool()>>
 	void AddConditionWay(FromType&& from, ToType&& to, ConditionType&& condition) {
-		stateGraph[from].emplace_back(std::forward(from), std::forward(to), std::forward(condition));
+		stateGraph[from].emplace_back(std::forward<FromType>(from), std::forward<ToType>(to), std::forward<ConditionType>(condition));
 	}
+	virtual void AddConditionWay(const std::string& from,const std::string& to, const std::function<bool()>& condition) override;
+	virtual bool SetCallback(const std::string& name, const std::function<void(AstrumStateType)>& callback) override;
+	virtual std::function<void(AstrumStateType)>& GetCallback(const std::string& name) override;
+	virtual const std::unordered_map<std::string, std::vector<ConditionLine>>& GetGraph() const override;
+	virtual const std::vector<ConditionLine>& GetLines(const std::string from) override;
+	virtual bool InvokeCallback(const std::string& name, AstrumStateType type) override;
 
-	std::function<void(AstrumStateType)>& GetCallback(const std::string name);
-	// 상태 그래프를 (읽기 전용으로) 가져옵니다.
-	const std::unordered_map<std::string, std::vector<ConditionLine>>& GetGraph() const;
-	const std::vector<ConditionLine>& GetLines(const std::string from);
-
-	void InvokeCallback(const std::string& name, AstrumStateType type);
+	AstrumStateBuilder MakeBuilder(const std::string& name);
 private:
 	std::unordered_map<std::string,std::vector<ConditionLine>> stateGraph;
 	std::unordered_map<std::string, std::function<void(AstrumStateType)>> stateCallback;

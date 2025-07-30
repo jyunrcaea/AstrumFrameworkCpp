@@ -29,10 +29,10 @@ class TestRectObject : public AstrumRectangleObject
 public:
 	TestRectObject() {
 		SetRectanglePolygons(AstrumRectanglePolygons::MakeShared(
-			{ AstrumVector3(-100, 100), AstrumColor::LightPeriwinkle },   // leftTop
-			{ AstrumVector3(100, 100), AstrumColor::Coral },              // rightTop
-			{ AstrumVector3(-100, -100), AstrumColor::Periwinkle },       // leftBottom
-			{ AstrumVector3(100, -100), AstrumColor::MidnightBlue }       // rightBottom
+			{ AstrumVector3(-100, 100), AstrumColor::LightPeriwinkle },
+			{ AstrumVector3(100, 100), AstrumColor::Coral },
+			{ AstrumVector3(-100, -100), AstrumColor::Periwinkle },
+			{ AstrumVector3(100, -100), AstrumColor::MidnightBlue }
 		));
 		Position.SetX(500);
 	}

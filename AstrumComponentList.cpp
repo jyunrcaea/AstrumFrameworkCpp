@@ -11,7 +11,7 @@ AstrumComponentList::~AstrumComponentList()
 	}
 }
 
-bool AstrumComponentList::Add(std::shared_ptr<IAstrumComponent> const component)
+bool AstrumComponentList::Add(const std::shared_ptr<IAstrumComponent>& component)
 {
 	if (nullptr == component) return false;
 	if (owner == component->GetOwner()) return false;
@@ -25,7 +25,7 @@ bool AstrumComponentList::Add(std::shared_ptr<IAstrumComponent> const component)
 	return true;
 }
 
-bool AstrumComponentList::Remove(std::shared_ptr<IAstrumComponent> const component)
+bool AstrumComponentList::Remove(const std::shared_ptr<IAstrumComponent>& component)
 {
 	if (nullptr == component) return false;
 
@@ -68,7 +68,14 @@ void AstrumComponentList::Release()
 	}
 }
 
-std::vector<std::shared_ptr<IAstrumComponent>>& AstrumComponentList::GetVector()
-{
-	return *this;
+void AstrumComponentList::ForEach(const std::function<void(const std::shared_ptr<IAstrumComponent>&)>& func) {
+	for (auto& component : *this) {
+		if (component != nullptr) {
+			func(component);
+		}
+	}
+}
+
+std::vector<std::shared_ptr<IAstrumComponent>> AstrumComponentList::ToArray() const {
+	return vec(*this);
 }

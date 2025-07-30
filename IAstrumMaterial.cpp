@@ -27,18 +27,23 @@ std::shared_ptr<AstrumTextureMesh> IAstrumMaterial::CreateCustomSizeMesh(uint le
 	const double textureWidth = static_cast<double>(GetTextureWidth());
 	const double textureHeight = static_cast<double>(GetTextureHeight());
 
-	const float minX = static_cast<float>(static_cast<double>(left) / textureWidth);
-	const float minY = static_cast<float>(static_cast<double>(top) / textureHeight);
-	const float maxX = static_cast<float>(static_cast<double>(left + width) / textureWidth);
-	const float maxY = static_cast<float>(static_cast<double>(top + height) / textureHeight);
+	return CreateCustomSizeMeshFromRatio(
+		static_cast<float>(static_cast<double>(left) / textureWidth),
+		static_cast<float>(static_cast<double>(top) / textureHeight),
+		static_cast<float>(static_cast<double>(left + width) / textureWidth),
+		static_cast<float>(static_cast<double>(top + height) / textureHeight),
+		z
+	);
+}
 
-	const float halfWidth = static_cast<float>(textureWidth * 0.5);
-	const float halfHeight = static_cast<float>(textureHeight * 0.5);
+std::shared_ptr<AstrumTextureMesh> IAstrumMaterial::CreateCustomSizeMeshFromRatio(float left, float top, float right, float bottom, float z) const {
+	const float halfWidth = static_cast<float>(GetTextureWidth() * 0.5);
+	const float halfHeight = static_cast<float>(GetTextureHeight() * 0.5);
 
 	return AstrumTextureMesh::MakeShared(std::vector<AstrumTextureVertex>{
-		AstrumTextureVertex{ AstrumVector3(-halfWidth, halfHeight, z), AstrumVector2( minX, minY ) },
-		AstrumTextureVertex{ AstrumVector3(halfWidth, halfHeight, z ), AstrumVector2( maxX, minY ) },
-		AstrumTextureVertex{ AstrumVector3(-halfWidth, -halfHeight, z ), AstrumVector2( minX, maxY ) },
-		AstrumTextureVertex{ AstrumVector3(halfWidth, -halfHeight, z ), AstrumVector2( maxX, maxY ) },
+		AstrumTextureVertex{ AstrumVector3(-halfWidth, halfHeight, z), AstrumVector2(left, bottom) },
+			AstrumTextureVertex{ AstrumVector3(halfWidth, halfHeight, z), AstrumVector2(right, bottom) },
+			AstrumTextureVertex{ AstrumVector3(-halfWidth, -halfHeight, z), AstrumVector2(left, top) },
+			AstrumTextureVertex{ AstrumVector3(halfWidth, -halfHeight, z), AstrumVector2(right, top) },
 	}, std::vector<unsigned short>{ 0, 1, 2, 1, 3, 2 });
 }

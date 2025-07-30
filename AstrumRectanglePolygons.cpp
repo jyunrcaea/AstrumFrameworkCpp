@@ -30,3 +30,10 @@ AstrumRectanglePolygons::AstrumRectanglePolygons(float width, float height, cons
 
 AstrumRectanglePolygons::AstrumRectanglePolygons(const AstrumVertexColor& leftTop, const AstrumVertexColor& rightTop, const AstrumVertexColor& leftBottom, const AstrumVertexColor& rightBottom)
     : AstrumPolygons({ leftTop, rightTop, leftBottom, rightBottom }, { 0, 1, 2, 1, 3, 2 }) {}
+
+void AstrumRectanglePolygons::SetColor(const AstrumColor& color) {
+    SetColor(color, color, color, color);
+}
+void AstrumRectanglePolygons::SetColor(const AstrumColor& leftTop, const AstrumColor& rightTop, const AstrumColor& leftBottom, const AstrumColor& rightBottom) {
+
+}
