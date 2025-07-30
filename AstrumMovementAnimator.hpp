@@ -18,7 +18,7 @@ private:
 	AstrumVector3 next{};
 
 public:
-	static std::shared_ptr<AstrumMovementAnimator> MakeShared(const AstrumVector3& targetPosition, float animationTime) {
+	static std::shared_ptr<AstrumMovementAnimator> MakeShared(const AstrumVector3& targetPosition, float animationTime = 1.f) {
 		return std::make_shared<AstrumMovementAnimator>(targetPosition, animationTime);
 	}
 };
