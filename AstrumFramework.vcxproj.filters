@@ -149,23 +149,45 @@
     <ClCompile Include="Objects\IAstrumObject.cpp">
       <Filter>Objects\Interface</Filter>
     </ClCompile>
-    <ClCompile Include="Meshes\AstrumCirclePolygons.cpp" />
-    <ClCompile Include="Singletons\AstrumKeyBinder.cpp" />
-    <ClCompile Include="Meshes\AstrumRectanglePolygons.cpp" />
-    <ClCompile Include="Components\AstrumRenderComponent.cpp" />
-    <ClCompile Include="Components\AstrumRenderMaterialComponent.cpp" />
-    <ClCompile Include="Components\AstrumRenderPolygonsComponent.cpp" />
-    <ClCompile Include="Components\AstrumStateComponent.cpp" />
-    <ClCompile Include="States\AstrumStateGraph.cpp" />
     <ClCompile Include="Resources\IAstrumMaterial.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
     <ClCompile Include="Animations\AstrumAnimator.cpp">
       <Filter>Animations</Filter>
     </ClCompile>
-    <ClCompile Include="States\AstrumStateBuilder.cpp" />
-    <ClCompile Include="Objects\IAstrumMaterialObject.cpp" />
-    <ClCompile Include="Components\AstrumCircleColliderComponent.cpp" />
+    <ClCompile Include="Components\AstrumCircleColliderComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\AstrumStateComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\AstrumRenderPolygonsComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\AstrumRenderMaterialComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\AstrumRenderComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="States\AstrumStateGraph.cpp">
+      <Filter>Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="States\AstrumStateBuilder.cpp">
+      <Filter>Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="Singletons\AstrumKeyBinder.cpp">
+      <Filter>Singletons</Filter>
+    </ClCompile>
+    <ClCompile Include="Meshes\AstrumCirclePolygons.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Meshes\AstrumRectanglePolygons.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\IAstrumMaterialObject.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Objects\AstrumObject.hpp">
@@ -393,15 +415,6 @@
     <ClInclude Include="Animations\AstrumRotationAnimator.hpp">
       <Filter>Animations</Filter>
     </ClInclude>
-    <ClInclude Include="Meshes\AstrumCirclePolygons.hpp" />
-    <ClInclude Include="Singletons\AstrumKeyBinder.hpp" />
-    <ClInclude Include="Meshes\AstrumRectanglePolygons.hpp" />
-    <ClInclude Include="Components\AstrumRenderComponent.hpp" />
-    <ClInclude Include="Components\AstrumRenderMaterialComponent.hpp" />
-    <ClInclude Include="Components\AstrumRenderPolygonsComponent.hpp" />
-    <ClInclude Include="Components\AstrumStateComponent.hpp" />
-    <ClInclude Include="States\AstrumStateGraph.hpp" />
-    <ClInclude Include="Singletons\AstrumSingleton.hpp" />
     <ClInclude Include="Resources\IAstrumMaterial.hpp">
       <Filter>Resources</Filter>
     </ClInclude>
@@ -411,13 +424,44 @@
     <ClInclude Include="Collections\IAstrumComponentList.hpp">
       <Filter>Collections</Filter>
     </ClInclude>
-    <ClInclude Include="States\AstrumStateBuilder.hpp" />
-    <ClInclude Include="States\IAstrumStateGraph.hpp" />
-    <ClInclude Include="Meshes\AstrumTextureVertex.hpp" />
-    <ClInclude Include="Meshes\AstrumVertexColor.hpp" />
-    <ClInclude Include="Components\AstrumCircleColliderComponent.hpp" />
     <ClInclude Include="Objects\IAstrumMaterialObject.hpp">
       <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\AstrumCircleColliderComponent.hpp">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\AstrumStateComponent.hpp">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\AstrumRenderPolygonsComponent.hpp">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\AstrumRenderMaterialComponent.hpp">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\AstrumRenderComponent.hpp">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="States\AstrumStateGraph.hpp">
+      <Filter>Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="States\AstrumStateBuilder.hpp">
+      <Filter>Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="Singletons\AstrumKeyBinder.hpp">
+      <Filter>Singletons</Filter>
+    </ClInclude>
+    <ClInclude Include="Meshes\AstrumCirclePolygons.hpp">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Meshes\AstrumRectanglePolygons.hpp">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="States\IAstrumStateGraph.hpp">
+      <Filter>Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="Singletons\AstrumSingleton.hpp">
+      <Filter>Singletons</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

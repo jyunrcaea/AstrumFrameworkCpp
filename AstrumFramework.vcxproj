@@ -205,8 +205,6 @@
     <ClInclude Include="Animations\AstrumAnimationFunctions.hpp" />
     <ClInclude Include="Components\AstrumCircleColliderComponent.hpp" />
     <ClInclude Include="Meshes\AstrumCirclePolygons.hpp" />
-    <ClInclude Include="Meshes\AstrumTextureVertex.hpp" />
-    <ClInclude Include="Meshes\AstrumVertexColor.hpp" />
     <ClInclude Include="Objects\IAstrumMaterialObject.hpp" />
     <ClInclude Include="Singletons\AstrumKeyBinder.hpp" />
     <ClInclude Include="Animations\AstrumMovementAnimator.hpp" />

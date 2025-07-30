@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include "Vectors/AstrumVector4.hpp"
 #include "Units/AstrumColor.hpp"
 #include "Singletons/AstrumFramework.hpp"
@@ -23,16 +23,32 @@ public:
         AddComponent(animator = AstrumAnimatorComponent::MakeShared());
 
         auto graph = AstrumStateGraph::MakeShared();
-        graph->AddStateName("Left", [this](auto status) { if (status > 0) SetMoveTarget(-200, 0); });
-        graph->AddStateName("Right", [this](auto status) { if (status > 0) SetMoveTarget(200, 0); });
-        graph->AddStateName("Up", [this](auto status) { if (status > 0) SetMoveTarget(0, 200); });
-        graph->AddStateName("Down", [this](auto status) { if (status > 0) SetMoveTarget(0, -200); });
+        graph->AddStateName("LeftTop", [this](auto status) { if (status > 0) SetMoveTarget(-200, 200); });
+        graph->AddStateName("RightTop", [this](auto status) { if (status > 0) SetMoveTarget(200, 200); });
+        graph->AddStateName("LeftBottom", [this](auto status) { if (status > 0) SetMoveTarget(-200, -200); });
+        graph->AddStateName("RightBottom", [this](auto status) { if (status > 0) SetMoveTarget(200, -200); });
         graph->MakeBuilder("Idle")
             .SetCallback([this](auto status) { if (status > 0) SetMoveTarget(0, 0); })
             .AddHoldConditionTwoWay("Up", [this]() { return AstrumKeyBinder::IsKeyPressed("Up"); })
             .AddHoldConditionTwoWay("Down", [this]() { return AstrumKeyBinder::IsKeyPressed("Down"); })
             .AddHoldConditionTwoWay("Left", [this]() { return AstrumKeyBinder::IsKeyPressed("Left"); })
             .AddHoldConditionTwoWay("Right", [this]() { return AstrumKeyBinder::IsKeyPressed("Right"); });
+        graph->MakeBuilder("Left")
+            .SetCallback([this](auto status) { if (status > 0) SetMoveTarget(-200, 0); })
+            .AddHoldConditionTwoWay("LeftTop", [this]() { return AstrumKeyBinder::IsKeyPressed("Up"); })
+            .AddHoldConditionTwoWay("LeftBottom", [this]() { return AstrumKeyBinder::IsKeyPressed("Down"); });
+        graph->MakeBuilder("Right")
+            .SetCallback([this](auto status) { if (status > 0) SetMoveTarget(200, 0); })
+            .AddHoldConditionTwoWay("RightTop", [this]() { return AstrumKeyBinder::IsKeyPressed("Up"); })
+            .AddHoldConditionTwoWay("RightBottom", [this]() { return AstrumKeyBinder::IsKeyPressed("Down"); });
+        graph->MakeBuilder("Up")
+            .SetCallback([this](auto status) { if (status > 0) SetMoveTarget(0, 200); })
+            .AddHoldConditionTwoWay("LeftTop", [this]() { return AstrumKeyBinder::IsKeyPressed("Left"); })
+            .AddHoldConditionTwoWay("RightTop", [this]() { return AstrumKeyBinder::IsKeyPressed("Right"); });
+        graph->MakeBuilder("Down")
+            .SetCallback([this](auto status) { if (status > 0) SetMoveTarget(0, -200); })
+            .AddHoldConditionTwoWay("LeftBottom", [this]() { return AstrumKeyBinder::IsKeyPressed("Left"); })
+            .AddHoldConditionTwoWay("RightBottom", [this]() { return AstrumKeyBinder::IsKeyPressed("Right"); });
 
         AddComponent(AstrumStateComponent::MakeShared("Idle", graph));
     }

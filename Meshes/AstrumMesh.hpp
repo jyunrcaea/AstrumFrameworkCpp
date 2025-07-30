@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <vector>
 #include <cstdint>
 #include <memory>
@@ -8,7 +8,7 @@
 #include "../Graphics/IAstrumRenderable.hpp"
 #include "../Singletons/AstrumRenderer.hpp"
 #include "../AstrumException.hpp"
-#include "../Meshes/AstrumVertexColor.hpp"
+#include "../Units/AstrumVertexColor.hpp"
 
 template <typename VertexType>
 struct AstrumMeshDescription {
