@@ -291,7 +291,6 @@
     <ClInclude Include="AstrumObservedVector3.hpp" />
     <ClInclude Include="AstrumObservedVector4.hpp" />
     <ClInclude Include="IAstrumStateGraph.hpp" />
-    <ClInclude Include="MainScene.hpp" />
     <ClInclude Include="AstrumSingleton.hpp" />
     <ClInclude Include="TestScene.hpp" />
     <ClInclude Include="TestShapeScene.hpp" />
