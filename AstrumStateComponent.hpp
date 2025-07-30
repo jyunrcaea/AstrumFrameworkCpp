@@ -2,17 +2,19 @@
 #include "AstrumComponent.hpp"
 #include "AstrumStateGraph.hpp"
 
-// to do : not implement yet.
+// to do : not tested yet.
 class AstrumStateComponent : public AstrumComponent
 {
 public:
-	AstrumStateComponent() {}
-	AstrumStateComponent(const std::shared_ptr<AstrumStateGraph>& graph) : statusGraph(graph) {}
+	AstrumStateComponent(const std::string& starting);
+	AstrumStateComponent(const std::string& starting, const std::shared_ptr<AstrumStateGraph>& graph);
 
-	virtual void Prepare() override;
 	virtual void Update() override;
-	virtual void Release() override;
 
+	void SetStateGraph(const std::string& starting, const std::shared_ptr<AstrumStateGraph>& graph);
 private:
-	std::shared_ptr<AstrumStateGraph> statusGraph = nullptr;
+	std::string state;
+	std::shared_ptr<AstrumStateGraph> stateGraph = nullptr;
+
+	bool UpdateState();
 };

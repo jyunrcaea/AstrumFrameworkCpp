@@ -289,7 +289,6 @@
     <ClInclude Include="AstrumObservedVector4.hpp" />
     <ClInclude Include="MainScene.hpp" />
     <ClInclude Include="AstrumSingleton.hpp" />
-    <ClInclude Include="Program.hpp" />
     <ClInclude Include="TestScene.hpp" />
     <ClInclude Include="TestShapeScene.hpp" />
   </ItemGroup>

@@ -32,5 +32,6 @@ public:
     static inline void Initialize(const std::wstring& title = L"Astrum Framework", unsigned int width = 1280, unsigned int height = 720) { AstrumFrameworkSingleton::Instance().Initialize(title, width, height); }
     static inline int Run() { return AstrumFrameworkSingleton::Instance().Run(); }
     static inline void Stop() { AstrumFrameworkSingleton::Instance().Stop(); }
-    static inline std::shared_ptr<AstrumGroupObject>& RootObject() { return AstrumFrameworkSingleton::Instance().RootObject; }
+    static inline std::shared_ptr<AstrumGroupObject> GetRootObject() { return AstrumFrameworkSingleton::Instance().RootObject; }
+    static inline void SetRootObject(const std::shared_ptr<AstrumGroupObject>& obj) { AstrumFrameworkSingleton::Instance().RootObject = obj; }
 };

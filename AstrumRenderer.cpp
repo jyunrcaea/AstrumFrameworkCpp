@@ -1,4 +1,5 @@
 ﻿#include "AstrumRenderer.hpp"
+#include "AstrumShaderSetup.hpp"
 
 void AstrumRenderer::Initialize(uint16_t width, uint16_t height, bool windowMode) {
     UINT flags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
@@ -120,6 +121,9 @@ void AstrumRenderer::Initialize(uint16_t width, uint16_t height, bool windowMode
 
     AstrumTextureSampler::Instance().Initialize();
     AstrumTextureSampler::Instance().SetSampler(AstrumTextureSampleType_Linear);
+
+    CreateAndSetDefaultShapePipeline();
+    CreateAndSetDefaultMaterialPipeline();
 }
 
 void AstrumRenderer::Rendering() {
@@ -165,4 +169,23 @@ void AstrumRenderer::Dispose() {
 
 ID3D11Device* AstrumRenderer::GetDevice() const { return device.Get(); }
 ID3D11DeviceContext* AstrumRenderer::GetContext() const { return context.Get(); }
+
+void AstrumRenderer::CreateAndSetDefaultShapePipeline() {
+    auto shapePipeline = AstrumShaderSetup::MakeShared();
+    shapePipeline->VertexShader = AstrumVertexShader::MakeShared(L"./Shaders/ColorMesh.fx", "ColorMeshVS");
+    shapePipeline->PixelShader = AstrumPixelShader::MakeShared(L"./Shaders/ColorMesh.fx", "ColorMeshPS");
+    shapePipeline->AddInputLayoutDescription("POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0);
+    shapePipeline->AddInputLayoutDescription("COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+    AstrumRenderer::Instance().DefaultShapeShaderPipeline = shapePipeline;
+}
+
+void AstrumRenderer::CreateAndSetDefaultMaterialPipeline() {
+    auto texturePipeline = AstrumShaderSetup::MakeShared();
+    texturePipeline->VertexShader = AstrumVertexShader::MakeShared(L"./Shaders/Mesh.fx", "MeshVS");
+    texturePipeline->PixelShader = AstrumPixelShader::MakeShared(L"./Shaders/Mesh.fx", "DefaultMaterialPS");
+    texturePipeline->AddInputLayoutDescription("POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0);
+    texturePipeline->AddInputLayoutDescription("TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0);
+    AstrumRenderer::Instance().DefaultTextureShaderPipeline = texturePipeline;
+}
+
 uint32_t AstrumRenderer::SampleCount() const { return sampleCount; }
