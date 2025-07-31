@@ -36,13 +36,7 @@ AstrumSound::AstrumSound(const std::filesystem::path& soundFilePath, bool loop, 
 	sound.reset(soundPtr);
 }
 
-AstrumSound::~AstrumSound()
-{
-	if (sound) {
-		sound->release();
-		sound = nullptr;
-	}
-}
+AstrumSound::~AstrumSound() {/* sound is managed by unique_ptr. */ }
 
 void AstrumSound::Play()
 {
