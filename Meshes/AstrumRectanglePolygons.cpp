@@ -35,5 +35,14 @@ void AstrumRectanglePolygons::SetColor(const AstrumColor& color) {
     SetColor(color, color, color, color);
 }
 void AstrumRectanglePolygons::SetColor(const AstrumColor& leftTop, const AstrumColor& rightTop, const AstrumColor& leftBottom, const AstrumColor& rightBottom) {
-
+    vertices[0].Color = leftTop;
+    vertices[1].Color = rightTop;
+    vertices[2].Color = leftBottom;
+    vertices[3].Color = rightBottom;
+    UpdateVertexBuffer();
 }
+
+AstrumColor AstrumRectanglePolygons::GetLeftTopColor() const { return static_cast<AstrumColor>(vertices[0].Color); }
+AstrumColor AstrumRectanglePolygons::GetRightTopColor() const { return static_cast<AstrumColor>(vertices[1].Color); }
+AstrumColor AstrumRectanglePolygons::GetLeftBottomColor() const { return static_cast<AstrumColor>(vertices[2].Color); }
+AstrumColor AstrumRectanglePolygons::GetRightBottomColor() const { return static_cast<AstrumColor>(vertices[3].Color); }

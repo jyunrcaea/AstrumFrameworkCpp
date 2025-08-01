@@ -16,6 +16,8 @@ public:
     std::shared_ptr<AstrumRectanglePolygons> GetRectanglePolygons() const;
     void SetRectanglePolygons(const std::shared_ptr<AstrumRectanglePolygons>& rectanglePolygon);
 
+    void SetColor(const AstrumColor& color);
+    void SetColor(const AstrumColor& leftTop, const AstrumColor& rightTop, const AstrumColor& leftBottom, const AstrumColor& rightBottom);
 private:
     std::shared_ptr<AstrumRectanglePolygons> rectanglePolygon = nullptr;
 

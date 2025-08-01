@@ -7,7 +7,6 @@
 #include <dinput.h>
 #include "AstrumSingleton.hpp"
 
-
 class AstrumKeyBinderSingleton : public AstrumSingleton<AstrumKeyBinderSingleton>
 {
 	friend class AstrumSingleton<AstrumKeyBinderSingleton>;

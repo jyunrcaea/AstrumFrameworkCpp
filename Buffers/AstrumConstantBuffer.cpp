@@ -30,8 +30,13 @@ void AstrumConstantBuffer::Update(std::span<const std::byte> data) {
     auto* context = AstrumRenderer::Instance().GetContext();
 
     D3D11_MAPPED_SUBRESOURCE mapped{};
-    if (FAILED(context->Map(buffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped)))
+    if (FAILED(context->Map(buffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped))) {
+#if _DEBUG
         throw AstrumException("Failed to map constant buffer.");
+#else
+        std::cout << "[ERROR] Failed to map constant buffer." << std::endl;
+#endif
+    }
 
     std::memcpy(mapped.pData, data.data(), bufferSize);
     context->Unmap(buffer.Get(), 0);

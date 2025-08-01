@@ -29,25 +29,25 @@ public:
         graph->AddStateName("RightTop", [this](auto status) { if (status > 0) SetMoveTarget(200, 200); });
         graph->AddStateName("LeftBottom", [this](auto status) { if (status > 0) SetMoveTarget(-200, -200); });
         graph->AddStateName("RightBottom", [this](auto status) { if (status > 0) SetMoveTarget(200, -200); });
-        graph->MakeBuilder("Idle")
+        graph->MakeStateBuilder("Idle")
             .SetCallback([this](auto status) { if (status > 0) SetMoveTarget(0, 0); })
             .AddHoldConditionTwoWay("Up", [this]() { return AstrumKeyBinder::IsKeyPressed("Up"); })
             .AddHoldConditionTwoWay("Down", [this]() { return AstrumKeyBinder::IsKeyPressed("Down"); })
             .AddHoldConditionTwoWay("Left", [this]() { return AstrumKeyBinder::IsKeyPressed("Left"); })
             .AddHoldConditionTwoWay("Right", [this]() { return AstrumKeyBinder::IsKeyPressed("Right"); });
-        graph->MakeBuilder("Left")
+        graph->MakeStateBuilder("Left")
             .SetCallback([this](auto status) { if (status > 0) SetMoveTarget(-200, 0); })
             .AddHoldConditionTwoWay("LeftTop", [this]() { return AstrumKeyBinder::IsKeyPressed("Up"); })
             .AddHoldConditionTwoWay("LeftBottom", [this]() { return AstrumKeyBinder::IsKeyPressed("Down"); });
-        graph->MakeBuilder("Right")
+        graph->MakeStateBuilder("Right")
             .SetCallback([this](auto status) { if (status > 0) SetMoveTarget(200, 0); })
             .AddHoldConditionTwoWay("RightTop", [this]() { return AstrumKeyBinder::IsKeyPressed("Up"); })
             .AddHoldConditionTwoWay("RightBottom", [this]() { return AstrumKeyBinder::IsKeyPressed("Down"); });
-        graph->MakeBuilder("Up")
+        graph->MakeStateBuilder("Up")
             .SetCallback([this](auto status) { if (status > 0) SetMoveTarget(0, 200); })
             .AddHoldConditionTwoWay("LeftTop", [this]() { return AstrumKeyBinder::IsKeyPressed("Left"); })
             .AddHoldConditionTwoWay("RightTop", [this]() { return AstrumKeyBinder::IsKeyPressed("Right"); });
-        graph->MakeBuilder("Down")
+        graph->MakeStateBuilder("Down")
             .SetCallback([this](auto status) { if (status > 0) SetMoveTarget(0, -200); })
             .AddHoldConditionTwoWay("LeftBottom", [this]() { return AstrumKeyBinder::IsKeyPressed("Left"); })
             .AddHoldConditionTwoWay("RightBottom", [this]() { return AstrumKeyBinder::IsKeyPressed("Right"); });
@@ -66,7 +66,9 @@ private:
 
 class MyRectCursorObject : public AstrumRectangleObject {
 public:
-    MyRectCursorObject() : AstrumRectangleObject(50, 50, AstrumColor::SkyBlue) { }
+    MyRectCursorObject() : AstrumRectangleObject(50, 50, AstrumColor::SkyBlue) {
+        Position.SetZ(20);
+    }
 
     virtual void Update() override {
         AstrumVector2 halfSize{
@@ -76,6 +78,52 @@ public:
         Position.Reset(AstrumDirectInput::GetMousePosition() - halfSize);
         AstrumRectangleObject::Update();
     }
+};
+
+class MyKeyStatusGroupObject : public AstrumGroupObject
+{
+public:
+    MyKeyStatusGroupObject() {
+        for (auto* key : { &wKey, &aKey, &sKey, &dKey }) {
+            *key = AstrumRectangleObject::MakeShared(10, 10, AstrumColor::DarkGray);
+        }
+
+        wKey->GetPosition().AddY(15);
+        aKey->GetPosition().AddX(-15);
+        d Key->GetPosition().AddX(15);
+
+        AddObjects({ wKey, sKey, aKey, dKey });
+        Position.Reset(
+            AstrumWindow::GetWidth() * -0.4f,
+            AstrumWindow::GetHeight() * -0.4f,
+            10
+        );
+    }
+
+    virtual void Update() override {
+        if (bool result = AstrumKeyBinder::IsKeyPressed("Up"); wLight != result) {
+            wKey->SetColor(result ? AstrumColor::LightBlue : AstrumColor::DarkGray);
+            wLight = result;
+        }
+        if (bool result = AstrumKeyBinder::IsKeyPressed("Left"); aLight != result) {
+            aKey->SetColor(result ? AstrumColor::LightBlue : AstrumColor::DarkGray);
+            aLight = result;
+        }
+        if (bool result = AstrumKeyBinder::IsKeyPressed("Down"); sLight != result) {
+            sKey->SetColor(result ? AstrumColor::LightBlue : AstrumColor::DarkGray);
+            sLight = result;
+        }
+        if (bool result = AstrumKeyBinder::IsKeyPressed("Right"); dLight != result) {
+            dKey->SetColor(result ? AstrumColor::LightBlue : AstrumColor::DarkGray);
+            dLight = result;
+        }
+
+        AstrumGroupObject::Update();
+    }
+
+private:
+    std::shared_ptr<AstrumRectangleObject> wKey, aKey, sKey, dKey;
+    bool wLight = false, aLight = false, sLight = false, dLight = false;
 };
 
 class Program
@@ -101,6 +149,7 @@ private:
         AstrumFramework::GetRootObject()->AddObjects({
             std::make_shared<MyRectObject>(),
             std::make_shared<MyRectCursorObject>(),
+            std::make_shared<MyKeyStatusGroupObject>(),
         });
         AstrumFramework::Run();
     }

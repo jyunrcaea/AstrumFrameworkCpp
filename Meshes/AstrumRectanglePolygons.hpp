@@ -11,6 +11,11 @@ public:
 	void SetColor(const AstrumColor& color);
 	void SetColor(const AstrumColor& leftTop, const AstrumColor& rightTop, const AstrumColor& leftBottom, const AstrumColor& rightBottom);
 
+	AstrumColor GetLeftTopColor() const;
+	AstrumColor GetRightTopColor() const;
+	AstrumColor GetLeftBottomColor() const;
+	AstrumColor GetRightBottomColor() const;
+
 public:
 	static std::shared_ptr<AstrumRectanglePolygons> MakeShared(float width, float height, const AstrumColor& color) {
 		return std::make_shared<AstrumRectanglePolygons>(width, height, color);
