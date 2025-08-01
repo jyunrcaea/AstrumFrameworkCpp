@@ -7,8 +7,8 @@ namespace {
 		float max = std::numeric_limits<float>::lowest();
 		for (const auto& point : { rect.LeftBottom, rect.RightBottom, rect.RightTop, rect.LeftTop }) {
 			float projection = point.Dot(axis);
-			min = std::min(min, projection);
-			max = std::max(max, projection);
+			min = (std::min)(min, projection);
+			max = (std::max)(max, projection);
 		}
 		return { min, max };
 	}
@@ -20,6 +20,8 @@ namespace {
 		return obb1.second < obb2.first || obb2.second < obb1.first;
 	}
 }
+
+AstrumCollisionSystemSingleton::AstrumCollisionSystemSingleton() {}
 
 void AstrumCollisionSystemSingleton::AddCollider(AstrumColliderComponent* const collider)
 {

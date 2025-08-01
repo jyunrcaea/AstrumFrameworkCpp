@@ -53,6 +53,11 @@ public:
         AddComponent(AstrumStateComponent::MakeShared("Idle", graph));
     }
 
+    virtual void Update() override {
+
+        AstrumRectangleObject::Update();
+    }
+
 private:
     std::shared_ptr<AstrumAnimatorComponent> animator;
     void SetMoveTarget(float x,float y) {

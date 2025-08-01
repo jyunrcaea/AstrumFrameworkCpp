@@ -16,10 +16,9 @@
 using Microsoft::WRL::ComPtr;
 
 class AstrumShaderSetup : public IAstrumShaderSetup {
-    AstrumShaderSetup(const AstrumShaderSetup&) = delete;
-    AstrumShaderSetup(AstrumShaderSetup&&) = delete;
 public:
     AstrumShaderSetup();
+    virtual ~AstrumShaderSetup() override;
 
     std::shared_ptr<AstrumVertexShader> VertexShader;
     std::shared_ptr<AstrumPixelShader> PixelShader;
@@ -36,7 +35,6 @@ public:
         D3D11_INPUT_CLASSIFICATION classification = D3D11_INPUT_PER_VERTEX_DATA,
         UINT instanceDataStepRate = 0);
     void SetShader() override;
-    virtual ~AstrumShaderSetup() override;
 
 private:
     std::vector<D3D11_INPUT_ELEMENT_DESC> inputDescriptions;

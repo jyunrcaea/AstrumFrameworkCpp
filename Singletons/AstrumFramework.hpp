@@ -9,15 +9,17 @@
 class AstrumFrameworkSingleton : public AstrumSingleton<AstrumFrameworkSingleton> {
     friend class AstrumSingleton<AstrumFrameworkSingleton>;
     friend class AstrumFramework;
-public:
+    AstrumFrameworkSingleton();
+
+private:
     bool IsInitialized() const;
     bool IsRunning() const;
     void Initialize(const std::wstring& title = L"Astrum Framework", unsigned int width = 1280, unsigned int height = 720);
     int Run();
     void Stop();
     std::shared_ptr<AstrumGroupObject> RootObject = std::make_shared<AstrumGroupObject>();
+
 private:
-    AstrumFrameworkSingleton();
     bool isRunning = false;
     void Prepare();
     void Update();

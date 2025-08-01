@@ -12,10 +12,20 @@ struct AstrumMousePosition {
     long Y;
 };
 
+enum AstrumMouseButtonType
+{
+    AstrumMouseButtonType_Left = 0,
+    AstrumMouseButtonType_Right,
+    AstrumMouseButtonType_Center,
+    AstrumMouseButtonType_Last,
+};
+
 class AstrumDirectInputSingleton : public AstrumSingleton<AstrumDirectInputSingleton> {
     friend class AstrumSingleton<AstrumDirectInputSingleton>;
     friend class AstrumDirectInput;
 
+    AstrumDirectInputSingleton();
+private:
     bool Initialize();
     void Prepare();
     void Update();
@@ -28,13 +38,15 @@ class AstrumDirectInputSingleton : public AstrumSingleton<AstrumDirectInputSingl
     bool WasKeyReleased(uint8_t vk) const;
 
     AstrumMousePosition GetMousePosition() const;
-    bool IsMouseButtonPressed(uint8_t button) const;
+    bool IsMouseKeyPressed(AstrumMouseButtonType button) const;
     long GetMouseWheelDelta() const;
 
     bool IsEnable() const { return isAcquire; }
     bool IsInitialized() const { return dinput; }
+
+    AstrumVector2 GetMouseMovement() const;
 private:
-    AstrumDirectInputSingleton();
+    void UpdateMousePosition();
     HRESULT SetCooperative(IDirectInputDevice8* dev);
 
     Microsoft::WRL::ComPtr<IDirectInput8> dinput = nullptr;
@@ -45,6 +57,8 @@ private:
     BYTE previousKeyState[256]{};
     DIMOUSESTATE mouseState{};
 
+    AstrumVector2 mouseMovement;
+    AstrumVector2 mousePosition;
     bool isAcquire = false;
 };
 
@@ -64,9 +78,11 @@ public:
     static inline bool WasKeyReleased(uint8_t vk) { return AstrumDirectInputSingleton::Instance().WasKeyReleased(vk); }
 
     static inline AstrumMousePosition GetMousePosition() { return AstrumDirectInputSingleton::Instance().GetMousePosition(); }
-    static inline bool IsMouseButtonPressed(uint8_t button) { return AstrumDirectInputSingleton::Instance().IsMouseButtonPressed(button); }
+    static inline bool IsMouseKeyPressed(AstrumMouseButtonType button) { return AstrumDirectInputSingleton::Instance().IsMouseKeyPressed(button); }
     static inline long GetMouseWheelDelta() { return AstrumDirectInputSingleton::Instance().GetMouseWheelDelta(); }
 
     static inline bool IsEnable() { return AstrumDirectInputSingleton::Instance().IsEnable(); }
     static inline bool IsInitialized() { return AstrumDirectInputSingleton::Instance().IsInitialized(); }
+
+    static inline AstrumVector2 GetMouseMovement() { return AstrumDirectInputSingleton::Instance().GetMouseMovement(); }
 };

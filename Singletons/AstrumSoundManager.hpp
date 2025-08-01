@@ -11,6 +11,7 @@
 class AstrumSoundManagerSingleton : public AstrumSingleton<AstrumSoundManagerSingleton> {
     friend class AstrumSingleton<AstrumSoundManagerSingleton>;
     friend class AstrumSoundManager;
+    AstrumSoundManagerSingleton();
 
     struct FmodSystemDeleter {
         void operator()(FMOD::System* system) const {
@@ -28,8 +29,8 @@ public:
     std::shared_ptr<AstrumChannelGroup> CreateChannelGroup(const std::string& name) const;
     std::shared_ptr<AstrumChannelGroup> GetMasterChannelGroup() const;
     FMOD::System* GetFmodSystem() const;
+
 private:
-    AstrumSoundManagerSingleton();
     std::unique_ptr<FMOD::System, FmodSystemDeleter> system = nullptr;
     FMOD::ChannelGroup* masterChannelGroupPointer = nullptr;
     std::shared_ptr<AstrumChannelGroup> masterChannelGroup = nullptr;

@@ -11,6 +11,9 @@
 class AstrumKeyBinderSingleton : public AstrumSingleton<AstrumKeyBinderSingleton>
 {
 	friend class AstrumSingleton<AstrumKeyBinderSingleton>;
+	friend class AstrumKeyBinder;
+	AstrumKeyBinderSingleton();
+
 	struct KeyBindTag
 	{
 		std::vector<uint8_t> keys;
