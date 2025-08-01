@@ -9,6 +9,7 @@ struct AstrumColor {
     }
 
     operator AstrumVector4() const { return AstrumVector4(Red, Green, Blue, Alpha); }
+    explicit AstrumColor(const AstrumVector4& vec) : Red(vec.X), Green(vec.Y), Blue(vec.Z), Alpha(vec.W) { }
 
     static const AstrumColor White;
     static const AstrumColor Black;

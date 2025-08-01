@@ -21,5 +21,4 @@ public:
     AstrumException(const std::wstring& message) : std::runtime_error(wstr2str(message)) { }
     AstrumException(const int line, const std::string& file, const std::string& message) : std::runtime_error(message +" (Line: " + std::to_string(line) + ", File: {" + file +"})") { }
     AstrumException(const int line, const std::string& file, const std::wstring& message) : AstrumException(message +L" (Line: " + std::to_wstring(line) + L", File: '" + str2wstr(file) +L"')") { }
-    //AstrumException(const int line, const std::string& file, const std::wstring& message, HRESULT hresult) : AstrumException(message + L" (Line: " + std::to_wstring(line) + L", File: '" + str2wstr(file) + L"', HRESULT: "+ std::to_wstring(hresult) + L")") {}
 };

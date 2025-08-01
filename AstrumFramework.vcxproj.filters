@@ -188,6 +188,7 @@
     <ClCompile Include="Objects\IAstrumMaterialObject.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Arcaea\ArcaeaChartParser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Objects\AstrumObject.hpp">
@@ -463,6 +464,10 @@
     <ClInclude Include="Singletons\AstrumSingleton.hpp">
       <Filter>Singletons</Filter>
     </ClInclude>
+    <ClInclude Include="Arcaea\ArcaeaChart.hpp" />
+    <ClInclude Include="Arcaea\ArcaeaChartParser.hpp" />
+    <ClInclude Include="Tests\RectMoving.hpp" />
+    <ClInclude Include="Tests\NoteTest.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Objects">

@@ -1,13 +1,25 @@
 ﻿#pragma once
-#include "../Singletons/AstrumSingleton.hpp"
-#include "../Units/AstrumColor.hpp"
-#include "../AstrumException.hpp"
 #include <string>
 #include <windows.h>
+#include "AstrumSingleton.hpp"
+#include "../Units/AstrumColor.hpp"
+#include "../AstrumException.hpp"
+#include "../Vectors/AstrumVector2.hpp"
+
+struct AstrumWindowClientSize
+{
+    long long Width;
+    long long Height;
+};
 
 class AstrumWindowSingleton : public AstrumSingleton<AstrumWindowSingleton> {
     friend class AstrumSingleton<AstrumWindowSingleton>;
     friend class AstrumWindow;
+    AstrumWindowSingleton();
+
+private:
+    void Initialize(const std::wstring& title, uint16_t width, uint16_t height);
+    void Dispose();
 
     int GetWidth() const;
     int GetHeight() const;
@@ -27,8 +39,7 @@ class AstrumWindowSingleton : public AstrumSingleton<AstrumWindowSingleton> {
     void Minimize() const;
     void Restore() const;
 
-    void Initialize(const std::wstring& title, uint16_t width, uint16_t height);
-    void Dispose();
+    AstrumWindowClientSize GetClientSize() const;
 
     HWND GetHandle() const;
     HINSTANCE GetInstanceHandle() const;
@@ -37,7 +48,6 @@ class AstrumWindowSingleton : public AstrumSingleton<AstrumWindowSingleton> {
     AstrumColor BackgroundColor = AstrumColor::White;
 
 private:
-    AstrumWindowSingleton();
     HWND handle = nullptr;
     HINSTANCE instanceHandle = nullptr;
     std::wstring className;
@@ -51,6 +61,9 @@ private:
 class AstrumWindow {
     AstrumWindow() = delete;
 public:
+    static inline void Initialize(const std::wstring& title, uint16_t width, uint16_t height) { AstrumWindowSingleton::Instance().Initialize(title, width, height); }
+    static inline void Dispose() { AstrumWindowSingleton::Instance().Dispose(); }
+
     static inline int GetWidth() { return AstrumWindowSingleton::Instance().GetWidth(); }
     static inline int GetHeight() { return AstrumWindowSingleton::Instance().GetHeight(); }
     static inline bool IsFullscreen() { return AstrumWindowSingleton::Instance().IsFullscreen(); }
@@ -69,8 +82,7 @@ public:
     static inline void Minimize() { AstrumWindowSingleton::Instance().Minimize(); }
     static inline void Restore() { AstrumWindowSingleton::Instance().Restore(); }
 
-    static inline void Initialize(const std::wstring& title, uint16_t width, uint16_t height) { AstrumWindowSingleton::Instance().Initialize(title, width, height); }
-    static inline void Dispose() { AstrumWindowSingleton::Instance().Dispose(); }
+    static inline AstrumWindowClientSize GetClientSize() { return AstrumWindowSingleton::Instance().GetClientSize(); }
 
     static inline HWND GetHandle() { return AstrumWindowSingleton::Instance().GetHandle(); }
     static inline HINSTANCE GetInstanceHandle() { return AstrumWindowSingleton::Instance().GetInstanceHandle(); }

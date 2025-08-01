@@ -1,6 +1,8 @@
 #include "AstrumKeyBinder.hpp"
 #include "AstrumDirectInput.hpp"
 
+AstrumKeyBinderSingleton::AstrumKeyBinderSingleton() {}
+
 bool AstrumKeyBinderSingleton::AddKeyBind(const std::string& name, uint8_t key) {
 	auto& target = name2key[name];
 	for (auto k : target.keys) {

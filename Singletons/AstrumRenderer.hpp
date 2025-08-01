@@ -12,8 +12,15 @@
 #include "../Units/AstrumColor.hpp"
 #include "../Shaders/IAstrumShaders.hpp"
 #include "../Graphics/AstrumTextureSampler.hpp"
+#include "../Vectors/AstrumVector2.hpp"
 
 using Microsoft::WRL::ComPtr;
+
+struct AstrumResolution
+{
+    unsigned int Width = 0;
+    unsigned int Height = 0;
+};
 
 class AstrumRenderer : public AstrumSingleton<AstrumRenderer> {
     friend class AstrumSingleton<AstrumRenderer>;
@@ -49,7 +56,11 @@ public:
     // 프레임워크가 제공하는 기본 머터리얼 셰이더를 설정합니다.
     void CreateAndSetDefaultMaterialPipeline();
 
+    AstrumResolution GetResolution() const;
+    AstrumVector2 GetRSRate() const;
+
 private:
+    AstrumResolution resolution{};
     UINT sampleCount = 1;
     std::queue<std::shared_ptr<IAstrumRenderable>> renderQueue;
 
