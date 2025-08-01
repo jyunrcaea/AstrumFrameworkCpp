@@ -112,7 +112,7 @@
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;dxguid.lib;dinput8.lib;User32.lib;Gdi32.lib;Ole32.lib;comdlg32.lib;winspool.lib;uuid.lib;odbc32.lib;odbccp32.lib;oleaut32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
@@ -209,6 +209,8 @@
     <ClInclude Include="Arcaea\ArcaeaChartParser.hpp" />
     <ClInclude Include="Meshes\AstrumCirclePolygons.hpp" />
     <ClInclude Include="Objects\IAstrumMaterialObject.hpp" />
+    <ClInclude Include="Tests\NoteTest.hpp" />
+    <ClInclude Include="Tests\RectMoving.hpp" />
     <ClInclude Include="Singletons\AstrumKeyBinder.hpp" />
     <ClInclude Include="Animations\AstrumMovementAnimator.hpp" />
     <ClInclude Include="Meshes\AstrumRectanglePolygons.hpp" />
