@@ -75,7 +75,7 @@ bool AstrumDirectInputSingleton::IsKeyReleased(uint8_t vk) const { return (keySt
 bool AstrumDirectInputSingleton::WasKeyPressed(uint8_t vk) const { return (previousKeyState[vk] & 0x80) != 0 && (keyState[vk] & 0x80) == 0; }
 bool AstrumDirectInputSingleton::WasKeyReleased(uint8_t vk) const { return (previousKeyState[vk] & 0x80) == 0 && (keyState[vk] & 0x80) != 0; }
 AstrumVector2 AstrumDirectInputSingleton::GetMouseMovement() const { return mouseMovement; }
-AstrumMousePosition AstrumDirectInputSingleton::GetMousePosition() const { return { mouseState.lX, mouseState.lY }; }
+AstrumVector2 AstrumDirectInputSingleton::GetMousePosition() const { return mousePosition; }
 
 bool AstrumDirectInputSingleton::IsMouseKeyPressed(AstrumMouseButtonType button) const {
     if (0 <= button && button < 4) {

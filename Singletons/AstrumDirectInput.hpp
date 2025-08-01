@@ -7,11 +7,6 @@
 #include "AstrumWindow.hpp"
 #include "../AstrumException.hpp"
 
-struct AstrumMousePosition {
-    long X;
-    long Y;
-};
-
 enum AstrumMouseButtonType
 {
     AstrumMouseButtonType_Left = 0,
@@ -37,7 +32,7 @@ private:
     bool WasKeyPressed(uint8_t vk) const;
     bool WasKeyReleased(uint8_t vk) const;
 
-    AstrumMousePosition GetMousePosition() const;
+    AstrumVector2 GetMousePosition() const;
     bool IsMouseKeyPressed(AstrumMouseButtonType button) const;
     long GetMouseWheelDelta() const;
 
@@ -77,7 +72,7 @@ public:
     static inline bool WasKeyPressed(uint8_t vk) { return AstrumDirectInputSingleton::Instance().WasKeyPressed(vk); }
     static inline bool WasKeyReleased(uint8_t vk) { return AstrumDirectInputSingleton::Instance().WasKeyReleased(vk); }
 
-    static inline AstrumMousePosition GetMousePosition() { return AstrumDirectInputSingleton::Instance().GetMousePosition(); }
+    static inline AstrumVector2 GetMousePosition() { return AstrumDirectInputSingleton::Instance().GetMousePosition(); }
     static inline bool IsMouseKeyPressed(AstrumMouseButtonType button) { return AstrumDirectInputSingleton::Instance().IsMouseKeyPressed(button); }
     static inline long GetMouseWheelDelta() { return AstrumDirectInputSingleton::Instance().GetMouseWheelDelta(); }
 

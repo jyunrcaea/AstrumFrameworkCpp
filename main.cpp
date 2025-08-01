@@ -20,6 +20,8 @@ class MyRectObject : public AstrumRectangleObject
 {
 public:
     MyRectObject() : AstrumRectangleObject(200, 200, AstrumColor::Periwinkle) {
+        Position.SetZ(100);
+
         AddComponent(animator = AstrumAnimatorComponent::MakeShared());
 
         auto graph = AstrumStateGraph::MakeShared();
@@ -53,17 +55,26 @@ public:
         AddComponent(AstrumStateComponent::MakeShared("Idle", graph));
     }
 
-    virtual void Update() override {
-
-        AstrumRectangleObject::Update();
-    }
-
 private:
     std::shared_ptr<AstrumAnimatorComponent> animator;
     void SetMoveTarget(float x,float y) {
         auto movement = AstrumMovementAnimator::MakeShared({ x, y }, 0.2f);
         movement->AnimationFunction = AstrumAnimationFunctions::EaseOutQuad;
         animator->ResetAnimator(movement);
+    }
+};
+
+class MyRectCursorObject : public AstrumRectangleObject {
+public:
+    MyRectCursorObject() : AstrumRectangleObject(50, 50, AstrumColor::SkyBlue) { }
+
+    virtual void Update() override {
+        AstrumVector2 halfSize{
+            static_cast<float>(AstrumWindow::GetWidth() * 0.5),
+            static_cast<float>(AstrumWindow::GetHeight() * 0.5)
+        };
+        Position.Reset(AstrumDirectInput::GetMousePosition() - halfSize);
+        AstrumRectangleObject::Update();
     }
 };
 
@@ -87,9 +98,10 @@ private:
     void Main() {
         AstrumFramework::Initialize();
         SetupKeyBinding();
-        AstrumFramework::GetRootObject()->AddObject(
-            std::make_shared<MyRectObject>()
-        );
+        AstrumFramework::GetRootObject()->AddObjects({
+            std::make_shared<MyRectObject>(),
+            std::make_shared<MyRectCursorObject>(),
+        });
         AstrumFramework::Run();
     }
 };
