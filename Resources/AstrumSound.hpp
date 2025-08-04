@@ -35,4 +35,3 @@ public:
 		return std::make_shared<AstrumSound>(soundFilePath, loop, group);
 	}
 };
-

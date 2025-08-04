@@ -112,6 +112,8 @@ void AstrumRenderer::Initialize(uint16_t width, uint16_t height, bool windowMode
     if (FAILED(device->CreateBlendState(&blendDescription, &blendState)))
         throw AstrumException("Failed to create blend state.");
 
+    resolution.Width = width;
+    resolution.Height = height;
     // Viewport
     D3D11_VIEWPORT viewport = {};
     viewport.Width = static_cast<float>(width);
@@ -186,6 +188,18 @@ void AstrumRenderer::CreateAndSetDefaultMaterialPipeline() {
     texturePipeline->AddInputLayoutDescription("POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0);
     texturePipeline->AddInputLayoutDescription("TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0);
     AstrumRenderer::Instance().DefaultTextureShaderPipeline = texturePipeline;
+}
+
+AstrumResolution AstrumRenderer::GetResolution() const {
+    return resolution;
+}
+
+AstrumVector2 AstrumRenderer::GetRSRate() const {
+    auto clientRect = AstrumWindow::GetClientSize();
+    return AstrumVector2{
+        static_cast<float>(static_cast<double>(resolution.Width) / static_cast<double>(clientRect.Width)),
+        static_cast<float>(static_cast<double>(resolution.Height) / static_cast<double>(clientRect.Height))
+     };
 }
 
 uint32_t AstrumRenderer::SampleCount() const { return sampleCount; }

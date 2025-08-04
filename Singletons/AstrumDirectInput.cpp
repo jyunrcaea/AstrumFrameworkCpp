@@ -1,4 +1,5 @@
-﻿#include "../Singletons/AstrumDirectInput.hpp"
+﻿#include "AstrumDirectInput.hpp"
+#include "AstrumRenderer.hpp"
 
 constexpr DWORD DirectInputVersion = 0x0800;
 
@@ -35,6 +36,18 @@ void AstrumDirectInputSingleton::Prepare() {
     if (keyboard) keyboard->Acquire(); //습득하고
     if (mouse) mouse->Acquire();
 	isAcquire = true;
+
+    UpdateMousePosition(); // 첫 프레임의 mouseMovement를 무시하기 위해
+}
+
+void AstrumDirectInputSingleton::Update() {
+    if (!isAcquire) return;
+
+    memcpy(previousKeyState, keyState, sizeof(keyState));
+    if (keyboard) keyboard->GetDeviceState(sizeof(keyState), keyState);
+    if (mouse) mouse->GetDeviceState(sizeof(mouseState), &mouseState);
+
+    UpdateMousePosition();
 }
 
 // 함수 만든이유 : 창 포커스 잃을때 키 입력 안들어오게 할려고
@@ -49,14 +62,6 @@ void AstrumDirectInputSingleton::Release() {
     if (mouse) mouse->Unacquire();
 }
 
-void AstrumDirectInputSingleton::Update() {
-    if (!isAcquire) return;
-
-    memcpy(previousKeyState, keyState, sizeof(keyState));
-    if (keyboard) keyboard->GetDeviceState(sizeof(keyState), keyState);
-    if (mouse) mouse->GetDeviceState(sizeof(mouseState), &mouseState);
-}
-
 void AstrumDirectInputSingleton::Dispose() {
     Release();
 
@@ -65,35 +70,45 @@ void AstrumDirectInputSingleton::Dispose() {
     dinput.Reset();
 }
 
-bool AstrumDirectInputSingleton::IsKeyPressed(uint8_t vk) const {
-    return (keyState[vk] & 0x80) != 0;
-}
+bool AstrumDirectInputSingleton::IsKeyPressed(uint8_t vk) const { return (keyState[vk] & 0x80) != 0; }
+bool AstrumDirectInputSingleton::IsKeyReleased(uint8_t vk) const { return (keyState[vk] & 0x80) == 0; }
+bool AstrumDirectInputSingleton::WasKeyPressed(uint8_t vk) const { return (previousKeyState[vk] & 0x80) != 0 && (keyState[vk] & 0x80) == 0; }
+bool AstrumDirectInputSingleton::WasKeyReleased(uint8_t vk) const { return (previousKeyState[vk] & 0x80) == 0 && (keyState[vk] & 0x80) != 0; }
+AstrumVector2 AstrumDirectInputSingleton::GetMouseMovement() const { return mouseMovement; }
+AstrumVector2 AstrumDirectInputSingleton::GetMousePosition() const { return mousePosition; }
 
-bool AstrumDirectInputSingleton::IsKeyReleased(uint8_t vk) const {
-    return (keyState[vk] & 0x80) == 0;
-}
-
-bool AstrumDirectInputSingleton::WasKeyPressed(uint8_t vk) const {
-    return (previousKeyState[vk] & 0x80) != 0 && (keyState[vk] & 0x80) == 0;
-}
-
-bool AstrumDirectInputSingleton::WasKeyReleased(uint8_t vk) const {
-    return (previousKeyState[vk] & 0x80) == 0 && (keyState[vk] & 0x80) != 0;
-}
-
-AstrumMousePosition AstrumDirectInputSingleton::GetMousePosition() const {
-    return { mouseState.lX, mouseState.lY };
-}
-
-bool AstrumDirectInputSingleton::IsMouseButtonPressed(uint8_t button) const {
-    if (button < 4) {
-        return (mouseState.rgbButtons[button] & 0x80) != 0;
+bool AstrumDirectInputSingleton::IsMouseKeyPressed(AstrumMouseButtonType button) const {
+    if (0 <= button && button < 4) {
+        return (mouseState.rgbButtons[static_cast<int>(button)] & 0x80) != 0;
     }
-    return false; // Handle invalid button index
+    return false; // out of index
 }
 
 long AstrumDirectInputSingleton::GetMouseWheelDelta() const {
     return mouseState.lZ;
+}
+
+void AstrumDirectInputSingleton::UpdateMousePosition() {
+    POINT point;
+    GetCursorPos(&point);
+    ScreenToClient(AstrumWindow::GetHandle(), &point);
+
+    auto resolution = AstrumRenderer::Instance().GetResolution();
+    AstrumVector2 newMousePos{ 
+        static_cast<float>(point.x),
+        static_cast<float>(point.y)
+    };
+    newMousePos *= AstrumRenderer::Instance().GetRSRate();
+    newMousePos.Y = resolution.Height - newMousePos.Y;
+
+    mouseMovement = newMousePos - mousePosition;
+    mousePosition = newMousePos;
+
+    // How to?
+    //FVector3D worldPos = scene->GetCameraManager()->GetCameraWorldPos();
+
+    //MouseWorldPos.x = worldPos.x + MousePos.x - rs.Width * 0.5;
+    //MouseWorldPos.y = worldPos.y + MousePos.y - rs.Height * 0.5;
 }
 
 HRESULT AstrumDirectInputSingleton::SetCooperative(IDirectInputDevice8* dev) {

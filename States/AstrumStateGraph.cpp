@@ -50,6 +50,6 @@ bool AstrumStateGraph::InvokeCallback(const std::string& name, AstrumStateType t
 	return true;
 }
 
-AstrumStateBuilder AstrumStateGraph::MakeBuilder(const std::string& name) {
+AstrumStateBuilder AstrumStateGraph::MakeStateBuilder(const std::string& name) {
 	return AstrumStateBuilder(static_cast<IAstrumStateGraph*>(this), name);
 }

@@ -22,7 +22,7 @@ public:
 	virtual const std::vector<ConditionLine>& GetLines(const std::string from) override;
 	virtual bool InvokeCallback(const std::string& name, AstrumStateType type) override;
 
-	AstrumStateBuilder MakeBuilder(const std::string& name);
+	AstrumStateBuilder MakeStateBuilder(const std::string& name);
 private:
 	std::unordered_map<std::string,std::vector<ConditionLine>> stateGraph;
 	std::unordered_map<std::string, std::function<void(AstrumStateType)>> stateCallback;
