@@ -8,17 +8,9 @@ AstrumTransformObject::AstrumTransformObject()
 
 }
 
-AstrumObservedVector3& AstrumTransformObject::GetPosition() {
-	// TODO: 여기에 return 문을 삽입합니다.
-}
-
-AstrumObservedVector3& AstrumTransformObject::GetRotation() {
-	// TODO: 여기에 return 문을 삽입합니다.
-}
-
-AstrumObservedVector3& AstrumTransformObject::GetScale() {
-	// TODO: 여기에 return 문을 삽입합니다.
-}
+AstrumObservedVector3& AstrumTransformObject::GetPosition() { return Position; }
+AstrumObservedVector3& AstrumTransformObject::GetRotation() { return Rotation; }
+AstrumObservedVector3& AstrumTransformObject::GetScale() { return Scale; }
 
 const AstrumVector3& AstrumTransformObject::GetAbsolutePosition() {
 	if (absoluteTransformLazy & AstrumLazyPropTransformType_Position) {

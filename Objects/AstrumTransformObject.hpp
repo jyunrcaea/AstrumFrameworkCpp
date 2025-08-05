@@ -42,8 +42,10 @@ private:
     // to do : make lazy prop for absolute transform.
     AstrumLazyPropTransformType absoluteTransformLazy = AstrumLazyPropTransformType::AstrumLazyPropTransformType_None;
 
+    bool Visible = true;
+    bool isPrepared = false;
+
     void CallbackObservedPosition();
     void CallbackObservedRotation();
     void CallbackObservedScale();
 };
-
