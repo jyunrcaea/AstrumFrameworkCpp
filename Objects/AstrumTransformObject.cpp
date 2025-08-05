@@ -1,9 +1,9 @@
 #include "AstrumTransformObject.hpp"
 
 AstrumTransformObject::AstrumTransformObject()
-	: Position(0,0,0, std::bind(CallbackObservedPosition, this)),
-	Rotation(0,0,0, std::bind(CallbackObservedRotation, this)),
-	Scale(1,1,1, std::bind(CallbackObservedScale, this))
+	: Position(0,0,0, std::bind(&AstrumTransformObject::CallbackObservedPosition, this)),
+	Rotation(0,0,0, std::bind(&AstrumTransformObject::CallbackObservedRotation, this)),
+	Scale(1,1,1, std::bind(&AstrumTransformObject::CallbackObservedScale, this))
 {
 
 }

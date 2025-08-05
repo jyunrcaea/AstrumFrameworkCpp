@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "AstrumObject.hpp"
 #include "../Collections/AstrumObjectList.hpp"
 #include "IAstrumGroupObject.hpp"
@@ -7,9 +7,9 @@
 class AstrumGroupObject : public virtual AstrumObject, public virtual IAstrumGroupObject {
 public:
     virtual bool ClearParent(IAstrumGroupObject* const p) override { return AstrumObject::ClearParent(p); }
-    virtual const AstrumVector3& GetAbsolutePosition() const override { return AstrumObject::GetAbsolutePosition(); }
-    virtual const AstrumVector3& GetAbsoluteRotation() const override { return AstrumObject::GetAbsoluteRotation(); }
-    virtual const AstrumVector3& GetAbsoluteScale() const override { return AstrumObject::GetAbsoluteScale(); }
+    virtual const AstrumVector3& GetAbsolutePosition() override { return AstrumObject::GetAbsolutePosition(); }
+    virtual const AstrumVector3& GetAbsoluteRotation() override { return AstrumObject::GetAbsoluteRotation(); }
+    virtual const AstrumVector3& GetAbsoluteScale() override { return AstrumObject::GetAbsoluteScale(); }
     virtual IAstrumComponentList& GetComponents() override { return AstrumObject::GetComponents(); }
     virtual IAstrumGroupObject* GetParent() const override { return AstrumObject::GetParent(); }
     virtual AstrumObservedVector3& GetPosition() override { return AstrumObject::GetPosition(); }

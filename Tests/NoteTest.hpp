@@ -61,7 +61,7 @@ class NoteObject : public AstrumRectangleObject
 public:
 	NoteObject(const Arcaea::ArcaeaNoteData& data) : AstrumRectangleObject(200, 40, AstrumColor::SkyBlue) {
 		Position.SetX(static_cast<float>(-500 + data.Data[1] * 200));
-		Position.SetY(20 + 25.f);
+		Position.SetY(data.GetStartOffset() + 20);
 	}
 };
 
@@ -155,21 +155,24 @@ class NoteGroupObject : public AstrumGroupObject
 {
 public:
 	NoteGroupObject() {
-		ChartManager::Instance().Setup(L"./Assets/songs/bookmaker/2.aff");
+		ChartManager::Instance().Setup(L"./Assets/songs/goodtek/2.aff");
+		Position.SetY(2000.f);
 	}
 
 	virtual void Prepare() override {
 		for (const auto& data : ChartManager::Instance().GetNoteData()) {
 			GenerateNote(data);
 		}
-		//ChartManager::Instance().Play(L"./Assets/songs/bookmaker/base.ogg");
+		//ChartManager::Instance().Play(L"./Assets/songs/goodtek/base.ogg");
 
 		AstrumGroupObject::Prepare();
 	}
 
 	virtual void Update() override {
-		if (AstrumDirectInput::IsKeyPressed(DIK_W)) Position.AddY(-10000 * AstrumChrono::GetDeltaTime());
-		if (AstrumDirectInput::IsKeyPressed(DIK_S)) Position.AddY(10000 * AstrumChrono::GetDeltaTime());
+		//if (AstrumDirectInput::IsKeyPressed(DIK_W)) Position.AddY(-10000 * AstrumChrono::GetDeltaTime());
+		//if (AstrumDirectInput::IsKeyPressed(DIK_S)) Position.AddY(10000 * AstrumChrono::GetDeltaTime());
+
+		Position.AddY(AstrumChrono::GetDeltaTime() * -1000.f);
 
 		AstrumGroupObject::Update();
 	}
@@ -230,7 +233,7 @@ private:
 			default:
 				break;
 			}
-			std::cout << "Data:";
+			std::cout << ", Data:";
 			for (auto v : info.Data) {
 				std::cout << ' ' << v;
 			}
