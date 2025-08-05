@@ -1,11 +1,15 @@
 ﻿#pragma once
 #include "IAstrumObject.hpp"
+#include "IAstrumGroupObject.hpp"
 #include "../Vectors/AstrumVector3.hpp"
 #include "../Vectors/AstrumObservedVector3.hpp"
 #include "../Units/AstrumQuaternion.hpp"
+#include "../Collections/AstrumComponentList.hpp"
+
 
 //게임 객체의 기본 단위.
-class AstrumObject : public IAstrumObject {
+class AstrumObject : public virtual IAstrumObject
+{
 public:
     // AstrumObject를 생성합니다. Position 및 Rotation은 기본값 (0,0,0)이며, Scale은 기본값으로 (1,1,1)이 할당되어 있습니다.
     AstrumObject();
@@ -23,15 +27,15 @@ public:
     AstrumObservedVector3& GetRotation() override;
     AstrumObservedVector3& GetScale() override;
 
-    virtual const AstrumVector3& GetAbsolutePosition() const override;
-    virtual const AstrumVector3& GetAbsoluteRotation() const override;
-    virtual const AstrumVector3& GetAbsoluteScale() const override;
+    virtual const AstrumVector3& GetAbsolutePosition() override;
+    virtual const AstrumVector3& GetAbsoluteRotation() override;
+    virtual const AstrumVector3& GetAbsoluteScale() override;
 
-    IAstrumObject* GetParent() const override;
-    virtual bool SetParent(IAstrumObject* const p) override;
-    virtual bool ClearParent(IAstrumObject* const p) override;
+    IAstrumGroupObject* GetParent() const override;
+    virtual bool SetParent(IAstrumGroupObject* const p) override;
+    virtual bool ClearParent(IAstrumGroupObject* const p) override;
 
-    virtual AstrumComponentList& GetComponents() override;
+    virtual IAstrumComponentList& GetComponents() override;
 protected:
     // 객체의 좌표입니다. (전체를 재할당 할경우 Absolute 값이 갱신되지 않습니다. Reset() 맴버 함수를 사용해보세요.)
     AstrumObservedVector3 Position;
@@ -43,7 +47,7 @@ protected:
     virtual void UpdateAbsolutePosition() override;
     virtual void UpdateAbsoluteRotation() override;
     virtual void UpdateAbsoluteScale() override;
-    
+
     AstrumComponentList Components;
 
     void SetAbsolutePosition(const AstrumVector3& vec);
@@ -52,7 +56,7 @@ protected:
 
 public:
     bool Visible = true;
-    
+
     virtual bool IsPrepared() const override;
 private:
     bool isPrepared = false;
@@ -62,5 +66,5 @@ private:
     AstrumVector3 absoluteRotation;
     AstrumVector3 absoluteScale;
 
-    IAstrumObject* parent = nullptr; // Parent reference me by shared_ptr, and parent did allocate it. so do not use shared_ptr.
+    IAstrumGroupObject* parent = nullptr; // Parent reference me by shared_ptr, and parent did allocate it. so do not use shared_ptr.
 };

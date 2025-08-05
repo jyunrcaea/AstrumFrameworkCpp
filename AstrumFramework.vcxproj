@@ -141,6 +141,7 @@
     <ClCompile Include="Components\AstrumAnimatorComponent.cpp" />
     <ClCompile Include="Graphics\AstrumCamera.cpp" />
     <ClCompile Include="Arcaea\ArcaeaChartParser.cpp" />
+    <ClCompile Include="Objects\AstrumTransformObject.cpp" />
     <ClCompile Include="Objects\IAstrumMaterialObject.cpp" />
     <ClCompile Include="Resources\AstrumChannelGroup.cpp" />
     <ClCompile Include="Singletons\AstrumChrono.cpp" />
@@ -208,6 +209,7 @@
     <ClInclude Include="Components\AstrumCircleColliderComponent.hpp" />
     <ClInclude Include="Arcaea\ArcaeaChartParser.hpp" />
     <ClInclude Include="Meshes\AstrumCirclePolygons.hpp" />
+    <ClInclude Include="Objects\AstrumTransformObject.hpp" />
     <ClInclude Include="Objects\IAstrumMaterialObject.hpp" />
     <ClInclude Include="Tests\NoteTest.hpp" />
     <ClInclude Include="Tests\RectMoving.hpp" />

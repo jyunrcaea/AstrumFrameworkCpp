@@ -9,18 +9,23 @@ namespace Arcaea {
 		ArcaeaNoteType_Tap,
 		ArcaeaNoteType_Arc,
 		ArcaeaNoteType_Hold,
-		ArcaeaNoteType_Trace
+		ArcaeaNoteType_Trace,
+		ArcaeaNoteType_ArcTap,
 	};
 
 	struct ArcaeaNoteData
 	{
-		ArcaeaNoteType NoteType;
-		std::vector<double> Data;
+		ArcaeaNoteType NoteType = ArcaeaNoteType::ArcaeaNoteType_Unknown;
+		std::vector<double> Data{};
+
+		float GetStartOffset() const {
+			return static_cast<float>(Data[0]);
+		}
 	};
 
 	struct ArcaeaChart
 	{
-		int64 AudioOffset;
-		std::vector<ArcaeaNoteData> Notes;
+		int64 AudioOffset = 0;
+		std::vector<ArcaeaNoteData> Notes{};
 	};
 }

@@ -36,7 +36,7 @@ void AstrumGroupObject::Draw() {
     }
 }
 
-AstrumObjectList& AstrumGroupObject::GetObjectList() { return objects; }
+IAstrumObjectList& AstrumGroupObject::GetObjectList() { return objects; }
 
 // 이게 AstrumGroupObject의 절대 위치를 업데이트하는 함수입니다.
 void AstrumGroupObject::UpdateAbsolutePosition()

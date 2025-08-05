@@ -35,9 +35,9 @@ AstrumObservedVector3& AstrumObject::GetPosition() { return Position; }
 AstrumObservedVector3& AstrumObject::GetRotation() { return Rotation; }
 AstrumObservedVector3& AstrumObject::GetScale() { return Scale; }
 
-const AstrumVector3& AstrumObject::GetAbsolutePosition() const { return absolutePosition; }
-const AstrumVector3& AstrumObject::GetAbsoluteRotation() const { return absoluteRotation; }
-const AstrumVector3& AstrumObject::GetAbsoluteScale() const { return absoluteScale; }
+const AstrumVector3& AstrumObject::GetAbsolutePosition() { return absolutePosition; }
+const AstrumVector3& AstrumObject::GetAbsoluteRotation() { return absoluteRotation; }
+const AstrumVector3& AstrumObject::GetAbsoluteScale() { return absoluteScale; }
 
 void AstrumObject::SetAbsolutePosition(const AstrumVector3& vec) { absolutePosition = vec; }
 void AstrumObject::SetAbsoluteRotation(const AstrumVector3& vec) { absoluteRotation = vec; }
@@ -45,21 +45,21 @@ void AstrumObject::SetAbsoluteScale(const AstrumVector3& vec) { absoluteScale = 
 
 bool AstrumObject::IsPrepared() const { return this->isPrepared; }
 
-IAstrumObject* AstrumObject::GetParent() const { return parent; }
+IAstrumGroupObject* AstrumObject::GetParent() const { return parent; }
 
-bool AstrumObject::SetParent(IAstrumObject* const p) {
+bool AstrumObject::SetParent(IAstrumGroupObject* const p) {
     if (nullptr != parent) return false;
     parent = p;
     return true;
 }
 
-bool AstrumObject::ClearParent(IAstrumObject* const p) {
+bool AstrumObject::ClearParent(IAstrumGroupObject* const p) {
     if (parent != p) return false;
     parent = nullptr;
     return true;
 }
 
-AstrumComponentList& AstrumObject::GetComponents() { return Components; }
+IAstrumComponentList& AstrumObject::GetComponents() { return Components; }
 
 void AstrumObject::UpdateAbsolutePosition()
 {

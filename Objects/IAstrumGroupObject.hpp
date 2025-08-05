@@ -1,15 +1,23 @@
 ﻿#pragma once
-#include "../Collections/AstrumObjectList.hpp"
 #include <memory>
+#include "IAstrumObject.hpp"
+#include "../Collections/IAstrumObjectList.hpp"
 
-class IAstrumGroupObject {
+struct IAstrumObjectList;
+
+struct IAstrumGroupObject : public virtual IAstrumObject {
 public:
-	virtual AstrumObjectList& GetObjectList() abstract;
+    virtual ~IAstrumGroupObject() = default;
+	virtual IAstrumObjectList& GetObjectList() = 0;
 
-    inline bool AddObject(std::shared_ptr<IAstrumObject> const obj) { return GetObjectList().Add(obj); }
-    inline void AddObjects(const std::initializer_list<std::shared_ptr<IAstrumObject>>& objects) { GetObjectList().AddRange(objects); }
-    inline bool RemoveObject(std::shared_ptr<IAstrumObject> const obj) { return GetObjectList().Remove(obj); }
+    inline bool AddObject(const std::shared_ptr<IAstrumObject>& obj) { return GetObjectList().Add(obj); }
+    inline void AddObjects(const std::initializer_list<std::shared_ptr<IAstrumObject>>& objects) { 
+        for (const auto& obj : objects) {
+            GetObjectList().Add(obj);
+        }
+    }
+    inline bool RemoveObject(const std::shared_ptr<IAstrumObject>& obj) { return GetObjectList().Remove(obj); }
     inline void ClearAllObjects() { GetObjectList().Clear(); }
-    inline bool IsContainsObject(std::shared_ptr<IAstrumObject> const obj) { return GetObjectList().Contains(obj); }
+    inline bool IsContainsObject(const std::shared_ptr<IAstrumObject>& obj) { return GetObjectList().Contains(obj); }
     inline int GetObjectCount() { return GetObjectList().Count(); }
 };
