@@ -1,5 +1,6 @@
 ﻿#include "AstrumCollisionSystem.hpp"
 #include "../Vectors/AstrumVector2.hpp"
+#include "../AstrumException.hpp"
 
 namespace {
 	std::pair<float, float> GetProjection(const AstrumVector2& axis, const AstrumRotatedRect& rect) {

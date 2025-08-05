@@ -46,11 +46,7 @@ Arcaea::ArcaeaChart Arcaea::ArcaeaChartParser::ToParse() {
 
 		if (noteType == "arc") {
 			std::vector<double> vec(7);
-			double startX, endX;
 			std::string str;
-			double startY, endY;
-			short color;
-			bool trace;
 
 			for (int i = 0; i < 4; i++) iss >> vec[i];
 			iss >> str;

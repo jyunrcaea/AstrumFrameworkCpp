@@ -45,21 +45,21 @@ void AstrumObject::SetAbsoluteScale(const AstrumVector3& vec) { absoluteScale = 
 
 bool AstrumObject::IsPrepared() const { return this->isPrepared; }
 
-IAstrumObject* AstrumObject::GetParent() const { return parent; }
+IAstrumGroupObject* AstrumObject::GetParent() const { return parent; }
 
-bool AstrumObject::SetParent(IAstrumObject* const p) {
+bool AstrumObject::SetParent(IAstrumGroupObject* const p) {
     if (nullptr != parent) return false;
     parent = p;
     return true;
 }
 
-bool AstrumObject::ClearParent(IAstrumObject* const p) {
+bool AstrumObject::ClearParent(IAstrumGroupObject* const p) {
     if (parent != p) return false;
     parent = nullptr;
     return true;
 }
 
-AstrumComponentList& AstrumObject::GetComponents() { return Components; }
+IAstrumComponentList& AstrumObject::GetComponents() { return Components; }
 
 void AstrumObject::UpdateAbsolutePosition()
 {

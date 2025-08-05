@@ -1,12 +1,13 @@
 ﻿#pragma once
+#include <memory>
 #include "../Vectors/AstrumVector3.hpp"
 #include "../Vectors/AstrumObservedVector3.hpp"
-#include "../Collections/AstrumComponentList.hpp"
+#include "../Collections/IAstrumComponentList.hpp"
 #include "../Components/IAstrumComponent.hpp"
-#include <memory>
 
 struct IAstrumComponent;
-class AstrumComponentList;
+struct IAstrumComponentList;
+struct IAstrumGroupObject;
 
 struct IAstrumObject : public std::enable_shared_from_this<IAstrumObject> {
     virtual ~IAstrumObject() = default;
@@ -35,11 +36,11 @@ struct IAstrumObject : public std::enable_shared_from_this<IAstrumObject> {
     virtual const AstrumVector3& GetAbsoluteRotation() const = 0;
     virtual const AstrumVector3& GetAbsoluteScale() const = 0;
 
-    virtual IAstrumObject* GetParent() const = 0;
-    virtual bool SetParent(IAstrumObject* const parent) = 0;
-    virtual bool ClearParent(IAstrumObject* const parent) = 0;
+    virtual IAstrumGroupObject* GetParent() const = 0;
+    virtual bool SetParent(IAstrumGroupObject* const parent) = 0;
+    virtual bool ClearParent(IAstrumGroupObject* const parent) = 0;
 
-    virtual AstrumComponentList& GetComponents() = 0;
+    virtual IAstrumComponentList& GetComponents() = 0;
 
     bool AddComponent(std::shared_ptr<struct IAstrumComponent> const component);
     bool RemoveComponent(std::shared_ptr<struct IAstrumComponent> const component);

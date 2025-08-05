@@ -1,8 +1,10 @@
 ﻿#pragma once
-#include "../Objects/IAstrumObject.hpp"
 #include <functional>
 #include <vector>
 #include <memory>
+#include "../Objects/IAstrumObject.hpp"
+
+struct IAstrumObject;
 
 struct IAstrumObjectList {
     virtual ~IAstrumObjectList() = default;
