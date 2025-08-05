@@ -42,21 +42,25 @@ public:
 		return nullptr;
 	}
 
+	const Arcaea::ArcaeaChart& GetChart() {
+		return chart;
+	}
+
 	float GetNoteSpeed() const {
 		return noteSpeed;
 	}
 
 private:
 	Arcaea::ArcaeaChart chart;
-	int nextNoteIndex;
-	double playedTime;
+	int nextNoteIndex = 0;
+	double playedTime = -1.f;
 	float noteSpeed = 1000;
 };
 
 class NoteObject : public AstrumRectangleObject
 {
 public:
-	NoteObject(const Arcaea::ArcaeaNoteData& data) : AstrumRectangleObject(200, 50, AstrumColor::SkyBlue) {
+	NoteObject(const Arcaea::ArcaeaNoteData& data) : AstrumRectangleObject(200, 40, AstrumColor::SkyBlue) {
 		Position.SetX(static_cast<float>(-500 + data.Data[1] * 200));
 		Position.SetY(360 + 25.f);
 	}
@@ -81,7 +85,7 @@ public:
 		SetRectanglePolygons(AstrumRectanglePolygons::MakeShared(
 			200,
 			height,
-			AstrumColor::Periwinkle
+			AstrumColor::LightSeaGreen
 		));
 
 		Position.SetX(static_cast<float>(-500 + data.Data[2] * 200));
@@ -107,21 +111,56 @@ class ArcObject : public AstrumPolygonsObject
 public:
 	ArcObject(const Arcaea::ArcaeaNoteData& data) {
 		height = static_cast<float>(data.Data[1] - data.Data[0]);
-		const float startX = static_cast<float>(400 * data.Data[2]);
-		const float endX = static_cast<float>(400 * data.Data[3]);
+		const float startX = static_cast<float>(-400 + 800 * data.Data[2]) * 0.8f;
+		const float endX = static_cast<float>(-400 + 800 * data.Data[3]) * 0.8f;
 
 		std::vector<AstrumVertexColor> vertices = {
-			AstrumVertexColor({startX - 10, height * 0.5f }, AstrumColor::MintGreen),
-			AstrumVertexColor({startX + 10, height * 0.5f }, AstrumColor::MintGreen),
-			AstrumVertexColor({ endX - 10, height * -0.5f }, AstrumColor::MintGreen),
-			AstrumVertexColor({ endX + 10, height * -0.5f }, AstrumColor::MintGreen),
+			AstrumVertexColor({startX - 15, height * 0.5f }, AstrumColor::MintGreen),
+			AstrumVertexColor({startX + 15, height * 0.5f }, AstrumColor::MintGreen),
+			AstrumVertexColor({ endX - 15, height * -0.5f }, AstrumColor::MintGreen),
+			AstrumVertexColor({ endX + 15, height * -0.5f }, AstrumColor::MintGreen),
 		};
 		SetPolygons(AstrumPolygons::MakeShared(
 			vertices,
 			{0,1,2,1,3,2}
 		));
 
-		Position.SetX(-200);
+		Position.SetY(360 + height / 2.f);
+	}
+
+	virtual void Update() override {
+		Position.AddY(static_cast<float>(-ChartManager::Instance().GetNoteSpeed() * AstrumChrono::GetDeltaTime()));
+
+		if (GetAbsolutePosition().Y + height < -720) {
+			GetParent()->RemoveObject(shared_from_this());
+		}
+
+		AstrumPolygonsObject::Update();
+	}
+
+private:
+	float height = 0;
+};
+
+class TraceObject : public AstrumPolygonsObject
+{
+public:
+	TraceObject(const Arcaea::ArcaeaNoteData& data) {
+		height = static_cast<float>(data.Data[1] - data.Data[0]);
+		const float startX = static_cast<float>(-400 + 800 * data.Data[2]);
+		const float endX = static_cast<float>(-400 + 800 * data.Data[3]);
+
+		std::vector<AstrumVertexColor> vertices = {
+			AstrumVertexColor({ startX - 10, height * 0.5f }, AstrumColor::Periwinkle),
+			AstrumVertexColor({ startX + 10, height * 0.5f }, AstrumColor::Periwinkle),
+			AstrumVertexColor({ endX - 10, height * -0.5f }, AstrumColor::Periwinkle),
+			AstrumVertexColor({ endX + 10, height * -0.5f }, AstrumColor::Periwinkle),
+		};
+		SetPolygons(AstrumPolygons::MakeShared(
+			vertices,
+			{ 0, 1, 2, 1, 3, 2 }
+		));
+
 		Position.SetY(360 + height / 2.f);
 	}
 
@@ -164,6 +203,9 @@ public:
 			case Arcaea::ArcaeaNoteType_Arc:
 				AddObject(std::make_shared<ArcObject>(*data));
 				break;
+			case Arcaea::ArcaeaNoteType_Trace:
+				AddObject(std::make_shared<TraceObject>(*data));
+				break;
 			default:
 				break;
 			}
@@ -179,9 +221,12 @@ class Program
 
 private:
 	void Main() {
-		Arcaea::ArcaeaChartParser parser(L"./Assets/songs/infinityheaven/2.aff");
-		auto patterns = parser.ToParse();
+		AstrumFramework::Initialize();
+		auto noteGroup = std::make_shared<NoteGroupObject>();
+		AstrumFramework::GetRootObject()->AddObject(noteGroup);
 		
+#if _DEBUG
+		const auto& patterns = ChartManager::Instance().GetChart();
 		std::cout << std::format("Audio Offset: {}\n", patterns.AudioOffset);
 		for (auto& info : patterns.Notes) {
 			std::cout << "Type: ";
@@ -207,11 +252,8 @@ private:
 			}
 			std::cout << std::endl;
 		}
+#endif
 
-		AstrumFramework::Initialize();
-		AstrumFramework::GetRootObject()->AddObjects({
-			std::make_shared<NoteGroupObject>()
-		});
 		AstrumFramework::Run();
 	}
 };
