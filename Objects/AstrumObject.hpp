@@ -6,8 +6,10 @@
 #include "../Units/AstrumQuaternion.hpp"
 #include "../Collections/AstrumComponentList.hpp"
 
+
 //게임 객체의 기본 단위.
-class AstrumObject : public virtual IAstrumObject {
+class AstrumObject : public virtual IAstrumObject
+{
 public:
     // AstrumObject를 생성합니다. Position 및 Rotation은 기본값 (0,0,0)이며, Scale은 기본값으로 (1,1,1)이 할당되어 있습니다.
     AstrumObject();
@@ -25,9 +27,9 @@ public:
     AstrumObservedVector3& GetRotation() override;
     AstrumObservedVector3& GetScale() override;
 
-    virtual const AstrumVector3& GetAbsolutePosition() const override;
-    virtual const AstrumVector3& GetAbsoluteRotation() const override;
-    virtual const AstrumVector3& GetAbsoluteScale() const override;
+    virtual const AstrumVector3& GetAbsolutePosition() override;
+    virtual const AstrumVector3& GetAbsoluteRotation() override;
+    virtual const AstrumVector3& GetAbsoluteScale() override;
 
     IAstrumGroupObject* GetParent() const override;
     virtual bool SetParent(IAstrumGroupObject* const p) override;
@@ -45,7 +47,7 @@ protected:
     virtual void UpdateAbsolutePosition() override;
     virtual void UpdateAbsoluteRotation() override;
     virtual void UpdateAbsoluteScale() override;
-    
+
     AstrumComponentList Components;
 
     void SetAbsolutePosition(const AstrumVector3& vec);
@@ -54,7 +56,7 @@ protected:
 
 public:
     bool Visible = true;
-    
+
     virtual bool IsPrepared() const override;
 private:
     bool isPrepared = false;

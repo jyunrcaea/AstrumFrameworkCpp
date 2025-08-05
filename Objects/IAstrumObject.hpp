@@ -32,9 +32,9 @@ struct IAstrumObject : public std::enable_shared_from_this<IAstrumObject> {
     void SetRotation(float x, float y, float z);
     void SetScale(float x, float y, float z);
 
-    virtual const AstrumVector3& GetAbsolutePosition() const = 0;
-    virtual const AstrumVector3& GetAbsoluteRotation() const = 0;
-    virtual const AstrumVector3& GetAbsoluteScale() const = 0;
+    virtual const AstrumVector3& GetAbsolutePosition() = 0;
+    virtual const AstrumVector3& GetAbsoluteRotation() = 0;
+    virtual const AstrumVector3& GetAbsoluteScale() = 0;
 
     virtual IAstrumGroupObject* GetParent() const = 0;
     virtual bool SetParent(IAstrumGroupObject* const parent) = 0;

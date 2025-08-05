@@ -33,17 +33,16 @@ public:
 		playedTime = AstrumChrono::GetRunningTime() - (chart.AudioOffset * 0.001);
 	}
 
-	// 등장시켜야 할 노트가 있는지 확인합니다. 있을시 해당 데이터의 포인터, 없을경우 nullptr를 반환합니다.
-	Arcaea::ArcaeaNoteData* PoolNextNote() {
-		double now = AstrumChrono::GetRunningTime() - playedTime;
-		if (nextNoteIndex < chart.Notes.size() && chart.Notes[nextNoteIndex].GetStartOffset() <= now) {
-			return &chart.Notes[nextNoteIndex++];
-		}
-		return nullptr;
-	}
-
 	const Arcaea::ArcaeaChart& GetChart() {
 		return chart;
+	}
+
+	const std::vector<Arcaea::ArcaeaNoteData>& GetNoteData() const {
+		return chart.Notes;
+	}
+
+	float GetCurrentOffset() const {
+		return static_cast<float>(AstrumChrono::GetRunningTime() - playedTime) * 1000.f;
 	}
 
 	float GetNoteSpeed() const {
@@ -62,17 +61,7 @@ class NoteObject : public AstrumRectangleObject
 public:
 	NoteObject(const Arcaea::ArcaeaNoteData& data) : AstrumRectangleObject(200, 40, AstrumColor::SkyBlue) {
 		Position.SetX(static_cast<float>(-500 + data.Data[1] * 200));
-		Position.SetY(360 + 25.f);
-	}
-
-	virtual void Update() override {
-		Position.AddY(static_cast<float>(-ChartManager::Instance().GetNoteSpeed() * AstrumChrono::GetDeltaTime()));
-
-		if (GetAbsolutePosition().Y < -360) {
-			GetParent()->RemoveObject(shared_from_this());
-		}
-
-		AstrumRectangleObject::Update();
+		Position.SetY(20 + 25.f);
 	}
 };
 
@@ -89,17 +78,7 @@ public:
 		));
 
 		Position.SetX(static_cast<float>(-500 + data.Data[2] * 200));
-		Position.SetY(360 + height / 2.f);
-	}
-
-	virtual void Update() override {
-		Position.AddY(static_cast<float>(-ChartManager::Instance().GetNoteSpeed() * AstrumChrono::GetDeltaTime()));
-
-		if (GetAbsolutePosition().Y + height  < -720) {
-			GetParent()->RemoveObject(shared_from_this());
-		}
-
-		AstrumRectangleObject::Update();
+		Position.SetY(data.GetStartOffset() + height / 2.f);
 	}
 
 private:
@@ -125,17 +104,7 @@ public:
 			{0,1,2,1,3,2}
 		));
 
-		Position.SetY(360 + height / 2.f);
-	}
-
-	virtual void Update() override {
-		Position.AddY(static_cast<float>(-ChartManager::Instance().GetNoteSpeed() * AstrumChrono::GetDeltaTime()));
-
-		if (GetAbsolutePosition().Y + height < -720) {
-			GetParent()->RemoveObject(shared_from_this());
-		}
-
-		AstrumPolygonsObject::Update();
+		Position.SetY(data.GetStartOffset() + height / 2.f);
 	}
 
 private:
@@ -161,17 +130,21 @@ public:
 			{ 0, 1, 2, 1, 3, 2 }
 		));
 
-		Position.SetY(360 + height / 2.f);
+		Position.SetY(data.GetStartOffset() + height / 2.f);
 	}
 
-	virtual void Update() override {
-		Position.AddY(static_cast<float>(-ChartManager::Instance().GetNoteSpeed() * AstrumChrono::GetDeltaTime()));
+private:
+	float height = 0;
+};
 
-		if (GetAbsolutePosition().Y + height < -720) {
-			GetParent()->RemoveObject(shared_from_this());
-		}
+class SkyNoteObject : public AstrumRectangleObject
+{
+public:
+	SkyNoteObject(const Arcaea::ArcaeaNoteData& data) : AstrumRectangleObject(200, 30, AstrumColor::Aquamarine) {
+		const float startX = static_cast<float>(-400 + 800 * data.Data[1]);
+		Position.SetX(startX);
 
-		AstrumPolygonsObject::Update();
+		Position.SetY(data.GetStartOffset() + 15);
 	}
 
 private:
@@ -186,32 +159,40 @@ public:
 	}
 
 	virtual void Prepare() override {
-		ChartManager::Instance().Play(L"./Assets/songs/bookmaker/base.ogg");
+		for (const auto& data : ChartManager::Instance().GetNoteData()) {
+			GenerateNote(data);
+		}
+		//ChartManager::Instance().Play(L"./Assets/songs/bookmaker/base.ogg");
 
 		AstrumGroupObject::Prepare();
 	}
 
 	virtual void Update() override {
-		while (auto data = ChartManager::Instance().PoolNextNote()) {
-			switch (data->NoteType) {
-			case Arcaea::ArcaeaNoteType_Tap:
-				AddObject(std::make_shared<NoteObject>(*data));
-				break;
-			case Arcaea::ArcaeaNoteType_Hold:
-				AddObject(std::make_shared<HoldNoteObject>(*data));
-				break;
-			case Arcaea::ArcaeaNoteType_Arc:
-				AddObject(std::make_shared<ArcObject>(*data));
-				break;
-			case Arcaea::ArcaeaNoteType_Trace:
-				AddObject(std::make_shared<TraceObject>(*data));
-				break;
-			default:
-				break;
-			}
-		}
+		if (AstrumDirectInput::IsKeyPressed(DIK_W)) Position.AddY(-10000 * AstrumChrono::GetDeltaTime());
+		if (AstrumDirectInput::IsKeyPressed(DIK_S)) Position.AddY(10000 * AstrumChrono::GetDeltaTime());
 
 		AstrumGroupObject::Update();
+	}
+
+private:
+	void GenerateNote(const Arcaea::ArcaeaNoteData& data) {
+		switch (data.NoteType) {
+		case Arcaea::ArcaeaNoteType_Tap:
+			AddObject(std::make_shared<NoteObject>(data));
+			break;
+		case Arcaea::ArcaeaNoteType_Hold:
+			AddObject(std::make_shared<HoldNoteObject>(data));
+			break;
+		case Arcaea::ArcaeaNoteType_Arc:
+			AddObject(std::make_shared<ArcObject>(data));
+			break;
+		case Arcaea::ArcaeaNoteType_Trace:
+			AddObject(std::make_shared<TraceObject>(data));
+			break;
+		case Arcaea::ArcaeaNoteType_ArcTap:
+			AddObject(std::make_shared<SkyNoteObject>(data));
+			break;
+		}
 	}
 };
 
@@ -242,6 +223,9 @@ private:
 				break;
 			case Arcaea::ArcaeaNoteType_Trace:
 				std::cout << "Trace";
+				break;
+			case Arcaea::ArcaeaNoteType_ArcTap:
+				std::cout << "ArcTap";
 				break;
 			default:
 				break;

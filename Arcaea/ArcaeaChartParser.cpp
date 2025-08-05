@@ -20,14 +20,12 @@ Arcaea::ArcaeaChart Arcaea::ArcaeaChartParser::ToParse() {
 
 	for (std::string line; std::getline(fileStream, line);) {
 		const size_t opening = line.find('(');
-		const size_t ending = line.rfind(')');
 		std::string noteType = line.substr(0, opening);
 
 		char* const text = (line.data() + opening + 1);
 		for (int i = 0; text[i] != '\0'; i++) {
-			if (text[i] == ',') text[i] = ' ';
+			if (text[i] == ',' || text[i] == '[' || text[i] == ']' || text[i] == ')' || text[i] == ';') text[i] = ' ';
 		}
-		text[ending - opening - 1] = ' ';
 		std::istringstream iss(text);
 
 		if (noteType == "") {
@@ -48,7 +46,14 @@ Arcaea::ArcaeaChart Arcaea::ArcaeaChartParser::ToParse() {
 			std::vector<double> vec(7);
 			std::string str;
 
-			for (int i = 0; i < 4; i++) iss >> vec[i];
+			double startOffset, endOffset, startX, endX;
+			iss >> startOffset >> endOffset >> startX >> endX;
+
+			vec[0] = startOffset;
+			vec[1] = endOffset;
+			vec[2] = startX;
+			vec[3] = endX;
+
 			iss >> str;
 			for (int i = 4; i < 6; i++) iss >> vec[i];
 			iss >> vec[6];
@@ -59,6 +64,20 @@ Arcaea::ArcaeaChart Arcaea::ArcaeaChartParser::ToParse() {
 			else noteType = ArcaeaNoteType::ArcaeaNoteType_Arc;
 
 			ret.Notes.emplace_back(noteType, std::move(vec));
+
+			if (noteType == ArcaeaNoteType_Trace) {
+				const double moveX = endX - startX, distanceOffset = endOffset - startOffset;
+				int arctap;
+				while (std::getline(iss, str, '(') && iss >> arctap) {
+					vec.clear();
+					vec.push_back(arctap);
+					double progress = (arctap - startOffset) / distanceOffset;
+					vec.push_back(startX + moveX * progress);
+
+					ret.Notes.emplace_back(ArcaeaNoteType::ArcaeaNoteType_ArcTap, std::move(vec));
+				}
+			}
+
 		}
 	}
 
