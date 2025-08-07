@@ -49,3 +49,13 @@ private:
     void CallbackObservedRotation();
     void CallbackObservedScale();
 };
+
+inline AstrumLazyPropTransformType operator|(AstrumLazyPropTransformType left, AstrumLazyPropTransformType right) {
+    return static_cast<AstrumLazyPropTransformType>(static_cast<short>(left) | static_cast<short>(right));
+}
+inline AstrumLazyPropTransformType& operator+=(AstrumLazyPropTransformType& left, AstrumLazyPropTransformType right) {
+    return left = static_cast<AstrumLazyPropTransformType>(static_cast<short>(left) | static_cast<short>(right));
+}
+inline AstrumLazyPropTransformType& operator-=(AstrumLazyPropTransformType& left, AstrumLazyPropTransformType right) {
+    return left = static_cast<AstrumLazyPropTransformType>(static_cast<short>(left) & ~static_cast<short>(right));
+}
