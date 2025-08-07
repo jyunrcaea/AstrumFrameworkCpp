@@ -12,7 +12,7 @@ AstrumPolygonsObject::AstrumPolygonsObject(const std::shared_ptr<AstrumPolygons>
 }
 
 void AstrumPolygonsObject::Draw() {
-	if (Visible) {
+	if (Visible && renderPolygonsComponent) {
 		AstrumRenderer::Instance().EnqueueRenderable(renderPolygonsComponent);
 	}
 }

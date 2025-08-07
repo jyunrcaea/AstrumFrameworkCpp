@@ -10,7 +10,7 @@ AstrumCircleObject::AstrumCircleObject(const AstrumVertexColor& center, float ra
 }
 
 void AstrumCircleObject::Draw() {
-	if (Visible) {
+	if (Visible && circlePolygon) {
 		AstrumRenderer::Instance().EnqueueRenderable(renderPolygonsComponent);
 	}
 }

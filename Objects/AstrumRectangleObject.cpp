@@ -10,7 +10,7 @@ AstrumRectangleObject::AstrumRectangleObject(float width, float height, const As
 }
 
 void AstrumRectangleObject::Draw() {
-    if (Visible) {
+    if (Visible && renderPolygonsComponent) {
         AstrumRenderer::Instance().EnqueueRenderable(renderPolygonsComponent);
     }
 }

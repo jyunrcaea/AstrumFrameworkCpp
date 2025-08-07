@@ -19,5 +19,7 @@ std::shared_ptr<AstrumRenderMaterialComponent> AstrumMaterialObject::GetRenderMa
 }
 
 void AstrumMaterialObject::Draw() {
-    if (Visible) AstrumRenderer::Instance().EnqueueRenderable(renderMaterialComponent);
+    if (Visible && renderMaterialComponent->Material && renderMaterialComponent->Mesh) {
+        AstrumRenderer::Instance().EnqueueRenderable(renderMaterialComponent);
+    }
 }
