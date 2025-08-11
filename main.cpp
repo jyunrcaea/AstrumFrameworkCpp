@@ -4,8 +4,8 @@
 #include <iostream>
 #endif
 
-//#include "Tests/RectMoving.hpp"
-#include "Tests/NoteTest.hpp"
+#include "Tests/RectMoving.hpp"
+//#include "Tests/NoteTest.hpp"
 
 int main()
 {

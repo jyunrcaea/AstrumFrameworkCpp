@@ -16,45 +16,40 @@ public:
     MyRectObject() : AstrumRectangleObject(200, 200, AstrumColor::Periwinkle) {
         Position.SetZ(100);
 
-        AddComponent(animator = AstrumAnimatorComponent::MakeShared());
+        AddComponent(horizontalAnimator = AstrumAnimatorComponent::MakeShared());
+        AddComponent(verticalAnimator = AstrumAnimatorComponent::MakeShared());
 
-        auto graph = AstrumStateGraph::MakeShared();
-        graph->AddStateName("LeftTop", [this](auto status) { if (status > 0) SetMoveTarget(-200, 200); });
-        graph->AddStateName("RightTop", [this](auto status) { if (status > 0) SetMoveTarget(200, 200); });
-        graph->AddStateName("LeftBottom", [this](auto status) { if (status > 0) SetMoveTarget(-200, -200); });
-        graph->AddStateName("RightBottom", [this](auto status) { if (status > 0) SetMoveTarget(200, -200); });
-        graph->MakeStateBuilder("Idle")
-            .SetCallback([this](auto status) { if (status > 0) SetMoveTarget(0, 0); })
+        auto horizontalGraph = AstrumStateGraph::MakeShared();
+        horizontalGraph->MakeStateBuilder("Idle")
+            .AddHoldConditionTwoWay("Left", [this]() { return AstrumKeyBinder::IsKeyPressed("Left"); })
+            .AddHoldConditionTwoWay("Right", [this]() { return AstrumKeyBinder::IsKeyPressed("Right"); })
+            .SetCallback([this](auto type) { if (type > 0) SetMoveX(0); });
+        horizontalGraph->SetCallback("Left", [this](auto type) { if (type > 0) SetMoveX(-300); });
+        horizontalGraph->SetCallback("Right", [this](auto type) { if (type > 0) SetMoveX(300); });
+        AddComponent(AstrumStateComponent::MakeShared("Idle", horizontalGraph));
+
+        auto verticalGraph = AstrumStateGraph::MakeShared();
+        verticalGraph->MakeStateBuilder("Idle")
             .AddHoldConditionTwoWay("Up", [this]() { return AstrumKeyBinder::IsKeyPressed("Up"); })
             .AddHoldConditionTwoWay("Down", [this]() { return AstrumKeyBinder::IsKeyPressed("Down"); })
-            .AddHoldConditionTwoWay("Left", [this]() { return AstrumKeyBinder::IsKeyPressed("Left"); })
-            .AddHoldConditionTwoWay("Right", [this]() { return AstrumKeyBinder::IsKeyPressed("Right"); });
-        graph->MakeStateBuilder("Left")
-            .SetCallback([this](auto status) { if (status > 0) SetMoveTarget(-200, 0); })
-            .AddHoldConditionTwoWay("LeftTop", [this]() { return AstrumKeyBinder::IsKeyPressed("Up"); })
-            .AddHoldConditionTwoWay("LeftBottom", [this]() { return AstrumKeyBinder::IsKeyPressed("Down"); });
-        graph->MakeStateBuilder("Right")
-            .SetCallback([this](auto status) { if (status > 0) SetMoveTarget(200, 0); })
-            .AddHoldConditionTwoWay("RightTop", [this]() { return AstrumKeyBinder::IsKeyPressed("Up"); })
-            .AddHoldConditionTwoWay("RightBottom", [this]() { return AstrumKeyBinder::IsKeyPressed("Down"); });
-        graph->MakeStateBuilder("Up")
-            .SetCallback([this](auto status) { if (status > 0) SetMoveTarget(0, 200); })
-            .AddHoldConditionTwoWay("LeftTop", [this]() { return AstrumKeyBinder::IsKeyPressed("Left"); })
-            .AddHoldConditionTwoWay("RightTop", [this]() { return AstrumKeyBinder::IsKeyPressed("Right"); });
-        graph->MakeStateBuilder("Down")
-            .SetCallback([this](auto status) { if (status > 0) SetMoveTarget(0, -200); })
-            .AddHoldConditionTwoWay("LeftBottom", [this]() { return AstrumKeyBinder::IsKeyPressed("Left"); })
-            .AddHoldConditionTwoWay("RightBottom", [this]() { return AstrumKeyBinder::IsKeyPressed("Right"); });
-
-        AddComponent(AstrumStateComponent::MakeShared("Idle", graph));
+            .SetCallback([this](auto type) { if (type > 0) SetMoveY(0); });
+        verticalGraph->SetCallback("Up", [this](auto type) { if (type > 0) SetMoveY(300); });
+        verticalGraph->SetCallback("Down", [this](auto type) { if (type > 0) SetMoveY(-300); });
+        AddComponent(AstrumStateComponent::MakeShared("Idle", verticalGraph));
     }
 
 private:
-    std::shared_ptr<AstrumAnimatorComponent> animator;
-    void SetMoveTarget(float x, float y) {
-        auto movement = AstrumMovementAnimator::MakeShared({ x, y }, 0.2f);
+    std::shared_ptr<AstrumAnimatorComponent> horizontalAnimator;
+    std::shared_ptr<AstrumAnimatorComponent> verticalAnimator;
+    void SetMoveX(float x) {
+        auto movement = AstrumMovementAnimator::MakeShared(0.18f, x);
         movement->AnimationFunction = AstrumAnimationFunctions::EaseOutQuad;
-        animator->ResetAnimator(movement);
+        verticalAnimator->ResetAnimator(movement);
+    }
+    void SetMoveY(float y) {
+        auto movement = AstrumMovementAnimator::MakeShared(0.18f, NAN, y);
+        movement->AnimationFunction = AstrumAnimationFunctions::EaseOutQuad;
+        verticalAnimator->ResetAnimator(movement);
     }
 };
 
