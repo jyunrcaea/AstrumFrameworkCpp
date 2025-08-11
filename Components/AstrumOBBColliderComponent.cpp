@@ -37,7 +37,14 @@ AstrumCenterHalfRect AstrumOBBColliderComponent::GetCenterHalfRect() const
 	};
 }
 
-bool AstrumOBBColliderComponent::IsOverlap(AstrumColliderComponent* other) { return other->IsOverlapToOBB(this); }
+bool AstrumOBBColliderComponent::IsOverlap(IAstrumColliderComponent* other) { return other->IsOverlapToOBB(this); }
 bool AstrumOBBColliderComponent::IsOverlapToAABB(IAstrumAABBColliderComponent* other) { return AstrumCollisionSystem::IsOverlapAABBToOBB(other, this); }
 bool AstrumOBBColliderComponent::IsOverlapToOBB(IAstrumOBBColliderComponent* other) { return AstrumCollisionSystem::IsOverlapOBBToOBB(other, this); }
 bool AstrumOBBColliderComponent::IsOverlapToCircle(IAstrumCircleColliderComponent* other) { return AstrumCollisionSystem::IsOverlapCircleToOBB(other, this); }
+
+bool AstrumOBBColliderComponent::IsOverlapToPoint(AstrumVector2 point) {
+	const auto& [center, halfWidth, halfHeight] = GetCenterHalfRect();
+
+	const auto rotated = center.Rotate(point, -GetOwner()->GetAbsoluteRotation().Z);
+	return fabs(rotated.X - point.X) <= halfWidth && fabs(rotated.Y - point.Y) <= halfHeight;
+}

@@ -13,7 +13,14 @@ AstrumRect AstrumAABBColliderComponent::GetRect() const
 	};
 }
 
-bool AstrumAABBColliderComponent::IsOverlap(AstrumColliderComponent* other) { return other->IsOverlapToAABB(this); }
+bool AstrumAABBColliderComponent::IsOverlap(IAstrumColliderComponent* other) { return other->IsOverlapToAABB(this); }
 bool AstrumAABBColliderComponent::IsOverlapToAABB(IAstrumAABBColliderComponent* other) { return AstrumCollisionSystem::IsOverlapAABBToAABB(this, other); }
 bool AstrumAABBColliderComponent::IsOverlapToOBB(IAstrumOBBColliderComponent* other) { return AstrumCollisionSystem::IsOverlapAABBToOBB(this, other); }
 bool AstrumAABBColliderComponent::IsOverlapToCircle(IAstrumCircleColliderComponent* other) { return AstrumCollisionSystem::IsOverlapAABBToCircle(this, other); }
+
+bool AstrumAABBColliderComponent::IsOverlapToPoint(AstrumVector2 point) {
+	const auto& [leftTop, rightBottom] = GetRect();
+	return
+		(leftTop.X <= point.X && point.X <= rightBottom.X) &&
+		(rightBottom.Y <= point.Y && point.Y <= leftTop.Y);
+}
