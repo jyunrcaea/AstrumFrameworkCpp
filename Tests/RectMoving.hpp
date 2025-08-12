@@ -44,7 +44,7 @@ private:
     void SetMoveX(float x) {
         auto movement = AstrumMovementAnimator::MakeShared(0.18f, x);
         movement->AnimationFunction = AstrumAnimationFunctions::EaseOutQuad;
-        verticalAnimator->ResetAnimator(movement);
+        horizontalAnimator->ResetAnimator(movement);
     }
     void SetMoveY(float y) {
         auto movement = AstrumMovementAnimator::MakeShared(0.18f, NAN, y);
