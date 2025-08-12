@@ -1,4 +1,5 @@
-﻿#pragma once
+#pragma once
+#include "../Objects/AstrumObject.hpp"
 #include "../Units/AstrumMatrix.hpp"
 
 enum class AstrumCameraProjectionType : unsigned char
@@ -10,11 +11,13 @@ enum class AstrumCameraProjectionType : unsigned char
 	AstrumCameraProjectionType_Ortho,
 };
 
-// to do : not implement, and is not used yet.
-class AstrumCamera
+class AstrumCamera : public AstrumObject
 {
 public:
+	//기본값은 직교입니다.
 	AstrumCamera();
+
+	void Update() override;
 
 	void SetProjectionType(AstrumCameraProjectionType type);
 	AstrumCameraProjectionType GetProjectionType() const { return projectionType; }
@@ -29,9 +32,7 @@ protected:
 	void UpdateCameraView();
 
 private:
-	float width;
-	float height;
 	float viewDistance = 1000.f;
 	float viewAngle = 90.f;
-	AstrumCameraProjectionType projectionType = AstrumCameraProjectionType::AstrumCameraProjectionType_None;
+	AstrumCameraProjectionType projectionType = AstrumCameraProjectionType::AstrumCameraProjectionType_Ortho;
 };

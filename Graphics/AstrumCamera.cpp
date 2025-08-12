@@ -1,11 +1,19 @@
-﻿#include "AstrumCamera.hpp"
+#include "AstrumCamera.hpp"
 #include "../Singletons/AstrumWindow.hpp"
 
-AstrumCamera::AstrumCamera() 
-	: width(static_cast<float>(AstrumWindow::GetWidth())), height(static_cast<float>(AstrumWindow::GetHeight()))
-{ }
+AstrumCamera::AstrumCamera() { 
+	UpdateCameraView();
+}
+
+void AstrumCamera::Update() {
+	AstrumObject::Update();
+	UpdateCameraView();
+}
 
 void AstrumCamera::SetProjectionType(AstrumCameraProjectionType type) {
+	const float width = static_cast<float>(AstrumWindow::GetWidth());
+	const float height = static_cast<float>(AstrumWindow::GetHeight());
+
 	switch (projectionType = type) {
 	case AstrumCameraProjectionType::AstrumCameraProjectionType_Perspective:
 		projectionMatrix = DirectX::XMMatrixPerspectiveFovLH(DirectX::XMConvertToRadians(viewAngle), width / height, 0.5f, viewDistance);
@@ -19,6 +27,6 @@ void AstrumCamera::SetProjectionType(AstrumCameraProjectionType type) {
 	}
 }
 
-void AstrumCamera::UpdateCameraView()
-{
+void AstrumCamera::UpdateCameraView() {
+	SetProjectionType(projectionType);
 }
