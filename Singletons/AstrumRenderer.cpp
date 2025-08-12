@@ -1,4 +1,4 @@
-﻿#include "AstrumRenderer.hpp"
+#include "AstrumRenderer.hpp"
 #include "../Shaders/AstrumShaderSetup.hpp"
 
 void AstrumRenderer::Initialize(uint16_t width, uint16_t height, bool windowMode) {
@@ -120,6 +120,19 @@ void AstrumRenderer::Initialize(uint16_t width, uint16_t height, bool windowMode
     viewport.Height = static_cast<float>(height);
     viewport.MaxDepth = 1.0f;
     context->RSSetViewports(1, &viewport);
+
+	// Direct2D 초기화
+    if (FAILED(D2D1CreateFactory(D2D1_FACTORY_TYPE_MULTI_THREADED, factory2D.GetAddressOf()))) {
+        throw AstrumException("Failed to create D2D factory.");
+	}
+
+	ComPtr<IDXGISurface> backSurface;
+	swapChain->GetBuffer(0, IID_PPV_ARGS(&backSurface));
+	if (FAILED(factory2D->CreateDxgiSurfaceRenderTarget(
+		backSurface.Get(),
+        D2D1::RenderTargetProperties(D2D1_RENDER_TARGET_TYPE_HARDWARE, D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED)),
+        renderTarget2D.GetAddressOf()
+	))) throw AstrumException("Failed to create D2D render target.");
 
     AstrumTextureSampler::Instance().Initialize();
     AstrumTextureSampler::Instance().SetSampler(AstrumTextureSampleType_Linear);

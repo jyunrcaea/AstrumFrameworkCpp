@@ -1,8 +1,9 @@
-﻿#pragma once
+#pragma once
 #include <memory>
 #include <queue>
 #include <vector>
 #include <d3d11.h>
+#include <d2d1.h>
 #include <dxgi.h>
 #include <wrl/client.h>
 #include "../AstrumException.hpp"
@@ -71,6 +72,8 @@ private:
     ComPtr<ID3D11DepthStencilView> depthStencilView;
     ComPtr<ID3D11DepthStencilState> depthStencilState;
     ComPtr<ID3D11BlendState> blendState;
+    ComPtr<ID2D1RenderTarget> renderTarget2D;
+	ComPtr<ID2D1Factory> factory2D;
 };
 
 template<typename T>

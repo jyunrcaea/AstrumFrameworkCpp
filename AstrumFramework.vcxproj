@@ -144,6 +144,7 @@
     <ClCompile Include="Objects\AstrumTransformObject.cpp" />
     <ClCompile Include="Objects\IAstrumMaterialObject.cpp" />
     <ClCompile Include="Resources\AstrumChannelGroup.cpp" />
+    <ClCompile Include="Resources\AstrumFonts.cpp" />
     <ClCompile Include="Singletons\AstrumChrono.cpp" />
     <ClCompile Include="Objects\AstrumCircleObject.cpp" />
     <ClCompile Include="Meshes\AstrumCirclePolygons.cpp" />
@@ -212,6 +213,8 @@
     <ClInclude Include="Meshes\AstrumCirclePolygons.hpp" />
     <ClInclude Include="Objects\AstrumTransformObject.hpp" />
     <ClInclude Include="Objects\IAstrumMaterialObject.hpp" />
+    <ClInclude Include="Resources\AstrumFonts.hpp" />
+    <ClInclude Include="Resources\AstrumTargetFont.hpp" />
     <ClInclude Include="Tests\NoteTest.hpp" />
     <ClInclude Include="Tests\RectMoving.hpp" />
     <ClInclude Include="Singletons\AstrumKeyBinder.hpp" />

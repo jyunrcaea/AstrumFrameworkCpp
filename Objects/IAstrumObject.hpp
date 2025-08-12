@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <memory>
 #include "../Vectors/AstrumVector3.hpp"
 #include "../Vectors/AstrumObservedVector3.hpp"
@@ -42,8 +42,8 @@ struct IAstrumObject : public std::enable_shared_from_this<IAstrumObject> {
 
     virtual IAstrumComponentList& GetComponents() = 0;
 
-    bool AddComponent(std::shared_ptr<struct IAstrumComponent> const component);
-    bool RemoveComponent(std::shared_ptr<struct IAstrumComponent> const component);
+    bool AddComponent(const std::shared_ptr<struct IAstrumComponent>& component);
+    bool RemoveComponent(const std::shared_ptr<struct IAstrumComponent>& component);
     void ClearComponent();
 
     virtual void UpdateAbsolutePosition() = 0;

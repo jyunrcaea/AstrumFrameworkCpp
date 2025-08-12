@@ -189,6 +189,8 @@
       <Filter>Objects</Filter>
     </ClCompile>
     <ClCompile Include="Arcaea\ArcaeaChartParser.cpp" />
+    <ClCompile Include="Objects\AstrumTransformObject.cpp" />
+    <ClCompile Include="Resources\AstrumFonts.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Objects\AstrumObject.hpp">
@@ -468,6 +470,10 @@
     <ClInclude Include="Arcaea\ArcaeaChartParser.hpp" />
     <ClInclude Include="Tests\RectMoving.hpp" />
     <ClInclude Include="Tests\NoteTest.hpp" />
+    <ClInclude Include="Components\IAstrumColliderComponent.hpp" />
+    <ClInclude Include="Objects\AstrumTransformObject.hpp" />
+    <ClInclude Include="Resources\AstrumFonts.hpp" />
+    <ClInclude Include="Resources\AstrumTargetFont.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Objects">
