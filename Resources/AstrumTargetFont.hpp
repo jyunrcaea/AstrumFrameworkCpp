@@ -10,11 +10,16 @@ class AstrumTargetFont
 {
 	friend class AstrumFonts;
 
-protected:
-	AstrumTargetFont(const Microsoft::WRL::ComPtr<IDWriteTextFormat>& factory, Microsoft::WRL::ComPtr<IDWriteTextFormat>&& textFormat)
-		: writeFactory(factory), textFormat(textFormat) { }
+public:
+	AstrumTargetFont(const Microsoft::WRL::ComPtr<IDWriteFactory5>& factory, Microsoft::WRL::ComPtr<IDWriteTextFormat>&& textFormat)
+		: writeFactory(factory), textFormat(textFormat) {}
 
 private:
-	const Microsoft::WRL::ComPtr<IDWriteTextFormat> writeFactory;
+	const Microsoft::WRL::ComPtr<IDWriteFactory5> writeFactory;
 	Microsoft::WRL::ComPtr<IDWriteTextFormat> textFormat;
-}
+
+public:
+	static std::shared_ptr<AstrumTargetFont> MakeShared(const Microsoft::WRL::ComPtr<IDWriteFactory5>& factory, Microsoft::WRL::ComPtr<IDWriteTextFormat>&& textFormat) {
+		return std::make_shared<AstrumTargetFont>(factory, std::move(textFormat));
+	}
+};

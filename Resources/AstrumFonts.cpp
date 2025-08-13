@@ -23,12 +23,12 @@ AstrumFonts::AstrumFonts(const std::filesystem::path& fontFilePath) {
 
 	if (FAILED(GetWriteFactory()->CreateFontCollectionFromFontSet(
 		fontSet.Get(),
-		fontCollection.GetAddressOf()
+		this->fontCollection.GetAddressOf()
 	))) throw AstrumException("Failed to create font collection from font set.");
 
-	unsigned int count = fontCollection->GetFontFamilyCount();
+	unsigned int count = this->fontCollection->GetFontFamilyCount();
 	Microsoft::WRL::ComPtr<IDWriteFontFamily> fontFamily = nullptr;
-	if (FAILED(fontCollection->GetFontFamily(
+	if (FAILED(this->fontCollection->GetFontFamily(
 		0,
 		fontFamily.GetAddressOf()
 	))) throw AstrumException("Failed to get font family from collection.");
@@ -44,11 +44,11 @@ AstrumFonts::AstrumFonts(const std::filesystem::path& fontFilePath) {
 		&nameLength
 	))) throw AstrumException("Failed to get localized font name length.");
 
-	faceName.resize(nameLength + 1, L'\0');
+	this->faceName.resize(nameLength + 1, L'\0');
 	if (FAILED(localName->GetString(
 		0,
-		faceName.data(),
-		faceName.size()
+		this->faceName.data(),
+		static_cast<unsigned int>(this->faceName.size())
 	))) throw AstrumException("Failed to get localized font name string.");
 }
 
@@ -56,19 +56,23 @@ std::shared_ptr<AstrumTargetFont> AstrumFonts::GetFont(const std::wstring& fontN
 	Microsoft::WRL::ComPtr<IDWriteTextFormat> textFormat = nullptr;
 	if (FAILED(GetWriteFactory()->CreateTextFormat(
 		fontName.c_str(),
-		fontCollection.Get(),
+		this->fontCollection.Get(),
 		static_cast<DWRITE_FONT_WEIGHT>(weight),
 		DWRITE_FONT_STYLE_NORMAL,
 		DWRITE_FONT_STRETCH_NORMAL,
 		fontSize,
-		faceName.c_str(),
+		this->faceName.c_str(),
 		textFormat.GetAddressOf()
 	))) throw AstrumException("Failed to create text format for font.");
 
-	return std::make_shared<AstrumTargetFont>(GetWriteFactory(), textFormat);
+	return AstrumTargetFont::MakeShared(GetWriteFactory(), std::move(textFormat));
 }
 
-Microsoft::WRL::ComPtr<IDWriteFactory5> AstrumFonts::GetWriteFactory() {
+const std::wstring& AstrumFonts::GetFaceName() const {
+	return faceName;
+}
+
+Microsoft::WRL::ComPtr<IDWriteFactory5> AstrumFonts::GetWriteFactory() const {
 	static Microsoft::WRL::ComPtr<IDWriteFactory5> factory;
 	if (factory) return factory;
 

@@ -6,15 +6,20 @@
 #include <filesystem>
 #include "AstrumTargetFont.hpp"
 
+#pragma comment(lib, "DWrite.lib")
+#pragma comment(lib, "D2d1.lib")
+
+class AstrumTargetFont;
+
 class AstrumFonts
 {
 public:
 	AstrumFonts(const std::filesystem::path& fontFilePath);
 	std::shared_ptr<AstrumTargetFont> GetFont(const std::wstring& fontName, int weight = DWRITE_FONT_WEIGHT_NORMAL, float fontSize = 12.0f) const;
 
-	const std::wstring& GetFaceName() const { return faceName; }
+	const std::wstring& GetFaceName() const;
 private:
 	std::wstring faceName;
-	static Microsoft::WRL::ComPtr<IDWriteFactory5> GetWriteFactory();
+	Microsoft::WRL::ComPtr<IDWriteFactory5> GetWriteFactory() const;
 	Microsoft::WRL::ComPtr<IDWriteFontCollection1> fontCollection;
 };
