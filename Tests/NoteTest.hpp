@@ -172,7 +172,7 @@ public:
 		//if (AstrumDirectInput::IsKeyPressed(DIK_W)) Position.AddY(-10000 * AstrumChrono::GetDeltaTime());
 		//if (AstrumDirectInput::IsKeyPressed(DIK_S)) Position.AddY(10000 * AstrumChrono::GetDeltaTime());
 
-		Position.AddY(AstrumChrono::GetDeltaTime() * -1000.f);
+		Position.AddY(static_cast<float>(AstrumChrono::GetDeltaTime() * -1000.0));
 
 		AstrumGroupObject::Update();
 	}

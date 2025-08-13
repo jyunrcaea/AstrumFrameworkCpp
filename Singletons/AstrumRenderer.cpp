@@ -1,5 +1,6 @@
 #include "AstrumRenderer.hpp"
 #include "../Shaders/AstrumShaderSetup.hpp"
+#include "AstrumRenderQueue.hpp"
 
 void AstrumRenderer::Initialize(uint16_t width, uint16_t height, bool windowMode) {
     UINT flags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
@@ -161,25 +162,17 @@ void AstrumRenderer::Rendering() {
     UINT  sampleMask = 0xFFFFFFFF;
     context->OMSetBlendState(blendState.Get(), blendFactor, sampleMask);
 
-    while (!renderQueue.empty()) {
-        renderQueue.front()->PreRender();
-        renderQueue.pop();
-    }
-    
+    AstrumRenderQueue::Render();
     // 이전 블렌딩 돌려놓기
     context->OMSetBlendState(prevBlendState, prevBlendFactor, prevSampleMask);
-
     // 진짜 출력
     swapChain->Present(0, 0);
-}
-
-void AstrumRenderer::EnqueueRenderable(std::shared_ptr<IAstrumRenderable> renderable) {
-    renderQueue.push(std::move(renderable));
 }
 
 void AstrumRenderer::Dispose() {
     // There are not handle something, because ComPtr
     AstrumTextureSampler::Instance().Dispose(); // Same. Just for design.
+	AstrumRenderQueue::Dispose();
 }
 
 ID3D11Device* AstrumRenderer::GetDevice() const { return device.Get(); }

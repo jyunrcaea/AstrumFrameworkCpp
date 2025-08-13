@@ -1,5 +1,5 @@
 #include "AstrumTriangleObject.hpp"
-#include "../Singletons/AstrumRenderer.hpp"
+#include "../Singletons/AstrumRenderQueue.hpp"
 
 AstrumTriangleObject::AstrumTriangleObject() {}
 AstrumTriangleObject::AstrumTriangleObject(const AstrumVertexColor& a, const AstrumVertexColor& b, const AstrumVertexColor& c)
@@ -10,7 +10,7 @@ AstrumTriangleObject::AstrumTriangleObject(const AstrumVertexColor& a, const Ast
 void AstrumTriangleObject::Draw()
 {
 	if (Visible) {
-		AstrumRenderer::Instance().EnqueueRenderable(renderPolygonsComponent);
+		AstrumRenderQueue::Enqueue(renderPolygonsComponent);
 	}
 }
 

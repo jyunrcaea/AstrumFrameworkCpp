@@ -2,8 +2,7 @@
 #include "AstrumColorConstantBuffer.hpp"
 
 AstrumTransformConstantBuffer::AstrumTransformConstantBuffer()
-    : AstrumConstantBuffer(GetBufferSize())
-{
+    : AstrumConstantBuffer(sizeof(AstrumTransformData)) {
 #if _DEBUG
     if (GetBufferSize() % 16 != 0)
         throw AstrumException("Constant buffer size must be 16-byte aligned.");

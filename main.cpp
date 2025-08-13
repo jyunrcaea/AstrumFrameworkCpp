@@ -4,8 +4,8 @@
 #include <iostream>
 #endif
 
-#include "Tests/RectMoving.hpp"
-//#include "Tests/NoteTest.hpp"
+//#include "Tests/RectMoving.hpp"
+#include "Tests/NoteTest.hpp"
 
 int main()
 {
@@ -17,7 +17,13 @@ int main()
     _CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG);
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif
-    Program().Main();
+
+    try {
+        Program().Main();
+    } catch (const AstrumException& e) {
+        std::cerr << "Astrum Exception: " << e.what() << std::endl;
+        throw e;
+    }
 }
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)

@@ -136,9 +136,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Singletons\AstrumRenderQueue.cpp" />
     <ClCompile Include="Components\AstrumCircleColliderComponent.cpp" />
     <ClCompile Include="Components\AstrumAABBColliderComponent.cpp" />
     <ClCompile Include="Components\AstrumAnimatorComponent.cpp" />
+    <ClCompile Include="Components\AstrumConstantBufferComponent.cpp" />
     <ClCompile Include="Graphics\AstrumCamera.cpp" />
     <ClCompile Include="Arcaea\ArcaeaChartParser.cpp" />
     <ClCompile Include="Objects\AstrumTransformObject.cpp" />
@@ -205,10 +207,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Arcaea\ArcaeaChart.hpp" />
+    <ClInclude Include="Singletons\AstrumRenderQueue.hpp" />
     <ClInclude Include="Components\AstrumAABBColliderComponent.hpp" />
     <ClInclude Include="Animations\AstrumAnimationFunctions.hpp" />
     <ClInclude Include="Components\AstrumCircleColliderComponent.hpp" />
     <ClInclude Include="Arcaea\ArcaeaChartParser.hpp" />
+    <ClInclude Include="Components\AstrumConstantBufferComponent.hpp" />
     <ClInclude Include="Components\IAstrumColliderComponent.hpp" />
     <ClInclude Include="Meshes\AstrumCirclePolygons.hpp" />
     <ClInclude Include="Objects\AstrumTransformObject.hpp" />
@@ -306,6 +310,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Tests\CustomColorMesh.fx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

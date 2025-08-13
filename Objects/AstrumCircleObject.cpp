@@ -1,5 +1,5 @@
 #include "AstrumCircleObject.hpp"
-#include "../Singletons/AstrumRenderer.hpp"
+#include "../Singletons/AstrumRenderQueue.hpp"
 
 AstrumCircleObject::AstrumCircleObject() {}
 AstrumCircleObject::AstrumCircleObject(const std::shared_ptr<AstrumCirclePolygons>& circlePolygon) {
@@ -11,7 +11,7 @@ AstrumCircleObject::AstrumCircleObject(const AstrumVertexColor& center, float ra
 
 void AstrumCircleObject::Draw() {
 	if (Visible && circlePolygon) {
-		AstrumRenderer::Instance().EnqueueRenderable(renderPolygonsComponent);
+		AstrumRenderQueue::Enqueue(renderPolygonsComponent);
 	}
 }
 

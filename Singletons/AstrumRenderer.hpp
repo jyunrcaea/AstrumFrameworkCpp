@@ -23,6 +23,8 @@ struct AstrumResolution
     unsigned int Height = 0;
 };
 
+struct IAstrumRenderable;
+
 class AstrumRenderer : public AstrumSingleton<AstrumRenderer> {
     friend class AstrumSingleton<AstrumRenderer>;
 
@@ -32,8 +34,6 @@ public:
     void Initialize(uint16_t width, uint16_t height, bool windowMode = true);
     // 렌더 큐에 있는 그릴수 있는 객체들을 모두 호출하면서 큐를 비우고 스왑체인을 갱신하는 진짜 렌더링 함수.
     void Rendering();
-    // 렌더 큐에 그릴 객체를 삽입
-    void EnqueueRenderable(std::shared_ptr<struct IAstrumRenderable> renderable);
 
     // 원하는 타입의 버퍼 생성하기
     template<typename T>
@@ -63,7 +63,6 @@ public:
 private:
     AstrumResolution resolution{};
     UINT sampleCount = 1;
-    std::queue<std::shared_ptr<IAstrumRenderable>> renderQueue;
 
     ComPtr<ID3D11Device> device;
     ComPtr<ID3D11DeviceContext> context;

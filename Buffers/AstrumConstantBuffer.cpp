@@ -22,6 +22,8 @@ void AstrumConstantBuffer::Dispose() {
     }
 }
 
+unsigned int AstrumConstantBuffer::GetBufferSize() const { return bufferSize; }
+
 ID3D11Buffer* AstrumConstantBuffer::GetConstantBuffer() const {
     return buffer.Get();
 }

@@ -2,6 +2,7 @@
 #include <memory>
 #include "../Shaders/IAstrumShaders.hpp"
 #include "../Singletons/AstrumRenderer.hpp"
+#include "../Singletons/AstrumRenderQueue.hpp"
 
 struct IAstrumRenderable {
     virtual ~IAstrumRenderable() = default;
@@ -9,6 +10,7 @@ struct IAstrumRenderable {
 
 protected:
 	friend class AstrumRenderer;
+	friend class AstrumRenderQueueSingleton;
 
     // 버퍼를 업데이트하고, 다음 실제 렌더링으로 진입하는 함수.
     virtual void PreRender() = 0;

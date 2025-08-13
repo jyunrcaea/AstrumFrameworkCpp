@@ -16,9 +16,7 @@ public:
     AstrumMatrix& WorldView = data.WorldView;
     AstrumMatrix& WorldViewProjection = data.WorldViewProjection;
 
-    void UpdateBuffer();
-protected:
-    virtual constexpr unsigned int GetBufferSize() const { return sizeof(AstrumTransformData); }
+    virtual void UpdateBuffer() override;
 
 private:
     AstrumTransformData data{};

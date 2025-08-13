@@ -15,7 +15,9 @@ public:
     virtual ~AstrumConstantBuffer() override;
     virtual void Dispose();
     ID3D11Buffer* GetConstantBuffer() const override;
+    unsigned int GetBufferSize() const;
 
+    virtual void UpdateBuffer() override = 0;
 protected:
     void Update(std::span<const std::byte> data);
 

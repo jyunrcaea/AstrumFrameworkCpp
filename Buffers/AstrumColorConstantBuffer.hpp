@@ -10,5 +10,5 @@ public:
 	
 	AstrumVector4 Data{ 1.f, 1.f, 1.f, 1.f };
 
-	void UpdateBuffer();
+	virtual void UpdateBuffer() override;
 };
