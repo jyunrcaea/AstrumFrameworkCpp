@@ -9,12 +9,6 @@ AstrumCircleObject::AstrumCircleObject(const AstrumVertexColor& center, float ra
 	SetCirclePolygons(AstrumCirclePolygons::MakeShared(center, radius, segment));
 }
 
-void AstrumCircleObject::Draw() {
-	if (Visible && circlePolygon) {
-		AstrumRenderQueue::Enqueue(renderPolygonsComponent);
-	}
-}
-
 std::shared_ptr<AstrumCirclePolygons> AstrumCircleObject::GetCirclePolygons() const { return circlePolygon; }
 
 void AstrumCircleObject::SetCirclePolygons(const std::shared_ptr<AstrumCirclePolygons>& circlePolygon) {

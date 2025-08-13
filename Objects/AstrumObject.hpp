@@ -54,11 +54,13 @@ protected:
     void SetAbsoluteRotation(const AstrumVector3& vec);
     void SetAbsoluteScale(const AstrumVector3& vec);
 
-public:
-    bool Visible = true;
+    virtual void SetVisible(bool enable) override;
 
+	virtual bool IsVisible() const override;
     virtual bool IsPrepared() const override;
+
 private:
+    bool visible = true;
     bool isPrepared = false;
 
 private:

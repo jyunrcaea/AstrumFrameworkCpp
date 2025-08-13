@@ -50,5 +50,8 @@ struct IAstrumObject : public std::enable_shared_from_this<IAstrumObject> {
     virtual void UpdateAbsoluteRotation() = 0;
     virtual void UpdateAbsoluteScale() = 0;
 
+	virtual void SetVisible(bool enable) = 0;
+
     virtual bool IsPrepared() const = 0;
+	virtual bool IsVisible() const = 0;
 };

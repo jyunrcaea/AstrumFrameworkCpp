@@ -199,6 +199,7 @@
     </ClCompile>
     <ClCompile Include="Components\AstrumConstantBufferComponent.cpp" />
     <ClCompile Include="Singletons\AstrumRenderQueue.cpp" />
+    <ClCompile Include="Components\AstrumTextRenderComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Objects\AstrumObject.hpp">
@@ -500,6 +501,7 @@
     </ClInclude>
     <ClInclude Include="Components\AstrumConstantBufferComponent.hpp" />
     <ClInclude Include="Singletons\AstrumRenderQueue.hpp" />
+    <ClInclude Include="Components\AstrumTextRenderComponent.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Objects">

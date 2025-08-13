@@ -1,0 +1,1 @@
+#include "AstrumTextRenderComponent.hpp"

@@ -2,13 +2,27 @@
 
 void AstrumRenderQueueSingleton::Enqueue(const std::shared_ptr<IAstrumRenderable>& renderable) {
 	if (nullptr != renderable) {
-		renderQueue.push(renderable);
+		renderQueue.emplace(renderable);
 	}
 }
 
-void AstrumRenderQueueSingleton::Render() {
-	while (false == renderQueue.empty()) {
+void AstrumRenderQueueSingleton::Enqueue(std::shared_ptr<IAstrumRenderable>&& renderable) {
+	if (nullptr != renderable) {
+		renderQueue.emplace(std::move(renderable));
+	}
+}
+
+void AstrumRenderQueueSingleton::PeekToPreRender() {
+	for(int remain=renderQueue.size(); remain > 0; remain--) {
 		renderQueue.front()->PreRender();
+		renderQueue.emplace(std::move(renderQueue.front()));
+		renderQueue.pop();
+	}
+}
+
+void AstrumRenderQueueSingleton::DequeueToRender() {
+	while (false == renderQueue.empty()) {
+		renderQueue.front()->Render();
 		renderQueue.pop();
 	}
 }

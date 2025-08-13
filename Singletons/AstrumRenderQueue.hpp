@@ -15,7 +15,9 @@ class AstrumRenderQueueSingleton : public AstrumSingleton<AstrumRenderQueueSingl
 
 private:
 	void Enqueue(const std::shared_ptr<IAstrumRenderable>& renderable);
-	void Render();
+	void Enqueue(std::shared_ptr<IAstrumRenderable>&& renderable);
+	void PeekToPreRender();
+	void DequeueToRender();
 	void Dispose();
 
 private:
@@ -26,16 +28,11 @@ class AstrumRenderQueue
 {
 public:
 	// 렌더 큐에 그릴 객체를 삽입
-	static void Enqueue(const std::shared_ptr<IAstrumRenderable>& renderable) {
-		AstrumRenderQueueSingleton::Instance().Enqueue(renderable);
-	}
-
+	static void Enqueue(const std::shared_ptr<IAstrumRenderable>& renderable) { AstrumRenderQueueSingleton::Instance().Enqueue(renderable); }
+	static void Enqueue(std::shared_ptr<IAstrumRenderable>&& renderable) { AstrumRenderQueueSingleton::Instance().Enqueue(renderable); }
 private:
 	friend class AstrumRenderer;
-	static void Render() {
-		AstrumRenderQueueSingleton::Instance().Render();
-	}
-	static void Dispose() {
-		AstrumRenderQueueSingleton::Instance().Dispose();
-	}
+	static void PeekToPreRender() { AstrumRenderQueueSingleton::Instance().PeekToPreRender(); }
+	static void DequeueToRender() { AstrumRenderQueueSingleton::Instance().DequeueToRender(); }
+	static void Dispose() { AstrumRenderQueueSingleton::Instance().Dispose(); }
 };

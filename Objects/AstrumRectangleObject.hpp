@@ -11,8 +11,6 @@ public:
     AstrumRectangleObject(const std::shared_ptr<AstrumRectanglePolygons>& rectanglePolygon);
     AstrumRectangleObject(float width, float height, const AstrumColor& color);
 
-    virtual void Draw() override;
-
     std::shared_ptr<AstrumRectanglePolygons> GetRectanglePolygons() const;
     void SetRectanglePolygons(const std::shared_ptr<AstrumRectanglePolygons>& rectanglePolygon);
 

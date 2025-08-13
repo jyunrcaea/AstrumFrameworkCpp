@@ -9,7 +9,6 @@ public:
     AstrumShapeObject() {
         AddComponent(renderPolygonsComponent);
     }
-    virtual void Draw() = 0;
 
 protected:
     std::shared_ptr<AstrumRenderPolygonsComponent> renderPolygonsComponent = std::make_shared<AstrumRenderPolygonsComponent>();

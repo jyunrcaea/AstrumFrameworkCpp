@@ -46,6 +46,7 @@ public:
 
     ID3D11Device* GetDevice()  const;
     ID3D11DeviceContext* GetContext() const;
+	ID2D1RenderTarget* GetRenderTarget2D() const;
 
     // 도형 렌더링 시 기본으로 사용할 셰이더
     std::shared_ptr<struct IAstrumShaderSetup> DefaultShapeShaderPipeline = nullptr;

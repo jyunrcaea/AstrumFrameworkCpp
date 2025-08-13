@@ -11,12 +11,6 @@ AstrumPolygonsObject::AstrumPolygonsObject(const std::shared_ptr<AstrumPolygons>
 	renderPolygonsComponent->Polygons = polygons;
 }
 
-void AstrumPolygonsObject::Draw() {
-	if (Visible && renderPolygonsComponent) {
-		AstrumRenderQueue::Enqueue(renderPolygonsComponent);
-	}
-}
-
 std::shared_ptr<AstrumPolygons>& AstrumPolygonsObject::GetPolygons() {
 	return renderPolygonsComponent->Polygons;
 }

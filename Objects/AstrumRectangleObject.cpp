@@ -9,12 +9,6 @@ AstrumRectangleObject::AstrumRectangleObject(float width, float height, const As
     SetRectanglePolygons(AstrumRectanglePolygons::MakeShared(width, height, color));
 }
 
-void AstrumRectangleObject::Draw() {
-    if (Visible && renderPolygonsComponent) {
-        AstrumRenderQueue::Enqueue(renderPolygonsComponent);
-    }
-}
-
 std::shared_ptr<AstrumRectanglePolygons> AstrumRectangleObject::GetRectanglePolygons() const {
     return rectanglePolygon;
 }

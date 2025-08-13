@@ -17,9 +17,3 @@ AstrumMaterialObject::AstrumMaterialObject(const std::shared_ptr<AstrumMaterial>
 std::shared_ptr<AstrumRenderMaterialComponent> AstrumMaterialObject::GetRenderMaterialComponent() const {
     return renderMaterialComponent;
 }
-
-void AstrumMaterialObject::Draw() {
-    if (Visible && renderMaterialComponent->Material && renderMaterialComponent->Mesh) {
-        AstrumRenderQueue::Enqueue(renderMaterialComponent);
-    }
-}

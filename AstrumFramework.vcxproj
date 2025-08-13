@@ -136,6 +136,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Components\AstrumTextRenderComponent.cpp" />
     <ClCompile Include="Singletons\AstrumRenderQueue.cpp" />
     <ClCompile Include="Components\AstrumCircleColliderComponent.cpp" />
     <ClCompile Include="Components\AstrumAABBColliderComponent.cpp" />
@@ -207,6 +208,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Arcaea\ArcaeaChart.hpp" />
+    <ClInclude Include="Components\AstrumTextRenderComponent.hpp" />
     <ClInclude Include="Singletons\AstrumRenderQueue.hpp" />
     <ClInclude Include="Components\AstrumAABBColliderComponent.hpp" />
     <ClInclude Include="Animations\AstrumAnimationFunctions.hpp" />

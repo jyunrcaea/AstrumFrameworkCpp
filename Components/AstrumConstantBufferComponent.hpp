@@ -6,7 +6,12 @@
 class AstrumConstantBufferComponent : public AstrumComponent
 {
 public:
-	AstrumConstantBufferComponent(const std::shared_ptr<IAstrumConstantBuffer>& constantBuffer = nullptr);
-	virtual void PreRender() override;
-	std::shared_ptr<IAstrumConstantBuffer> ConstantBuffer;
+	AstrumConstantBufferComponent();
+	AstrumConstantBufferComponent(const std::shared_ptr<IAstrumConstantBuffer>& buffer);
+	AstrumConstantBufferComponent(std::shared_ptr<IAstrumConstantBuffer>&& buffer);
+
+	virtual void Draw() override;
+
+public:
+	std::shared_ptr<IAstrumConstantBuffer> ConstantBuffer = nullptr;
 };

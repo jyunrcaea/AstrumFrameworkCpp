@@ -8,8 +8,6 @@ public:
 	AstrumPolygonsObject();
 	AstrumPolygonsObject(const std::shared_ptr<AstrumPolygons>& polygons);
 
-	virtual void Draw() override;
-
 	std::shared_ptr<AstrumPolygons>& GetPolygons();
 	void SetPolygons(const std::shared_ptr<AstrumPolygons>& polygons);
 

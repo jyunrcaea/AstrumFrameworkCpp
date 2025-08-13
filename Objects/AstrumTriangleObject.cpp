@@ -7,13 +7,6 @@ AstrumTriangleObject::AstrumTriangleObject(const AstrumVertexColor& a, const Ast
 	SetPolygons(a, b, c);
 }
 
-void AstrumTriangleObject::Draw()
-{
-	if (Visible) {
-		AstrumRenderQueue::Enqueue(renderPolygonsComponent);
-	}
-}
-
 std::shared_ptr<AstrumPolygons> AstrumTriangleObject::GetPolygons() const {
 	return renderPolygonsComponent->Polygons;
 }

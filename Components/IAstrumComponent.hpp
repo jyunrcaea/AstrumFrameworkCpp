@@ -10,7 +10,8 @@ struct IAstrumComponent
 	virtual void Prepare() = 0;
 	virtual void Update() = 0;
 	virtual void Release() = 0;
-	virtual void PreRender() = 0;
+	// 컴포넌트가 소속된 객체의 IsVisible()가 true일 때만 호출됩니다.
+	virtual void Draw() = 0;
 
 	virtual void SetOwner(IAstrumObject* owner) = 0;
 	virtual IAstrumObject* GetOwner() const = 0;

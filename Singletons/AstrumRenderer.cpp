@@ -143,6 +143,8 @@ void AstrumRenderer::Initialize(uint16_t width, uint16_t height, bool windowMode
 }
 
 void AstrumRenderer::Rendering() {
+    AstrumRenderQueue::PeekToPreRender();
+
     const auto& c = AstrumWindow::BackgroundColor();
     float bg[4] = { c.Red, c.Green, c.Blue, c.Alpha };
 
@@ -161,8 +163,8 @@ void AstrumRenderer::Rendering() {
     float blendFactor[4] = { 0,0,0,0 };
     UINT  sampleMask = 0xFFFFFFFF;
     context->OMSetBlendState(blendState.Get(), blendFactor, sampleMask);
-
-    AstrumRenderQueue::Render();
+    // 실제 드로우 콜 처리
+	AstrumRenderQueue::DequeueToRender();
     // 이전 블렌딩 돌려놓기
     context->OMSetBlendState(prevBlendState, prevBlendFactor, prevSampleMask);
     // 진짜 출력
@@ -177,6 +179,7 @@ void AstrumRenderer::Dispose() {
 
 ID3D11Device* AstrumRenderer::GetDevice() const { return device.Get(); }
 ID3D11DeviceContext* AstrumRenderer::GetContext() const { return context.Get(); }
+ID2D1RenderTarget* AstrumRenderer::GetRenderTarget2D() const { return renderTarget2D.Get(); }
 
 void AstrumRenderer::CreateAndSetDefaultShapePipeline() {
     auto shapePipeline = AstrumShaderSetup::MakeShared();
