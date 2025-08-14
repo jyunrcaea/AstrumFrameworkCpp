@@ -15,6 +15,7 @@ public:
     virtual AstrumObservedVector3& GetPosition() override { return AstrumObject::GetPosition(); }
     virtual AstrumObservedVector3& GetRotation() override { return AstrumObject::GetRotation(); }
     virtual AstrumObservedVector3& GetScale() override { return AstrumObject::GetScale(); }
+	virtual void SetVisible(bool enable) override { AstrumObject::SetVisible(enable); }
 	virtual bool IsVisible() const override { return AstrumObject::IsVisible(); }
     virtual bool IsPrepared() const override { return AstrumObject::IsPrepared(); }
     virtual bool SetParent(IAstrumGroupObject* const p) override { return AstrumObject::SetParent(p); }
