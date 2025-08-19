@@ -16,11 +16,6 @@ namespace InGame {
 			SetPositionZ(10);
 
 			Position.SetY(2000.f);
-			customShaderPipeline = AstrumShaderSetup::MakeShared();
-			customShaderPipeline->AddInputLayoutDescription("POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0);
-			customShaderPipeline->AddInputLayoutDescription("COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-			customShaderPipeline->VertexShader = AstrumVertexShader::MakeShared(L"./Tests/CustomColorMesh.fx", "ColorMeshVS");
-			customShaderPipeline->PixelShader = AstrumPixelShader::MakeShared(L"./Tests/CustomColorMesh.fx", "ColorMeshPS");
 		}
 
 		virtual void Prepare() override {
@@ -56,18 +51,6 @@ namespace InGame {
 				break;
 			}
 		}
-
-		virtual void Draw() override {
-			auto& defaultShaderPipeline = AstrumRenderer::Instance().DefaultShapeShaderPipeline;
-
-			std::shared_ptr<IAstrumShaderSetup> temp{ std::move(defaultShaderPipeline) };
-			defaultShaderPipeline = customShaderPipeline;
-			AstrumGroupObject::Draw();
-			defaultShaderPipeline = std::move(temp);
-		}
-
 	private:
-		std::shared_ptr<AstrumRectangleObject> board = nullptr;
-		std::shared_ptr<AstrumShaderSetup> customShaderPipeline;
 	};
 }

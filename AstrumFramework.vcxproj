@@ -228,6 +228,7 @@
     <ClInclude Include="Tests\InGame\HoldNoteObject.hpp" />
     <ClInclude Include="Tests\InGame\NoteBoardObject.hpp" />
     <ClInclude Include="Tests\InGame\NoteGroupObject.hpp" />
+    <ClInclude Include="Tests\InGame\PlayFieldObject.hpp" />
     <ClInclude Include="Tests\InGame\SceneObject.hpp" />
     <ClInclude Include="Tests\InGame\NoteObject.hpp" />
     <ClInclude Include="Tests\InGame\SkyNoteObject.hpp" />
@@ -322,11 +323,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="Tests\CustomColorMesh.fx">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

@@ -13,6 +13,7 @@ class Program
 private:
 	static void Main() {
 		AstrumFramework::Initialize();
+		AstrumChrono::SetFramerate(300);
 		AstrumFramework::GetRootObject()->AddObject(
 			std::make_shared<InGame::SceneObject>()
 		);

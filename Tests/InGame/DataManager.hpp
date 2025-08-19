@@ -8,8 +8,8 @@
 #include "../../Objects/AstrumRectangleObject.hpp"
 
 namespace InGame {
-	constexpr float LeftX = -400.f;
 	constexpr float NoteWidth = 200.f;
+	constexpr float LeftX = NoteWidth * -3.f;
 
 	class DataManager : public AstrumSingleton<DataManager>
 	{

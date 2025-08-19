@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include <functional>
 #include "AstrumConstantBuffer.hpp"
 
@@ -13,4 +14,9 @@ public:
 	}
 private:
 	std::function<void(AstrumConstantBuffer*)> updateFunction;
+
+public:
+	static std::shared_ptr<AstrumSimpleConstantBuffer> MakeShared(const std::function<void(AstrumConstantBuffer*)>& update, unsigned int size) {
+		return std::make_shared<AstrumSimpleConstantBuffer>(update, size);
+	}
 };

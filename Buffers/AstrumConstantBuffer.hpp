@@ -19,8 +19,6 @@ public:
 
     virtual void UpdateBuffer() override = 0;
 
-protected:
-    void Update(std::span<const std::byte> data);
 	template<typename T>
 	void UpdateConstantBuffer(T& data);
     void SetPixelShaderConstantBuffer(unsigned int slot);
@@ -30,6 +28,8 @@ protected:
     void SetDomainShaderConstantBuffer(unsigned int slot);
     void SetComputeShaderConstantBuffer(unsigned int slot);
 
+protected:
+    void Update(std::span<const std::byte> data);
     Microsoft::WRL::ComPtr<ID3D11Buffer> buffer;
     const unsigned int bufferSize;
 };
