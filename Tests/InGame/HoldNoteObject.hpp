@@ -1,5 +1,7 @@
 #pragma once
 #include "DataManager.hpp"
+#include "../Arcaea/ArcaeaChartManager.hpp"
+#include "../../Objects/AstrumRectangleObject.hpp"
 
 namespace InGame {
 	class HoldNoteObject : public AstrumRectangleObject

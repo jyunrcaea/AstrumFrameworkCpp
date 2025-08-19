@@ -5,6 +5,7 @@
 #include "ArcObject.hpp"
 #include "TraceObject.hpp"
 #include "SkyNoteObject.hpp"
+#include "../Arcaea/ArcaeaChartManager.hpp"
 
 namespace InGame {
 	class NoteGroupObject : public AstrumGroupObject

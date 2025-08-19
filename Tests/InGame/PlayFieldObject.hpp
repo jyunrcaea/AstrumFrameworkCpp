@@ -1,9 +1,11 @@
 #pragma once
+#include <memory>
 #include "DataManager.hpp"
 #include "NoteBoardObject.hpp"
 #include "NoteGroupObject.hpp"
 #include "../../Components/AstrumConstantBufferComponent.hpp"
 #include "../../Buffers/AstrumSimpleConstantBuffer.hpp"
+#include "../../Shaders/AstrumShaderSetup.hpp"
 
 namespace InGame {
 	class PlayFieldObject : public AstrumGroupObject

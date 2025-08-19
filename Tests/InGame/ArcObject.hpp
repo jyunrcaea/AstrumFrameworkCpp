@@ -1,5 +1,6 @@
 #pragma once
 #include "DataManager.hpp"
+#include "../../Objects/AstrumPolygonsObject.hpp"
 
 namespace InGame {
 	class ArcObject : public AstrumPolygonsObject

@@ -1,5 +1,6 @@
 #pragma once
 #include "DataManager.hpp"
+#include "../../Objects/AstrumRectangleObject.hpp"
 
 namespace InGame {
 	class NoteObject : public AstrumRectangleObject
