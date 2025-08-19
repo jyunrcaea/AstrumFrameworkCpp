@@ -3,11 +3,13 @@
 #include "../Buffers/AstrumTransformConstantBuffer.hpp"
 #include "../Graphics/IAstrumRenderable.hpp"
 
+// 렌더링을 수행하는 기본 컴포넌트입니다.
 class AstrumRenderComponent : public AstrumComponent, public IAstrumRenderable {
 public:
     virtual std::shared_ptr<struct IAstrumShaderSetup> GetDefaultShaderPipeline() const = 0;
     std::shared_ptr<struct IAstrumShaderSetup> CustomShaderPipeline = nullptr;
 
+    virtual void Draw() override;
 protected:
     // 셰이더를 설정합니다.
     virtual void Render() override;

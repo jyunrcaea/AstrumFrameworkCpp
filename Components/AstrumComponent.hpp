@@ -8,7 +8,7 @@ public:
 	virtual void Prepare() override;
 	virtual void Update() override;
 	virtual void Release() override;
-	virtual void PreRender() override;
+	virtual void Draw() override;
 
 	virtual void SetOwner(IAstrumObject* owner);
 	virtual IAstrumObject* GetOwner() const;

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <memory>
 #include "../Vectors/AstrumVector3.hpp"
 #include "../Vectors/AstrumObservedVector3.hpp"
@@ -29,8 +29,19 @@ struct IAstrumObject : public std::enable_shared_from_this<IAstrumObject> {
     void SetScale(const AstrumVector3& vec);
 
     void SetPosition(float x, float y, float z);
+    void SetPositionX(float x);
+	void SetPositionY(float y);
+	void SetPositionZ(float z);
+
     void SetRotation(float x, float y, float z);
+	void SetRotationX(float x);
+	void SetRotationY(float y);
+	void SetRotationZ(float z);
+
     void SetScale(float x, float y, float z);
+	void SetScaleX(float x);
+	void SetScaleY(float y);
+	void SetScaleZ(float z);
 
     virtual const AstrumVector3& GetAbsolutePosition() = 0;
     virtual const AstrumVector3& GetAbsoluteRotation() = 0;
@@ -42,13 +53,16 @@ struct IAstrumObject : public std::enable_shared_from_this<IAstrumObject> {
 
     virtual IAstrumComponentList& GetComponents() = 0;
 
-    bool AddComponent(std::shared_ptr<struct IAstrumComponent> const component);
-    bool RemoveComponent(std::shared_ptr<struct IAstrumComponent> const component);
+    bool AddComponent(const std::shared_ptr<struct IAstrumComponent>& component);
+    bool RemoveComponent(const std::shared_ptr<struct IAstrumComponent>& component);
     void ClearComponent();
 
     virtual void UpdateAbsolutePosition() = 0;
     virtual void UpdateAbsoluteRotation() = 0;
     virtual void UpdateAbsoluteScale() = 0;
 
+	virtual void SetVisible(bool enable) = 0;
+
     virtual bool IsPrepared() const = 0;
+	virtual bool IsVisible() const = 0;
 };

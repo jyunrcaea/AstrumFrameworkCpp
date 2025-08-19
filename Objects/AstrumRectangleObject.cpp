@@ -1,5 +1,5 @@
 #include "AstrumRectangleObject.hpp"
-#include "../Singletons/AstrumRenderer.hpp"
+#include "../Singletons/AstrumRenderQueue.hpp"
 
 AstrumRectangleObject::AstrumRectangleObject() {}
 AstrumRectangleObject::AstrumRectangleObject(const std::shared_ptr<AstrumRectanglePolygons>& rectanglePolygon) {
@@ -7,12 +7,6 @@ AstrumRectangleObject::AstrumRectangleObject(const std::shared_ptr<AstrumRectang
 }
 AstrumRectangleObject::AstrumRectangleObject(float width, float height, const AstrumColor& color) {
     SetRectanglePolygons(AstrumRectanglePolygons::MakeShared(width, height, color));
-}
-
-void AstrumRectangleObject::Draw() {
-    if (Visible) {
-        AstrumRenderer::Instance().EnqueueRenderable(renderPolygonsComponent);
-    }
 }
 
 std::shared_ptr<AstrumRectanglePolygons> AstrumRectangleObject::GetRectanglePolygons() const {

@@ -188,7 +188,18 @@
     <ClCompile Include="Objects\IAstrumMaterialObject.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Arcaea\ArcaeaChartParser.cpp" />
+    <ClCompile Include="Resources\AstrumFonts.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Arcaea\ArcaeaChartParser.cpp">
+      <Filter>Arcaea</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\AstrumTransformObject.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\AstrumConstantBufferComponent.cpp" />
+    <ClCompile Include="Singletons\AstrumRenderQueue.cpp" />
+    <ClCompile Include="Components\AstrumTextRenderComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Objects\AstrumObject.hpp">
@@ -464,10 +475,33 @@
     <ClInclude Include="Singletons\AstrumSingleton.hpp">
       <Filter>Singletons</Filter>
     </ClInclude>
-    <ClInclude Include="Arcaea\ArcaeaChart.hpp" />
-    <ClInclude Include="Arcaea\ArcaeaChartParser.hpp" />
-    <ClInclude Include="Tests\RectMoving.hpp" />
-    <ClInclude Include="Tests\NoteTest.hpp" />
+    <ClInclude Include="Resources\AstrumFonts.hpp">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\AstrumTargetFont.hpp">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Arcaea\ArcaeaChart.hpp">
+      <Filter>Arcaea</Filter>
+    </ClInclude>
+    <ClInclude Include="Arcaea\ArcaeaChartParser.hpp">
+      <Filter>Arcaea</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\AstrumTransformObject.hpp">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\IAstrumColliderComponent.hpp">
+      <Filter>Components\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Tests\NoteTest.hpp">
+      <Filter>Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="Tests\RectMoving.hpp">
+      <Filter>Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\AstrumConstantBufferComponent.hpp" />
+    <ClInclude Include="Singletons\AstrumRenderQueue.hpp" />
+    <ClInclude Include="Components\AstrumTextRenderComponent.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Objects">
@@ -512,8 +546,19 @@
     <Filter Include="Objects\Interface">
       <UniqueIdentifier>{1a9ffc4a-51e5-4f2f-885f-77c5c6603222}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Arcaea">
+      <UniqueIdentifier>{eb2d8059-c080-4fab-8f84-926ce00e7242}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tests">
+      <UniqueIdentifier>{dbde0ab1-258b-46a1-812d-de1eb9dd2ca6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Tests\CustomColorMesh.fx">
+      <Filter>Tests</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

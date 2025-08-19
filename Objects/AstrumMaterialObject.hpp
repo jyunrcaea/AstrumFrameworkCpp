@@ -17,7 +17,5 @@ public:
     virtual std::shared_ptr<AstrumRenderMaterialComponent> GetRenderMaterialComponent() const override;
 
 protected:
-    virtual void Draw() override;
-
     std::shared_ptr<AstrumRenderMaterialComponent> renderMaterialComponent = std::make_shared<AstrumRenderMaterialComponent>();
 };

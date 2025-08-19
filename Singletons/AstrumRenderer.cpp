@@ -1,5 +1,6 @@
-﻿#include "AstrumRenderer.hpp"
+#include "AstrumRenderer.hpp"
 #include "../Shaders/AstrumShaderSetup.hpp"
+#include "AstrumRenderQueue.hpp"
 
 void AstrumRenderer::Initialize(uint16_t width, uint16_t height, bool windowMode) {
     UINT flags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
@@ -121,6 +122,19 @@ void AstrumRenderer::Initialize(uint16_t width, uint16_t height, bool windowMode
     viewport.MaxDepth = 1.0f;
     context->RSSetViewports(1, &viewport);
 
+	// Direct2D 초기화
+    if (FAILED(D2D1CreateFactory(D2D1_FACTORY_TYPE_MULTI_THREADED, factory2D.GetAddressOf()))) {
+        throw AstrumException("Failed to create D2D factory.");
+	}
+
+	ComPtr<IDXGISurface> backSurface;
+	swapChain->GetBuffer(0, IID_PPV_ARGS(&backSurface));
+	if (FAILED(factory2D->CreateDxgiSurfaceRenderTarget(
+		backSurface.Get(),
+        D2D1::RenderTargetProperties(D2D1_RENDER_TARGET_TYPE_HARDWARE, D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED)),
+        renderTarget2D.GetAddressOf()
+	))) throw AstrumException("Failed to create D2D render target.");
+
     AstrumTextureSampler::Instance().Initialize();
     AstrumTextureSampler::Instance().SetSampler(AstrumTextureSampleType_Linear);
 
@@ -129,6 +143,8 @@ void AstrumRenderer::Initialize(uint16_t width, uint16_t height, bool windowMode
 }
 
 void AstrumRenderer::Rendering() {
+    AstrumRenderQueue::PeekToPreRender();
+
     const auto& c = AstrumWindow::BackgroundColor();
     float bg[4] = { c.Red, c.Green, c.Blue, c.Alpha };
 
@@ -147,30 +163,23 @@ void AstrumRenderer::Rendering() {
     float blendFactor[4] = { 0,0,0,0 };
     UINT  sampleMask = 0xFFFFFFFF;
     context->OMSetBlendState(blendState.Get(), blendFactor, sampleMask);
-
-    while (!renderQueue.empty()) {
-        renderQueue.front()->PreRender();
-        renderQueue.pop();
-    }
-    
+    // 실제 드로우 콜 처리
+	AstrumRenderQueue::DequeueToRender();
     // 이전 블렌딩 돌려놓기
     context->OMSetBlendState(prevBlendState, prevBlendFactor, prevSampleMask);
-
     // 진짜 출력
     swapChain->Present(0, 0);
-}
-
-void AstrumRenderer::EnqueueRenderable(std::shared_ptr<IAstrumRenderable> renderable) {
-    renderQueue.push(std::move(renderable));
 }
 
 void AstrumRenderer::Dispose() {
     // There are not handle something, because ComPtr
     AstrumTextureSampler::Instance().Dispose(); // Same. Just for design.
+	AstrumRenderQueue::Dispose();
 }
 
 ID3D11Device* AstrumRenderer::GetDevice() const { return device.Get(); }
 ID3D11DeviceContext* AstrumRenderer::GetContext() const { return context.Get(); }
+ID2D1RenderTarget* AstrumRenderer::GetRenderTarget2D() const { return renderTarget2D.Get(); }
 
 void AstrumRenderer::CreateAndSetDefaultShapePipeline() {
     auto shapePipeline = AstrumShaderSetup::MakeShared();

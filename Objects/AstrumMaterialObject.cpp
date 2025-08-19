@@ -1,5 +1,5 @@
 #include "AstrumMaterialObject.hpp"
-#include "../Singletons/AstrumRenderer.hpp"
+#include "../Singletons/AstrumRenderQueue.hpp"
 #include "../Units/AstrumTextureVertex.hpp"
 
 AstrumMaterialObject::AstrumMaterialObject() {
@@ -16,8 +16,4 @@ AstrumMaterialObject::AstrumMaterialObject(const std::shared_ptr<AstrumMaterial>
 
 std::shared_ptr<AstrumRenderMaterialComponent> AstrumMaterialObject::GetRenderMaterialComponent() const {
     return renderMaterialComponent;
-}
-
-void AstrumMaterialObject::Draw() {
-    if (Visible) AstrumRenderer::Instance().EnqueueRenderable(renderMaterialComponent);
 }

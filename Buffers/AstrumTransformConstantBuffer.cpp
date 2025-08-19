@@ -1,9 +1,7 @@
 ﻿#include "AstrumTransformConstantBuffer.hpp"
-#include "AstrumColorConstantBuffer.hpp"
 
 AstrumTransformConstantBuffer::AstrumTransformConstantBuffer()
-    : AstrumConstantBuffer(GetBufferSize())
-{
+    : AstrumConstantBuffer(sizeof(AstrumTransformData)) {
 #if _DEBUG
     if (GetBufferSize() % 16 != 0)
         throw AstrumException("Constant buffer size must be 16-byte aligned.");
@@ -21,9 +19,9 @@ void AstrumTransformConstantBuffer::UpdateBuffer() {
     WorldView.Transpose();
     WorldViewProjection.Transpose();
 
-    Update(std::as_bytes(std::span{ &data, 1 }));
-
-    AstrumRenderer::Instance().GetContext()->VSSetConstantBuffers(0, 1, buffer.GetAddressOf());
+    //Update(std::as_bytes(std::span{ &data, 1 }));
+    UpdateConstantBuffer(data);
+    SetVertexShaderConstantBuffer(0);
 #if _DEBUG
     if (nullptr == buffer) throw AstrumException("Buffer be nullptr.");
 #endif

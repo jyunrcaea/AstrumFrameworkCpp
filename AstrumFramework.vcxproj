@@ -136,20 +136,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Components\AstrumTextRenderComponent.cpp" />
+    <ClCompile Include="Singletons\AstrumRenderQueue.cpp" />
     <ClCompile Include="Components\AstrumCircleColliderComponent.cpp" />
     <ClCompile Include="Components\AstrumAABBColliderComponent.cpp" />
     <ClCompile Include="Components\AstrumAnimatorComponent.cpp" />
+    <ClCompile Include="Components\AstrumConstantBufferComponent.cpp" />
     <ClCompile Include="Graphics\AstrumCamera.cpp" />
-    <ClCompile Include="Arcaea\ArcaeaChartParser.cpp" />
+    <ClCompile Include="Tests\Arcaea\ArcaeaChartParser.cpp" />
     <ClCompile Include="Objects\AstrumTransformObject.cpp" />
     <ClCompile Include="Objects\IAstrumMaterialObject.cpp" />
     <ClCompile Include="Resources\AstrumChannelGroup.cpp" />
+    <ClCompile Include="Resources\AstrumFonts.cpp" />
     <ClCompile Include="Singletons\AstrumChrono.cpp" />
     <ClCompile Include="Objects\AstrumCircleObject.cpp" />
     <ClCompile Include="Meshes\AstrumCirclePolygons.cpp" />
     <ClCompile Include="Components\AstrumColliderComponent.cpp" />
     <ClCompile Include="Singletons\AstrumCollisionSystem.cpp" />
-    <ClCompile Include="Buffers\AstrumColorConstantBuffer.cpp" />
     <ClCompile Include="Components\AstrumComponent.cpp" />
     <ClCompile Include="Collections\AstrumComponentList.cpp" />
     <ClCompile Include="Buffers\AstrumConstantBuffer.cpp" />
@@ -203,14 +206,33 @@
     <ClCompile Include="Vectors\AstrumObservedVector4.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Arcaea\ArcaeaChart.hpp" />
+    <ClInclude Include="Tests\Arcaea\ArcaeaChart.hpp" />
+    <ClInclude Include="Buffers\AstrumSimpleConstantBuffer.hpp" />
+    <ClInclude Include="Collections\AstrumList.hpp" />
+    <ClInclude Include="Components\AstrumTextRenderComponent.hpp" />
+    <ClInclude Include="Singletons\AstrumRenderQueue.hpp" />
     <ClInclude Include="Components\AstrumAABBColliderComponent.hpp" />
     <ClInclude Include="Animations\AstrumAnimationFunctions.hpp" />
     <ClInclude Include="Components\AstrumCircleColliderComponent.hpp" />
-    <ClInclude Include="Arcaea\ArcaeaChartParser.hpp" />
+    <ClInclude Include="Tests\Arcaea\ArcaeaChartManager.hpp" />
+    <ClInclude Include="Tests\Arcaea\ArcaeaChartParser.hpp" />
+    <ClInclude Include="Components\AstrumConstantBufferComponent.hpp" />
+    <ClInclude Include="Components\IAstrumColliderComponent.hpp" />
     <ClInclude Include="Meshes\AstrumCirclePolygons.hpp" />
     <ClInclude Include="Objects\AstrumTransformObject.hpp" />
     <ClInclude Include="Objects\IAstrumMaterialObject.hpp" />
+    <ClInclude Include="Resources\AstrumFonts.hpp" />
+    <ClInclude Include="Resources\AstrumTargetFont.hpp" />
+    <ClInclude Include="Tests\InGame\ArcObject.hpp" />
+    <ClInclude Include="Tests\InGame\DataManager.hpp" />
+    <ClInclude Include="Tests\InGame\HoldNoteObject.hpp" />
+    <ClInclude Include="Tests\InGame\NoteBoardObject.hpp" />
+    <ClInclude Include="Tests\InGame\NoteGroupObject.hpp" />
+    <ClInclude Include="Tests\InGame\PlayFieldObject.hpp" />
+    <ClInclude Include="Tests\InGame\SceneObject.hpp" />
+    <ClInclude Include="Tests\InGame\NoteObject.hpp" />
+    <ClInclude Include="Tests\InGame\SkyNoteObject.hpp" />
+    <ClInclude Include="Tests\InGame\TraceObject.hpp" />
     <ClInclude Include="Tests\NoteTest.hpp" />
     <ClInclude Include="Tests\RectMoving.hpp" />
     <ClInclude Include="Singletons\AstrumKeyBinder.hpp" />
@@ -230,7 +252,6 @@
     <ClInclude Include="Components\AstrumColliderComponent.hpp" />
     <ClInclude Include="Singletons\AstrumCollisionSystem.hpp" />
     <ClInclude Include="Units\AstrumColor.hpp" />
-    <ClInclude Include="Buffers\AstrumColorConstantBuffer.hpp" />
     <ClInclude Include="Components\AstrumComponent.hpp" />
     <ClInclude Include="Collections\AstrumComponentList.hpp" />
     <ClInclude Include="Buffers\AstrumConstantBuffer.hpp" />

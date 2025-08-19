@@ -1,17 +1,10 @@
 #include "AstrumTriangleObject.hpp"
-#include "../Singletons/AstrumRenderer.hpp"
+#include "../Singletons/AstrumRenderQueue.hpp"
 
 AstrumTriangleObject::AstrumTriangleObject() {}
 AstrumTriangleObject::AstrumTriangleObject(const AstrumVertexColor& a, const AstrumVertexColor& b, const AstrumVertexColor& c)
 {
 	SetPolygons(a, b, c);
-}
-
-void AstrumTriangleObject::Draw()
-{
-	if (Visible) {
-		AstrumRenderer::Instance().EnqueueRenderable(renderPolygonsComponent);
-	}
 }
 
 std::shared_ptr<AstrumPolygons> AstrumTriangleObject::GetPolygons() const {

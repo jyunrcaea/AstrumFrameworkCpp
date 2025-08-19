@@ -25,6 +25,6 @@ public:
 	AstrumTextureSampleType GetSampleType() const;
 	AstrumMaterialFlipType GetFlip() const;
 
-	void UpdateBuffer();
+	virtual void UpdateBuffer() override;
 };
 

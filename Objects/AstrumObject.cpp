@@ -29,7 +29,12 @@ void AstrumObject::Release() {
 
     isPrepared = false;
 }
-void AstrumObject::Draw() {}
+void AstrumObject::Draw() {
+	if (false == IsVisible()) return;
+    for (auto& component : Components) {
+        if (component) component->Draw();
+    }
+}
 
 AstrumObservedVector3& AstrumObject::GetPosition() { return Position; }
 AstrumObservedVector3& AstrumObject::GetRotation() { return Rotation; }
@@ -43,6 +48,9 @@ void AstrumObject::SetAbsolutePosition(const AstrumVector3& vec) { absolutePosit
 void AstrumObject::SetAbsoluteRotation(const AstrumVector3& vec) { absoluteRotation = vec; }
 void AstrumObject::SetAbsoluteScale(const AstrumVector3& vec) { absoluteScale = vec; }
 
+void AstrumObject::SetVisible(bool enable) { visible = enable; }
+
+bool AstrumObject::IsVisible() const { return visible; }
 bool AstrumObject::IsPrepared() const { return this->isPrepared; }
 
 IAstrumGroupObject* AstrumObject::GetParent() const { return parent; }

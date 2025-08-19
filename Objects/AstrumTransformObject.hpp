@@ -6,7 +6,7 @@
 #include "../Units/AstrumQuaternion.hpp"
 #include "../Collections/AstrumComponentList.hpp"
 
-enum AstrumLazyPropTransformType : short
+enum AstrumLazyPropTransformType : char
 {
     AstrumLazyPropTransformType_None = 0,
     AstrumLazyPropTransformType_Position = 1,
@@ -49,3 +49,13 @@ private:
     void CallbackObservedRotation();
     void CallbackObservedScale();
 };
+
+inline AstrumLazyPropTransformType operator|(AstrumLazyPropTransformType left, AstrumLazyPropTransformType right) {
+    return static_cast<AstrumLazyPropTransformType>(static_cast<char>(left) | static_cast<char>(right));
+}
+inline AstrumLazyPropTransformType& operator+=(AstrumLazyPropTransformType& left, AstrumLazyPropTransformType right) {
+    return left = static_cast<AstrumLazyPropTransformType>(static_cast<char>(left) | static_cast<char>(right));
+}
+inline AstrumLazyPropTransformType& operator-=(AstrumLazyPropTransformType& left, AstrumLazyPropTransformType right) {
+    return left = static_cast<AstrumLazyPropTransformType>(static_cast<char>(left) & ~static_cast<char>(right));
+}

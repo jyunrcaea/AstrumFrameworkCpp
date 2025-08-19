@@ -1,5 +1,5 @@
 #include "AstrumPolygonsObject.hpp"
-#include "../Singletons/AstrumRenderer.hpp"
+#include "../Singletons/AstrumRenderQueue.hpp"
 
 AstrumPolygonsObject::AstrumPolygonsObject()
 {
@@ -9,12 +9,6 @@ AstrumPolygonsObject::AstrumPolygonsObject()
 AstrumPolygonsObject::AstrumPolygonsObject(const std::shared_ptr<AstrumPolygons>& polygons) : AstrumPolygonsObject()
 {
 	renderPolygonsComponent->Polygons = polygons;
-}
-
-void AstrumPolygonsObject::Draw() {
-	if (Visible) {
-		AstrumRenderer::Instance().EnqueueRenderable(renderPolygonsComponent);
-	}
 }
 
 std::shared_ptr<AstrumPolygons>& AstrumPolygonsObject::GetPolygons() {

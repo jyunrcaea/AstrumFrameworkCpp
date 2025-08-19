@@ -29,11 +29,10 @@ void AstrumGroupObject::Release() {
 }
 
 void AstrumGroupObject::Draw() {
-    if (Visible) {
-        objects.ForEach([](const std::shared_ptr<IAstrumObject>& obj) {
-            obj->Draw();
-        });
-    }
+    if (false == IsVisible()) return;
+    objects.ForEach([](const std::shared_ptr<IAstrumObject>& obj) {
+        obj->Draw();
+    });
 }
 
 IAstrumObjectList& AstrumGroupObject::GetObjectList() { return objects; }

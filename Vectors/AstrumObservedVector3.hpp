@@ -17,7 +17,7 @@ public:
     // 부모가 바뀌면, 자식도 같이 영향을 받아요, 그래서 만약 부모가 스케일을 2로 키우면, 자식은 크기도 2배가 되고, x를 한칸 이동하면 실제로 2칸을 이동해요.
     AstrumObservedVector3(const AstrumVector3& v, const Callback& onChange = {}) noexcept;
 
-    operator AstrumVector3() const;
+    operator AstrumVector3() const noexcept;
 
     float GetX() const noexcept;
     float GetY() const noexcept;
@@ -33,7 +33,8 @@ public:
 
     void Reset(const AstrumVector3& v);
     void Reset(const AstrumObservedVector3& v);
-    void Reset(float x, float y, float z = 0);
+    // NAN일 경우 기존 값이 할당됩니다.
+    void Reset(float x, float y, float z = NAN);
 
     AstrumVector3 operator+(const AstrumObservedVector3& o) const noexcept;
     AstrumVector3 operator-(const AstrumObservedVector3& o) const noexcept;
@@ -54,8 +55,8 @@ public:
     AstrumObservedVector3& operator/=(float scalar);
 
 private:
-    AstrumVector3 value_{ 0.0f, 0.0f, 0.0f };
-    Callback onChange_;
+    AstrumVector3 value{ 0.0f, 0.0f, 0.0f };
+    Callback onChange;
 
     void Notify();
 };

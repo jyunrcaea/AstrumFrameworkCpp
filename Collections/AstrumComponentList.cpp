@@ -1,4 +1,4 @@
-﻿#include "AstrumComponentList.hpp"
+#include "AstrumComponentList.hpp"
 
 AstrumComponentList::AstrumComponentList(IAstrumObject* ownerObject) : owner(ownerObject) {}
 
@@ -13,8 +13,8 @@ AstrumComponentList::~AstrumComponentList()
 
 bool AstrumComponentList::Add(const std::shared_ptr<IAstrumComponent>& component)
 {
-	if (nullptr == component) return false;
-	if (owner == component->GetOwner()) return false;
+	if (nullptr == component) return false; //nullptr인 컴포넌트를 줬다면
+	if (owner == component->GetOwner()) return false; // 이미 owner가 설정되어 있고, owner가 같다면 추가하지 않음
 	if (nullptr != component->GetOwner()) {
 		throw AstrumException("Component already has an owner.");
 	}
