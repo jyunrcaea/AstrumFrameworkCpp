@@ -7,12 +7,13 @@
  `AstrumObject`에서 트랜스폼(Position, Rotation, Scale)을 컴포넌트로 분리하지 않고 통합하여 같이 관리합니다.  
 이외의 기능들은 모두 컴포넌트로 분리되어 필요에 따라 추가하여 관리합니다.
   
-`IAstrumObject`는 기본적인 이벤트 함수로 다음 네가지를 가지고 있습니다.
+`IAstrumObject`의 기본적인 이벤트 함수로 다음 네가지를 가지고 있습니다.
 (개발자가 임의로 호출할수도 있지만, 앞서 프레임워크의 기준으로 호출 기준을 설명합니다.)
 - `Prepare()` : 게임 로직에서 실제로 사용되기 시작할때 호출되는 함수입니다. (`Update()`가 `Prepare()`보다 먼저 호출될수 없습니다.)
 - `Update()` : 메 프레임마다 게임 로직에서 지속적으로 호출해주는 함수입니다. (델타 타임은 `AstrumChrono::GetDeltaTime()`으로 가져올수 있습니다.)
 - `Release()` : 게임 로직에서 더이상 사용되지 않을때 호출되는 함수입니다. (`Release()`가 `Prepare()`보다 먼저 호출될수 없습니다.)
 - `Draw()` : 렌더링 단계에 들어가기 직전에 호출되는 함수입니다. (매 프레임마다 `Update()`가 `Draw()`보다 먼저 호출됩니다.)
+(이는 `IAstrumComponent`에도 동일하게 적용됩니다.)
 ### 2. 트리 구조의 게임 객체 관리
 해당 프레임워크에는 장면 기능을 제공하지 않습니다.  
 대신 `AstrumObject`를 상속한 객체 여러개를 자식으로 가지며 앞서 말한 4개의 이벤트와 트렌스폼을 갱신해주면서,  
@@ -48,10 +49,11 @@
 
 ### 3. 렌더링 파이프라인
 1.  `IAstrumObject::Draw()` 호출 : `Update()`가 끝난 이후 `Draw()` 메소드가 호출됩니다.
-2.  렌더링 큐에 등록: 그릴수 있는 객체들에 한해 오버라이딩 된 `Draw()` 함수에서 `AstrumRenderer::Instance().EnqueueRenderable(IAstrumRenderable)`를 통해 큐에 등록합니다.
-3.  일괄 렌더링: `AstrumRenderer::Rendering()` 함수에서 큐를 비울때까지, `IAstrumRenderable::PreRender()`와 `IAstrumRenderable::Render()`를 순차적으로 호출합니다.
-    - `PreRender()`: 월드/뷰/투영 행렬과 같은 변환 정보를 계산하고 상수 버퍼를 업데이트합니다. (일부 과정이 추가됬을수도 있지만, 기본적으로 이렇습니다.)
-    - `Render()`: 실제 그리기(Draw Call) 명령을 실행합니다.
+2.  `IAstrumComponent::Draw()` 호출: 렌더링 가능한 컴포넌트(예: `AstrumRenderMaterialComponent`)는 `Draw()` 함수를  `AstrumRenderQueue::Enqueue`로 렌더 큐에 등록하도록 본문을 재정의 합니다.
+3.  일괄 렌더링: `AstrumRenderQueue` 클래스에서 렌더 큐에 있는 모든 객체에 `IAstrumRenderable::PreRender()`를 먼저 호출해둔 후, `IAstrumRenderable::Render()`를 순차적으로 호출하면서 큐를 비웁니다.
+    - 이때 `IAstrumRenderable`에 있는 두 추상 함수의 의도는 다음과 같습니다.
+    - `PreRender()`: 그리기 전 필요한 연산을 수행합니다. (예: `AstrumRenderComponent`에서 월드/뷰/투영 행렬과 같은 변환 정보를 계산해두고 시스템 메모리에 저장합니다.)
+    - `Render()`: 실제 그리기(Draw Call) 명령을 실행합니다. (예: `AstrumRenderComponent`에서 `PreRender`때 계산해둔 데이터를 GPU의 버퍼로 업데이트합니다.)
 
 ### 4. 리소스
 모두 RAII 패턴이 적용되며, 생성자를 호출하는 즉시 자원이 할당되고, 소멸자를 통해 안전하게 해제됩니다.  
