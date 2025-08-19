@@ -17,13 +17,7 @@ int main()
     _CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG);
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif
-
-    try {
-        Program().Main();
-    } catch (const AstrumException& e) {
-        std::cerr << "Astrum Exception: " << e.what() << std::endl;
-        throw e;
-    }
+    Program::Main();
 }
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)

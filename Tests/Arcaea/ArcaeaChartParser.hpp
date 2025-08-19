@@ -11,11 +11,11 @@
 #include "ArcaeaChart.hpp"
 
 namespace Arcaea {
-	class ArcaeaChartParser
+	class ChartParser
 	{
 	public:
-		ArcaeaChartParser(const std::filesystem::path& path);
-		ArcaeaChart ToParse();
+		ChartParser(const std::filesystem::path& path);
+		ChartData ToParse();
 
 	private:
 		std::fstream fileStream;

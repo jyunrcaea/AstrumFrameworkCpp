@@ -1,12 +1,12 @@
 #include "ArcaeaChartParser.hpp"
 
-Arcaea::ArcaeaChartParser::ArcaeaChartParser(const std::filesystem::path& path)
+Arcaea::ChartParser::ChartParser(const std::filesystem::path& path)
 	: fileStream(path) {
 	
 }
 
-Arcaea::ArcaeaChart Arcaea::ArcaeaChartParser::ToParse() {
-	ArcaeaChart ret{};
+Arcaea::ChartData Arcaea::ChartParser::ToParse() {
+	ChartData ret{};
 	
 	for (std::string line; (line = ReadLine())[0] != '-';) {
 		size_t cut = line.find(':');
@@ -31,14 +31,14 @@ Arcaea::ArcaeaChart Arcaea::ArcaeaChartParser::ToParse() {
 		if (noteType == "") {
 			std::vector<double> vec(2);
 			for (auto& v : vec) iss >> v;
-			ret.Notes.emplace_back(ArcaeaNoteType::ArcaeaNoteType_Tap, std::move(vec));
+			ret.Notes.emplace_back(NoteType::Tap, std::move(vec));
 			continue;
 		}
 		
 		if (noteType == "hold") {
 			std::vector<double> vec(3);
 			for (auto& v : vec) iss >> v;
-			ret.Notes.emplace_back(ArcaeaNoteType::ArcaeaNoteType_Hold, std::move(vec));
+			ret.Notes.emplace_back(NoteType::Hold, std::move(vec));
 			continue;
 		}
 
@@ -59,13 +59,13 @@ Arcaea::ArcaeaChart Arcaea::ArcaeaChartParser::ToParse() {
 			iss >> vec[6];
 			iss >> str;
 
-			ArcaeaNoteType noteType;
-			if (iss >> str; str == "true") noteType = ArcaeaNoteType::ArcaeaNoteType_Trace;
-			else noteType = ArcaeaNoteType::ArcaeaNoteType_Arc;
+			NoteType noteType;
+			if (iss >> str; str == "true") noteType = NoteType::Trace;
+			else noteType = NoteType::Arc;
 
 			ret.Notes.emplace_back(noteType, std::move(vec));
 
-			if (noteType == ArcaeaNoteType_Trace) {
+			if (noteType == NoteType::Trace) {
 				const double moveX = endX - startX, distanceOffset = endOffset - startOffset;
 				int arctap;
 				while (std::getline(iss, str, '(') && iss >> arctap) {
@@ -74,7 +74,7 @@ Arcaea::ArcaeaChart Arcaea::ArcaeaChartParser::ToParse() {
 					double progress = (arctap - startOffset) / distanceOffset;
 					vec.push_back(startX + moveX * progress);
 
-					ret.Notes.emplace_back(ArcaeaNoteType::ArcaeaNoteType_ArcTap, std::move(vec));
+					ret.Notes.emplace_back(NoteType::ArcTap, std::move(vec));
 				}
 			}
 
@@ -84,7 +84,7 @@ Arcaea::ArcaeaChart Arcaea::ArcaeaChartParser::ToParse() {
 	return ret;
 }
 
-std::string Arcaea::ArcaeaChartParser::ReadLine() {
+std::string Arcaea::ChartParser::ReadLine() {
 	std::string line;
 	std::getline(fileStream, line);
 	return line;

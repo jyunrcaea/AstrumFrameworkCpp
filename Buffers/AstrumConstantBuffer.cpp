@@ -43,3 +43,27 @@ void AstrumConstantBuffer::Update(std::span<const std::byte> data) {
     std::memcpy(mapped.pData, data.data(), bufferSize);
     context->Unmap(buffer.Get(), 0);
 }
+
+void AstrumConstantBuffer::SetPixelShaderConstantBuffer(unsigned int slot) {
+    AstrumRenderer::Instance().GetContext()->PSSetConstantBuffers(slot, 1, buffer.GetAddressOf());
+}
+
+void AstrumConstantBuffer::SetVertexShaderConstantBuffer(unsigned int slot) {
+	AstrumRenderer::Instance().GetContext()->VSSetConstantBuffers(slot, 1, buffer.GetAddressOf());
+}
+
+void AstrumConstantBuffer::SetGeometryShaderConstantBuffer(unsigned int slot) {
+    AstrumRenderer::Instance().GetContext()->GSSetConstantBuffers(slot, 1, buffer.GetAddressOf());
+}
+
+void AstrumConstantBuffer::SetHullShaderConstantBuffer(unsigned int slot) {
+    AstrumRenderer::Instance().GetContext()->HSSetConstantBuffers(slot, 1, buffer.GetAddressOf());
+}
+
+void AstrumConstantBuffer::SetDomainShaderConstantBuffer(unsigned int slot) {
+    AstrumRenderer::Instance().GetContext()->DSSetConstantBuffers(slot, 1, buffer.GetAddressOf());
+}
+
+void AstrumConstantBuffer::SetComputeShaderConstantBuffer(unsigned int slot) {
+    AstrumRenderer::Instance().GetContext()->CSSetConstantBuffers(slot, 1, buffer.GetAddressOf());
+}

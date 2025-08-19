@@ -29,8 +29,19 @@ struct IAstrumObject : public std::enable_shared_from_this<IAstrumObject> {
     void SetScale(const AstrumVector3& vec);
 
     void SetPosition(float x, float y, float z);
+    void SetPositionX(float x);
+	void SetPositionY(float y);
+	void SetPositionZ(float z);
+
     void SetRotation(float x, float y, float z);
+	void SetRotationX(float x);
+	void SetRotationY(float y);
+	void SetRotationZ(float z);
+
     void SetScale(float x, float y, float z);
+	void SetScaleX(float x);
+	void SetScaleY(float y);
+	void SetScaleZ(float z);
 
     virtual const AstrumVector3& GetAbsolutePosition() = 0;
     virtual const AstrumVector3& GetAbsoluteRotation() = 0;

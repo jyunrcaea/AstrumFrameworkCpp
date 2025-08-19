@@ -12,6 +12,11 @@ struct VS_Output_Color
     float4 Color : COLOR;
 };
 
+cbuffer ObjectTransform : register(b2)
+{
+    float3 Rotation;
+};
+
 VS_Output_Color ColorMeshVS(VS_Input_Color input)
 {
     VS_Output_Color output = (VS_Output_Color) 0;
