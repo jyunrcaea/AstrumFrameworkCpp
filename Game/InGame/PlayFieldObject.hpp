@@ -7,6 +7,7 @@
 #include "../../Astrum/Buffers/AstrumSimpleConstantBuffer.hpp"
 #include "../../Astrum/Shaders/AstrumShaderSetup.hpp"
 #include "../../Astrum/Singletons/AstrumChrono.hpp"
+#include "../../Astrum/Vectors/AstrumVector4.hpp"
 
 namespace InGame {
 	class PlayFieldObject : public AstrumGroupObject
@@ -23,9 +24,9 @@ namespace InGame {
 
 			AddComponent(constantBuffer = AstrumConstantBufferComponent::MakeShared(
 				AstrumSimpleConstantBuffer::MakeShared([this](AstrumConstantBuffer* buffer) {
-					buffer->UpdateConstantBuffer(GetAbsoluteRotation());
+					buffer->UpdateConstantBuffer(static_cast<const AstrumVector4&>(GetAbsoluteRotation()));
 					buffer->SetPixelShaderConstantBuffer(2);
-				}, sizeof(AstrumVector3))
+				}, sizeof(AstrumVector4))
 			));
 
 			customShaderPipeline = AstrumShaderSetup::MakeShared();
