@@ -24,18 +24,18 @@ void AstrumSoundManagerSingleton::Initialize() {
 	FMOD_RESULT result;
 	auto throwException = [result](const char* message) { ThrowInitalizeException(message, result); };
 
-	if (FMOD::System* systemPtr = nullptr; result = FMOD::System_Create(&systemPtr)) {
+	if (FMOD::System* systemPtr = nullptr; (result = FMOD::System_Create(&systemPtr)) != FMOD_RESULT::FMOD_OK) {
 		throwException("Failed to create fmod system");
 		return;
 	}
 	else system.reset(systemPtr);
 
-	if (result = system->init(256, FMOD_INIT_NORMAL, nullptr)) {
+	if ((result = system->init(256, FMOD_INIT_NORMAL, nullptr)) != FMOD_RESULT::FMOD_OK) {
 		throwException("Failed to initialize fmod system");
 		return;
 	}
 
-	if (result = system->getMasterChannelGroup(&masterChannelGroupPointer)) {
+	if ((result = system->getMasterChannelGroup(&masterChannelGroupPointer)) != FMOD_RESULT::FMOD_OK) {
 		throwException("Failed to get master channel group");
 		return;
 	}

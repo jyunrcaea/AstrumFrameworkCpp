@@ -11,6 +11,6 @@ AstrumCircleObject::AstrumCircleObject(const AstrumVertexColor& center, float ra
 
 std::shared_ptr<AstrumCirclePolygons> AstrumCircleObject::GetCirclePolygons() const { return circlePolygon; }
 
-void AstrumCircleObject::SetCirclePolygons(const std::shared_ptr<AstrumCirclePolygons>& circlePolygon) {
-	renderPolygonsComponent->Polygons = (this->circlePolygon = circlePolygon);
+void AstrumCircleObject::SetCirclePolygons(const std::shared_ptr<AstrumCirclePolygons>& newCirclePolygon) {
+	renderPolygonsComponent->Polygons = (this->circlePolygon = newCirclePolygon);
 }

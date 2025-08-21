@@ -1,4 +1,4 @@
-#include "../Astrum/Shaders/Share.fx"
+#include "../../Astrum/Shaders/Share.fx"
 
 struct VS_Input_Color
 {
@@ -12,27 +12,25 @@ struct VS_Output_Color
     float4 Color : COLOR;
 };
 
-cbuffer ObjectTransform : register(b2)
+cbuffer IllusionInformation : register(b2)
 {
-    float3 Rotation;
-    float Padding;
+    float WindowWidth;
+    float WindowHeight;
+    float RotationZ;
+    float DistortionStrength;
 };
 
-VS_Output_Color ColorMeshVS(VS_Input_Color input)
+VS_Output_Color IllusionVS(VS_Input_Color input)
 {
     VS_Output_Color output = (VS_Output_Color) 0;
-
-    output.Pos = mul(float4(input.Pos, 1.f), gmatWVP);
+    output.Pos = mul(float4(input.Pos, 1.f), WorldViewProjectionMatrix);
     output.Color = input.Color;
-    
     return output;
 }
 
-PS_Output_Single ColorMeshPS(VS_Output_Color input)
+PS_Output_Single IllusionPS(VS_Output_Color input)
 {
     PS_Output_Single output = (PS_Output_Single) 0;
-    
     output.Color = input.Color;
-    
     return output;
 }

@@ -21,7 +21,7 @@ Arcaea::ChartData Arcaea::ChartParser::ToParse() {
 
 	for (std::string line; std::getline(fileStream, line);) {
 		const size_t opening = line.find('(');
-		std::string noteType = line.substr(0, opening);
+		std::string noteTypeName = line.substr(0, opening);
 
 		char* const text = (line.data() + opening + 1);
 		for (int i = 0; text[i] != '\0'; i++) {
@@ -29,21 +29,21 @@ Arcaea::ChartData Arcaea::ChartParser::ToParse() {
 		}
 		std::istringstream iss(text);
 
-		if (noteType == "") {
+		if (noteTypeName == "") {
 			std::vector<double> vec(2);
 			for (auto& v : vec) iss >> v;
 			ret.Notes.emplace_back(NoteType::Tap, std::move(vec));
 			continue;
 		}
 		
-		if (noteType == "hold") {
+		if (noteTypeName == "hold") {
 			std::vector<double> vec(3);
 			for (auto& v : vec) iss >> v;
 			ret.Notes.emplace_back(NoteType::Hold, std::move(vec));
 			continue;
 		}
 
-		if (noteType == "arc") {
+		if (noteTypeName == "arc") {
 			std::vector<double> vec(7);
 			std::string str;
 

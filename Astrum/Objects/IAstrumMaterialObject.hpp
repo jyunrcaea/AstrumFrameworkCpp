@@ -5,9 +5,11 @@
 #include "../Meshes/AstrumTextureMesh.hpp"
 #include "../Resources/AstrumTexture.hpp"
 
-struct IAstrumMaterialObject
+class AstrumRenderMaterialComponent;
+
+struct IAstrumMaterialObject : public virtual IAstrumObject
 {
-	virtual std::shared_ptr<class AstrumRenderMaterialComponent> GetRenderMaterialComponent() const = 0;
+	virtual AstrumRenderMaterialComponent& GetRenderMaterialComponent() const = 0;
 
 	std::shared_ptr<class AstrumMaterial> GetMaterial() const;
 	void SetMaterial(const std::shared_ptr<class AstrumMaterial>& material);

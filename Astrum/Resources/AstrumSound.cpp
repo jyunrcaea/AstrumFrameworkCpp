@@ -86,7 +86,12 @@ bool AstrumSound::Resume()
 
 FMOD::Sound* AstrumSound::GetFmodSound() const { return sound.get(); }
 
-FMOD_RESULT AstrumSound::OnPlaySoundFinish(FMOD_CHANNELCONTROL* ChannelControl, FMOD_CHANNELCONTROL_TYPE type, FMOD_CHANNELCONTROL_CALLBACK_TYPE callBackType, void* commanddata1, void* commandData2)
-{
+FMOD_RESULT AstrumSound::OnPlaySoundFinish(
+	FMOD_CHANNELCONTROL*, //channelControl,
+	FMOD_CHANNELCONTROL_TYPE, //type,
+	FMOD_CHANNELCONTROL_CALLBACK_TYPE, //callBackType,
+	void*, //commanddata1,
+	void* //commandData2
+) {
 	return FMOD_OK;
 }

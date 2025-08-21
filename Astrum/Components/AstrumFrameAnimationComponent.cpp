@@ -26,15 +26,15 @@ void AstrumFrameAnimationComponent::Update()
 	else materialOwner->SetMaterial(frames[Reverse ? 0 : static_cast<size_t>(n - 1)]);
 }
 
-void AstrumFrameAnimationComponent::SetOwner(IAstrumObject* owner) {
-	if (nullptr == owner) {
+void AstrumFrameAnimationComponent::SetOwner(IAstrumObject* newOwner) {
+	if (nullptr == newOwner) {
 		materialOwner = nullptr;
 	}
-	else if (nullptr == (materialOwner = dynamic_cast<IAstrumMaterialObject*>(owner))) {
+	else if (nullptr == (materialOwner = dynamic_cast<IAstrumMaterialObject*>(newOwner))) {
 		throw AstrumException("AstrumFrameAnimationComponent is required IAstrumMaterialObject.");
 	}
 
-	AstrumComponent::SetOwner(owner);
+	AstrumComponent::SetOwner(newOwner);
 }
 
 std::vector<std::shared_ptr<AstrumMaterial>>& AstrumFrameAnimationComponent::GetFrames() { return frames; }

@@ -14,6 +14,7 @@
 #include "../Shaders/IAstrumShaders.hpp"
 #include "../Graphics/AstrumTextureSampler.hpp"
 #include "../Vectors/AstrumVector2.hpp"
+#include "../Graphics/AstrumRenderTarget.hpp"
 
 using Microsoft::WRL::ComPtr;
 
@@ -31,7 +32,7 @@ class AstrumRenderer : public AstrumSingleton<AstrumRenderer> {
 public:
     uint32_t SampleCount() const;
     // 디바이스와 스왑체인 생성, 뷰포트 설정
-    void Initialize(uint16_t width, uint16_t height, bool windowMode = true);
+    void Initialize(unsigned int width, unsigned int height, bool windowMode = true);
     // 렌더 큐에 있는 그릴수 있는 객체들을 모두 호출하면서 큐를 비우고 스왑체인을 갱신하는 진짜 렌더링 함수.
     void Rendering();
 
@@ -47,6 +48,7 @@ public:
     ID3D11Device* GetDevice()  const;
     ID3D11DeviceContext* GetContext() const;
 	ID2D1RenderTarget* GetRenderTarget2D() const;
+	ID3D11DepthStencilView* GetDepthStencilView() const;
 
     // 도형 렌더링 시 기본으로 사용할 셰이더
     std::shared_ptr<struct IAstrumShaderSetup> DefaultShapeShaderPipeline = nullptr;
@@ -74,6 +76,8 @@ private:
     ComPtr<ID3D11BlendState> blendState;
     ComPtr<ID2D1RenderTarget> renderTarget2D;
 	ComPtr<ID2D1Factory> factory2D;
+
+	std::shared_ptr<AstrumRenderTarget> mainRenderTarget = nullptr;
 };
 
 template<typename T>

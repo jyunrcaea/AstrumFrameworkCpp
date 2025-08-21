@@ -2,12 +2,13 @@
 #include "../Shaders/AstrumShaderSetup.hpp"
 #include "AstrumRenderQueue.hpp"
 
-void AstrumRenderer::Initialize(uint16_t width, uint16_t height, bool windowMode) {
+void AstrumRenderer::Initialize(unsigned int width, unsigned int height, bool windowMode) {
     UINT flags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
 #ifdef _DEBUG
     flags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
 
+#pragma region Direct3D11 디바이스 생성
     D3D_FEATURE_LEVEL featureLevel;
     if (FAILED(D3D11CreateDevice(
         nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, flags,
@@ -16,8 +17,9 @@ void AstrumRenderer::Initialize(uint16_t width, uint16_t height, bool windowMode
     {
         throw AstrumException("Direct3D11 device creating failed.");
     }
+#pragma endregion
 
-    // 멀티샘플링 지원 확인
+#pragma region 멀티샘플링 지원 확인
     for (UINT p = 8; p > 1; p >>= 1) {
         UINT quality;
         if (SUCCEEDED(device->CheckMultisampleQualityLevels(
@@ -27,7 +29,9 @@ void AstrumRenderer::Initialize(uint16_t width, uint16_t height, bool windowMode
             break;
         }
     }
+#pragma endregion
 
+#pragma region 스왑체인 생성
     DXGI_SWAP_CHAIN_DESC swapChainDesc = {};
     swapChainDesc.BufferDesc.Width = width;
     swapChainDesc.BufferDesc.Height = height;
@@ -59,7 +63,9 @@ void AstrumRenderer::Initialize(uint16_t width, uint16_t height, bool windowMode
     if (FAILED(factory->CreateSwapChain(device.Get(), &swapChainDesc, &swapChain))) {
         throw AstrumException("Swap chain creating failed.");
     }
+#pragma endregion
 
+#pragma region 렌더 타겟 뷰 생성
     ComPtr<ID3D11Texture2D> backBuffer;
     if (FAILED(swapChain->GetBuffer(0, IID_PPV_ARGS(&backBuffer)))) {
         throw AstrumException("Get buffer from swap chain failed.");
@@ -68,7 +74,9 @@ void AstrumRenderer::Initialize(uint16_t width, uint16_t height, bool windowMode
     if (FAILED(device->CreateRenderTargetView(backBuffer.Get(), nullptr, &renderTargetView))) {
         throw AstrumException("Render target view creating failed.");
     }
+#pragma endregion
 
+#pragma region DepthStencilView 생성
     D3D11_TEXTURE2D_DESC depthDesc = {};
     depthDesc.Width = width;
     depthDesc.Height = height;
@@ -85,8 +93,9 @@ void AstrumRenderer::Initialize(uint16_t width, uint16_t height, bool windowMode
     if (FAILED(device->CreateDepthStencilView(depthBuffer.Get(), nullptr, &depthStencilView))) {
         throw AstrumException("Create depth stencil view failed.");
     }
+#pragma endregion
 
-    // DepthStencilState 생성
+#pragma region DepthStencilState 생성
     D3D11_DEPTH_STENCIL_DESC dsDesc = {};
     dsDesc.DepthEnable = TRUE;
     dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
@@ -95,8 +104,9 @@ void AstrumRenderer::Initialize(uint16_t width, uint16_t height, bool windowMode
     if (FAILED(device->CreateDepthStencilState(&dsDesc, &depthStencilState))) {
         throw AstrumException("Create depth stencil state failed.");
     }
+#pragma endregion
 
-    // BlendState 생성
+#pragma region BlendState 생성
     D3D11_BLEND_DESC blendDescription{};
     blendDescription.RenderTarget[0].BlendEnable = true;
     blendDescription.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
@@ -112,17 +122,19 @@ void AstrumRenderer::Initialize(uint16_t width, uint16_t height, bool windowMode
     blendDescription.IndependentBlendEnable = false;
     if (FAILED(device->CreateBlendState(&blendDescription, &blendState)))
         throw AstrumException("Failed to create blend state.");
+#pragma endregion
 
+#pragma region Viewport
     resolution.Width = width;
     resolution.Height = height;
-    // Viewport
     D3D11_VIEWPORT viewport = {};
     viewport.Width = static_cast<float>(width);
     viewport.Height = static_cast<float>(height);
     viewport.MaxDepth = 1.0f;
     context->RSSetViewports(1, &viewport);
+#pragma endregion
 
-	// Direct2D 초기화
+#pragma region Direct2D 초기화
     if (FAILED(D2D1CreateFactory(D2D1_FACTORY_TYPE_MULTI_THREADED, factory2D.GetAddressOf()))) {
         throw AstrumException("Failed to create D2D factory.");
 	}
@@ -134,6 +146,9 @@ void AstrumRenderer::Initialize(uint16_t width, uint16_t height, bool windowMode
         D2D1::RenderTargetProperties(D2D1_RENDER_TARGET_TYPE_HARDWARE, D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED)),
         renderTarget2D.GetAddressOf()
 	))) throw AstrumException("Failed to create D2D render target.");
+#pragma endregion
+
+	mainRenderTarget = AstrumRenderTarget::MakeShared(width, height);
 
     AstrumTextureSampler::Instance().Initialize();
     AstrumTextureSampler::Instance().SetSampler(AstrumTextureSampleType_Linear);
@@ -180,6 +195,7 @@ void AstrumRenderer::Dispose() {
 ID3D11Device* AstrumRenderer::GetDevice() const { return device.Get(); }
 ID3D11DeviceContext* AstrumRenderer::GetContext() const { return context.Get(); }
 ID2D1RenderTarget* AstrumRenderer::GetRenderTarget2D() const { return renderTarget2D.Get(); }
+ID3D11DepthStencilView* AstrumRenderer::GetDepthStencilView() const { return depthStencilView.Get(); }
 
 void AstrumRenderer::CreateAndSetDefaultShapePipeline() {
     auto shapePipeline = AstrumShaderSetup::MakeShared();

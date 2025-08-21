@@ -5,20 +5,20 @@ struct PS_Output_Single
 
 cbuffer Transform : register(b0)
 {
-    matrix gmatWorld;
-    matrix gmatView;
-    matrix gmatProj;
-    matrix gmatWV;
-    matrix gmatWVP;
+    matrix WorldMatrix;
+    matrix ViewMatrix;
+    matrix ProjectionMatrix;
+    matrix WorldViewMatrix;
+    matrix WorldViewProjectionMatrix;
 }
 
 cbuffer Material : register(b1)
 {
-    float4 gMtrlBaseColor;
-    float gMtrlOpacity;
-    int gMtrlTextureWidth;
-    int gMtrlTextureHeight;
-    int gMtrlFlip;
+    float4 MaterialBaseColor;
+    float MaterialOpacity;
+    int MaterialTextureWidth;
+    int MaterialTextureHeight;
+    int MaterialFlip;
 }
 
 SamplerState gBaseSample : register(s0);

@@ -34,9 +34,9 @@ void AstrumAnimator::Undo() {
 	Apply(0.0);
 	status = AstrumAnimatingStatusType::AstrumAnimatingStatusType_Undo;
 }
-void AstrumAnimator::Reset(float startTime) {
+void AstrumAnimator::Reset(float newStartTime) {
 	if (status > 0) Stop(false);
-	this->startTime = (startTime < 0 ? static_cast<float>(AstrumChrono::GetRunningTime()) : startTime);
+	this->startTime = (newStartTime < 0 ? static_cast<float>(AstrumChrono::GetRunningTime()) : newStartTime);
 	status = AstrumAnimatingStatusType::AstrumAnimatingStatusType_Wait;
 }
 

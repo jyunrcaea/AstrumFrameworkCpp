@@ -26,7 +26,6 @@ AstrumFonts::AstrumFonts(const std::filesystem::path& fontFilePath) {
 		this->fontCollection.GetAddressOf()
 	))) throw AstrumException("Failed to create font collection from font set.");
 
-	unsigned int count = this->fontCollection->GetFontFamilyCount();
 	Microsoft::WRL::ComPtr<IDWriteFontFamily> fontFamily = nullptr;
 	if (FAILED(this->fontCollection->GetFontFamily(
 		0,

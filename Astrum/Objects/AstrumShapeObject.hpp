@@ -10,6 +10,7 @@ public:
         AddComponent(renderPolygonsComponent);
     }
 
+    AstrumRenderPolygonsComponent& GetRenderPolygonsComponent() const noexcept { return *renderPolygonsComponent; }
 protected:
-    std::shared_ptr<AstrumRenderPolygonsComponent> renderPolygonsComponent = std::make_shared<AstrumRenderPolygonsComponent>();
+    std::shared_ptr<AstrumRenderPolygonsComponent> renderPolygonsComponent = AstrumRenderPolygonsComponent::MakeShared();
 };

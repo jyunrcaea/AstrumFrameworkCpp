@@ -18,6 +18,10 @@ namespace InGame {
 
 			Position.SetX(static_cast<float>(LeftX + (NoteWidth / 2.f) + data.Data[2] * NoteWidth));
 			Position.SetY(data.GetStartOffset() + height / 2.f);
+
+			//GetRenderPolygonsComponent().CustomShaderPipeline = DataManager::Instance().GetIllusionShader();
+			GetRenderPolygonsComponent().SetCustomShaderPipeline(DataManager::Instance().GetIllusionShader());
+			AddComponent(DataManager::Instance().GetIllusionConstantBufferComponent(this));
 		}
 
 	private:

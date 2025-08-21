@@ -14,6 +14,4 @@ AstrumMaterialObject::AstrumMaterialObject(const std::shared_ptr<AstrumMaterial>
     renderMaterialComponent->Mesh = mesh;
 }
 
-std::shared_ptr<AstrumRenderMaterialComponent> AstrumMaterialObject::GetRenderMaterialComponent() const {
-    return renderMaterialComponent;
-}
+AstrumRenderMaterialComponent& AstrumMaterialObject::GetRenderMaterialComponent() const noexcept { return *renderMaterialComponent; }

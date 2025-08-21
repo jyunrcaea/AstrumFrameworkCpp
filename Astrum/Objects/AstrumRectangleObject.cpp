@@ -13,8 +13,8 @@ std::shared_ptr<AstrumRectanglePolygons> AstrumRectangleObject::GetRectanglePoly
     return rectanglePolygon;
 }
 
-void AstrumRectangleObject::SetRectanglePolygons(const std::shared_ptr<AstrumRectanglePolygons>& rectanglePolygon) {
-    renderPolygonsComponent->Polygons = (this->rectanglePolygon = rectanglePolygon);
+void AstrumRectangleObject::SetRectanglePolygons(const std::shared_ptr<AstrumRectanglePolygons>& newRectanglePolygon) {
+    renderPolygonsComponent->Polygons = (this->rectanglePolygon = newRectanglePolygon);
 }
 
 void AstrumRectangleObject::SetColor(const AstrumColor& color) {

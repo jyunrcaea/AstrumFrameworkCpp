@@ -13,7 +13,7 @@ public:
 	virtual void Update() override;
 	virtual void Release() override;
 	// 애니메이션을 재할당 합니다.
-	void ResetAnimator(const std::shared_ptr<IAstrumAnimator>& animator);
+	void ResetAnimator(const std::shared_ptr<IAstrumAnimator>& newAnimator);
 	//애니메이션을 제거합니다.
 	void ClearAnimator();
 	std::shared_ptr<IAstrumAnimator> GetAnimator() const;

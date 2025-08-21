@@ -26,10 +26,12 @@ private:
 
 class AstrumRenderQueue
 {
+	AstrumRenderQueue() = delete;
 public:
 	// 렌더 큐에 그릴 객체를 삽입
 	static void Enqueue(const std::shared_ptr<IAstrumRenderable>& renderable) { AstrumRenderQueueSingleton::Instance().Enqueue(renderable); }
 	static void Enqueue(std::shared_ptr<IAstrumRenderable>&& renderable) { AstrumRenderQueueSingleton::Instance().Enqueue(renderable); }
+
 private:
 	friend class AstrumRenderer;
 	static void PeekToPreRender() { AstrumRenderQueueSingleton::Instance().PeekToPreRender(); }

@@ -16,7 +16,7 @@ VS_Output_Color ColorMeshVS(VS_Input_Color input)
 {
 	VS_Output_Color output = (VS_Output_Color) 0;
 
-	output.Pos = mul(float4(input.Pos, 1.f), gmatWVP);
+	output.Pos = mul(float4(input.Pos, 1.f), WorldViewProjectionMatrix);
 	output.Color = input.Color;
     
 	return output;

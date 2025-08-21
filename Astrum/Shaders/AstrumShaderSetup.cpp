@@ -31,8 +31,8 @@ void AstrumShaderSetup::SetShader() {
     auto* const device = AstrumRenderer::Instance().GetDevice();
     auto* const context = AstrumRenderer::Instance().GetContext();
 
-    if (!inputLayout) {
-        if (VertexShader == nullptr)
+    if (nullptr == inputLayout) {
+        if (nullptr == VertexShader)
             throw AstrumException("VertexShader is null");
 
         ID3DBlob* blob = VertexShader->GetShaderBlob();

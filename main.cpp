@@ -20,7 +20,7 @@ int main()
     Program::Main();
 }
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
+int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
     return main();
 } 

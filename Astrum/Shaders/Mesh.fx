@@ -16,7 +16,7 @@ VS_Output_Tex MeshVS(VS_Input_Tex input)
 {
     VS_Output_Tex output = (VS_Output_Tex) 0;
     
-    output.Pos = mul(float4(input.Pos, 1.f), gmatWVP);
+    output.Pos = mul(float4(input.Pos, 1.f), WorldViewProjectionMatrix);
     output.UV = input.UV;
     
     return output;
@@ -26,15 +26,15 @@ PS_Output_Single DefaultMaterialPS(VS_Output_Tex input)
 {
     PS_Output_Single output = (PS_Output_Single) 0;
     
-    if (gMtrlFlip & 1)
+    if (MaterialFlip & 1)
         input.UV.x = 1 - input.UV.x;
-    if (gMtrlFlip & 2)
+    if (MaterialFlip & 2)
         input.UV.y = 1 - input.UV.y;
     
     float4 color = gBaseTexture.Sample(gBaseSample, input.UV);
     
-    color.rgb *= gMtrlBaseColor.rgb;
-    color.a *= gMtrlOpacity;
+    color.rgb *= MaterialBaseColor.rgb;
+    color.a *= MaterialOpacity;
     
     output.Color = color;
     
