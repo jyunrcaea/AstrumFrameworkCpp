@@ -213,6 +213,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Astrum\Graphics\AstrumRenderTarget.hpp" />
+    <ClInclude Include="Astrum\Graphics\AstrumSimpleRenderable.hpp" />
     <ClInclude Include="Astrum\Objects\AstrumPostProcessGroupObject.hpp" />
     <ClInclude Include="Astrum\Singletons\AstrumShaderCache.hpp" />
     <ClInclude Include="Game\Arcaea\ArcaeaChart.hpp" />

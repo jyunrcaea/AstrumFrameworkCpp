@@ -19,4 +19,41 @@ public:
 protected:
     virtual void PreRender() override;
     virtual void Render() override;
+
+public:
+    static std::shared_ptr<AstrumRenderMaterialComponent> MakeShared() {
+        return std::make_shared<AstrumRenderMaterialComponent>();
+	}
+    static std::shared_ptr<AstrumRenderMaterialComponent> MakeShared(const std::shared_ptr<AstrumMaterial>& material) {
+        auto component = std::make_shared<AstrumRenderMaterialComponent>();
+        component->Material = material;
+        return component;
+	}
+    static std::shared_ptr<AstrumRenderMaterialComponent> MakeShared(const std::shared_ptr<AstrumTextureMesh>& mesh) {
+        auto component = std::make_shared<AstrumRenderMaterialComponent>();
+        component->Mesh = mesh;
+        return component;
+	}
+    static std::shared_ptr<AstrumRenderMaterialComponent> MakeShared(const std::shared_ptr<AstrumMaterial>& material, const std::shared_ptr<AstrumTextureMesh>& mesh) {
+        auto component = std::make_shared<AstrumRenderMaterialComponent>();
+        component->Material = material;
+        component->Mesh = mesh;
+        return component;
+	}
+    static std::shared_ptr<AstrumRenderMaterialComponent> MakeShared(std::shared_ptr<AstrumMaterial>&& material) {
+        auto component = std::make_shared<AstrumRenderMaterialComponent>();
+        component->Material = std::move(material);
+        return component;
+    }
+    static std::shared_ptr<AstrumRenderMaterialComponent> MakeShared(std::shared_ptr<AstrumTextureMesh>&& mesh) {
+        auto component = std::make_shared<AstrumRenderMaterialComponent>();
+        component->Mesh = std::move(mesh);
+        return component;
+    }
+    static std::shared_ptr<AstrumRenderMaterialComponent> MakeShared(std::shared_ptr<AstrumMaterial>&& material, std::shared_ptr<AstrumTextureMesh>&& mesh) {
+        auto component = std::make_shared<AstrumRenderMaterialComponent>();
+        component->Material = std::move(material);
+        component->Mesh = std::move(mesh);
+        return component;
+    }
 };

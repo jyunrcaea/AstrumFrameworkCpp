@@ -3,9 +3,10 @@
 #include "DataManager.hpp"
 #include "NoteBoardObject.hpp"
 #include "NoteGroupObject.hpp"
+#include "../../Astrum/Objects/AstrumPostProcessGroupObject.hpp"
 
 namespace InGame {
-	class PlayFieldObject : public AstrumGroupObject
+	class PlayFieldObject : public AstrumPostProcessGroupObject
 	{
 	public:
 		PlayFieldObject() {
