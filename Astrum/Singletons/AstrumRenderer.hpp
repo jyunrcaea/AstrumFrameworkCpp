@@ -30,7 +30,6 @@ class AstrumRenderer : public AstrumSingleton<AstrumRenderer> {
     friend class AstrumSingleton<AstrumRenderer>;
 
 public:
-    uint32_t SampleCount() const;
     // 디바이스와 스왑체인 생성, 뷰포트 설정
     void Initialize(unsigned int width, unsigned int height, bool windowMode = true);
     // 렌더 큐에 있는 그릴수 있는 객체들을 모두 호출하면서 큐를 비우고 스왑체인을 갱신하는 진짜 렌더링 함수.
@@ -62,10 +61,10 @@ public:
 
     AstrumResolution GetResolution() const;
     AstrumVector2 GetRSRate() const;
-
+	unsigned int GetSampleCount() const;
 private:
     AstrumResolution resolution{};
-    UINT sampleCount = 1;
+    unsigned int sampleCount = 1;
 
     ComPtr<ID3D11Device> device;
     ComPtr<ID3D11DeviceContext> context;

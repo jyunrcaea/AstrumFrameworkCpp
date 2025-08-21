@@ -13,7 +13,7 @@ AstrumPostProcessGroupObject::AstrumPostProcessGroupObject() {
 	);
 	unbindRenderTarget = AstrumSimpleRenderable::MakeShared(
 		nullptr,
-		[this]() { this->renderTarget->Unbind(); }
+		[this]() { this->renderTarget->Unbind(); renderMaterialComponent->Material = AstrumMaterial::MakeShared(renderTarget->GetTexture()); }
 	);
 }
 

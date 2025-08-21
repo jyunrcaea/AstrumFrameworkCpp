@@ -227,4 +227,4 @@ AstrumVector2 AstrumRenderer::GetRSRate() const {
      };
 }
 
-uint32_t AstrumRenderer::SampleCount() const { return sampleCount; }
+unsigned int AstrumRenderer::GetSampleCount() const { return sampleCount; }

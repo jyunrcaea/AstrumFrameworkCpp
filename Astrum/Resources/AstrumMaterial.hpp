@@ -27,6 +27,6 @@ private:
 	std::shared_ptr<AstrumTexture> texture;
 
 public:
-	static inline std::shared_ptr<class AstrumMaterial> MakeShared(const std::shared_ptr<AstrumTexture>& texture) { return std::make_shared<AstrumMaterial>(texture); }
-	static inline std::shared_ptr<class AstrumMaterial> MakeShared(const std::wstring& path) { return std::make_shared<AstrumMaterial>(path); }
+	static std::shared_ptr<class AstrumMaterial> MakeShared(const std::shared_ptr<AstrumTexture>& texture) { return std::make_shared<AstrumMaterial>(texture); }
+	static std::shared_ptr<class AstrumMaterial> MakeShared(const std::wstring& path) { return std::make_shared<AstrumMaterial>(path); }
 };

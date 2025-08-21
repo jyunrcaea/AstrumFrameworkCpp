@@ -1,14 +1,15 @@
 #pragma once
-#include "../Vectors/AstrumVector4.hpp"
-#include "../Units/AstrumColor.hpp"
-#include "../Singletons/AstrumFramework.hpp"
-#include "../Singletons/AstrumDirectInput.hpp"
-#include "../Objects/AstrumRectangleObject.hpp"
-#include "../Components/AstrumStateComponent.hpp"
-#include "../Components/AstrumAnimatorComponent.hpp"
-#include "../Animations/AstrumMovementAnimator.hpp"
-#include "../Animations/AstrumAnimationFunctions.hpp"
-#include "../Singletons/AstrumKeyBinder.hpp"
+#include "../Astrum/Vectors/AstrumVector4.hpp"
+#include "../Astrum/Units/AstrumColor.hpp"
+#include "../Astrum/Singletons/AstrumFramework.hpp"
+#include "../Astrum/Singletons/AstrumDirectInput.hpp"
+#include "../Astrum/Objects/AstrumRectangleObject.hpp"
+#include "../Astrum/Components/AstrumStateComponent.hpp"
+#include "../Astrum/Components/AstrumAnimatorComponent.hpp"
+#include "../Astrum/Animations/AstrumMovementAnimator.hpp"
+#include "../Astrum/Animations/AstrumAnimationFunctions.hpp"
+#include "../Astrum/Singletons/AstrumKeyBinder.hpp"
+#include "../Astrum/Objects/AstrumPostProcessGroupObject.hpp"
 
 class MyRectObject : public AstrumRectangleObject
 {
@@ -70,7 +71,7 @@ public:
     }
 };
 
-class MyKeyStatusGroupObject : public AstrumGroupObject
+class MyKeyStatusGroupObject : public AstrumPostProcessGroupObject
 {
 public:
     MyKeyStatusGroupObject() {
@@ -121,7 +122,7 @@ class Program
     friend int main();
 
 private:
-    void SetupKeyBinding() {
+    static void SetupKeyBinding() {
         AstrumKeyBinder::AddKeyBind("Up", DIK_W);
         AstrumKeyBinder::AddKeyBind("Down", DIK_S);
         AstrumKeyBinder::AddKeyBind("Left", DIK_A);
@@ -133,7 +134,7 @@ private:
         AstrumKeyBinder::AddKeyBind("Right", DIK_RIGHT);
     }
 
-    void Main() {
+    static void Main() {
         AstrumFramework::Initialize();
         SetupKeyBinding();
         AstrumFramework::GetRootObject()->AddObjects({
