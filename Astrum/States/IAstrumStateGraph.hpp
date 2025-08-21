@@ -9,7 +9,7 @@
 #include "AstrumStateBuilder.hpp"
 
 // Enter는 양의 정수, Exit는 음의 정수임을 보장합니다.
-enum AstrumStateType
+enum AstrumStateType : char
 {
 	AstrumStatusType_Exit = -1,
 	AstrumStatusType_None = 0,

@@ -26,11 +26,11 @@ private:
     bool IsFullscreen() const;
 
     std::wstring GetTitle() const;
-    void SetTitle(const std::wstring& title);
+    void SetTitle(const std::wstring& title) const;
     std::wstring GetClassName() const;
 
     std::pair<int, int> GetPosition() const;
-    void SetPosition(int x, int y);
+    void SetPosition(int x, int y) const;
 
     std::pair<int, int> GetSize() const;
     void SetSize(int w, int h);

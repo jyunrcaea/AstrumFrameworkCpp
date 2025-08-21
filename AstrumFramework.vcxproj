@@ -141,6 +141,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Astrum\Graphics\AstrumRenderTarget.cpp" />
+    <ClCompile Include="Astrum\Objects\AstrumPostProcessGroupObject.cpp" />
     <ClCompile Include="Astrum\Singletons\AstrumShaderCache.cpp" />
     <ClCompile Include="Astrum\Components\AstrumTextRenderComponent.cpp" />
     <ClCompile Include="Astrum\Singletons\AstrumRenderQueue.cpp" />
@@ -212,6 +213,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Astrum\Graphics\AstrumRenderTarget.hpp" />
+    <ClInclude Include="Astrum\Objects\AstrumPostProcessGroupObject.hpp" />
     <ClInclude Include="Astrum\Singletons\AstrumShaderCache.hpp" />
     <ClInclude Include="Game\Arcaea\ArcaeaChart.hpp" />
     <ClInclude Include="Astrum\Buffers\AstrumSimpleConstantBuffer.hpp" />

@@ -69,5 +69,5 @@ private:
     AstrumVector3 absoluteRotation;
     AstrumVector3 absoluteScale;
 
-    IAstrumGroupObject* parent = nullptr; // Parent reference me by shared_ptr, and parent did allocate it. so do not use shared_ptr.
+    IAstrumGroupObject* parent = nullptr; // Parent reference me by shared_ptr, and parent did allocate it. so do not need shared_ptr.
 };

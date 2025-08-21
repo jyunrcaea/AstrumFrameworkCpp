@@ -43,7 +43,7 @@ AstrumFonts::AstrumFonts(const std::filesystem::path& fontFilePath) {
 		&nameLength
 	))) throw AstrumException("Failed to get localized font name length.");
 
-	this->faceName.resize(nameLength + 1, L'\0');
+	this->faceName.resize(static_cast<size_t>(nameLength) + 1, L'\0');
 	if (FAILED(localName->GetString(
 		0,
 		this->faceName.data(),

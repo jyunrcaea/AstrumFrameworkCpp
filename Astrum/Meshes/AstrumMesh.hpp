@@ -65,6 +65,7 @@ private:
     D3D11_PRIMITIVE_TOPOLOGY primitive;
     DXGI_FORMAT bufferFormat;
     unsigned int indexCount = 0;
+	unsigned int vertexBufferOffset = 0;
 };
 
 template <typename VertexType>
@@ -99,12 +100,12 @@ AstrumMesh<VertexType>::AstrumMesh(const std::vector<VertexType>& vertices,
 
 template <typename VertexType>
 void AstrumMesh<VertexType>::Render() {
-    unsigned int stride = sizeof(VertexType), offset = 0;
+    unsigned int stride = sizeof(VertexType);
 
     auto* const ctx = AstrumRenderer::Instance().GetContext();
 
     ctx->IASetPrimitiveTopology(primitive);
-    ctx->IASetVertexBuffers(0, 1, vertexBuffer.GetAddressOf(), &stride, &offset);
+    ctx->IASetVertexBuffers(0, 1, vertexBuffer.GetAddressOf(), &stride, &vertexBufferOffset);
     ctx->IASetIndexBuffer(indexBuffer.Get(), bufferFormat, 0);
     ctx->DrawIndexed(indexCount, 0, 0);
 }
