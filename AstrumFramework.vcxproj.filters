@@ -191,6 +191,7 @@
     <ClInclude Include="Astrum\States\IAstrumStateGraph.hpp" />
     <ClInclude Include="Astrum\Singletons\AstrumSingleton.hpp" />
     <ClInclude Include="Astrum\Graphics\AstrumSimpleRenderable.hpp" />
+    <ClInclude Include="Astrum\Resources\IAstrumTexture.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Objects">

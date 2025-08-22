@@ -15,8 +15,9 @@ public:
 
 	std::shared_ptr<IAstrumShaderSetup> GetCustomShaderPipeline() const;
 	void SetCustomShaderPipeline(const std::shared_ptr<IAstrumShaderSetup>& customShaderPipeline);
+
 private:
-	std::unique_ptr<AstrumRenderTarget> renderTarget = std::make_unique<AstrumRenderTarget>(AstrumWindow::GetWidth(), AstrumWindow::GetHeight());
+	std::shared_ptr<AstrumRenderTarget> renderTarget = AstrumRenderTarget::MakeShared(AstrumWindow::GetWidth(), AstrumWindow::GetHeight());
 	std::shared_ptr<AstrumRenderMaterialComponent> renderMaterialComponent = AstrumRenderMaterialComponent::MakeShared();
 
 	std::shared_ptr<AstrumSimpleRenderable> bindRenderTarget = nullptr;

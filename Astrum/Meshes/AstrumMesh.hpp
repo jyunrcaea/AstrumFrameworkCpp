@@ -9,7 +9,6 @@
 #include "../Graphics/IAstrumRenderable.hpp"
 #include "../Singletons/AstrumRenderer.hpp"
 #include "../AstrumException.hpp"
-#include "../Units/AstrumVertexColor.hpp"
 
 template <typename VertexType>
 struct AstrumMeshDescription {
@@ -45,7 +44,7 @@ protected:
 
     std::vector<VertexType> vertices;
     void UpdateVertexBuffer() {
-        std::span<const std::byte> data = std::as_bytes(std::span<AstrumVertexColor>{ vertices.data(), vertices.size()});
+        std::span<const std::byte> data = std::as_bytes(std::span<VertexType>{ vertices.data(), vertices.size()});
         auto* const ctx = AstrumRenderer::Instance().GetContext();
 
         D3D11_MAPPED_SUBRESOURCE mapped{};

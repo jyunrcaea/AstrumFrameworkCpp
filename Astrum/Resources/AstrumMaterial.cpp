@@ -1,18 +1,34 @@
 #include "AstrumMaterial.hpp"
+#include "AstrumTexture.hpp"
 
 AstrumMaterial::AstrumMaterial(const std::wstring& path)
-	: AstrumMaterial(std::make_shared<AstrumTexture>(path))
+	: AstrumMaterial(AstrumTexture::MakeShared(path))
 {
 }
 
-AstrumMaterial::AstrumMaterial(const std::shared_ptr<AstrumTexture>& texture) {
-	this->texture = texture;
+AstrumMaterial::AstrumMaterial(const std::shared_ptr<IAstrumTexture>& texturePtr)
+	: texture(texturePtr) {
+	SetupTextureSize();
+}
+
+AstrumMaterial::AstrumMaterial(std::shared_ptr<IAstrumTexture>&& texturePtr)
+	: texture(std::move(texturePtr)) {
+	SetupTextureSize();
+}
+
+void AstrumMaterial::SetTexture(const std::shared_ptr<IAstrumTexture>& newTexture) {
+	texture = newTexture;
+	SetupTextureSize();
+}
+
+void AstrumMaterial::SetTexture(std::shared_ptr<IAstrumTexture>&& newTexture) {
+	texture = std::move(newTexture);
+	SetupTextureSize();
+}
+
+void AstrumMaterial::SetupTextureSize() {
 	SetSize(
 		static_cast<unsigned short>(texture->GetWidth()),
 		static_cast<unsigned short>(texture->GetHeight())
 	);
 }
-AstrumMaterial::~AstrumMaterial() { }
-
-std::shared_ptr<AstrumTexture> AstrumMaterial::GetTexture() const { return texture; }
-std::shared_ptr<IAstrumShaderSetup> AstrumMaterial::GetCustomShaderPipeline() const { return CustomShaderPipeline; }

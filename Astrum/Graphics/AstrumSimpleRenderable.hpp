@@ -24,6 +24,6 @@ public:
 		return std::make_shared<AstrumSimpleRenderable>(preRender, render);
 	}
 	static std::shared_ptr<AstrumSimpleRenderable> MakeShared(std::function<void()>&& preRender, std::function<void()>&& render) {
-		return std::make_shared<AstrumSimpleRenderable>(preRender, render);
+		return std::make_shared<AstrumSimpleRenderable>(std::move(preRender), std::move(render));
 	}
 };

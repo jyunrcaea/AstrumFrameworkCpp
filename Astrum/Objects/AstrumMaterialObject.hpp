@@ -11,7 +11,7 @@ class AstrumMaterialObject : public virtual AstrumObject, public virtual IAstrum
 public:
     AstrumMaterialObject();
     // 텍스쳐를 통해 기본 머터리얼을 즉시 생성하고, 텍스쳐 크기에 알맞는 매쉬를 기본값으로 생성하여 할당합니다.
-    AstrumMaterialObject(const std::shared_ptr<AstrumTexture>& texture);
+    AstrumMaterialObject(const std::shared_ptr<IAstrumTexture>& texture);
     AstrumMaterialObject(const std::shared_ptr<AstrumMaterial>& material, const std::shared_ptr<AstrumTextureMesh>& mesh = nullptr);
 
     virtual AstrumRenderMaterialComponent& GetRenderMaterialComponent() const noexcept override;

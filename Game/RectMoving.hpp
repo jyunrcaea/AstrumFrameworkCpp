@@ -75,6 +75,12 @@ class MyKeyStatusGroupObject : public AstrumPostProcessGroupObject
 {
 public:
     MyKeyStatusGroupObject() {
+        Position.Reset(
+            AstrumWindow::GetWidth() * -0.4f,
+            AstrumWindow::GetHeight() * -0.4f,
+            10
+        );
+
         for (auto* key : { &wKey, &aKey, &sKey, &dKey }) {
             *key = AstrumRectangleObject::MakeShared(10, 10, AstrumColor::DarkGray);
         }
@@ -84,11 +90,6 @@ public:
         dKey->GetPosition().AddX(15);
 
         AddObjects({ wKey, sKey, aKey, dKey });
-        Position.Reset(
-            AstrumWindow::GetWidth() * -0.4f,
-            AstrumWindow::GetHeight() * -0.4f,
-            10
-        );
     }
 
     virtual void Update() override {
@@ -141,7 +142,7 @@ private:
             std::make_shared<MyRectObject>(),
             std::make_shared<MyRectCursorObject>(),
             std::make_shared<MyKeyStatusGroupObject>(),
-            });
+        });
         AstrumFramework::Run();
     }
 };

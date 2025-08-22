@@ -3,7 +3,6 @@
 #include "../Resources/AstrumMaterial.hpp"
 #include "../Components/AstrumRenderMaterialComponent.hpp"
 #include "../Meshes/AstrumTextureMesh.hpp"
-#include "../Resources/AstrumTexture.hpp"
 
 class AstrumRenderMaterialComponent;
 
@@ -12,8 +11,8 @@ struct IAstrumMaterialObject : public virtual IAstrumObject
 	virtual AstrumRenderMaterialComponent& GetRenderMaterialComponent() const = 0;
 
 	std::shared_ptr<class AstrumMaterial> GetMaterial() const;
-	void SetMaterial(const std::shared_ptr<class AstrumMaterial>& material);
+	void SetMaterial(const std::shared_ptr<AstrumMaterial>& material);
 	std::shared_ptr<class AstrumTextureMesh> GetTextureMesh() const;
 	void SetTextureMesh(const std::shared_ptr<class AstrumTextureMesh>& mesh);
-	std::shared_ptr<class AstrumTexture> GetTexture() const;
+	std::shared_ptr<IAstrumTexture> GetTexture() const;
 };

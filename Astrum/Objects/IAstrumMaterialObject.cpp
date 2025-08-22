@@ -20,6 +20,6 @@ void IAstrumMaterialObject::SetTextureMesh(const std::shared_ptr<AstrumTextureMe
 	GetRenderMaterialComponent().Mesh = mesh;
 }
 
-std::shared_ptr<AstrumTexture> IAstrumMaterialObject::GetTexture() const { 
+std::shared_ptr<IAstrumTexture> IAstrumMaterialObject::GetTexture() const { 
 	return GetMaterial()->GetTexture();
 }

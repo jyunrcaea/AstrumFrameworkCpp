@@ -13,24 +13,14 @@ AstrumTexture::AstrumTexture(const AstrumImage& image)
         image.GetImages(),
         image.GetImageCount(),
         image.GetMetadata(),
-        &shaderResourceView)))
-    {
+        shaderResourceView.GetAddressOf()
+    ))) {
         throw AstrumException(__LINE__, __FILE__, "Failed to create shader resource view for texture. (HRESULT: {})");
-	}
-
+    }
     width = static_cast<unsigned short>(image.GetImages()[0].width);
     height = static_cast<unsigned short>(image.GetImages()[0].height);
 }
 
-AstrumTexture::~AstrumTexture()
-{
-    if (shaderResourceView)
-    {
-        shaderResourceView->Release();
-        shaderResourceView = nullptr;
-    }
-}
-
-ID3D11ShaderResourceView* AstrumTexture::GetShaderResourceView() const { return shaderResourceView; }
+ID3D11ShaderResourceView* AstrumTexture::GetShaderResourceView() const { return shaderResourceView.Get(); }
 unsigned int AstrumTexture::GetWidth() const { return width; }
 unsigned int AstrumTexture::GetHeight() const { return height; }

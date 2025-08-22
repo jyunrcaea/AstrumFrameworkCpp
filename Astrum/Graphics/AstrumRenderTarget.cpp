@@ -9,7 +9,7 @@ AstrumRenderTarget::AstrumRenderTarget(unsigned int width, unsigned int height, 
 {
     ID3D11Device* const device = AstrumRenderer::Instance().GetDevice();
 
-    if (sampleCount >= 256) sampleCount = AstrumRenderer::Instance().GetSampleCount();
+    if (sampleCount >= 64) sampleCount = AstrumRenderer::Instance().GetSampleCount();
 
 #pragma region DepthStencilView 생성
     D3D11_TEXTURE2D_DESC depthDesc = {};
@@ -57,9 +57,12 @@ AstrumRenderTarget::AstrumRenderTarget(unsigned int width, unsigned int height, 
 void AstrumRenderTarget::Bind()
 {
 	ID3D11DeviceContext* const context = AstrumRenderer::Instance().GetContext();
-    // 이전 상태 저장
+
+    ID3D11ShaderResourceView* nullSrv[1] = { nullptr };
+    context->PSSetShaderResources(0, 1, nullSrv);
+    context->OMSetRenderTargets(1, renderTargetView.GetAddressOf(), depthStencilView.Get());
+
     context->OMGetRenderTargets(1, previousRTV.GetAddressOf(), previousDSV.GetAddressOf());
-	// 현재 렌더 타깃으로 바인딩
     context->OMSetRenderTargets(1, renderTargetView.GetAddressOf(), depthStencilView.Get());
 }
 
@@ -69,4 +72,10 @@ void AstrumRenderTarget::Unbind()
     AstrumRenderer::Instance().GetContext()->OMSetRenderTargets(1, previousRTV.GetAddressOf(), previousDSV.Get());
     previousRTV = nullptr;
     previousDSV = nullptr;
+}
+
+void AstrumRenderTarget::Clear() {
+	auto* const context = AstrumRenderer::Instance().GetContext();
+    context->ClearRenderTargetView(renderTargetView.Get(), reinterpret_cast<float*>(&BackgroundColor));
+	context->ClearDepthStencilView(depthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 }

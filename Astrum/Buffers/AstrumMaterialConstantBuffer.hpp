@@ -11,19 +11,19 @@ protected:
 	AstrumMaterialData data;
 	AstrumTextureSampleType sampleType = AstrumTextureSampleType::AstrumTextureSampleType_Linear;
 public:
-	AstrumMaterialConstantBuffer();
+	AstrumMaterialConstantBuffer() : AstrumConstantBuffer(sizeof(AstrumMaterialData)) {}
 
-	void SetColor(const AstrumVector4& color);
-	void SetOpacity(float opacity);
-	void SetSize(unsigned short width, unsigned short height);
-	void SetSampleType(AstrumTextureSampleType sampleType);
-	void SetFlip(AstrumMaterialFlipType flip);
+	void SetColor(const AstrumVector4& color) { data.BaseColor = color; }
+	void SetOpacity(float opacity) { data.Opacity = opacity; }
+	void SetSize(unsigned short width, unsigned short height) { data.Width = width; data.Height = height; }
+	void SetSampleType(AstrumTextureSampleType type) { this->sampleType = type; }
+	void SetFlip(AstrumMaterialFlipType flip) { data.Flip = flip; }
 
-	AstrumVector4& GetColor();
-	float& GetOpacity();
-	std::pair<unsigned short, unsigned short> GetSize() const;
-	AstrumTextureSampleType GetSampleType() const;
-	AstrumMaterialFlipType GetFlip() const;
+	AstrumVector4& GetColor() { return data.BaseColor; }
+	float& GetOpacity() { return data.Opacity; }
+	std::pair<unsigned short, unsigned short> GetSize() const { return { static_cast<unsigned short>(data.Width), static_cast<unsigned short>(data.Height) }; }
+	AstrumTextureSampleType GetSampleType() const { return sampleType; }
+	AstrumMaterialFlipType GetFlip() const { return data.Flip; }
 
 	virtual void UpdateBuffer() override;
 };

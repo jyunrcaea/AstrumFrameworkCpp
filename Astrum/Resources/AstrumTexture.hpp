@@ -1,24 +1,28 @@
 #pragma once
 #include <d3d11_1.h>
+#include <wrl/client.h>
 #include <string>
 #include "AstrumImage.hpp"
 #include "../Singletons/AstrumRenderer.hpp"
+#include "IAstrumTexture.hpp"
 
-class AstrumTexture
+using Microsoft::WRL::ComPtr;
+
+class AstrumTexture : public IAstrumTexture
 {
 private:
     AstrumTexture(const AstrumTexture&) = delete;
     AstrumTexture& operator=(const AstrumTexture&) = delete;
+
 public:
     AstrumTexture(const std::wstring& path);
     AstrumTexture(const AstrumImage& image);
-    ~AstrumTexture();
 
-    ID3D11ShaderResourceView* GetShaderResourceView() const;
-    unsigned int GetWidth() const;
-    unsigned int GetHeight() const;
+    virtual ID3D11ShaderResourceView* GetShaderResourceView() const override;
+    virtual unsigned int GetWidth() const override;
+    virtual unsigned int GetHeight() const override;
 private:
-    ID3D11ShaderResourceView* shaderResourceView = nullptr;
+    ComPtr<ID3D11ShaderResourceView> shaderResourceView;
     unsigned int width = 0, height = 0;
 
 public:

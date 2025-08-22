@@ -1,6 +1,6 @@
 #pragma once
 #include <memory>
-#include "../Resources/AstrumTexture.hpp"
+#include "IAstrumTexture.hpp"
 #include "../Meshes/AstrumTextureMesh.hpp"
 #include "../Shaders/IAstrumShaders.hpp"
 
@@ -15,7 +15,10 @@ public:
 	virtual ~IAstrumMaterial() = default;
 
 	virtual std::shared_ptr<IAstrumShaderSetup> GetCustomShaderPipeline() const = 0;
-	virtual std::shared_ptr<AstrumTexture> GetTexture() const = 0;
+	virtual std::shared_ptr<IAstrumTexture> GetTexture() const = 0;
+
+	// 텍스쳐를 설정합니다.
+	virtual void SetTexture(const std::shared_ptr<IAstrumTexture>& newTexture) = 0;
 
 	unsigned int GetTextureWidth() const;
 	unsigned int GetTextureHeight() const;

@@ -1,19 +1,21 @@
 #include "AstrumPostProcessGroupObject.hpp"
 #include "../Singletons/AstrumWindow.hpp"
 #include "../Singletons/AstrumRenderQueue.hpp"
+#include "../Singletons/AstrumRenderer.hpp"
 
 AstrumPostProcessGroupObject::AstrumPostProcessGroupObject() {
-	renderMaterialComponent->SetupRectangleMesh(
-		AstrumWindow::GetWidth(),
-		AstrumWindow::GetHeight()
-	);
+	renderMaterialComponent->Material = AstrumMaterial::MakeShared(renderTarget);
+	renderMaterialComponent->SetupMeshFromTexture();
 	bindRenderTarget = AstrumSimpleRenderable::MakeShared(
 		nullptr,
-		[this]() { this->renderTarget->Bind(); }
+		[this]() { 
+			this->renderTarget->Bind();
+			this->renderTarget->Clear();
+		}
 	);
 	unbindRenderTarget = AstrumSimpleRenderable::MakeShared(
 		nullptr,
-		[this]() { this->renderTarget->Unbind(); renderMaterialComponent->Material = AstrumMaterial::MakeShared(renderTarget->GetTexture()); }
+		[this]() { this->renderTarget->Unbind(); }
 	);
 }
 

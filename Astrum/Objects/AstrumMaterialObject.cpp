@@ -5,7 +5,7 @@
 AstrumMaterialObject::AstrumMaterialObject() {
     AddComponent(renderMaterialComponent);
 }
-AstrumMaterialObject::AstrumMaterialObject(const std::shared_ptr<AstrumTexture>& texture) : AstrumMaterialObject() {
+AstrumMaterialObject::AstrumMaterialObject(const std::shared_ptr<IAstrumTexture>& texture) : AstrumMaterialObject() {
     renderMaterialComponent->Material = AstrumMaterial::MakeShared(texture);
     renderMaterialComponent->SetupMeshFromTexture();
 }
