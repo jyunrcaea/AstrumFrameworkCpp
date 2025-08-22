@@ -42,7 +42,7 @@ struct PixelShaderOutput
 };
 
 SamplerState BaseSampler : register(s0);
-Texture2D BaseTexture : register(t0);
+Texture2DMS<float4> BaseTexture : register(t0);
 
 //VertexShaderOutput IllusionVS(VertexShaderInput input)
 //{
@@ -57,22 +57,21 @@ VertexShaderOutput IllusionVS(VertexShaderInput input)
     
     float3 pos = input.Pos;
     
-    // 1. 회전 역변환 (Z축 기준)
+    // 회전 역변환
     float cosZ = cos(-RotationZ);
     float sinZ = sin(-RotationZ);
     float2 rotatedPos;
     rotatedPos.x = pos.x * cosZ - pos.y * sinZ;
     rotatedPos.y = pos.x * sinZ + pos.y * cosZ;
     
-    // 2. 왜곡 적용 (y값에 따른 x 스케일링)
-    // y가 클수록 수축, 작을수록 팽창
-    float normalizedY = (rotatedPos.y + 1.0f) * 0.5f; // -1~1을 0~1로 정규화
-    float scaleX = lerp(1.0f + DistortionStrength, 1.0f - DistortionStrength, normalizedY);
+    // Y 좌표를 화면 높이로 정규화 (-1 ~ 1 범위로)
+    float normalizedY = (rotatedPos.y / (WindowHeight * 0.5f)) - 1.0f;
+    
+    // 왜곡 적용
+    float scaleX = 1.0f + normalizedY * DistortionStrength;
     rotatedPos.x *= scaleX;
     
-    // 3. 다시 원래 회전 적용
-    cosZ = cos(RotationZ);
-    sinZ = sin(RotationZ);
+    // 다시 회전 적용
     pos.x = rotatedPos.x * cosZ - rotatedPos.y * sinZ;
     pos.y = rotatedPos.x * sinZ + rotatedPos.y * cosZ;
     
@@ -90,7 +89,7 @@ PixelShaderOutput IllusionPS(VertexShaderOutput input)
     if (MaterialFlip & 2)
         input.UV.y = 1 - input.UV.y;
     
-    float4 color = BaseTexture.Sample(BaseSampler, input.UV);
+    float4 color = BaseTexture.Load(int2(input.UV * float2(MaterialTextureWidth, MaterialTextureHeight)), 0);
     
     color.rgb *= MaterialBaseColor.rgb;
     color.a *= MaterialOpacity;
