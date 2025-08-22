@@ -8,7 +8,7 @@ void AstrumRenderer::Initialize(unsigned int width, unsigned int height, bool wi
     flags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
 
-#pragma region Direct3D11 디바이스 생성
+#pragma region Create device and context
     D3D_FEATURE_LEVEL featureLevel;
     if (FAILED(D3D11CreateDevice(
         nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, flags,
@@ -19,7 +19,7 @@ void AstrumRenderer::Initialize(unsigned int width, unsigned int height, bool wi
     }
 #pragma endregion
 
-#pragma region 멀티샘플링 지원 확인
+#pragma region Check multisample quality levels
     for (UINT p = 8; p > 1; p >>= 1) {
         UINT quality;
         if (SUCCEEDED(device->CheckMultisampleQualityLevels(
@@ -31,7 +31,7 @@ void AstrumRenderer::Initialize(unsigned int width, unsigned int height, bool wi
     }
 #pragma endregion
 
-#pragma region 스왑체인 생성
+#pragma region Create swap chain
     DXGI_SWAP_CHAIN_DESC swapChainDesc = {};
     swapChainDesc.BufferDesc.Width = width;
     swapChainDesc.BufferDesc.Height = height;
@@ -65,7 +65,7 @@ void AstrumRenderer::Initialize(unsigned int width, unsigned int height, bool wi
     }
 #pragma endregion
 
-#pragma region 렌더 타겟 뷰 생성
+#pragma region Create render target view
     ComPtr<ID3D11Texture2D> backBuffer;
     if (FAILED(swapChain->GetBuffer(0, IID_PPV_ARGS(&backBuffer)))) {
         throw AstrumException("Get buffer from swap chain failed.");
@@ -76,7 +76,7 @@ void AstrumRenderer::Initialize(unsigned int width, unsigned int height, bool wi
     }
 #pragma endregion
 
-#pragma region DepthStencilView 생성
+#pragma region Create depth buffer and depth stencil view
     D3D11_TEXTURE2D_DESC depthDesc = {};
     depthDesc.Width = width;
     depthDesc.Height = height;
@@ -95,7 +95,7 @@ void AstrumRenderer::Initialize(unsigned int width, unsigned int height, bool wi
     }
 #pragma endregion
 
-#pragma region DepthStencilState 생성
+#pragma region Create depth stencil state
     D3D11_DEPTH_STENCIL_DESC dsDesc = {};
     dsDesc.DepthEnable = TRUE;
     dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
@@ -106,7 +106,7 @@ void AstrumRenderer::Initialize(unsigned int width, unsigned int height, bool wi
     }
 #pragma endregion
 
-#pragma region BlendState 생성
+#pragma region Create blend state
     D3D11_BLEND_DESC blendDescription{};
     blendDescription.RenderTarget[0].BlendEnable = true;
     blendDescription.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
@@ -134,7 +134,7 @@ void AstrumRenderer::Initialize(unsigned int width, unsigned int height, bool wi
     context->RSSetViewports(1, &viewport);
 #pragma endregion
 
-#pragma region Direct2D 초기화
+#pragma region Initialize 2D render target
     if (FAILED(D2D1CreateFactory(D2D1_FACTORY_TYPE_MULTI_THREADED, factory2D.GetAddressOf()))) {
         throw AstrumException("Failed to create D2D factory.");
 	}
