@@ -35,10 +35,13 @@ void AstrumRenderer::Initialize(unsigned int width, unsigned int height, bool wi
     DXGI_SWAP_CHAIN_DESC swapChainDesc = {};
     swapChainDesc.BufferDesc.Width = width;
     swapChainDesc.BufferDesc.Height = height;
-    swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+    // Use a D2D1-compatible backbuffer format (no sRGB) for CreateDxgiSurfaceRenderTarget.
+    swapChainDesc.BufferDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
     swapChainDesc.BufferDesc.RefreshRate.Numerator = 60;
     swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
-    swapChainDesc.SampleDesc.Count = sampleCount;
+    // MSAA must be 1 for D2D to render on the DXGI surface.
+    sampleCount = 1;
+    swapChainDesc.SampleDesc.Count = 1;
     swapChainDesc.SampleDesc.Quality = 0;
     swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
     swapChainDesc.OutputWindow = AstrumWindow::GetHandle();
@@ -83,7 +86,7 @@ void AstrumRenderer::Initialize(unsigned int width, unsigned int height, bool wi
     depthDesc.MipLevels = 1;
     depthDesc.ArraySize = 1;
     depthDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-    depthDesc.SampleDesc.Count = sampleCount;
+    depthDesc.SampleDesc.Count = 1;
     depthDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
 
     ComPtr<ID3D11Texture2D> depthBuffer;

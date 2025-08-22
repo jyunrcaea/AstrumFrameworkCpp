@@ -1,4 +1,5 @@
 #include "AstrumFonts.hpp"
+#include "AstrumTargetFont.hpp"
 #include "../AstrumException.hpp"
 
 AstrumFonts::AstrumFonts(const std::filesystem::path& fontFilePath) {
@@ -60,7 +61,7 @@ std::shared_ptr<AstrumTargetFont> AstrumFonts::GetFont(const std::wstring& fontN
 		DWRITE_FONT_STYLE_NORMAL,
 		DWRITE_FONT_STRETCH_NORMAL,
 		fontSize,
-		this->faceName.c_str(),
+		L"en-us",
 		textFormat.GetAddressOf()
 	))) throw AstrumException("Failed to create text format for font.");
 

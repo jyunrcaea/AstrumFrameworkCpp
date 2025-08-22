@@ -5,7 +5,8 @@
 #endif
 
 //#include "Game/RectMoving.hpp"
-#include "Game/NoteTest.hpp"
+//#include "Game/NoteTest.hpp"
+#include "Game/FrameworkTest.hpp"
 
 int main()
 {

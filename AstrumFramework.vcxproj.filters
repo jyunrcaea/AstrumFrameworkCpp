@@ -68,11 +68,11 @@
     <ClCompile Include="Astrum\Animations\AstrumAnimator.cpp" />
     <ClCompile Include="Astrum\Resources\IAstrumMaterial.cpp" />
     <ClCompile Include="Astrum\Objects\IAstrumObject.cpp" />
+    <ClCompile Include="Astrum\Resources\AstrumTargetFont.cpp" />
     <ClCompile Include="Astrum\Vectors\AstrumObservedVector2.cpp" />
     <ClCompile Include="Astrum\Vectors\AstrumObservedVector3.cpp" />
     <ClCompile Include="Astrum\Vectors\AstrumObservedVector4.cpp" />
   </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="Astrum\Graphics\AstrumRenderTarget.hpp" />
     <ClInclude Include="Astrum\Objects\AstrumPostProcessGroupObject.hpp" />
     <ClInclude Include="Astrum\Singletons\AstrumShaderCache.hpp" />

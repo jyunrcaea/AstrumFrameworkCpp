@@ -206,6 +206,7 @@
     <ClCompile Include="Astrum\Animations\AstrumAnimator.cpp" />
     <ClCompile Include="Astrum\Resources\IAstrumMaterial.cpp" />
     <ClCompile Include="Astrum\Objects\IAstrumObject.cpp" />
+    <ClCompile Include="Astrum\Resources\AstrumTargetFont.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Astrum\Vectors\AstrumObservedVector2.cpp" />
     <ClCompile Include="Astrum\Vectors\AstrumObservedVector3.cpp" />
@@ -234,6 +235,7 @@
     <ClInclude Include="Astrum\Objects\IAstrumMaterialObject.hpp" />
     <ClInclude Include="Astrum\Resources\AstrumFonts.hpp" />
     <ClInclude Include="Astrum\Resources\AstrumTargetFont.hpp" />
+    <ClInclude Include="Game\FrameworkTest.hpp" />
     <ClInclude Include="Game\InGame\ArcObject.hpp" />
     <ClInclude Include="Game\InGame\DataManager.hpp" />
     <ClInclude Include="Game\InGame\HoldNoteObject.hpp" />

@@ -4,7 +4,7 @@
 #include <wrl/client.h>
 #include <string>
 #include <filesystem>
-#include "AstrumTargetFont.hpp"
+#include <memory>
 
 #pragma comment(lib, "DWrite.lib")
 #pragma comment(lib, "D2d1.lib")
