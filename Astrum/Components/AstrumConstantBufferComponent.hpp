@@ -3,26 +3,28 @@
 #include "AstrumComponent.hpp"
 #include "../Buffers/IAstrumConstantBuffer.hpp"
 
-class AstrumConstantBufferComponent : public AstrumComponent
-{
-public:
-	AstrumConstantBufferComponent();
-	AstrumConstantBufferComponent(const std::shared_ptr<IAstrumConstantBuffer>& buffer);
-	AstrumConstantBufferComponent(std::shared_ptr<IAstrumConstantBuffer>&& buffer);
+namespace Astrum {
+	class ConstantBufferComponent : public Component
+	{
+	public:
+		ConstantBufferComponent();
+		ConstantBufferComponent(const std::shared_ptr<IConstantBuffer>& buffer);
+		ConstantBufferComponent(std::shared_ptr<IConstantBuffer>&& buffer);
 
-	virtual void Draw() override;
+		virtual void Draw() override;
 
-public:
-	std::shared_ptr<IAstrumConstantBuffer> ConstantBuffer = nullptr;
+	public:
+		std::shared_ptr<IConstantBuffer> ConstantBuffer = nullptr;
 
-public:
-	static std::shared_ptr<AstrumConstantBufferComponent> MakeShared() {
-		return std::make_shared<AstrumConstantBufferComponent>();
-	}
-	static std::shared_ptr<AstrumConstantBufferComponent> MakeShared(const std::shared_ptr<IAstrumConstantBuffer>& buffer) {
-		return std::make_shared<AstrumConstantBufferComponent>(buffer);
-	}
-	static std::shared_ptr<AstrumConstantBufferComponent> MakeShared(std::shared_ptr<IAstrumConstantBuffer>&& buffer) {
-		return std::make_shared<AstrumConstantBufferComponent>(std::move(buffer));
-	}
-};
+	public:
+		static std::shared_ptr<ConstantBufferComponent> MakeShared() {
+			return std::make_shared<ConstantBufferComponent>();
+		}
+		static std::shared_ptr<ConstantBufferComponent> MakeShared(const std::shared_ptr<IConstantBuffer>& buffer) {
+			return std::make_shared<ConstantBufferComponent>(buffer);
+		}
+		static std::shared_ptr<ConstantBufferComponent> MakeShared(std::shared_ptr<IConstantBuffer>&& buffer) {
+			return std::make_shared<ConstantBufferComponent>(std::move(buffer));
+		}
+	};
+}

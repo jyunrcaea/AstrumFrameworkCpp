@@ -3,21 +3,23 @@
 #include "AstrumColliderComponent.hpp"
 #include "IAstrumAABBColliderComponent.hpp"
 
-class AstrumAABBColliderComponent : public AstrumColliderComponent, public IAstrumAABBColliderComponent
-{
-public:
-	virtual AstrumColliderType GetColliderType() const override { return AstrumColliderType::AstrumColliderType_AABB; }
-	virtual AstrumRect GetRect() const;
+namespace Astrum {
+	class AABBColliderComponent : public ColliderComponent, public IAABBColliderComponent
+	{
+	public:
+		virtual ColliderType GetColliderType() const override { return ColliderType::ColliderType_AABB; }
+		virtual Rect GetRect() const;
 
-	virtual bool IsOverlap(IAstrumColliderComponent* other) override;
-	virtual bool IsOverlapToAABB(IAstrumAABBColliderComponent* other) override;
-	virtual bool IsOverlapToOBB(IAstrumOBBColliderComponent* other) override;
-	virtual bool IsOverlapToCircle(IAstrumCircleColliderComponent* other) override;
+		virtual bool IsOverlap(IColliderComponent* other) override;
+		virtual bool IsOverlapToAABB(IAABBColliderComponent* other) override;
+		virtual bool IsOverlapToOBB(IOBBColliderComponent* other) override;
+		virtual bool IsOverlapToCircle(ICircleColliderComponent* other) override;
 
-	virtual bool IsOverlapToPoint(AstrumVector2 point) override;
+		virtual bool IsOverlapToPoint(Vector2 point) override;
 
-public:
-	static std::shared_ptr<AstrumAABBColliderComponent> MakeShared() {
-		return std::make_shared<AstrumAABBColliderComponent>();
-	}
-};
+	public:
+		static std::shared_ptr<AABBColliderComponent> MakeShared() {
+			return std::make_shared<AABBColliderComponent>();
+		}
+	};
+}

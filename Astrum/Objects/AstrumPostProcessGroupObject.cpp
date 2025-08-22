@@ -3,31 +3,34 @@
 #include "../Singletons/AstrumRenderQueue.hpp"
 #include "../Singletons/AstrumRenderer.hpp"
 
-AstrumPostProcessGroupObject::AstrumPostProcessGroupObject() {
-	renderMaterialComponent->Material = AstrumMaterial::MakeShared(renderTarget);
-	renderMaterialComponent->SetupMeshFromTexture();
-	bindRenderTarget = AstrumSimpleRenderable::MakeShared(
-		nullptr,
-		[this]() { 
-			this->renderTarget->Bind();
-			this->renderTarget->Clear();
-		}
-	);
-	unbindRenderTarget = AstrumSimpleRenderable::MakeShared(
-		nullptr,
-		[this]() { 
-			this->renderTarget->Unbind(); 
-		}
-	);
-}
+namespace Astrum
+{
+	PostProcessGroupObject::PostProcessGroupObject() {
+		renderMaterialComponent->Material = Material::MakeShared(renderTarget);
+		renderMaterialComponent->SetupMeshFromTexture();
+		bindRenderTarget = SimpleRenderable::MakeShared(
+			nullptr,
+			[this]() {
+				this->renderTarget->Bind();
+				this->renderTarget->Clear();
+			}
+		);
+		unbindRenderTarget = SimpleRenderable::MakeShared(
+			nullptr,
+			[this]() {
+				this->renderTarget->Unbind();
+			}
+		);
+	}
 
-void AstrumPostProcessGroupObject::Draw() {
-	AstrumRenderQueue::Enqueue(bindRenderTarget);
-	AstrumGroupObject::Draw();
-	AstrumRenderQueue::Enqueue(unbindRenderTarget);
-	AstrumRenderQueue::Enqueue(renderMaterialComponent);
-}
+	void PostProcessGroupObject::Draw() {
+		RenderQueue::Enqueue(bindRenderTarget);
+		GroupObject::Draw();
+		RenderQueue::Enqueue(unbindRenderTarget);
+		RenderQueue::Enqueue(renderMaterialComponent);
+	}
 
-std::shared_ptr<IAstrumShaderSetup> AstrumPostProcessGroupObject::GetCustomShaderPipeline() const {
-	return renderMaterialComponent->GetCustomShaderPipeline();
+	std::shared_ptr<IShaderSetup> PostProcessGroupObject::GetCustomShaderPipeline() const {
+		return renderMaterialComponent->GetCustomShaderPipeline();
+	}
 }

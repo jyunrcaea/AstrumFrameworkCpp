@@ -3,24 +3,27 @@
 #include "../Meshes/AstrumPolygons.hpp"
 #include "../Components/AstrumRenderComponent.hpp"
 
-class AstrumRenderPolygonsComponent : public AstrumRenderComponent
+namespace Astrum
 {
-public:
-	AstrumRenderPolygonsComponent();
-	AstrumRenderPolygonsComponent(const std::shared_ptr<AstrumPolygons>& polygons);
-	AstrumRenderPolygonsComponent(std::shared_ptr<AstrumPolygons>&& polygons);
+	class RenderPolygonsComponent : public RenderComponent
+	{
+	public:
+		RenderPolygonsComponent();
+		RenderPolygonsComponent(const std::shared_ptr<Polygons>& polygons);
+		RenderPolygonsComponent(std::shared_ptr<Polygons>&& polygons);
 
-	std::shared_ptr<AstrumPolygons> Polygons = nullptr;
+		std::shared_ptr<Polygons> Polygons = nullptr;
 
-	virtual std::shared_ptr<struct IAstrumShaderSetup> GetDefaultShaderPipeline() const override;
+		virtual std::shared_ptr<struct IShaderSetup> GetDefaultShaderPipeline() const override;
 
-protected:
-	virtual void PreRender() override;
-	virtual void Render() override;
+	protected:
+		virtual void PreRender() override;
+		virtual void Render() override;
 
-public:
-	static std::shared_ptr<AstrumRenderPolygonsComponent> MakeShared() { return std::make_shared<AstrumRenderPolygonsComponent>(); }
-	static std::shared_ptr<AstrumRenderPolygonsComponent> MakeShared(const std::shared_ptr<AstrumPolygons>& polygons) { return std::make_shared<AstrumRenderPolygonsComponent>(polygons); }
-	static std::shared_ptr<AstrumRenderPolygonsComponent> MakeShared(std::shared_ptr<AstrumPolygons>&& polygons) { return std::make_shared<AstrumRenderPolygonsComponent>(std::move(polygons)); }
-};
+	public:
+		static std::shared_ptr<RenderPolygonsComponent> MakeShared() { return std::make_shared<RenderPolygonsComponent>(); }
+		static std::shared_ptr<RenderPolygonsComponent> MakeShared(const std::shared_ptr<Polygons>& polygons) { return std::make_shared<RenderPolygonsComponent>(polygons); }
+		static std::shared_ptr<RenderPolygonsComponent> MakeShared(std::shared_ptr<Polygons>&& polygons) { return std::make_shared<RenderPolygonsComponent>(std::move(polygons)); }
+	};
+}
 

@@ -6,20 +6,25 @@
 #include <filesystem>
 #include "AstrumFonts.hpp"
 
-class AstrumTargetFont
+namespace Astrum
 {
-	friend class AstrumFonts;
+	class Fonts;
 
-public:
-	AstrumTargetFont(const Microsoft::WRL::ComPtr<IDWriteFactory5>& factory, Microsoft::WRL::ComPtr<IDWriteTextFormat>&& textFormat)
-		: writeFactory(factory), textFormat(textFormat) {}
+	class TargetFont
+	{
+		friend class Fonts;
 
-private:
-	const Microsoft::WRL::ComPtr<IDWriteFactory5> writeFactory;
-	Microsoft::WRL::ComPtr<IDWriteTextFormat> textFormat;
+	public:
+		TargetFont(const Microsoft::WRL::ComPtr<IDWriteFactory5>& factory, Microsoft::WRL::ComPtr<IDWriteTextFormat>&& textFormat)
+			: writeFactory(factory), textFormat(textFormat) {}
 
-public:
-	static std::shared_ptr<AstrumTargetFont> MakeShared(const Microsoft::WRL::ComPtr<IDWriteFactory5>& factory, Microsoft::WRL::ComPtr<IDWriteTextFormat>&& textFormat) {
-		return std::make_shared<AstrumTargetFont>(factory, std::move(textFormat));
-	}
-};
+	private:
+		const Microsoft::WRL::ComPtr<IDWriteFactory5> writeFactory;
+		Microsoft::WRL::ComPtr<IDWriteTextFormat> textFormat;
+
+	public:
+		static std::shared_ptr<TargetFont> MakeShared(const Microsoft::WRL::ComPtr<IDWriteFactory5>& factory, Microsoft::WRL::ComPtr<IDWriteTextFormat>&& textFormat) {
+			return std::make_shared<TargetFont>(factory, std::move(textFormat));
+		}
+	};
+}

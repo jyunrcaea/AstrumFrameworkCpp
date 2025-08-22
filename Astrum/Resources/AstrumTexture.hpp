@@ -8,24 +8,29 @@
 
 using Microsoft::WRL::ComPtr;
 
-class AstrumTexture : public IAstrumTexture
+namespace Astrum
 {
-private:
-    AstrumTexture(const AstrumTexture&) = delete;
-    AstrumTexture& operator=(const AstrumTexture&) = delete;
+	class Image;
 
-public:
-    AstrumTexture(const std::wstring& path);
-    AstrumTexture(const AstrumImage& image);
+	class Texture : public ITexture
+	{
+	private:
+		Texture(const Texture&) = delete;
+		Texture& operator=(const Texture&) = delete;
 
-    virtual ID3D11ShaderResourceView* GetShaderResourceView() const override;
-    virtual unsigned int GetWidth() const override;
-    virtual unsigned int GetHeight() const override;
-private:
-    ComPtr<ID3D11ShaderResourceView> shaderResourceView;
-    unsigned int width = 0, height = 0;
+	public:
+		Texture(const std::wstring& path);
+		Texture(const Image& image);
 
-public:
-    static std::shared_ptr<AstrumTexture> MakeShared(const std::wstring& path) { return std::make_shared<AstrumTexture>(path); }
-    static std::shared_ptr<AstrumTexture> MakeShared(const AstrumImage& image) { return std::make_shared<AstrumTexture>(image); }
-};
+		virtual ID3D11ShaderResourceView* GetShaderResourceView() const override;
+		virtual unsigned int GetWidth() const override;
+		virtual unsigned int GetHeight() const override;
+	private:
+		ComPtr<ID3D11ShaderResourceView> shaderResourceView;
+		unsigned int width = 0, height = 0;
+
+	public:
+		static std::shared_ptr<Texture> MakeShared(const std::wstring& path) { return std::make_shared<Texture>(path); }
+		static std::shared_ptr<Texture> MakeShared(const Image& image) { return std::make_shared<Texture>(image); }
+	};
+}

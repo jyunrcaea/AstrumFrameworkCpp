@@ -3,28 +3,31 @@
 #include "../Meshes/AstrumRectanglePolygons.hpp"
 #include "../Components/AstrumRenderPolygonsComponent.hpp"
 
-// 직사각형 객체
-class AstrumRectangleObject : public AstrumShapeObject
+namespace Astrum
 {
-public:
-    AstrumRectangleObject();
-    AstrumRectangleObject(const std::shared_ptr<AstrumRectanglePolygons>& rectanglePolygon);
-    AstrumRectangleObject(float width, float height, const AstrumColor& color);
+	// 직사각형 객체
+	class RectangleObject : public ShapeObject
+	{
+	public:
+		RectangleObject();
+		RectangleObject(const std::shared_ptr<RectanglePolygons>& rectanglePolygon);
+		RectangleObject(float width, float height, const Color& color);
 
-    std::shared_ptr<AstrumRectanglePolygons> GetRectanglePolygons() const;
-    void SetRectanglePolygons(const std::shared_ptr<AstrumRectanglePolygons>& rectanglePolygon);
+		std::shared_ptr<RectanglePolygons> GetRectanglePolygons() const;
+		void SetRectanglePolygons(const std::shared_ptr<RectanglePolygons>& rectanglePolygon);
 
-    void SetColor(const AstrumColor& color);
-    void SetColor(const AstrumColor& leftTop, const AstrumColor& rightTop, const AstrumColor& leftBottom, const AstrumColor& rightBottom);
-private:
-    std::shared_ptr<AstrumRectanglePolygons> rectanglePolygon = nullptr;
+		void SetColor(const Color& color);
+		void SetColor(const Color& leftTop, const Color& rightTop, const Color& leftBottom, const Color& rightBottom);
+	private:
+		std::shared_ptr<RectanglePolygons> rectanglePolygon = nullptr;
 
-public:
-    static std::shared_ptr<AstrumRectangleObject> MakeShared() { return std::make_shared<AstrumRectangleObject>(); }
-    static std::shared_ptr<AstrumRectangleObject> MakeShared(const std::shared_ptr<AstrumRectanglePolygons>& rectanglePolygon) { 
-        return std::make_shared<AstrumRectangleObject>(rectanglePolygon);
-    }
-    static std::shared_ptr<AstrumRectangleObject> MakeShared(float width, float height, const AstrumColor & color) {
-        return std::make_shared<AstrumRectangleObject>(width, height, color);
-    }
-};
+	public:
+		static std::shared_ptr<RectangleObject> MakeShared() { return std::make_shared<RectangleObject>(); }
+		static std::shared_ptr<RectangleObject> MakeShared(const std::shared_ptr<RectanglePolygons>& rectanglePolygon) {
+			return std::make_shared<RectangleObject>(rectanglePolygon);
+		}
+		static std::shared_ptr<RectangleObject> MakeShared(float width, float height, const Color& color) {
+			return std::make_shared<RectangleObject>(width, height, color);
+		}
+	};
+}

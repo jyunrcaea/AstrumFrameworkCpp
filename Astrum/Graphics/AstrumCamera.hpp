@@ -2,37 +2,40 @@
 #include "../Objects/AstrumObject.hpp"
 #include "../Units/AstrumMatrix.hpp"
 
-enum class AstrumCameraProjectionType : unsigned char
+namespace Astrum
 {
-	AstrumCameraProjectionType_None = 0,
-	// 원근 (3차원)
-	AstrumCameraProjectionType_Perspective,
-	// 직교 (2차원)
-	AstrumCameraProjectionType_Ortho,
-};
+	enum class CameraProjectionType : unsigned char
+	{
+		CameraProjectionType_None = 0,
+		// 원근 (3차원)
+		CameraProjectionType_Perspective,
+		// 직교 (2차원)
+		CameraProjectionType_Ortho,
+	};
 
-class AstrumCamera : public AstrumObject
-{
-public:
-	//기본값은 직교입니다.
-	AstrumCamera();
+	class Camera : public Object
+	{
+	public:
+		//기본값은 직교입니다.
+		Camera();
 
-	void Update() override;
+		void Update() override;
 
-	void SetProjectionType(AstrumCameraProjectionType type);
-	AstrumCameraProjectionType GetProjectionType() const { return projectionType; }
+		void SetProjectionType(CameraProjectionType type);
+		CameraProjectionType GetProjectionType() const { return projectionType; }
 
-	const AstrumMatrix& GetViewMatrix() const { return viewMatrix; }
-	const AstrumMatrix& GetProjectionMatrix() const { return projectionMatrix; }
+		const Matrix& GetViewMatrix() const { return viewMatrix; }
+		const Matrix& GetProjectionMatrix() const { return projectionMatrix; }
 
-protected:
-	AstrumMatrix viewMatrix;
-	AstrumMatrix projectionMatrix;
+	protected:
+		Matrix viewMatrix;
+		Matrix projectionMatrix;
 
-	void UpdateCameraView();
+		void UpdateCameraView();
 
-private:
-	float viewDistance = 1000.f;
-	float viewAngle = 90.f;
-	AstrumCameraProjectionType projectionType = AstrumCameraProjectionType::AstrumCameraProjectionType_Ortho;
-};
+	private:
+		float viewDistance = 1000.f;
+		float viewAngle = 90.f;
+		CameraProjectionType projectionType = CameraProjectionType::CameraProjectionType_Ortho;
+	};
+}

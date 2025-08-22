@@ -1,25 +1,28 @@
 #include "AstrumRectangleObject.hpp"
 #include "../Singletons/AstrumRenderQueue.hpp"
 
-AstrumRectangleObject::AstrumRectangleObject() {}
-AstrumRectangleObject::AstrumRectangleObject(const std::shared_ptr<AstrumRectanglePolygons>& rectanglePolygon) {
-    SetRectanglePolygons(rectanglePolygon);
-}
-AstrumRectangleObject::AstrumRectangleObject(float width, float height, const AstrumColor& color) {
-    SetRectanglePolygons(AstrumRectanglePolygons::MakeShared(width, height, color));
-}
+namespace Astrum
+{
+	RectangleObject::RectangleObject() {}
+	RectangleObject::RectangleObject(const std::shared_ptr<RectanglePolygons>& rectanglePolygon) {
+		SetRectanglePolygons(rectanglePolygon);
+	}
+	RectangleObject::RectangleObject(float width, float height, const Color& color) {
+		SetRectanglePolygons(RectanglePolygons::MakeShared(width, height, color));
+	}
 
-std::shared_ptr<AstrumRectanglePolygons> AstrumRectangleObject::GetRectanglePolygons() const {
-    return rectanglePolygon;
-}
+	std::shared_ptr<RectanglePolygons> RectangleObject::GetRectanglePolygons() const {
+		return rectanglePolygon;
+	}
 
-void AstrumRectangleObject::SetRectanglePolygons(const std::shared_ptr<AstrumRectanglePolygons>& newRectanglePolygon) {
-    renderPolygonsComponent->Polygons = (this->rectanglePolygon = newRectanglePolygon);
-}
+	void RectangleObject::SetRectanglePolygons(const std::shared_ptr<RectanglePolygons>& newRectanglePolygon) {
+		renderPolygonsComponent->Polygons = (this->rectanglePolygon = newRectanglePolygon);
+	}
 
-void AstrumRectangleObject::SetColor(const AstrumColor& color) {
-    rectanglePolygon->SetColor(color);
-}
-void AstrumRectangleObject::SetColor(const AstrumColor& leftTop, const AstrumColor& rightTop, const AstrumColor& leftBottom, const AstrumColor& rightBottom) {
-    rectanglePolygon->SetColor(leftTop, rightTop, leftBottom, rightBottom);
+	void RectangleObject::SetColor(const Color& color) {
+		rectanglePolygon->SetColor(color);
+	}
+	void RectangleObject::SetColor(const Color& leftTop, const Color& rightTop, const Color& leftBottom, const Color& rightBottom) {
+		rectanglePolygon->SetColor(leftTop, rightTop, leftBottom, rightBottom);
+	}
 }

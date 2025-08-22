@@ -2,12 +2,15 @@
 #include "AstrumComponent.hpp"
 #include "../Resources/AstrumTargetFont.hpp"
 
-class AstrumTextRenderComponent : public AstrumComponent
+namespace Astrum
 {
-public:
+	class TextRenderComponent : public Component
+	{
+	public:
 
 
 
-private:
-	std::shared_ptr<AstrumTargetFont> targetFont = nullptr;
-};
+	private:
+		std::shared_ptr<TargetFont> targetFont = nullptr;
+	};
+}

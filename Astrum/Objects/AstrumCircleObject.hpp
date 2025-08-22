@@ -1,17 +1,21 @@
-﻿#include <vector>
+﻿#pragma once
+#include <vector>
 #include "AstrumShapeObject.hpp"
 #include "../Meshes/AstrumCirclePolygons.hpp"
 #include "../Components/AstrumRenderPolygonsComponent.hpp"
 
-class AstrumCircleObject : public AstrumShapeObject {
-public:
-    AstrumCircleObject();
-    AstrumCircleObject(const std::shared_ptr<AstrumCirclePolygons>& circlePolygon);
-    AstrumCircleObject(const AstrumVertexColor& center, float radius, const unsigned short segment = 128);
+namespace Astrum
+{
+	class CircleObject : public ShapeObject {
+	public:
+		CircleObject();
+		CircleObject(const std::shared_ptr<CirclePolygons>& circlePolygon);
+		CircleObject(const VertexColor& center, float radius, const unsigned short segment = 128);
 
-    std::shared_ptr<AstrumCirclePolygons> GetCirclePolygons() const;
-    void SetCirclePolygons(const std::shared_ptr<AstrumCirclePolygons>& circlePolygon);
+		std::shared_ptr<CirclePolygons> GetCirclePolygons() const;
+		void SetCirclePolygons(const std::shared_ptr<CirclePolygons>& circlePolygon);
 
-private:
-    std::shared_ptr<AstrumCirclePolygons> circlePolygon;
-};
+	private:
+		std::shared_ptr<CirclePolygons> circlePolygon;
+	};
+}

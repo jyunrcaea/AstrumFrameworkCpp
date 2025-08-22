@@ -1,16 +1,19 @@
 #include "AstrumTriangleObject.hpp"
 #include "../Singletons/AstrumRenderQueue.hpp"
 
-AstrumTriangleObject::AstrumTriangleObject() {}
-AstrumTriangleObject::AstrumTriangleObject(const AstrumVertexColor& a, const AstrumVertexColor& b, const AstrumVertexColor& c)
+namespace Astrum
 {
-	SetPolygons(a, b, c);
-}
+	TriangleObject::TriangleObject() {}
+	TriangleObject::TriangleObject(const VertexColor& a, const VertexColor& b, const VertexColor& c)
+	{
+		SetPolygons(a, b, c);
+	}
 
-std::shared_ptr<AstrumPolygons> AstrumTriangleObject::GetPolygons() const {
-	return renderPolygonsComponent->Polygons;
-}
+	std::shared_ptr<Polygons> TriangleObject::GetPolygons() const {
+		return renderPolygonsComponent->Polygons;
+	}
 
-void AstrumTriangleObject::SetPolygons(const AstrumVertexColor& a, const AstrumVertexColor& b, const AstrumVertexColor& c) {
-	renderPolygonsComponent->Polygons = AstrumPolygons::MakeShared({ a, b, c }, { 0, 1, 2 });
+	void TriangleObject::SetPolygons(const VertexColor& a, const VertexColor& b, const VertexColor& c) {
+		renderPolygonsComponent->Polygons = Polygons::MakeShared({ a, b, c }, { 0, 1, 2 });
+	}
 }

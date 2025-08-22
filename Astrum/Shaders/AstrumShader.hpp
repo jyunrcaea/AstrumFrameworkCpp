@@ -5,13 +5,16 @@
 #include <format>
 #include <wrl/client.h>
 
-class AstrumShader {
-protected:
-	AstrumShader(const std::wstring& path, const std::string& entryPoint, const std::string& profile);
-	
-	Microsoft::WRL::ComPtr<ID3DBlob> blob;
+namespace Astrum
+{
+	class Shader {
+	protected:
+		Shader(const std::wstring& path, const std::string& entryPoint, const std::string& profile);
 
-public:
-	virtual ~AstrumShader() = default;
-	ID3DBlob* GetShaderBlob() const { return blob.Get(); }
-};
+		Microsoft::WRL::ComPtr<ID3DBlob> blob;
+
+	public:
+		virtual ~Shader() = default;
+		ID3DBlob* GetShaderBlob() const { return blob.Get(); }
+	};
+}

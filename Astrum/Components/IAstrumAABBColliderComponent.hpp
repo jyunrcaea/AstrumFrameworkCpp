@@ -1,15 +1,17 @@
 ﻿#pragma once
 #include "../Vectors/AstrumVector2.hpp"
 
-struct AstrumRect {
-	constexpr AstrumRect() = default;
-	constexpr AstrumRect(const AstrumVector2& leftBottom, const AstrumVector2& rightTop) : LeftBottom(leftBottom), RightTop(rightTop) {}
+namespace Astrum {
+	struct Rect {
+		constexpr Rect() = default;
+		constexpr Rect(const Vector2& leftBottom, const Vector2& rightTop) : LeftBottom(leftBottom), RightTop(rightTop) {}
 
-	AstrumVector2 LeftBottom;
-	AstrumVector2 RightTop;
-};
+		Vector2 LeftBottom;
+		Vector2 RightTop;
+	};
 
-struct IAstrumAABBColliderComponent {
-	virtual ~IAstrumAABBColliderComponent() = default;
-	virtual AstrumRect GetRect() const = 0;
-};
+	struct IAABBColliderComponent {
+		virtual ~IAABBColliderComponent() = default;
+		virtual Rect GetRect() const = 0;
+	};
+}

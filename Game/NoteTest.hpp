@@ -12,14 +12,15 @@ class Program
 
 private:
 	static void Main() {
-		AstrumFramework::Initialize();
-		AstrumChrono::SetFramerate(300);
-		AstrumFramework::GetRootObject()->AddObject(
+		using namespace Astrum;
+		Framework::Initialize();
+		Chrono::SetFramerate(300);
+		Framework::GetRootObject()->AddObject(
 			std::make_shared<InGame::SceneObject>()
 		);
 #if _DEBUG
 		Arcaea::ChartManager::Instance().PrintChart();
 #endif
-		AstrumFramework::Run();
+		Framework::Run();
 	}
 };

@@ -2,12 +2,15 @@
 #include "AstrumShapeObject.hpp"
 #include "../Meshes/AstrumPolygons.hpp"
 
-class AstrumTriangleObject : public AstrumShapeObject
+namespace Astrum
 {
-public:
-    AstrumTriangleObject();
-    AstrumTriangleObject(const AstrumVertexColor& a, const AstrumVertexColor& b, const AstrumVertexColor& c);
+	class TriangleObject : public ShapeObject
+	{
+	public:
+		TriangleObject();
+		TriangleObject(const VertexColor& a, const VertexColor& b, const VertexColor& c);
 
-    std::shared_ptr<AstrumPolygons> GetPolygons() const;
-    void SetPolygons(const AstrumVertexColor& a, const AstrumVertexColor& b, const AstrumVertexColor& c);
-};
+		std::shared_ptr<Polygons> GetPolygons() const;
+		void SetPolygons(const VertexColor& a, const VertexColor& b, const VertexColor& c);
+	};
+}

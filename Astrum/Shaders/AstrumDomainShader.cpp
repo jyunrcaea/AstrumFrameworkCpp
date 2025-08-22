@@ -2,19 +2,22 @@
 #include "../Singletons/AstrumRenderer.hpp"
 #include "../AstrumException.hpp"
 
-AstrumDomainShader::AstrumDomainShader(const std::wstring& path, const std::string& entryPoint, const std::string& profile)
-    : AstrumShader(path, entryPoint, profile)
+namespace Astrum
 {
-    if (FAILED(AstrumRenderer::Instance().GetDevice()->CreateDomainShader(
-        blob->GetBufferPointer(),
-        blob->GetBufferSize(),
-        nullptr,
-        &shader)))
-    {
-        throw AstrumException("CreateDomainShader failed.");
-    }
-}
+	DomainShader::DomainShader(const std::wstring& path, const std::string& entryPoint, const std::string& profile)
+		: Shader(path, entryPoint, profile)
+	{
+		if (FAILED(Renderer::Instance().GetDevice()->CreateDomainShader(
+			blob->GetBufferPointer(),
+			blob->GetBufferSize(),
+			nullptr,
+			&shader)))
+		{
+			throw Exception("CreateDomainShader failed.");
+		}
+	}
 
-void AstrumDomainShader::SetShader() {
-    AstrumRenderer::Instance().GetContext()->DSSetShader(shader.Get(), nullptr, 0);
+	void DomainShader::SetShader() {
+		Renderer::Instance().GetContext()->DSSetShader(shader.Get(), nullptr, 0);
+	}
 }

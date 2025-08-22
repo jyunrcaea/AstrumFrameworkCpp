@@ -16,18 +16,21 @@
 #pragma comment(lib, "Astrum/ThirdParty/DirectXTex.lib")
 #endif
 
-class AstrumImage
+namespace Astrum
 {
-public:
-	AstrumImage(const std::filesystem::path& path);
-    ~AstrumImage();
+	class Image
+	{
+	public:
+		Image(const std::filesystem::path& path);
+		~Image();
 
-	size_t GetWidth() const;
-	size_t GetHeight() const;
+		size_t GetWidth() const;
+		size_t GetHeight() const;
 
-	const DirectX::Image* GetImages() const;
-	const size_t GetImageCount() const;
-	const DirectX::TexMetadata& GetMetadata() const;
-private:
-	std::unique_ptr<DirectX::ScratchImage> image;
-};
+		const DirectX::Image* GetImages() const;
+		const size_t GetImageCount() const;
+		const DirectX::TexMetadata& GetMetadata() const;
+	private:
+		std::unique_ptr<DirectX::ScratchImage> image;
+	};
+}

@@ -6,30 +6,33 @@
 #include "../Components/AstrumRenderMaterialComponent.hpp"
 #include "../Graphics/AstrumSimpleRenderable.hpp"
 
-class AstrumPostProcessGroupObject : public AstrumGroupObject
+namespace Astrum
 {
-	class PostProcessRenderComponent : public AstrumRenderMaterialComponent
+	class PostProcessGroupObject : public GroupObject
 	{
+		class PostProcessRenderComponent : public RenderMaterialComponent
+		{
+		public:
+			virtual IObject* GetOwner() const override {
+				static std::unique_ptr<IObject> origin = std::make_unique<Object>();
+				return origin.get();
+			}
+		};
+
 	public:
-		virtual IAstrumObject* GetOwner() const override {
-			static std::unique_ptr<IAstrumObject> origin = std::make_unique<AstrumObject>();
-			return origin.get();
-		}
+		PostProcessGroupObject();
+
+		virtual void Draw() override;
+
+		std::shared_ptr<IShaderSetup> GetCustomShaderPipeline() const;
+		void SetCustomShaderPipeline(const std::shared_ptr<IShaderSetup>& customShaderPipeline) { renderMaterialComponent->SetCustomShaderPipeline(customShaderPipeline); }
+		void SetCustomShaderPipeline(std::shared_ptr<IShaderSetup>&& customShaderPipeline) { renderMaterialComponent->SetCustomShaderPipeline(std::move(customShaderPipeline)); }
+
+	private:
+		std::shared_ptr<RenderTarget> renderTarget = RenderTarget::MakeShared(Window::GetWidth(), Window::GetHeight());
+		std::shared_ptr<PostProcessRenderComponent> renderMaterialComponent = std::make_shared<PostProcessRenderComponent>();
+
+		std::shared_ptr<SimpleRenderable> bindRenderTarget = nullptr;
+		std::shared_ptr<SimpleRenderable> unbindRenderTarget = nullptr;
 	};
-
-public:
-	AstrumPostProcessGroupObject();
-
-	virtual void Draw() override;
-
-	std::shared_ptr<IAstrumShaderSetup> GetCustomShaderPipeline() const;
-	void SetCustomShaderPipeline(const std::shared_ptr<IAstrumShaderSetup>& customShaderPipeline) { renderMaterialComponent->SetCustomShaderPipeline(customShaderPipeline); }
-	void SetCustomShaderPipeline(std::shared_ptr<IAstrumShaderSetup>&& customShaderPipeline) { renderMaterialComponent->SetCustomShaderPipeline(std::move(customShaderPipeline)); }
-
-private:
-	std::shared_ptr<AstrumRenderTarget> renderTarget = AstrumRenderTarget::MakeShared(AstrumWindow::GetWidth(), AstrumWindow::GetHeight());
-	std::shared_ptr<PostProcessRenderComponent> renderMaterialComponent = std::make_shared<PostProcessRenderComponent>();
-
-	std::shared_ptr<AstrumSimpleRenderable> bindRenderTarget = nullptr;
-	std::shared_ptr<AstrumSimpleRenderable> unbindRenderTarget = nullptr;
-};
+}

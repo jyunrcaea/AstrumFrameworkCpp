@@ -4,10 +4,10 @@
 #include "../Arcaea/ArcaeaChart.hpp"
 
 namespace InGame {
-	class NoteObject : public AstrumRectangleObject
+	class NoteObject : public Astrum::RectangleObject
 	{
 	public:
-		NoteObject(const Arcaea::NoteData& data) : AstrumRectangleObject(NoteWidth, 40, AstrumColor::SkyBlue) {
+		NoteObject(const Arcaea::NoteData& data) : Astrum::RectangleObject(NoteWidth, 40, Astrum::Color::SkyBlue) {
 			Position.SetX(static_cast<float>(LeftX + (NoteWidth / 2.f) + data.Data[1] * NoteWidth));
 			Position.SetY(data.GetStartOffset() + 20);
 		}

@@ -6,87 +6,91 @@
 #include "../AstrumException.hpp"
 #include "../Vectors/AstrumVector2.hpp"
 
-struct AstrumWindowClientSize
-{
-    long long Width;
-    long long Height;
-};
+namespace Astrum {
+	struct WindowClientSize
+	{
+		long long Width;
+		long long Height;
+	};
 
-class AstrumWindowSingleton : public AstrumSingleton<AstrumWindowSingleton> {
-    friend class AstrumSingleton<AstrumWindowSingleton>;
-    friend class AstrumWindow;
-    AstrumWindowSingleton();
+	class Window;
 
-private:
-    void Initialize(const std::wstring& title, unsigned int width, unsigned int height);
-    void Dispose();
+	class WindowSingleton : public Singleton<WindowSingleton> {
+		friend class Singleton<WindowSingleton>;
+		friend class Window;
+		WindowSingleton();
 
-    int GetWidth() const;
-    int GetHeight() const;
-    bool IsFullscreen() const;
+	private:
+		void Initialize(const std::wstring& title, unsigned int width, unsigned int height);
+		void Dispose();
 
-    std::wstring GetTitle() const;
-    void SetTitle(const std::wstring& title) const;
-    std::wstring GetClassName() const;
+		int GetWidth() const;
+		int GetHeight() const;
+		bool IsFullscreen() const;
 
-    std::pair<int, int> GetPosition() const;
-    void SetPosition(int x, int y) const;
+		std::wstring GetTitle() const;
+		void SetTitle(const std::wstring& title) const;
+		std::wstring GetClassName() const;
 
-    std::pair<int, int> GetSize() const;
-    void SetSize(int w, int h);
+		std::pair<int, int> GetPosition() const;
+		void SetPosition(int x, int y) const;
 
-    void Maximize() const;
-    void Minimize() const;
-    void Restore() const;
+		std::pair<int, int> GetSize() const;
+		void SetSize(int w, int h);
 
-    AstrumWindowClientSize GetClientSize() const;
+		void Maximize() const;
+		void Minimize() const;
+		void Restore() const;
 
-    HWND GetHandle() const;
-    HINSTANCE GetInstanceHandle() const;
+		WindowClientSize GetClientSize() const;
 
-    bool StopWhenClose = true;
-    AstrumColor BackgroundColor = AstrumColor::White;
+		HWND GetHandle() const;
+		HINSTANCE GetInstanceHandle() const;
 
-private:
-    HWND handle = nullptr;
-    HINSTANCE instanceHandle = nullptr;
-    std::wstring className;
-    int width = 0;
-    int height = 0;
-    bool isFullscreen = false;
+		bool StopWhenClose = true;
+		Color BackgroundColor = Color::White;
 
-    static LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-};
+	private:
+		HWND handle = nullptr;
+		HINSTANCE instanceHandle = nullptr;
+		std::wstring className;
+		int width = 0;
+		int height = 0;
+		bool isFullscreen = false;
 
-class AstrumWindow {
-    AstrumWindow() = delete;
-public:
-    static inline void Initialize(const std::wstring& title, unsigned int width, unsigned int height) { AstrumWindowSingleton::Instance().Initialize(title, width, height); }
-    static inline void Dispose() { AstrumWindowSingleton::Instance().Dispose(); }
+		static LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	};
 
-    static inline int GetWidth() { return AstrumWindowSingleton::Instance().GetWidth(); }
-    static inline int GetHeight() { return AstrumWindowSingleton::Instance().GetHeight(); }
-    static inline bool IsFullscreen() { return AstrumWindowSingleton::Instance().IsFullscreen(); }
+	class Window {
+		Window() = delete;
+	public:
+		static inline void Initialize(const std::wstring& title, unsigned int width, unsigned int height) { WindowSingleton::Instance().Initialize(title, width, height); }
+		static inline void Dispose() { WindowSingleton::Instance().Dispose(); }
 
-    static inline std::wstring GetTitle() { return AstrumWindowSingleton::Instance().GetTitle(); }
-    static inline void SetTitle(const std::wstring& title) { AstrumWindowSingleton::Instance().SetTitle(title); }
-    static inline std::wstring GetClassName() { return AstrumWindowSingleton::Instance().GetClassName(); }
+		static inline int GetWidth() { return WindowSingleton::Instance().GetWidth(); }
+		static inline int GetHeight() { return WindowSingleton::Instance().GetHeight(); }
+		static inline bool IsFullscreen() { return WindowSingleton::Instance().IsFullscreen(); }
 
-    static inline std::pair<int, int> GetPosition() { return AstrumWindowSingleton::Instance().GetPosition(); }
-    static inline void SetPosition(int x, int y) { AstrumWindowSingleton::Instance().SetPosition(x, y); }
+		static inline std::wstring GetTitle() { return WindowSingleton::Instance().GetTitle(); }
+		static inline void SetTitle(const std::wstring& title) { WindowSingleton::Instance().SetTitle(title); }
+		static inline std::wstring GetClassName() { return WindowSingleton::Instance().GetClassName(); }
 
-    static inline std::pair<int, int> GetSize() { return AstrumWindowSingleton::Instance().GetSize(); }
-    static inline void SetSize(int w, int h) { AstrumWindowSingleton::Instance().SetSize(w, h); }
+		static inline std::pair<int, int> GetPosition() { return WindowSingleton::Instance().GetPosition(); }
+		static inline void SetPosition(int x, int y) { WindowSingleton::Instance().SetPosition(x, y); }
 
-    static inline void Maximize() { AstrumWindowSingleton::Instance().Maximize(); }
-    static inline void Minimize() { AstrumWindowSingleton::Instance().Minimize(); }
-    static inline void Restore() { AstrumWindowSingleton::Instance().Restore(); }
+		static inline std::pair<int, int> GetSize() { return WindowSingleton::Instance().GetSize(); }
+		static inline void SetSize(int w, int h) { WindowSingleton::Instance().SetSize(w, h); }
 
-    static inline AstrumWindowClientSize GetClientSize() { return AstrumWindowSingleton::Instance().GetClientSize(); }
+		static inline void Maximize() { WindowSingleton::Instance().Maximize(); }
+		static inline void Minimize() { WindowSingleton::Instance().Minimize(); }
+		static inline void Restore() { WindowSingleton::Instance().Restore(); }
 
-    static inline HWND GetHandle() { return AstrumWindowSingleton::Instance().GetHandle(); }
-    static inline HINSTANCE GetInstanceHandle() { return AstrumWindowSingleton::Instance().GetInstanceHandle(); }
+		static inline WindowClientSize GetClientSize() { return WindowSingleton::Instance().GetClientSize(); }
 
-    static inline bool& StopWhenClose() { return AstrumWindowSingleton::Instance().StopWhenClose; }
-    static inline AstrumColor& BackgroundColor() { return AstrumWindowSingleton::Instance().BackgroundColor; }
-};
+		static inline HWND GetHandle() { return WindowSingleton::Instance().GetHandle(); }
+		static inline HINSTANCE GetInstanceHandle() { return WindowSingleton::Instance().GetInstanceHandle(); }
+
+		static inline bool& StopWhenClose() { return WindowSingleton::Instance().StopWhenClose; }
+		static inline Color& BackgroundColor() { return WindowSingleton::Instance().BackgroundColor; }
+	};
+}

@@ -1,81 +1,83 @@
 #include "AstrumComponentList.hpp"
 
-AstrumComponentList::AstrumComponentList(IAstrumObject* ownerObject) : owner(ownerObject) {}
+namespace Astrum {
+	ComponentList::ComponentList(IObject* ownerObject) : owner(ownerObject) {}
 
-AstrumComponentList::~AstrumComponentList()
-{
-	for (auto& component : *this) {
-		if (nullptr != component) {
-			component->SetOwner(nullptr); // Clear owner reference
+	ComponentList::~ComponentList()
+	{
+		for (auto& component : *this) {
+			if (nullptr != component) {
+				component->SetOwner(nullptr); // Clear owner reference
+			}
 		}
 	}
-}
 
-bool AstrumComponentList::Add(const std::shared_ptr<IAstrumComponent>& component)
-{
-	if (nullptr == component) return false; //nullptr인 컴포넌트를 줬다면
-	if (owner == component->GetOwner()) return false; // 이미 owner가 설정되어 있고, owner가 같다면 추가하지 않음
-	if (nullptr != component->GetOwner()) {
-		throw AstrumException("Component already has an owner.");
+	bool ComponentList::Add(const std::shared_ptr<IComponent>& component)
+	{
+		if (nullptr == component) return false; //nullptr인 컴포넌트를 줬다면
+		if (owner == component->GetOwner()) return false; // 이미 owner가 설정되어 있고, owner가 같다면 추가하지 않음
+		if (nullptr != component->GetOwner()) {
+			throw Exception("Component already has an owner.");
+		}
+
+		this->push_back(component);
+		component->SetOwner(owner);
+		if (owner->IsPrepared()) component->Prepare();
+		return true;
 	}
 
-	this->push_back(component);
-	component->SetOwner(owner);
-	if (owner->IsPrepared()) component->Prepare();
-	return true;
-}
+	bool ComponentList::Remove(const std::shared_ptr<IComponent>& component)
+	{
+		if (nullptr == component) return false;
 
-bool AstrumComponentList::Remove(const std::shared_ptr<IAstrumComponent>& component)
-{
-	if (nullptr == component) return false;
+		auto it = std::find(this->begin(), this->end(), component);
+		if (it == this->end()) return false;
 
-	auto it = std::find(this->begin(), this->end(), component);
-	if (it == this->end()) return false;
+		this->erase(it);
+		component->SetOwner(nullptr);
+		return true;
+	}
 
-	this->erase(it);
-	component->SetOwner(nullptr);
-	return true;
-}
+	void ComponentList::Clear()
+	{
+		for (auto& component : *this) {
+			if (component != nullptr) {
+				component->SetOwner(nullptr); // Clear owner reference
+			}
+		}
+		this->clear();
+	}
 
-void AstrumComponentList::Clear()
-{
-	for (auto& component : *this) {
-		if (component != nullptr) {
-			component->SetOwner(nullptr); // Clear owner reference
+	void ComponentList::Prepare()
+	{
+		for (auto& component : *this) {
+			component->Prepare();
 		}
 	}
-	this->clear();
-}
 
-void AstrumComponentList::Prepare()
-{
-	for (auto& component : *this) {
-		component->Prepare();
-	}
-}
-
-void AstrumComponentList::Update()
-{
-	for (auto& component : *this) {
-		component->Update();
-	}
-}
-
-void AstrumComponentList::Release()
-{
-	for (auto& component : *this) {
-		component->Release();
-	}
-}
-
-void AstrumComponentList::ForEach(const std::function<void(const std::shared_ptr<IAstrumComponent>&)>& func) {
-	for (auto& component : *this) {
-		if (component != nullptr) {
-			func(component);
+	void ComponentList::Update()
+	{
+		for (auto& component : *this) {
+			component->Update();
 		}
 	}
-}
 
-std::vector<std::shared_ptr<IAstrumComponent>> AstrumComponentList::ToArray() const {
-	return vec(*this);
+	void ComponentList::Release()
+	{
+		for (auto& component : *this) {
+			component->Release();
+		}
+	}
+
+	void ComponentList::ForEach(const std::function<void(const std::shared_ptr<IComponent>&)>& func) {
+		for (auto& component : *this) {
+			if (component != nullptr) {
+				func(component);
+			}
+		}
+	}
+
+	std::vector<std::shared_ptr<IComponent>> ComponentList::ToArray() const {
+		return vec(*this);
+	}
 }

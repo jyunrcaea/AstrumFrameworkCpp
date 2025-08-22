@@ -8,43 +8,47 @@
 
 #pragma comment(lib, "Astrum/ThirdParty/fmod_vc.lib")
 
-class AstrumSoundManagerSingleton : public AstrumSingleton<AstrumSoundManagerSingleton> {
-    friend class AstrumSingleton<AstrumSoundManagerSingleton>;
-    friend class AstrumSoundManager;
-    AstrumSoundManagerSingleton();
+namespace Astrum {
+	class SoundManager;
 
-    struct FmodSystemDeleter {
-        void operator()(FMOD::System* system) const {
-            if (system) system->release();
-        }
-    };
+	class SoundManagerSingleton : public Singleton<SoundManagerSingleton> {
+		friend class Singleton<SoundManagerSingleton>;
+		friend class SoundManager;
+		SoundManagerSingleton();
 
-public:
-    void Initialize();
-    void Update();
-    void Dispose();
+		struct FmodSystemDeleter {
+			void operator()(FMOD::System* system) const {
+				if (system) system->release();
+			}
+		};
 
-    void SetMasterChannelVolume(float volume) const;
+	public:
+		void Initialize();
+		void Update();
+		void Dispose();
 
-    std::shared_ptr<AstrumChannelGroup> CreateChannelGroup(const std::string& name) const;
-    std::shared_ptr<AstrumChannelGroup> GetMasterChannelGroup() const;
-    FMOD::System* GetFmodSystem() const;
+		void SetMasterChannelVolume(float volume) const;
 
-private:
-    std::unique_ptr<FMOD::System, FmodSystemDeleter> system = nullptr;
-    FMOD::ChannelGroup* masterChannelGroupPointer = nullptr;
-    std::shared_ptr<AstrumChannelGroup> masterChannelGroup = nullptr;
-};
+		std::shared_ptr<ChannelGroup> CreateChannelGroup(const std::string& name) const;
+		std::shared_ptr<ChannelGroup> GetMasterChannelGroup() const;
+		FMOD::System* GetFmodSystem() const;
 
-class AstrumSoundManager {
-    AstrumSoundManager() = delete;
-public:
-    static inline void Initialize() { AstrumSoundManagerSingleton::Instance().Initialize(); }
-    static inline void Update() { AstrumSoundManagerSingleton::Instance().Update(); }
-    static inline void Dispose() { AstrumSoundManagerSingleton::Instance().Dispose(); }
+	private:
+		std::unique_ptr<FMOD::System, FmodSystemDeleter> system = nullptr;
+		FMOD::ChannelGroup* masterChannelGroupPointer = nullptr;
+		std::shared_ptr<ChannelGroup> masterChannelGroup = nullptr;
+	};
 
-    static inline void SetMasterChannelVolume(float volume) { AstrumSoundManagerSingleton::Instance().SetMasterChannelVolume(volume); }
-    static inline std::shared_ptr<AstrumChannelGroup> CreateChannelGroup(const std::string& name) { return AstrumSoundManagerSingleton::Instance().CreateChannelGroup(name); }
-    static inline std::shared_ptr<AstrumChannelGroup> GetMasterChannelGroup() { return AstrumSoundManagerSingleton::Instance().GetMasterChannelGroup(); }
-    static inline FMOD::System* GetFmodSystem() { return AstrumSoundManagerSingleton::Instance().GetFmodSystem(); }
-};
+	class SoundManager {
+		SoundManager() = delete;
+	public:
+		static inline void Initialize() { SoundManagerSingleton::Instance().Initialize(); }
+		static inline void Update() { SoundManagerSingleton::Instance().Update(); }
+		static inline void Dispose() { SoundManagerSingleton::Instance().Dispose(); }
+
+		static inline void SetMasterChannelVolume(float volume) { SoundManagerSingleton::Instance().SetMasterChannelVolume(volume); }
+		static inline std::shared_ptr<ChannelGroup> CreateChannelGroup(const std::string& name) { return SoundManagerSingleton::Instance().CreateChannelGroup(name); }
+		static inline std::shared_ptr<ChannelGroup> GetMasterChannelGroup() { return SoundManagerSingleton::Instance().GetMasterChannelGroup(); }
+		static inline FMOD::System* GetFmodSystem() { return SoundManagerSingleton::Instance().GetFmodSystem(); }
+	};
+}

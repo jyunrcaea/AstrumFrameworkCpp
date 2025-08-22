@@ -6,34 +6,38 @@
 #include "../Objects/AstrumGroupObject.hpp"
 #include "AstrumSingleton.hpp"
 
-class AstrumFrameworkSingleton : public AstrumSingleton<AstrumFrameworkSingleton> {
-    friend class AstrumSingleton<AstrumFrameworkSingleton>;
-    friend class AstrumFramework;
-    AstrumFrameworkSingleton();
+namespace Astrum {
+	class Framework;
 
-private:
-    bool IsInitialized() const;
-    bool IsRunning() const;
-    void Initialize(const std::wstring& title = L"Astrum Framework", unsigned int width = 1280, unsigned int height = 720);
-    int Run();
-    void Stop();
-    std::shared_ptr<AstrumGroupObject> RootObject = std::make_shared<AstrumGroupObject>();
+	class FrameworkSingleton : public Singleton<FrameworkSingleton> {
+		friend class Singleton<FrameworkSingleton>;
+		friend class Framework;
+		FrameworkSingleton();
 
-private:
-    bool isRunning = false;
-    void Prepare();
-    void Update();
-    void Release();
-};
+	private:
+		bool IsInitialized() const;
+		bool IsRunning() const;
+		void Initialize(const std::wstring& title = L"Astrum Framework", unsigned int width = 1280, unsigned int height = 720);
+		int Run();
+		void Stop();
+		std::shared_ptr<GroupObject> RootObject = std::make_shared<GroupObject>();
 
-class AstrumFramework {
-    AstrumFramework() = delete;
-public:
-    static inline bool IsInitialized() { return AstrumFrameworkSingleton::Instance().IsInitialized(); }
-    static inline bool IsRunning() { return AstrumFrameworkSingleton::Instance().IsRunning(); }
-    static inline void Initialize(const std::wstring& title = L"Astrum Framework", unsigned int width = 1280, unsigned int height = 720) { AstrumFrameworkSingleton::Instance().Initialize(title, width, height); }
-    static inline int Run() { return AstrumFrameworkSingleton::Instance().Run(); }
-    static inline void Stop() { AstrumFrameworkSingleton::Instance().Stop(); }
-    static inline std::shared_ptr<AstrumGroupObject> GetRootObject() { return AstrumFrameworkSingleton::Instance().RootObject; }
-    static inline void SetRootObject(const std::shared_ptr<AstrumGroupObject>& obj) { AstrumFrameworkSingleton::Instance().RootObject = obj; }
-};
+	private:
+		bool isRunning = false;
+		void Prepare();
+		void Update();
+		void Release();
+	};
+
+	class Framework {
+		Framework() = delete;
+	public:
+		static inline bool IsInitialized() { return FrameworkSingleton::Instance().IsInitialized(); }
+		static inline bool IsRunning() { return FrameworkSingleton::Instance().IsRunning(); }
+		static inline void Initialize(const std::wstring& title = L"Astrum Framework", unsigned int width = 1280, unsigned int height = 720) { FrameworkSingleton::Instance().Initialize(title, width, height); }
+		static inline int Run() { return FrameworkSingleton::Instance().Run(); }
+		static inline void Stop() { return FrameworkSingleton::Instance().Stop(); }
+		static inline std::shared_ptr<GroupObject> GetRootObject() { return FrameworkSingleton::Instance().RootObject; }
+		static inline void SetRootObject(const std::shared_ptr<GroupObject>& obj) { FrameworkSingleton::Instance().RootObject = obj; }
+	};
+}

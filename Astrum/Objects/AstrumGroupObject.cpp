@@ -2,66 +2,69 @@
 #include "IAstrumObject.hpp"
 #include "IAstrumGroupObject.hpp"
 
-AstrumGroupObject::AstrumGroupObject() : objects(this) { }
-
-//추가될때마다 Prepare이 호출되도록 해서, 주석처리
-void AstrumGroupObject::Prepare()
+namespace Astrum
 {
-    AstrumObject::Prepare();
-    objects.ForEach([](const std::shared_ptr<IAstrumObject>& obj) {
-        obj->Prepare();
-    });
-}
+	GroupObject::GroupObject() : objects(this) { }
 
-//이렇게 자식까지 호출되도록 로직을 구성했어요.
-void AstrumGroupObject::Update() {
-    AstrumObject::Update();
-    objects.ForEach([](const std::shared_ptr<IAstrumObject>& obj) {
-        obj->Update();
-    });
-}
+	//추가될때마다 Prepare이 호출되도록 해서, 주석처리
+	void GroupObject::Prepare()
+	{
+		Object::Prepare();
+		objects.ForEach([](const std::shared_ptr<IObject>& obj) {
+			obj->Prepare();
+		});
+	}
 
-void AstrumGroupObject::Release() { 
-    AstrumObject::Release();
-    objects.ForEach([](const std::shared_ptr<IAstrumObject>& obj) {
-        obj->Release();
-    });
-}
+	//이렇게 자식까지 호출되도록 로직을 구성했어요.
+	void GroupObject::Update() {
+		Object::Update();
+		objects.ForEach([](const std::shared_ptr<IObject>& obj) {
+			obj->Update();
+		});
+	}
 
-void AstrumGroupObject::Draw() {
-    if (false == IsVisible()) return;
-    AstrumObject::Draw();
-    objects.ForEach([](const std::shared_ptr<IAstrumObject>& obj) {
-        obj->Draw();
-    });
-}
+	void GroupObject::Release() {
+		Object::Release();
+		objects.ForEach([](const std::shared_ptr<IObject>& obj) {
+			obj->Release();
+		});
+	}
 
-IAstrumObjectList& AstrumGroupObject::GetObjectList() { return objects; }
+	void GroupObject::Draw() {
+		if (false == IsVisible()) return;
+		Object::Draw();
+		objects.ForEach([](const std::shared_ptr<IObject>& obj) {
+			obj->Draw();
+		});
+	}
 
-// 이게 AstrumGroupObject의 절대 위치를 업데이트하는 함수입니다.
-void AstrumGroupObject::UpdateAbsolutePosition()
-{
-    AstrumObject::UpdateAbsolutePosition();
-    //이건 자식도 같이 업데이트하도록 순회하는 코드
-    objects.ForEach([](const std::shared_ptr<IAstrumObject>& obj) {
-        obj->UpdateAbsolutePosition();
-	});
-}
+	IObjectList& GroupObject::GetObjectList() { return objects; }
 
-void AstrumGroupObject::UpdateAbsoluteRotation()
-{
-    AstrumObject::UpdateAbsoluteRotation();
-    objects.ForEach([](const std::shared_ptr<IAstrumObject>& obj) {
-        obj->UpdateAbsoluteRotation();
-        obj->UpdateAbsolutePosition();
-    });
-}
+	// 이게 GroupObject의 절대 위치를 업데이트하는 함수입니다.
+	void GroupObject::UpdateAbsolutePosition()
+	{
+		Object::UpdateAbsolutePosition();
+		//이건 자식도 같이 업데이트하도록 순회하는 코드
+		objects.ForEach([](const std::shared_ptr<IObject>& obj) {
+			obj->UpdateAbsolutePosition();
+		});
+	}
 
-void AstrumGroupObject::UpdateAbsoluteScale()
-{
-    AstrumObject::UpdateAbsoluteScale();
-    objects.ForEach([](const std::shared_ptr<IAstrumObject>& obj) {
-        obj->UpdateAbsoluteScale();
-        obj->UpdateAbsolutePosition();
-    });
+	void GroupObject::UpdateAbsoluteRotation()
+	{
+		Object::UpdateAbsoluteRotation();
+		objects.ForEach([](const std::shared_ptr<IObject>& obj) {
+			obj->UpdateAbsoluteRotation();
+			obj->UpdateAbsolutePosition();
+		});
+	}
+
+	void GroupObject::UpdateAbsoluteScale()
+	{
+		Object::UpdateAbsoluteScale();
+		objects.ForEach([](const std::shared_ptr<IObject>& obj) {
+			obj->UpdateAbsoluteScale();
+			obj->UpdateAbsolutePosition();
+		});
+	}
 }

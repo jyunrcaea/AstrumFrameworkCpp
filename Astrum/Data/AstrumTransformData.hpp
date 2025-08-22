@@ -1,10 +1,13 @@
 ﻿#pragma once
 #include "../Units/AstrumMatrix.hpp"
 
-struct alignas(16) AstrumTransformData {
-    AstrumMatrix World;
-    AstrumMatrix View;
-    AstrumMatrix Projection;
-    AstrumMatrix WorldView;
-    AstrumMatrix WorldViewProjection;
-};
+namespace Astrum
+{
+	struct alignas(16) TransformData {
+		Matrix World;
+		Matrix View;
+		Matrix Projection;
+		Matrix WorldView;
+		Matrix WorldViewProjection;
+	};
+}

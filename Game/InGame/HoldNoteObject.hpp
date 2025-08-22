@@ -4,16 +4,17 @@
 #include "../../Astrum/Objects/AstrumRectangleObject.hpp"
 
 namespace InGame {
-	class HoldNoteObject : public AstrumRectangleObject
+	class HoldNoteObject : public Astrum::RectangleObject
 	{
 	public:
 		HoldNoteObject(const Arcaea::NoteData& data) {
+			using namespace Astrum;
 			height = static_cast<float>(data.Data[1] - data.Data[0]);
 
-			SetRectanglePolygons(AstrumRectanglePolygons::MakeShared(
+			SetRectanglePolygons(RectanglePolygons::MakeShared(
 				200,
 				height,
-				AstrumColor::LightSeaGreen
+				Color::LightSeaGreen
 			));
 
 			Position.SetX(static_cast<float>(LeftX + (NoteWidth / 2.f) + data.Data[2] * NoteWidth));

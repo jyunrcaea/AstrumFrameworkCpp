@@ -3,20 +3,22 @@
 #include <functional>
 #include "AstrumConstantBuffer.hpp"
 
-class AstrumSimpleConstantBuffer : public AstrumConstantBuffer
-{
-public:
-	AstrumSimpleConstantBuffer(const std::function<void(AstrumConstantBuffer*)>& update, unsigned int size)
-		: AstrumConstantBuffer(size), updateFunction(update) { }
+namespace Astrum {
+	class SimpleConstantBuffer : public ConstantBuffer
+	{
+	public:
+		SimpleConstantBuffer(const std::function<void(ConstantBuffer*)>& update, unsigned int size)
+			: ConstantBuffer(size), updateFunction(update) { }
 
-	virtual void UpdateBuffer() override {
-		if (updateFunction) updateFunction(this);
-	}
-private:
-	std::function<void(AstrumConstantBuffer*)> updateFunction;
+		virtual void UpdateBuffer() override {
+			if (updateFunction) updateFunction(this);
+		}
+	private:
+		std::function<void(ConstantBuffer*)> updateFunction;
 
-public:
-	static std::shared_ptr<AstrumSimpleConstantBuffer> MakeShared(const std::function<void(AstrumConstantBuffer*)>& update, unsigned int size) {
-		return std::make_shared<AstrumSimpleConstantBuffer>(update, size);
-	}
-};
+	public:
+		static std::shared_ptr<SimpleConstantBuffer> MakeShared(const std::function<void(ConstantBuffer*)>& update, unsigned int size) {
+			return std::make_shared<SimpleConstantBuffer>(update, size);
+		}
+	};
+}

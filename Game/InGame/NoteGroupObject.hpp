@@ -9,7 +9,7 @@
 #include "../../Astrum/Singletons/AstrumChrono.hpp"
 
 namespace InGame {
-	class NoteGroupObject : public AstrumGroupObject
+	class NoteGroupObject : public Astrum::GroupObject
 	{
 	public:
 		NoteGroupObject() {
@@ -24,13 +24,13 @@ namespace InGame {
 			for (const auto& data : Arcaea::ChartManager::Instance().GetNoteData()) {
 				GenerateNote(data);
 			}
-			AstrumGroupObject::Prepare();
+			GroupObject::Prepare();
 		}
 
 		virtual void Update() override {
-			Position.AddY(static_cast<float>(AstrumChrono::GetDeltaTime() * -1000.0));
+			Position.AddY(static_cast<float>(Astrum::Chrono::GetDeltaTime() * -1000.0));
 
-			AstrumGroupObject::Update();
+			GroupObject::Update();
 		}
 
 	private:

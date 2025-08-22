@@ -2,42 +2,45 @@
 #include "AstrumVector2.hpp"
 #include <functional>
 
-class AstrumObservedVector2 {
-public:
-    using Callback = std::function<void()>;
+namespace Astrum
+{
+	class ObservedVector2 {
+	public:
+		using Callback = std::function<void()>;
 
-    constexpr AstrumObservedVector2();
-    explicit AstrumObservedVector2(const Callback& onChange);
-    AstrumObservedVector2(float x, float y, const Callback& onChange = {});
-    AstrumObservedVector2(const AstrumVector2& v, const Callback& onChange = {});
+		constexpr ObservedVector2();
+		explicit ObservedVector2(const Callback& onChange);
+		ObservedVector2(float x, float y, const Callback& onChange = {});
+		ObservedVector2(const Vector2& v, const Callback& onChange = {});
 
-    operator AstrumVector2() const;
+		operator Vector2() const;
 
-    float GetX() const;
-    float GetY() const;
+		float GetX() const;
+		float GetY() const;
 
-    void SetX(float x);
-    void SetY(float y);
+		void SetX(float x);
+		void SetY(float y);
 
-    void Reset(const AstrumVector2& v);
-    void Reset(float x, float y);
+		void Reset(const Vector2& v);
+		void Reset(float x, float y);
 
-    AstrumVector2 operator+(const AstrumObservedVector2& o) const;
-    AstrumVector2 operator-(const AstrumObservedVector2& o) const;
-    AstrumVector2 operator*(float scalar) const;
-    AstrumVector2 operator/(float scalar) const;
+		Vector2 operator+(const ObservedVector2& o) const;
+		Vector2 operator-(const ObservedVector2& o) const;
+		Vector2 operator*(float scalar) const;
+		Vector2 operator/(float scalar) const;
 
-    AstrumObservedVector2& operator+=(const AstrumObservedVector2& other);
-    AstrumObservedVector2& operator-=(const AstrumObservedVector2& other);
-    AstrumObservedVector2& operator*=(float scalar);
-    AstrumObservedVector2& operator/=(float scalar);
+		ObservedVector2& operator+=(const ObservedVector2& other);
+		ObservedVector2& operator-=(const ObservedVector2& other);
+		ObservedVector2& operator*=(float scalar);
+		ObservedVector2& operator/=(float scalar);
 
-    AstrumVector2 operator+(const AstrumVector2& v) const;
-    AstrumVector2 operator-(const AstrumVector2& v) const;
+		Vector2 operator+(const Vector2& v) const;
+		Vector2 operator-(const Vector2& v) const;
 
-private:
-    AstrumVector2 value_{ 0.0f, 0.0f };
-    Callback onChange_;
+	private:
+		Vector2 value_{ 0.0f, 0.0f };
+		Callback onChange_;
 
-    void Notify();
-};
+		void Notify();
+	};
+}

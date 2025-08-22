@@ -6,18 +6,20 @@
 #include "../Singletons/AstrumRenderer.hpp"
 #include "../AstrumException.hpp"
 
-class AstrumTransformConstantBuffer : public AstrumConstantBuffer {
-public:
-    AstrumTransformConstantBuffer();
+namespace Astrum {
+	class TransformConstantBuffer : public ConstantBuffer {
+	public:
+		TransformConstantBuffer();
 
-    AstrumMatrix& World = data.World;
-    AstrumMatrix& View = data.View;
-    AstrumMatrix& Projection = data.Projection;
-    AstrumMatrix& WorldView = data.WorldView;
-    AstrumMatrix& WorldViewProjection = data.WorldViewProjection;
+		Matrix& World = data.World;
+		Matrix& View = data.View;
+		Matrix& Projection = data.Projection;
+		Matrix& WorldView = data.WorldView;
+		Matrix& WorldViewProjection = data.WorldViewProjection;
 
-    virtual void UpdateBuffer() override;
+		virtual void UpdateBuffer() override;
 
-private:
-    AstrumTransformData data{};
-};
+	private:
+		TransformData data{};
+	};
+}

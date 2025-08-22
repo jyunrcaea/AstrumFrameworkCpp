@@ -1,25 +1,27 @@
 #include "AstrumRenderPolygonsComponent.hpp"
 #include "../Singletons/AstrumRenderer.hpp"
 
-AstrumRenderPolygonsComponent::AstrumRenderPolygonsComponent() { }
-AstrumRenderPolygonsComponent::AstrumRenderPolygonsComponent(const std::shared_ptr<AstrumPolygons>& polygons)
-	: Polygons(polygons) { }
-AstrumRenderPolygonsComponent::AstrumRenderPolygonsComponent(std::shared_ptr<AstrumPolygons>&& polygons)
-	: Polygons(std::move(polygons)) {}
+namespace Astrum {
+	RenderPolygonsComponent::RenderPolygonsComponent() { }
+	RenderPolygonsComponent::RenderPolygonsComponent(const std::shared_ptr<Polygons>& polygons)
+		: Polygons(polygons) { }
+	RenderPolygonsComponent::RenderPolygonsComponent(std::shared_ptr<Polygons>&& polygons)
+		: Polygons(std::move(polygons)) {}
 
-std::shared_ptr<struct IAstrumShaderSetup> AstrumRenderPolygonsComponent::GetDefaultShaderPipeline() const {
-	return AstrumRenderer::Instance().DefaultShapeShaderPipeline;
-}
+	std::shared_ptr<struct IShaderSetup> RenderPolygonsComponent::GetDefaultShaderPipeline() const {
+		return Renderer::Instance().DefaultShapeShaderPipeline;
+	}
 
-void AstrumRenderPolygonsComponent::PreRender() {
-	if (nullptr == Polygons) return;
+	void RenderPolygonsComponent::PreRender() {
+		if (nullptr == Polygons) return;
 
-	AstrumRenderComponent::PreRender();
-}
+		RenderComponent::PreRender();
+	}
 
-void AstrumRenderPolygonsComponent::Render() {
-	if (nullptr == Polygons) return;
- 
-	AstrumRenderComponent::Render();
-	Polygons->Render();
+	void RenderPolygonsComponent::Render() {
+		if (nullptr == Polygons) return;
+	 
+		RenderComponent::Render();
+		Polygons->Render();
+	}
 }

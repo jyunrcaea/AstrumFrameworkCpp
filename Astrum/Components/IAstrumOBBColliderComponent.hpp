@@ -2,38 +2,40 @@
 #include "../Vectors/AstrumVector2.hpp"
 #include "IAstrumAABBColliderComponent.hpp"
 
-struct AstrumRotatedRect
-{
-    constexpr AstrumRotatedRect(
-        AstrumVector2 leftBottom,
-        AstrumVector2 rightBottom,
-        AstrumVector2 rightTop,
-        AstrumVector2 leftTop
-    ) : LeftBottom(leftBottom), RightBottom(rightBottom), RightTop(rightTop), LeftTop(leftTop) {
-    };
+namespace Astrum {
+	struct RotatedRect
+	{
+		constexpr RotatedRect(
+			Vector2 leftBottom,
+			Vector2 rightBottom,
+			Vector2 rightTop,
+			Vector2 leftTop
+		) : LeftBottom(leftBottom), RightBottom(rightBottom), RightTop(rightTop), LeftTop(leftTop) {
+		};
 
-    AstrumVector2 LeftBottom;
-    AstrumVector2 RightBottom;
-    AstrumVector2 RightTop;
-    AstrumVector2 LeftTop;
+		Vector2 LeftBottom;
+		Vector2 RightBottom;
+		Vector2 RightTop;
+		Vector2 LeftTop;
 
-    inline explicit AstrumRotatedRect(const AstrumRect& rect) {
-        LeftBottom = rect.LeftBottom;
-        RightTop = rect.RightTop;
-        RightBottom = { rect.RightTop.X, rect.LeftBottom.Y };
-        LeftTop = { rect.LeftBottom.X, rect.RightTop.Y };
-    }
-};
+		inline explicit RotatedRect(const Rect& rect) {
+			LeftBottom = rect.LeftBottom;
+			RightTop = rect.RightTop;
+			RightBottom = { rect.RightTop.X, rect.LeftBottom.Y };
+			LeftTop = { rect.LeftBottom.X, rect.RightTop.Y };
+		}
+	};
 
-struct AstrumCenterHalfRect {
-    AstrumVector2 Center;
-    float HalfWidth;
-    float HalfHeight;
-};
+	struct CenterHalfRect {
+		Vector2 Center;
+		float HalfWidth;
+		float HalfHeight;
+	};
 
-struct IAstrumOBBColliderComponent {
-	virtual ~IAstrumOBBColliderComponent() = default;
-	virtual AstrumRotatedRect GetRotatedRect() const = 0;
-    virtual AstrumCenterHalfRect GetCenterHalfRect() const = 0;
-	virtual std::pair<AstrumVector2, AstrumVector2> GetAxes() const = 0;
-};
+	struct IOBBColliderComponent {
+		virtual ~IOBBColliderComponent() = default;
+		virtual RotatedRect GetRotatedRect() const = 0;
+		virtual CenterHalfRect GetCenterHalfRect() const = 0;
+		virtual std::pair<Vector2, Vector2> GetAxes() const = 0;
+	};
+}

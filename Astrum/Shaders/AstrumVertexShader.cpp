@@ -2,21 +2,24 @@
 #include "../Singletons/AstrumRenderer.hpp"
 #include "../AstrumException.hpp"
 
-AstrumVertexShader::AstrumVertexShader(const std::wstring& path,
-    const std::string& entryPoint,
-    const std::string& profile)
-    : AstrumShader(path, entryPoint, profile)
+namespace Astrum
 {
-    if (FAILED(AstrumRenderer::Instance().GetDevice()->CreateVertexShader(
-        blob->GetBufferPointer(),
-        blob->GetBufferSize(),
-        nullptr,
-        &shader)))
-    {
-        throw AstrumException("CreateVertexShader failed.");
-    }
-}
+	VertexShader::VertexShader(const std::wstring& path,
+		const std::string& entryPoint,
+		const std::string& profile)
+		: Shader(path, entryPoint, profile)
+	{
+		if (FAILED(Renderer::Instance().GetDevice()->CreateVertexShader(
+			blob->GetBufferPointer(),
+			blob->GetBufferSize(),
+			nullptr,
+			&shader)))
+		{
+			throw Exception("CreateVertexShader failed.");
+		}
+	}
 
-void AstrumVertexShader::SetShader() {
-    AstrumRenderer::Instance().GetContext()->VSSetShader(shader.Get(), nullptr, 0);
+	void VertexShader::SetShader() {
+		Renderer::Instance().GetContext()->VSSetShader(shader.Get(), nullptr, 0);
+	}
 }

@@ -16,87 +16,89 @@
 #include "../Vectors/AstrumVector2.hpp"
 #include "../Graphics/AstrumRenderTarget.hpp"
 
-using Microsoft::WRL::ComPtr;
+namespace Astrum {
+	using Microsoft::WRL::ComPtr;
 
-struct AstrumResolution
-{
-    unsigned int Width = 0;
-    unsigned int Height = 0;
-};
+	struct Resolution
+	{
+		unsigned int Width = 0;
+		unsigned int Height = 0;
+	};
 
-struct IAstrumRenderable;
+	struct IRenderable;
 
-class AstrumRenderer : public AstrumSingleton<AstrumRenderer> {
-    friend class AstrumSingleton<AstrumRenderer>;
+	class Renderer : public Singleton<Renderer> {
+		friend class Singleton<Renderer>;
 
-public:
-    // 디바이스와 스왑체인 생성, 뷰포트 설정
-    void Initialize(unsigned int width, unsigned int height, bool windowMode = true);
-    // 렌더 큐에 있는 그릴수 있는 객체들을 모두 호출하면서 큐를 비우고 스왑체인을 갱신하는 진짜 렌더링 함수.
-    void Rendering();
+	public:
+		// 디바이스와 스왑체인 생성, 뷰포트 설정
+		void Initialize(unsigned int width, unsigned int height, bool windowMode = true);
+		// 렌더 큐에 있는 그릴수 있는 객체들을 모두 호출하면서 큐를 비우고 스왑체인을 갱신하는 진짜 렌더링 함수.
+		void Rendering();
 
-    // 원하는 타입의 버퍼 생성하기
-    template<typename T>
-    bool CreateBuffer(const std::vector<T>& data,
-        ComPtr<ID3D11Buffer>& outBuffer,
-        D3D11_BIND_FLAG bind = D3D11_BIND_VERTEX_BUFFER,
-        D3D11_USAGE usage = D3D11_USAGE_DEFAULT);
+		// 원하는 타입의 버퍼 생성하기
+		template<typename T>
+		bool CreateBuffer(const std::vector<T>& data,
+			ComPtr<ID3D11Buffer>& outBuffer,
+			D3D11_BIND_FLAG bind = D3D11_BIND_VERTEX_BUFFER,
+			D3D11_USAGE usage = D3D11_USAGE_DEFAULT);
 
-    void Dispose();
+		void Dispose();
 
-    ID3D11Device* GetDevice()  const;
-    ID3D11DeviceContext* GetContext() const;
-	ID2D1RenderTarget* GetRenderTarget2D() const;
-	ID3D11DepthStencilView* GetDepthStencilView() const;
+		ID3D11Device* GetDevice()  const;
+		ID3D11DeviceContext* GetContext() const;
+		ID2D1RenderTarget* GetRenderTarget2D() const;
+		ID3D11DepthStencilView* GetDepthStencilView() const;
 
-    // 도형 렌더링 시 기본으로 사용할 셰이더
-    std::shared_ptr<struct IAstrumShaderSetup> DefaultShapeShaderPipeline = nullptr;
-    // 텍스쳐 렌더링 시 기본으로 사용할 셰이더
-    std::shared_ptr<struct IAstrumShaderSetup> DefaultTextureShaderPipeline = nullptr;
+		// 도형 렌더링 시 기본으로 사용할 셰이더
+		std::shared_ptr<struct IShaderSetup> DefaultShapeShaderPipeline = nullptr;
+		// 텍스쳐 렌더링 시 기본으로 사용할 셰이더
+		std::shared_ptr<struct IShaderSetup> DefaultTextureShaderPipeline = nullptr;
 
-    // 프레임워크가 제공하는 기본 도형 셰이더를 설정합니다.
-    void CreateAndSetDefaultShapePipeline();
-    // 프레임워크가 제공하는 기본 머터리얼 셰이더를 설정합니다.
-    void CreateAndSetDefaultMaterialPipeline();
+		// 프레임워크가 제공하는 기본 도형 셰이더를 설정합니다.
+		void CreateAndSetDefaultShapePipeline();
+		// 프레임워크가 제공하는 기본 머터리얼 셰이더를 설정합니다.
+		void CreateAndSetDefaultMaterialPipeline();
 
-    AstrumResolution GetResolution() const;
-    AstrumVector2 GetRSRate() const;
-	unsigned int GetSampleCount() const;
-private:
-    AstrumResolution resolution{};
-    unsigned int sampleCount = 1;
+		Resolution GetResolution() const;
+		Vector2 GetRSRate() const;
+		unsigned int GetSampleCount() const;
+	private:
+		Resolution resolution{};
+		unsigned int sampleCount = 1;
 
-    ComPtr<ID3D11Device> device;
-    ComPtr<ID3D11DeviceContext> context;
-    ComPtr<IDXGISwapChain> swapChain;
-    ComPtr<ID3D11RenderTargetView> renderTargetView;
-    ComPtr<ID3D11DepthStencilView> depthStencilView;
-    ComPtr<ID3D11DepthStencilState> depthStencilState;
-    ComPtr<ID3D11BlendState> blendState;
-    ComPtr<ID2D1RenderTarget> renderTarget2D;
-	ComPtr<ID2D1Factory> factory2D;
+		ComPtr<ID3D11Device> device;
+		ComPtr<ID3D11DeviceContext> context;
+		ComPtr<IDXGISwapChain> swapChain;
+		ComPtr<ID3D11RenderTargetView> renderTargetView;
+		ComPtr<ID3D11DepthStencilView> depthStencilView;
+		ComPtr<ID3D11DepthStencilState> depthStencilState;
+		ComPtr<ID3D11BlendState> blendState;
+		ComPtr<ID2D1RenderTarget> renderTarget2D;
+		ComPtr<ID2D1Factory> factory2D;
 
-	std::shared_ptr<AstrumRenderTarget> mainRenderTarget = nullptr;
-};
+		std::shared_ptr<RenderTarget> mainRenderTarget = nullptr;
+	};
 
-template<typename T>
-bool AstrumRenderer::CreateBuffer(const std::vector<T>& data,
-    ComPtr<ID3D11Buffer>& outBuffer,
-    D3D11_BIND_FLAG bind,
-    D3D11_USAGE usage)
-{
-    D3D11_BUFFER_DESC desc = {};
-    desc.Usage = usage;
-    desc.BindFlags = bind;
-    desc.ByteWidth = static_cast<UINT>(sizeof(T) * data.size());
-    desc.CPUAccessFlags = (usage == D3D11_USAGE_DYNAMIC)
-        ? D3D11_CPU_ACCESS_WRITE
-        : (usage == D3D11_USAGE_STAGING)
-        ? (D3D11_CPU_ACCESS_WRITE | D3D11_CPU_ACCESS_READ)
-        : 0;
+	template<typename T>
+	bool Renderer::CreateBuffer(const std::vector<T>& data,
+		ComPtr<ID3D11Buffer>& outBuffer,
+		D3D11_BIND_FLAG bind,
+		D3D11_USAGE usage)
+	{
+		D3D11_BUFFER_DESC desc = {};
+		desc.Usage = usage;
+		desc.BindFlags = bind;
+		desc.ByteWidth = static_cast<UINT>(sizeof(T) * data.size());
+		desc.CPUAccessFlags = (usage == D3D11_USAGE_DYNAMIC)
+			? D3D11_CPU_ACCESS_WRITE
+			: (usage == D3D11_USAGE_STAGING)
+			? (D3D11_CPU_ACCESS_WRITE | D3D11_CPU_ACCESS_READ)
+			: 0;
 
-    D3D11_SUBRESOURCE_DATA initData = {};
-    initData.pSysMem = data.data();
+		D3D11_SUBRESOURCE_DATA initData = {};
+		initData.pSysMem = data.data();
 
-    return SUCCEEDED(device->CreateBuffer(&desc, &initData, &outBuffer));
+		return SUCCEEDED(device->CreateBuffer(&desc, &initData, &outBuffer));
+	}
 }

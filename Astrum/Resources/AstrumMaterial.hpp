@@ -7,28 +7,33 @@
 #include "IAstrumMaterial.hpp"
 #include "IAstrumTexture.hpp"
 
-class IAstrumMaterial;
-
-// 텍스쳐 + 픽셀 셰이더 + 정점
-class AstrumMaterial : public AstrumMaterialConstantBuffer, public IAstrumMaterial
+namespace Astrum
 {
-public:
-	// 해당 경로의 이미지 파일로 즉시 텍스쳐를 가져오며, 그 사이 공유 포인터는 자동으로 생성합니다.
-	AstrumMaterial(const std::wstring& path);
-	AstrumMaterial(const std::shared_ptr<IAstrumTexture>& texture);
-	AstrumMaterial(std::shared_ptr<IAstrumTexture>&& texture);
+	class IMaterial;
+	class ITexture;
+	struct IShaderSetup;
 
-	std::shared_ptr<struct IAstrumShaderSetup> CustomShaderPipeline = nullptr;
-	virtual std::shared_ptr<IAstrumTexture> GetTexture() const override { return texture; }
-	virtual void SetTexture(const std::shared_ptr<IAstrumTexture>& newTexture) override;
-	void SetTexture(std::shared_ptr<IAstrumTexture>&& newTexture);
+	// 텍스쳐 + 픽셀 셰이더 + 정점
+	class Material : public MaterialConstantBuffer, public IMaterial
+	{
+	public:
+		// 해당 경로의 이미지 파일로 즉시 텍스쳐를 가져오며, 그 사이 공유 포인터는 자동으로 생성합니다.
+		Material(const std::wstring& path);
+		Material(const std::shared_ptr<ITexture>& texture);
+		Material(std::shared_ptr<ITexture>&& texture);
 
-private:
-	virtual std::shared_ptr<struct IAstrumShaderSetup> GetCustomShaderPipeline() const override { return CustomShaderPipeline; }
-	std::shared_ptr<IAstrumTexture> texture;
-	void SetupTextureSize();
+		std::shared_ptr<struct IShaderSetup> CustomShaderPipeline = nullptr;
+		virtual std::shared_ptr<ITexture> GetTexture() const override { return texture; }
+		virtual void SetTexture(const std::shared_ptr<ITexture>& newTexture) override;
+		void SetTexture(std::shared_ptr<ITexture>&& newTexture);
 
-public:
-	static std::shared_ptr<class AstrumMaterial> MakeShared(const std::shared_ptr<IAstrumTexture>& texture) { return std::make_shared<AstrumMaterial>(texture); }
-	static std::shared_ptr<class AstrumMaterial> MakeShared(const std::wstring& path) { return std::make_shared<AstrumMaterial>(path); }
-};
+	private:
+		virtual std::shared_ptr<struct IShaderSetup> GetCustomShaderPipeline() const override { return CustomShaderPipeline; }
+		std::shared_ptr<ITexture> texture;
+		void SetupTextureSize();
+
+	public:
+		static std::shared_ptr<class Material> MakeShared(const std::shared_ptr<ITexture>& texture) { return std::make_shared<Material>(texture); }
+		static std::shared_ptr<class Material> MakeShared(const std::wstring& path) { return std::make_shared<Material>(path); }
+	};
+}

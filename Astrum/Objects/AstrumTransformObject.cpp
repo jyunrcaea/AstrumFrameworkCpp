@@ -1,45 +1,48 @@
 #include "AstrumTransformObject.hpp"
 
-AstrumTransformObject::AstrumTransformObject()
-	: Position(0,0,0, std::bind(&AstrumTransformObject::CallbackObservedPosition, this)),
-	Rotation(0,0,0, std::bind(&AstrumTransformObject::CallbackObservedRotation, this)),
-	Scale(1,1,1, std::bind(&AstrumTransformObject::CallbackObservedScale, this))
+namespace Astrum
 {
+	TransformObject::TransformObject()
+		: Position(0, 0, 0, std::bind(&TransformObject::CallbackObservedPosition, this)),
+		Rotation(0, 0, 0, std::bind(&TransformObject::CallbackObservedRotation, this)),
+		Scale(1, 1, 1, std::bind(&TransformObject::CallbackObservedScale, this))
+	{
 
-}
-
-AstrumObservedVector3& AstrumTransformObject::GetPosition() { return Position; }
-AstrumObservedVector3& AstrumTransformObject::GetRotation() { return Rotation; }
-AstrumObservedVector3& AstrumTransformObject::GetScale() { return Scale; }
-
-const AstrumVector3& AstrumTransformObject::GetAbsolutePosition() {
-	if (absoluteTransformLazy & AstrumLazyPropTransformType_Position) {
-		UpdateAbsolutePosition();
-		absoluteTransformLazy -= AstrumLazyPropTransformType_Position;
 	}
-	return absolutePosition;
-}
-const AstrumVector3& AstrumTransformObject::GetAbsoluteRotation() {
-	if (absoluteTransformLazy & AstrumLazyPropTransformType_Rotation) {
-		UpdateAbsoluteRotation();
-		absoluteTransformLazy -= AstrumLazyPropTransformType_Rotation;
-	}
-	return absoluteRotation;
-}
-const AstrumVector3& AstrumTransformObject::GetAbsoluteScale() {
-	if (absoluteTransformLazy & AstrumLazyPropTransformType_Scale) {
-		UpdateAbsoluteScale();
-		absoluteTransformLazy -= AstrumLazyPropTransformType_Scale;
-	}
-	return absoluteScale;
-}
 
-void AstrumTransformObject::CallbackObservedPosition() {
-	absoluteTransformLazy += AstrumLazyPropTransformType_Position;
-}
-void AstrumTransformObject::CallbackObservedRotation() {
-	absoluteTransformLazy += AstrumLazyPropTransformType_Rotation;
-}
-void AstrumTransformObject::CallbackObservedScale() {
-	absoluteTransformLazy += AstrumLazyPropTransformType_Scale;
+	ObservedVector3& TransformObject::GetPosition() { return Position; }
+	ObservedVector3& TransformObject::GetRotation() { return Rotation; }
+	ObservedVector3& TransformObject::GetScale() { return Scale; }
+
+	const Vector3& TransformObject::GetAbsolutePosition() {
+		if (absoluteTransformLazy & LazyPropTransformType_Position) {
+			UpdateAbsolutePosition();
+			absoluteTransformLazy -= LazyPropTransformType_Position;
+		}
+		return absolutePosition;
+	}
+	const Vector3& TransformObject::GetAbsoluteRotation() {
+		if (absoluteTransformLazy & LazyPropTransformType_Rotation) {
+			UpdateAbsoluteRotation();
+			absoluteTransformLazy -= LazyPropTransformType_Rotation;
+		}
+		return absoluteRotation;
+	}
+	const Vector3& TransformObject::GetAbsoluteScale() {
+		if (absoluteTransformLazy & LazyPropTransformType_Scale) {
+			UpdateAbsoluteScale();
+			absoluteTransformLazy -= LazyPropTransformType_Scale;
+		}
+		return absoluteScale;
+	}
+
+	void TransformObject::CallbackObservedPosition() {
+		absoluteTransformLazy += LazyPropTransformType_Position;
+	}
+	void TransformObject::CallbackObservedRotation() {
+		absoluteTransformLazy += LazyPropTransformType_Rotation;
+	}
+	void TransformObject::CallbackObservedScale() {
+		absoluteTransformLazy += LazyPropTransformType_Scale;
+	}
 }

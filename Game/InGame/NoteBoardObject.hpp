@@ -4,10 +4,10 @@
 
 namespace InGame
 {
-	class NoteBoardObject : public AstrumRectangleObject
+	class NoteBoardObject : public Astrum::RectangleObject
 	{
 	public:
-		NoteBoardObject() : AstrumRectangleObject(NoteWidth * 4.f, static_cast<float>(AstrumWindow::GetHeight()), AstrumColor::LightGray) {
+		NoteBoardObject() : Astrum::RectangleObject(NoteWidth * 4.f, static_cast<float>(Astrum::Window::GetHeight()), Astrum::Color::LightGray) {
 		}
 	};
 }

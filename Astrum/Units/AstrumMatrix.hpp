@@ -4,42 +4,43 @@
 #include "../Vectors/AstrumVector3.hpp"
 #include "../Vectors/AstrumObservedVector3.hpp"
 
-using namespace DirectX;
+namespace Astrum
+{
+	struct Matrix {
+		DirectX::XMFLOAT4X4 matrix{};
 
-struct AstrumMatrix {
-    XMFLOAT4X4 matrix{};
+		Matrix() { DirectX::XMStoreFloat4x4(&matrix, DirectX::XMMatrixIdentity()); }
 
-    AstrumMatrix() { XMStoreFloat4x4(&matrix, XMMatrixIdentity()); }
+		Matrix(const DirectX::XMMATRIX& mat);
 
-    AstrumMatrix(const XMMATRIX& mat);
+		Matrix(
+			float m11, float m12, float m13, float m14,
+			float m21, float m22, float m23, float m24,
+			float m31, float m32, float m33, float m34,
+			float m41, float m42, float m43, float m44
+		);
 
-    AstrumMatrix(
-        float m11, float m12, float m13, float m14,
-        float m21, float m22, float m23, float m24,
-        float m31, float m32, float m33, float m34,
-        float m41, float m42, float m43, float m44
-    );
+		Vector4 GetRow(int row) const;
+		void SetRow(int row, const Vector4& v);
+		float Get(int x, int y) const;
+		void Set(int x, int y, float value);
 
-    AstrumVector4 GetRow(int row) const;
-    void SetRow(int row, const AstrumVector4& v);
-    float Get(int x, int y) const;
-    void Set(int x, int y, float value);
+		Matrix operator*(const Matrix& other) const;
 
-    AstrumMatrix operator*(const AstrumMatrix& other) const;
+		void SetIdentity();
+		void Transpose();
+		void Inverse();
+		void Scaling(float x, float y, float z);
+		void Rotation(float xDeg, float yDeg, float zDeg);
+		void Translation(float x, float y, float z);
 
-    void SetIdentity();
-    void Transpose();
-    void Inverse();
-    void Scaling(float x, float y, float z);
-    void Rotation(float xDeg, float yDeg, float zDeg);
-    void Translation(float x, float y, float z);
+		static const Matrix Identity;
 
-    static const AstrumMatrix Identity;
-
-    void Scaling(const AstrumVector3& v);
-    void Rotation(const AstrumVector3& v);
-    void Translation(const AstrumVector3& v);
-    void Scaling(const AstrumObservedVector3& v);
-    void Rotation(const AstrumObservedVector3& v);
-    void Translation(const AstrumObservedVector3& v);
-};
+		void Scaling(const Vector3& v);
+		void Rotation(const Vector3& v);
+		void Translation(const Vector3& v);
+		void Scaling(const ObservedVector3& v);
+		void Rotation(const ObservedVector3& v);
+		void Translation(const ObservedVector3& v);
+	};
+}

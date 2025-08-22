@@ -1,26 +1,28 @@
 ﻿#include "AstrumAABBColliderComponent.hpp"
 #include "../Singletons/AstrumCollisionSystem.hpp"
 
-class AstrumCollisionSystemSingleton;
+namespace Astrum {
+	class CollisionSystemSingleton;
 
-AstrumRect AstrumAABBColliderComponent::GetRect() const
-{
-	const auto& position = GetOwner()->GetAbsolutePosition();
-	const auto halfScale = GetOwner()->GetAbsoluteScale() / 2;
-	return {
-		AstrumVector2 { position.X - halfScale.X, position.Y - halfScale.Y },
-		AstrumVector2 { position.X + halfScale.X, position.Y + halfScale.Y }
-	};
-}
+	Rect AABBColliderComponent::GetRect() const
+	{
+		const auto& position = GetOwner()->GetAbsolutePosition();
+		const auto halfScale = GetOwner()->GetAbsoluteScale() / 2;
+		return {
+			Vector2 { position.X - halfScale.X, position.Y - halfScale.Y },
+			Vector2 { position.X + halfScale.X, position.Y + halfScale.Y }
+		};
+	}
 
-bool AstrumAABBColliderComponent::IsOverlap(IAstrumColliderComponent* other) { return other->IsOverlapToAABB(this); }
-bool AstrumAABBColliderComponent::IsOverlapToAABB(IAstrumAABBColliderComponent* other) { return AstrumCollisionSystem::IsOverlapAABBToAABB(this, other); }
-bool AstrumAABBColliderComponent::IsOverlapToOBB(IAstrumOBBColliderComponent* other) { return AstrumCollisionSystem::IsOverlapAABBToOBB(this, other); }
-bool AstrumAABBColliderComponent::IsOverlapToCircle(IAstrumCircleColliderComponent* other) { return AstrumCollisionSystem::IsOverlapAABBToCircle(this, other); }
+	bool AABBColliderComponent::IsOverlap(IColliderComponent* other) { return other->IsOverlapToAABB(this); }
+	bool AABBColliderComponent::IsOverlapToAABB(IAABBColliderComponent* other) { return CollisionSystem::IsOverlapAABBToAABB(this, other); }
+	bool AABBColliderComponent::IsOverlapToOBB(IOBBColliderComponent* other) { return CollisionSystem::IsOverlapAABBToOBB(this, other); }
+	bool AABBColliderComponent::IsOverlapToCircle(ICircleColliderComponent* other) { return CollisionSystem::IsOverlapAABBToCircle(this, other); }
 
-bool AstrumAABBColliderComponent::IsOverlapToPoint(AstrumVector2 point) {
-	const auto& [leftTop, rightBottom] = GetRect();
-	return
-		(leftTop.X <= point.X && point.X <= rightBottom.X) &&
-		(rightBottom.Y <= point.Y && point.Y <= leftTop.Y);
+	bool AABBColliderComponent::IsOverlapToPoint(Vector2 point) {
+		const auto& [leftTop, rightBottom] = GetRect();
+		return
+			(leftTop.X <= point.X && point.X <= rightBottom.X) &&
+			(rightBottom.Y <= point.Y && point.Y <= leftTop.Y);
+	}
 }

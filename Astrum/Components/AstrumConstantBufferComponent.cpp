@@ -1,11 +1,13 @@
 #include "AstrumConstantBufferComponent.hpp"
 
-AstrumConstantBufferComponent::AstrumConstantBufferComponent() {}
-AstrumConstantBufferComponent::AstrumConstantBufferComponent(const std::shared_ptr<IAstrumConstantBuffer>& buffer)
-	: ConstantBuffer(buffer) { }
-AstrumConstantBufferComponent::AstrumConstantBufferComponent(std::shared_ptr<IAstrumConstantBuffer>&& buffer)
-	: ConstantBuffer(std::move(buffer)) {}
+namespace Astrum {
+	ConstantBufferComponent::ConstantBufferComponent() {}
+	ConstantBufferComponent::ConstantBufferComponent(const std::shared_ptr<IConstantBuffer>& buffer)
+		: ConstantBuffer(buffer) { }
+	ConstantBufferComponent::ConstantBufferComponent(std::shared_ptr<IConstantBuffer>&& buffer)
+		: ConstantBuffer(std::move(buffer)) {}
 
-void AstrumConstantBufferComponent::Draw() {
-	if (ConstantBuffer) ConstantBuffer->UpdateBuffer();
+	void ConstantBufferComponent::Draw() {
+		if (ConstantBuffer) ConstantBuffer->UpdateBuffer();
+	}
 }

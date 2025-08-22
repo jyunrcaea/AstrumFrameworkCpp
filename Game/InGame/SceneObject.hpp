@@ -4,7 +4,7 @@
 #include "PlayFieldObject.hpp"
 
 namespace InGame {
-	class SceneObject : public AstrumGroupObject
+	class SceneObject : public Astrum::GroupObject
 	{
 	public:
 		SceneObject() {

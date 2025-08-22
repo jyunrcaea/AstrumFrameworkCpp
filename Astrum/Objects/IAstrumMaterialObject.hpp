@@ -4,15 +4,17 @@
 #include "../Components/AstrumRenderMaterialComponent.hpp"
 #include "../Meshes/AstrumTextureMesh.hpp"
 
-class AstrumRenderMaterialComponent;
+namespace Astrum {
+	class RenderMaterialComponent;
 
-struct IAstrumMaterialObject : public virtual IAstrumObject
-{
-	virtual AstrumRenderMaterialComponent& GetRenderMaterialComponent() const = 0;
+	struct IMaterialObject : public virtual IObject
+	{
+		virtual RenderMaterialComponent& GetRenderMaterialComponent() const = 0;
 
-	std::shared_ptr<class AstrumMaterial> GetMaterial() const;
-	void SetMaterial(const std::shared_ptr<AstrumMaterial>& material);
-	std::shared_ptr<class AstrumTextureMesh> GetTextureMesh() const;
-	void SetTextureMesh(const std::shared_ptr<class AstrumTextureMesh>& mesh);
-	std::shared_ptr<IAstrumTexture> GetTexture() const;
-};
+		std::shared_ptr<class Material> GetMaterial() const;
+		void SetMaterial(const std::shared_ptr<Material>& material);
+		std::shared_ptr<class TextureMesh> GetTextureMesh() const;
+		void SetTextureMesh(const std::shared_ptr<class TextureMesh>& mesh);
+		std::shared_ptr<ITexture> GetTexture() const;
+	};
+}

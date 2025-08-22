@@ -1,25 +1,27 @@
 #include "IAstrumMaterialObject.hpp"
 
-std::shared_ptr<AstrumMaterial> IAstrumMaterialObject::GetMaterial() const
-{
-    return GetRenderMaterialComponent().Material;
-}
+namespace Astrum {
+	std::shared_ptr<Material> IMaterialObject::GetMaterial() const
+	{
+		return GetRenderMaterialComponent().Material;
+	}
 
-void IAstrumMaterialObject::SetMaterial(const std::shared_ptr<AstrumMaterial>& material)
-{
-	GetRenderMaterialComponent().Material = material;
-}
+	void IMaterialObject::SetMaterial(const std::shared_ptr<Material>& material)
+	{
+		GetRenderMaterialComponent().Material = material;
+	}
 
-std::shared_ptr<AstrumTextureMesh> IAstrumMaterialObject::GetTextureMesh() const
-{
-	return GetRenderMaterialComponent().Mesh;
-}
+	std::shared_ptr<TextureMesh> IMaterialObject::GetTextureMesh() const
+	{
+		return GetRenderMaterialComponent().Mesh;
+	}
 
-void IAstrumMaterialObject::SetTextureMesh(const std::shared_ptr<AstrumTextureMesh>& mesh)
-{
-	GetRenderMaterialComponent().Mesh = mesh;
-}
+	void IMaterialObject::SetTextureMesh(const std::shared_ptr<class TextureMesh>& mesh)
+	{
+		GetRenderMaterialComponent().Mesh = mesh;
+	}
 
-std::shared_ptr<IAstrumTexture> IAstrumMaterialObject::GetTexture() const { 
-	return GetMaterial()->GetTexture();
+	std::shared_ptr<ITexture> IMaterialObject::GetTexture() const {
+		return GetMaterial()->GetTexture();
+	}
 }

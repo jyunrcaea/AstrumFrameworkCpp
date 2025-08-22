@@ -6,56 +6,59 @@
 #include "../Units/AstrumQuaternion.hpp"
 #include "../Collections/AstrumComponentList.hpp"
 
-enum AstrumLazyPropTransformType : char
+namespace Astrum
 {
-    AstrumLazyPropTransformType_None = 0,
-    AstrumLazyPropTransformType_Position = 1,
-    AstrumLazyPropTransformType_Rotation = 2,
-    AstrumLazyPropTransformType_Scale = 4
-};
+	enum LazyPropTransformType : char
+	{
+		LazyPropTransformType_None = 0,
+		LazyPropTransformType_Position = 1,
+		LazyPropTransformType_Rotation = 2,
+		LazyPropTransformType_Scale = 4
+	};
 
-class AstrumTransformObject : public IAstrumObject
-{
-public:
-    AstrumTransformObject();
-    virtual ~AstrumTransformObject() = default;
+	class TransformObject : public IObject
+	{
+	public:
+		TransformObject();
+		virtual ~TransformObject() = default;
 
-    AstrumObservedVector3& GetPosition() override;
-    AstrumObservedVector3& GetRotation() override;
-    AstrumObservedVector3& GetScale() override;
+		ObservedVector3& GetPosition() override;
+		ObservedVector3& GetRotation() override;
+		ObservedVector3& GetScale() override;
 
-    virtual const AstrumVector3& GetAbsolutePosition() override;
-    virtual const AstrumVector3& GetAbsoluteRotation() override;
-    virtual const AstrumVector3& GetAbsoluteScale() override;
-protected:
-    // 객체의 좌표입니다. (전체를 재할당 할경우 Absolute 값이 갱신되지 않습니다. Reset() 맴버 함수를 사용해보세요.)
-    AstrumObservedVector3 Position;
-    // 객체의 회전값입니다. 육십분법을 사용합니다. (전체를 재할당 할경우 Absolute 값이 갱신되지 않습니다. Reset() 맴버 함수를 사용해보세요.)
-    AstrumObservedVector3 Rotation;
-    // 객체의 크기값입니다. (전체를 재할당 할경우 Absolute 값이 갱신되지 않습니다. Reset() 맴버 함수를 사용해보세요.)
-    AstrumObservedVector3 Scale;
+		virtual const Vector3& GetAbsolutePosition() override;
+		virtual const Vector3& GetAbsoluteRotation() override;
+		virtual const Vector3& GetAbsoluteScale() override;
+	protected:
+		// 객체의 좌표입니다. (전체를 재할당 할경우 Absolute 값이 갱신되지 않습니다. Reset() 맴버 함수를 사용해보세요.)
+		ObservedVector3 Position;
+		// 객체의 회전값입니다. 육십분법을 사용합니다. (전체를 재할당 할경우 Absolute 값이 갱신되지 않습니다. Reset() 맴버 함수를 사용해보세요.)
+		ObservedVector3 Rotation;
+		// 객체의 크기값입니다. (전체를 재할당 할경우 Absolute 값이 갱신되지 않습니다. Reset() 맴버 함수를 사용해보세요.)
+		ObservedVector3 Scale;
 
-private:
-    AstrumVector3 absolutePosition;
-    AstrumVector3 absoluteRotation;
-    AstrumVector3 absoluteScale;
-    // to do : make lazy prop for absolute transform.
-    AstrumLazyPropTransformType absoluteTransformLazy = AstrumLazyPropTransformType::AstrumLazyPropTransformType_None;
+	private:
+		Vector3 absolutePosition;
+		Vector3 absoluteRotation;
+		Vector3 absoluteScale;
+		// to do : make lazy prop for absolute transform.
+		LazyPropTransformType absoluteTransformLazy = LazyPropTransformType::LazyPropTransformType_None;
 
-    bool Visible = true;
-    bool isPrepared = false;
+		bool Visible = true;
+		bool isPrepared = false;
 
-    void CallbackObservedPosition();
-    void CallbackObservedRotation();
-    void CallbackObservedScale();
-};
+		void CallbackObservedPosition();
+		void CallbackObservedRotation();
+		void CallbackObservedScale();
+	};
 
-inline AstrumLazyPropTransformType operator|(AstrumLazyPropTransformType left, AstrumLazyPropTransformType right) {
-    return static_cast<AstrumLazyPropTransformType>(static_cast<char>(left) | static_cast<char>(right));
-}
-inline AstrumLazyPropTransformType& operator+=(AstrumLazyPropTransformType& left, AstrumLazyPropTransformType right) {
-    return left = static_cast<AstrumLazyPropTransformType>(static_cast<char>(left) | static_cast<char>(right));
-}
-inline AstrumLazyPropTransformType& operator-=(AstrumLazyPropTransformType& left, AstrumLazyPropTransformType right) {
-    return left = static_cast<AstrumLazyPropTransformType>(static_cast<char>(left) & ~static_cast<char>(right));
+	inline LazyPropTransformType operator|(LazyPropTransformType left, LazyPropTransformType right) {
+		return static_cast<LazyPropTransformType>(static_cast<char>(left) | static_cast<char>(right));
+	}
+	inline LazyPropTransformType& operator+=(LazyPropTransformType& left, LazyPropTransformType right) {
+		return left = static_cast<LazyPropTransformType>(static_cast<char>(left) | static_cast<char>(right));
+	}
+	inline LazyPropTransformType& operator-=(LazyPropTransformType& left, LazyPropTransformType right) {
+		return left = static_cast<LazyPropTransformType>(static_cast<char>(left) & ~static_cast<char>(right));
+	}
 }

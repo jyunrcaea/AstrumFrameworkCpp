@@ -3,22 +3,25 @@
 #include "../AstrumException.hpp"
 #include "../Resources/AstrumMaterial.hpp"
 
-AstrumPixelShader::AstrumPixelShader(const std::wstring& path, const std::string& entryPoint, const std::string& profile) : AstrumShader(path, entryPoint, profile)
+namespace Astrum
 {
-    if (FAILED(AstrumRenderer::Instance().GetDevice()->CreatePixelShader(
-        blob->GetBufferPointer(),
-        blob->GetBufferSize(),
-        nullptr,
-        &shader)))
-    {
-        throw AstrumException("CreatePixelShader failed.");
-    }
-}
+	PixelShader::PixelShader(const std::wstring& path, const std::string& entryPoint, const std::string& profile) : Shader(path, entryPoint, profile)
+	{
+		if (FAILED(Renderer::Instance().GetDevice()->CreatePixelShader(
+			blob->GetBufferPointer(),
+			blob->GetBufferSize(),
+			nullptr,
+			&shader)))
+		{
+			throw Exception("CreatePixelShader failed.");
+		}
+	}
 
-void AstrumPixelShader::SetShader() {
-    AstrumRenderer::Instance().GetContext()->PSSetShader(shader.Get(), nullptr, 0);
-}
+	void PixelShader::SetShader() {
+		Renderer::Instance().GetContext()->PSSetShader(shader.Get(), nullptr, 0);
+	}
 
-ID3D11PixelShader* AstrumPixelShader::GetPixelShader() const {
-    return shader.Get();
+	ID3D11PixelShader* PixelShader::GetPixelShader() const {
+		return shader.Get();
+	}
 }

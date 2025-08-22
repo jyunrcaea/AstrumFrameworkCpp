@@ -12,75 +12,77 @@
 #include "AstrumKeyBinder.hpp"
 #include "../Resources/AstrumSound.hpp"
 
-AstrumFrameworkSingleton::AstrumFrameworkSingleton() { }
+namespace Astrum {
+	FrameworkSingleton::FrameworkSingleton() { }
 
-bool AstrumFrameworkSingleton::IsInitialized() const {
-    return AstrumWindow::GetHandle() != nullptr;
-}
+	bool FrameworkSingleton::IsInitialized() const {
+		return Window::GetHandle() != nullptr;
+	}
 
-bool AstrumFrameworkSingleton::IsRunning() const {
-    return isRunning;
-}
+	bool FrameworkSingleton::IsRunning() const {
+		return isRunning;
+	}
 
-void AstrumFrameworkSingleton::Initialize(const std::wstring& title, unsigned int width, unsigned int height)
-{
-    AstrumWindow::Initialize(title, width, height); //winapi 초기화
-    AstrumRenderer::Instance().Initialize(width, height); //dx11 초기화
-    AstrumDirectInput::Initialize(); // direct input 초기화
-    AstrumSoundManager::Initialize(); // fmod 초기화
-    AstrumChrono::Initialize();
-}
+	void FrameworkSingleton::Initialize(const std::wstring& title, unsigned int width, unsigned int height)
+	{
+		Window::Initialize(title, width, height); //winapi 초기화
+		Renderer::Instance().Initialize(width, height); //dx11 초기화
+		DirectInput::Initialize(); // direct input 초기화
+		SoundManager::Initialize(); // fmod 초기화
+		Chrono::Initialize();
+	}
 
-int AstrumFrameworkSingleton::Run() {
-    if (!IsInitialized())
-        throw AstrumException("Framework is not initialized.");
-    if (isRunning)
-        throw AstrumException("Framework is already running.");
+	int FrameworkSingleton::Run() {
+		if (!IsInitialized())
+			throw AstrumException("Framework is not initialized.");
+		if (isRunning)
+			throw AstrumException("Framework is already running.");
 
-    isRunning = true;
-    Prepare();
+		isRunning = true;
+		Prepare();
 
-    MSG msg{};
-    while (isRunning) {
-        if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
-        }
-        else {
-            Update();
-        }
-    }
+		MSG msg{};
+		while (isRunning) {
+			if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
+				TranslateMessage(&msg);
+				DispatchMessage(&msg);
+			}
+			else {
+				Update();
+			}
+		}
 
-    Release();
+		Release();
 
-    return static_cast<int>(msg.wParam);
-}
+		return static_cast<int>(msg.wParam);
+	}
 
-void AstrumFrameworkSingleton::Stop() {
-    isRunning = false;
-}
+	void FrameworkSingleton::Stop() {
+		isRunning = false;
+	}
 
-void AstrumFrameworkSingleton::Prepare() {
-    AstrumChrono::Initialize();
-    RootObject->Prepare();
-}
+	void FrameworkSingleton::Prepare() {
+		Chrono::Initialize();
+		RootObject->Prepare();
+	}
 
-void AstrumFrameworkSingleton::Update() {
-    if (!AstrumChrono::IsUpdateNow()) return;
+	void FrameworkSingleton::Update() {
+		if (!Chrono::IsUpdateNow()) return;
 
-    AstrumDirectInput::Update();
-    AstrumKeyBinder::Update();
-    RootObject->Update();
-    AstrumCollisionSystemSingleton::Instance().Update();
-    RootObject->Draw();
-    AstrumRenderer::Instance().Rendering();
-}
+		DirectInput::Update();
+		KeyBinder::Update();
+		RootObject->Update();
+		CollisionSystemSingleton::Instance().Update();
+		RootObject->Draw();
+		Renderer::Instance().Rendering();
+	}
 
-void AstrumFrameworkSingleton::Release() {
-    RootObject->Release();
-    AstrumDirectInput::Dispose();
-    AstrumChrono::Dispose();
-    AstrumRenderer::Instance().Dispose();
-    AstrumWindow::Dispose();
-    AstrumSoundManager::Dispose();
+	void FrameworkSingleton::Release() {
+		RootObject->Release();
+		DirectInput::Dispose();
+		Chrono::Dispose();
+		Renderer::Instance().Dispose();
+		Window::Dispose();
+		SoundManager::Dispose();
+	}
 }

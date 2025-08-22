@@ -6,7 +6,7 @@
 #include "../../Astrum/Objects/AstrumPostProcessGroupObject.hpp"
 
 namespace InGame {
-	class PlayFieldObject : public AstrumPostProcessGroupObject
+	class PlayFieldObject : public Astrum::PostProcessGroupObject
 	{
 	public:
 		PlayFieldObject() {

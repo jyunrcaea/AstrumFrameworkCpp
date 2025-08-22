@@ -2,17 +2,20 @@
 #include "AstrumPolygons.hpp"
 #include "../Units/AstrumVertexColor.hpp"
 
-class AstrumCirclePolygons : public AstrumPolygons
+namespace Astrum
 {
-public:
-	AstrumCirclePolygons(const AstrumVertexColor& center, float radius, const unsigned short segment = 128);
-	AstrumCirclePolygons(const AstrumVertexColor& center, float radius, const std::vector<AstrumColor>& colors, const unsigned short segment = 128);
+	class CirclePolygons : public Polygons
+	{
+	public:
+		CirclePolygons(const VertexColor& center, float radius, const unsigned short segment = 128);
+		CirclePolygons(const VertexColor& center, float radius, const std::vector<Color>& colors, const unsigned short segment = 128);
 
-public:
-	static std::shared_ptr<AstrumCirclePolygons> MakeShared(const AstrumVertexColor& center, float radius, const unsigned short segment = 128) {
-		return std::make_shared<AstrumCirclePolygons>(center, radius, segment);
-	}
-	static std::shared_ptr<AstrumCirclePolygons> MakeShared(const AstrumVertexColor& center, float radius, const std::vector<AstrumColor>& colors, const unsigned short segment = 128) {
-		return std::make_shared<AstrumCirclePolygons>(center, radius, colors, segment);
-	}
-};
+	public:
+		static std::shared_ptr<CirclePolygons> MakeShared(const VertexColor& center, float radius, const unsigned short segment = 128) {
+			return std::make_shared<CirclePolygons>(center, radius, segment);
+		}
+		static std::shared_ptr<CirclePolygons> MakeShared(const VertexColor& center, float radius, const std::vector<Color>& colors, const unsigned short segment = 128) {
+			return std::make_shared<CirclePolygons>(center, radius, colors, segment);
+		}
+	};
+}

@@ -15,32 +15,41 @@
 
 using Microsoft::WRL::ComPtr;
 
-class AstrumShaderSetup : public IAstrumShaderSetup {
-public:
-    AstrumShaderSetup();
-    virtual ~AstrumShaderSetup() override;
+namespace Astrum
+{
+	class VertexShader;
+	class PixelShader;
+	class HullShader;
+	class DomainShader;
+	class GeometryShader;
 
-    std::shared_ptr<AstrumVertexShader> VertexShader;
-    std::shared_ptr<AstrumPixelShader> PixelShader;
-    std::shared_ptr<AstrumHullShader> HullShader;
-    std::shared_ptr<AstrumDomainShader> DomainShader;
-    std::shared_ptr<AstrumGeometryShader> GeometryShader;
+	class ShaderSetup : public IShaderSetup {
+	public:
+		ShaderSetup();
+		virtual ~ShaderSetup() override;
 
-	// 여기서 입력 레이아웃을 추가할수 있고
-    void AddInputLayoutDescription(
-        const std::string& semanticName,
-        UINT semanticIndex,
-        DXGI_FORMAT format,
-        UINT inputSlot,
-        D3D11_INPUT_CLASSIFICATION classification = D3D11_INPUT_PER_VERTEX_DATA,
-        UINT instanceDataStepRate = 0);
-    void SetShader() override;
+		std::shared_ptr<VertexShader> VertexShader;
+		std::shared_ptr<PixelShader> PixelShader;
+		std::shared_ptr<HullShader> HullShader;
+		std::shared_ptr<DomainShader> DomainShader;
+		std::shared_ptr<GeometryShader> GeometryShader;
 
-private:
-    std::vector<D3D11_INPUT_ELEMENT_DESC> inputDescriptions;
-    std::vector<char*> semanticNames;
-    Microsoft::WRL::ComPtr<ID3D11InputLayout> inputLayout;
+		// 여기서 입력 레이아웃을 추가할수 있고
+		void AddInputLayoutDescription(
+			const std::string& semanticName,
+			UINT semanticIndex,
+			DXGI_FORMAT format,
+			UINT inputSlot,
+			D3D11_INPUT_CLASSIFICATION classification = D3D11_INPUT_PER_VERTEX_DATA,
+			UINT instanceDataStepRate = 0);
+		void SetShader() override;
 
-public:
-    static inline std::shared_ptr<AstrumShaderSetup> MakeShared() { return std::make_shared<AstrumShaderSetup>(); }
-};
+	private:
+		std::vector<D3D11_INPUT_ELEMENT_DESC> inputDescriptions;
+		std::vector<char*> semanticNames;
+		Microsoft::WRL::ComPtr<ID3D11InputLayout> inputLayout;
+
+	public:
+		static inline std::shared_ptr<ShaderSetup> MakeShared() { return std::make_shared<ShaderSetup>(); }
+	};
+}

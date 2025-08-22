@@ -3,14 +3,17 @@
 #include "../Vectors/AstrumVector4.hpp"
 #include "../Units/AstrumColor.hpp"
 
-struct AstrumVertexColor {
-    AstrumVector3 Position;
-    AstrumVector4 Color;
+namespace Astrum
+{
+	struct VertexColor {
+		Vector3 Position;
+		Vector4 Color;
 
-    constexpr AstrumVertexColor() = default;
-    constexpr AstrumVertexColor(const AstrumVector3& pos, const AstrumVector4& col) : Position(pos), Color(col) {}
-    constexpr AstrumVertexColor(const AstrumVector3& pos, const AstrumColor& col) : Position(pos), Color(col.Red, col.Green, col.Blue, col.Alpha) { }
-    constexpr AstrumVertexColor(AstrumVector3&& pos, AstrumColor&& col) : Position(pos), Color(col.Red, col.Green, col.Blue, col.Alpha) { }
-    constexpr AstrumVertexColor(AstrumVector3&& pos, const AstrumColor& col) : Position(pos), Color(col.Red, col.Green, col.Blue, col.Alpha) { }
-    constexpr AstrumVertexColor(const AstrumVector3& pos, AstrumColor&& col) : Position(pos), Color(col.Red, col.Green, col.Blue, col.Alpha) { }
-};
+		constexpr VertexColor() = default;
+		constexpr VertexColor(const Vector3& pos, const Vector4& col) : Position(pos), Color(col) {}
+		constexpr VertexColor(const Vector3& pos, const Color& col) : Position(pos), Color(col.Red, col.Green, col.Blue, col.Alpha) { }
+		constexpr VertexColor(Vector3&& pos, Color&& col) : Position(pos), Color(col.Red, col.Green, col.Blue, col.Alpha) { }
+		constexpr VertexColor(Vector3&& pos, const Color& col) : Position(pos), Color(col.Red, col.Green, col.Blue, col.Alpha) { }
+		constexpr VertexColor(const Vector3& pos, Color&& col) : Position(pos), Color(col.Red, col.Green, col.Blue, col.Alpha) { }
+	};
+}

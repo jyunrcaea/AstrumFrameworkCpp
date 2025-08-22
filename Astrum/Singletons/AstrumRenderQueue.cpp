@@ -1,22 +1,24 @@
 #include "AstrumRenderQueue.hpp"
 
-void AstrumRenderQueueSingleton::PeekToPreRender() {
-	for (auto& renderable : renderQueue) {
-		if (renderable) {
-			renderable->PreRender();
+namespace Astrum {
+	void RenderQueueSingleton::PeekToPreRender() {
+		for (auto& renderable : renderQueue) {
+			if (renderable) {
+				renderable->PreRender();
+			}
 		}
 	}
-}
 
-void AstrumRenderQueueSingleton::DequeueToRender() {
-	for(auto& renderable : renderQueue) {
-		if (renderable) {
-			renderable->Render();
+	void RenderQueueSingleton::DequeueToRender() {
+		for (auto& renderable : renderQueue) {
+			if (renderable) {
+				renderable->Render();
+			}
 		}
+		renderQueue.clear();
 	}
-	renderQueue.clear();
-}
 
-void AstrumRenderQueueSingleton::Dispose() {
-	renderQueue.clear();
+	void RenderQueueSingleton::Dispose() {
+		renderQueue.clear();
+	}
 }

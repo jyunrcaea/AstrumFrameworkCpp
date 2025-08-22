@@ -2,25 +2,28 @@
 #include <memory>
 #include "AstrumPolygons.hpp"
 
-class AstrumRectanglePolygons : public AstrumPolygons
+namespace Astrum
 {
-public:
-	AstrumRectanglePolygons(float width, float height, const AstrumColor& color);
-	AstrumRectanglePolygons(const AstrumVertexColor& leftTop, const AstrumVertexColor& rightTop, const AstrumVertexColor& leftBottom, const AstrumVertexColor& rightBottom);
+	class RectanglePolygons : public Polygons
+	{
+	public:
+		RectanglePolygons(float width, float height, const Color& color);
+		RectanglePolygons(const VertexColor& leftTop, const VertexColor& rightTop, const VertexColor& leftBottom, const VertexColor& rightBottom);
 
-	void SetColor(const AstrumColor& color);
-	void SetColor(const AstrumColor& leftTop, const AstrumColor& rightTop, const AstrumColor& leftBottom, const AstrumColor& rightBottom);
+		void SetColor(const Color& color);
+		void SetColor(const Color& leftTop, const Color& rightTop, const Color& leftBottom, const Color& rightBottom);
 
-	AstrumColor GetLeftTopColor() const;
-	AstrumColor GetRightTopColor() const;
-	AstrumColor GetLeftBottomColor() const;
-	AstrumColor GetRightBottomColor() const;
+		Color GetLeftTopColor() const;
+		Color GetRightTopColor() const;
+		Color GetLeftBottomColor() const;
+		Color GetRightBottomColor() const;
 
-public:
-	static std::shared_ptr<AstrumRectanglePolygons> MakeShared(float width, float height, const AstrumColor& color) {
-		return std::make_shared<AstrumRectanglePolygons>(width, height, color);
-	}
-	static std::shared_ptr<AstrumRectanglePolygons> MakeShared(const AstrumVertexColor& leftTop, const AstrumVertexColor& rightTop, const AstrumVertexColor& leftBottom, const AstrumVertexColor& rightBottom) {
-		return std::make_shared<AstrumRectanglePolygons>(leftTop, rightTop, leftBottom, rightBottom);
-	}
-};
+	public:
+		static std::shared_ptr<RectanglePolygons> MakeShared(float width, float height, const Color& color) {
+			return std::make_shared<RectanglePolygons>(width, height, color);
+		}
+		static std::shared_ptr<RectanglePolygons> MakeShared(const VertexColor& leftTop, const VertexColor& rightTop, const VertexColor& leftBottom, const VertexColor& rightBottom) {
+			return std::make_shared<RectanglePolygons>(leftTop, rightTop, leftBottom, rightBottom);
+		}
+	};
+}

@@ -2,28 +2,30 @@
 #include <d3d11.h>
 #include <wrl.h>
 #include "../Singletons/AstrumSingleton.hpp"
-#include "../Singletons/AstrumRenderer.hpp"
 
-enum AstrumTextureSampleType {
-	AstrumTextureSampleType_Point = 0,
-	AstrumTextureSampleType_Linear,
-	AstrumTextureSampleType_Anisotropic,
-	AstrumTextureSampleType_Count
-};
-
-class AstrumTextureSampler : public AstrumSingleton<AstrumTextureSampler>
+namespace Astrum
 {
-	friend class AstrumSingleton<AstrumTextureSampler>;
+	enum TextureSampleType {
+		TextureSampleType_Point = 0,
+		TextureSampleType_Linear,
+		TextureSampleType_Anisotropic,
+		TextureSampleType_Count
+	};
 
-public:
-	AstrumTextureSampler();
-	virtual ~AstrumTextureSampler();
+	class TextureSampler : public Singleton<TextureSampler>
+	{
+		friend class Singleton<TextureSampler>;
 
-	void Initialize();
-	void Dispose();
+	public:
+		TextureSampler();
+		virtual ~TextureSampler();
 
-	ID3D11SamplerState* const GetSampler(AstrumTextureSampleType type) const;
-	bool SetSampler(AstrumTextureSampleType type);
-private:
-	Microsoft::WRL::ComPtr<ID3D11SamplerState> samplers[AstrumTextureSampleType::AstrumTextureSampleType_Count];
-};
+		void Initialize();
+		void Dispose();
+
+		ID3D11SamplerState* const GetSampler(TextureSampleType type) const;
+		bool SetSampler(TextureSampleType type);
+	private:
+		Microsoft::WRL::ComPtr<ID3D11SamplerState> samplers[TextureSampleType::TextureSampleType_Count];
+	};
+}

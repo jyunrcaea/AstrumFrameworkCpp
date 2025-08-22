@@ -1,20 +1,23 @@
 #include "AstrumPolygonsObject.hpp"
 #include "../Singletons/AstrumRenderQueue.hpp"
 
-AstrumPolygonsObject::AstrumPolygonsObject()
+namespace Astrum
 {
-	AddComponent(renderPolygonsComponent);
-}
+	PolygonsObject::PolygonsObject()
+	{
+		AddComponent(renderPolygonsComponent);
+	}
 
-AstrumPolygonsObject::AstrumPolygonsObject(const std::shared_ptr<AstrumPolygons>& polygons) : AstrumPolygonsObject()
-{
-	renderPolygonsComponent->Polygons = polygons;
-}
+	PolygonsObject::PolygonsObject(const std::shared_ptr<Polygons>& polygons) : PolygonsObject()
+	{
+		renderPolygonsComponent->Polygons = polygons;
+	}
 
-std::shared_ptr<AstrumPolygons>& AstrumPolygonsObject::GetPolygons() {
-	return renderPolygonsComponent->Polygons;
-}
+	std::shared_ptr<Polygons>& PolygonsObject::GetPolygons() {
+		return renderPolygonsComponent->Polygons;
+	}
 
-void AstrumPolygonsObject::SetPolygons(const std::shared_ptr<AstrumPolygons>& polygons) {
-	renderPolygonsComponent->Polygons = polygons;
+	void PolygonsObject::SetPolygons(const std::shared_ptr<Polygons>& polygons) {
+		renderPolygonsComponent->Polygons = polygons;
+	}
 }

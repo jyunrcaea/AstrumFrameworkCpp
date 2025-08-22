@@ -3,14 +3,17 @@
 #include "../Objects/AstrumObject.hpp"
 #include "../Components/AstrumRenderPolygonsComponent.hpp"
 
-// 도형 객체
-class AstrumShapeObject : public AstrumObject {
-public:
-    AstrumShapeObject() {
-        AddComponent(renderPolygonsComponent);
-    }
+namespace Astrum
+{
+	// 도형 객체
+	class ShapeObject : public Object {
+	public:
+		ShapeObject() {
+			AddComponent(renderPolygonsComponent);
+		}
 
-    AstrumRenderPolygonsComponent& GetRenderPolygonsComponent() const noexcept { return *renderPolygonsComponent; }
-protected:
-    std::shared_ptr<AstrumRenderPolygonsComponent> renderPolygonsComponent = AstrumRenderPolygonsComponent::MakeShared();
-};
+		RenderPolygonsComponent& GetRenderPolygonsComponent() const noexcept { return *renderPolygonsComponent; }
+	protected:
+		std::shared_ptr<RenderPolygonsComponent> renderPolygonsComponent = RenderPolygonsComponent::MakeShared();
+	};
+}
