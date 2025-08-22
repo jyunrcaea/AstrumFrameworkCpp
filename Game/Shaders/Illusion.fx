@@ -44,38 +44,10 @@ struct PixelShaderOutput
 SamplerState BaseSampler : register(s0);
 Texture2DMS<float4> BaseTexture : register(t0);
 
-//VertexShaderOutput IllusionVS(VertexShaderInput input)
-//{
-//    VertexShaderOutput output = (VertexShaderOutput) 0;
-//    output.Pos = mul(float4(input.Pos, 1.f), WorldViewProjectionMatrix);
-//    output.UV = input.UV;
-//    return output;
-//}
 VertexShaderOutput IllusionVS(VertexShaderInput input)
 {
     VertexShaderOutput output = (VertexShaderOutput) 0;
-    
-    float3 pos = input.Pos;
-    
-    // 회전 역변환
-    float cosZ = cos(-RotationZ);
-    float sinZ = sin(-RotationZ);
-    float2 rotatedPos;
-    rotatedPos.x = pos.x * cosZ - pos.y * sinZ;
-    rotatedPos.y = pos.x * sinZ + pos.y * cosZ;
-    
-    // Y 좌표를 화면 높이로 정규화 (-1 ~ 1 범위로)
-    float normalizedY = (rotatedPos.y / (WindowHeight * 0.5f)) - 1.0f;
-    
-    // 왜곡 적용
-    float scaleX = 1.0f + normalizedY * DistortionStrength;
-    rotatedPos.x *= scaleX;
-    
-    // 다시 회전 적용
-    pos.x = rotatedPos.x * cosZ - rotatedPos.y * sinZ;
-    pos.y = rotatedPos.x * sinZ + rotatedPos.y * cosZ;
-    
-    output.Pos = mul(float4(pos, 1.f), WorldViewProjectionMatrix);
+    output.Pos = mul(float4(input.Pos, 1.f), WorldViewProjectionMatrix);
     output.UV = input.UV;
     return output;
 }
