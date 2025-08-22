@@ -9,7 +9,7 @@ AstrumRenderTarget::AstrumRenderTarget(unsigned int width, unsigned int height, 
 {
     ID3D11Device* const device = AstrumRenderer::Instance().GetDevice();
 
-    if (sampleCount >= 64) sampleCount = AstrumRenderer::Instance().GetSampleCount();
+    if (sampleCount >= 32) sampleCount = AstrumRenderer::Instance().GetSampleCount();
 
 #pragma region DepthStencilView 생성
     D3D11_TEXTURE2D_DESC depthDesc = {};
@@ -58,16 +58,15 @@ void AstrumRenderTarget::Bind()
 {
 	ID3D11DeviceContext* const context = AstrumRenderer::Instance().GetContext();
 
-    ID3D11ShaderResourceView* nullSrv[1] = { nullptr };
-    context->PSSetShaderResources(0, 1, nullSrv);
-    context->OMSetRenderTargets(1, renderTargetView.GetAddressOf(), depthStencilView.Get());
-
-    context->OMGetRenderTargets(1, previousRTV.GetAddressOf(), previousDSV.GetAddressOf());
-    context->OMSetRenderTargets(1, renderTargetView.GetAddressOf(), depthStencilView.Get());
+    context->OMGetRenderTargets(1, previousRTV.GetAddressOf(), previousDSV.GetAddressOf()); //이전 상태 저장
+	ClearShaderResourceView(); // 셰이더 리소스 뷰 초기화
+    context->OMSetRenderTargets(1, renderTargetView.GetAddressOf(), depthStencilView.Get()); // 현재 렌더 타깃으로 바인딩
+    ResetViewPort(); // 뷰 포트 맞춰주기
 }
 
 void AstrumRenderTarget::Unbind()
 {
+    ClearShaderResourceView();
 	// 이전 상태로 복원
     AstrumRenderer::Instance().GetContext()->OMSetRenderTargets(1, previousRTV.GetAddressOf(), previousDSV.Get());
     previousRTV = nullptr;
@@ -78,4 +77,20 @@ void AstrumRenderTarget::Clear() {
 	auto* const context = AstrumRenderer::Instance().GetContext();
     context->ClearRenderTargetView(renderTargetView.Get(), reinterpret_cast<float*>(&BackgroundColor));
 	context->ClearDepthStencilView(depthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+}
+
+void AstrumRenderTarget::ResetViewPort() const {
+    D3D11_VIEWPORT vp{};
+    vp.TopLeftX = 0.0f;
+    vp.TopLeftY = 0.0f;
+    vp.Width = static_cast<float>(width);
+    vp.Height = static_cast<float>(height);
+    vp.MinDepth = 0.0f;
+    vp.MaxDepth = 1.0f;
+    AstrumRenderer::Instance().GetContext()->RSSetViewports(1, &vp);
+}
+
+void AstrumRenderTarget::ClearShaderResourceView() const {
+    ID3D11ShaderResourceView* const nullSrv[1] = { nullptr };
+    AstrumRenderer::Instance().GetContext()->PSSetShaderResources(0, 1, nullSrv);
 }

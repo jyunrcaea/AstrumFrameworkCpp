@@ -10,10 +10,6 @@ namespace InGame {
 		NoteObject(const Arcaea::NoteData& data) : AstrumRectangleObject(NoteWidth, 40, AstrumColor::SkyBlue) {
 			Position.SetX(static_cast<float>(LeftX + (NoteWidth / 2.f) + data.Data[1] * NoteWidth));
 			Position.SetY(data.GetStartOffset() + 20);
-
-			//GetRenderPolygonsComponent().CustomShaderPipeline = DataManager::Instance().GetIllusionShader();
-			GetRenderPolygonsComponent().SetCustomShaderPipeline(DataManager::Instance().GetIllusionShader());
-			AddComponent(DataManager::Instance().GetIllusionConstantBufferComponent(this));
 		}
 	};
 }

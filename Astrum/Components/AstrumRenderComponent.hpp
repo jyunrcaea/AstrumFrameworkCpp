@@ -10,9 +10,8 @@ class AstrumRenderComponent : public AstrumComponent, public IAstrumRenderable {
 public:
     virtual std::shared_ptr<IAstrumShaderSetup> GetDefaultShaderPipeline() const = 0;
 	std::shared_ptr<IAstrumShaderSetup>& GetCustomShaderPipeline() { return CustomShaderPipeline; }
-    void SetCustomShaderPipeline(const std::shared_ptr<IAstrumShaderSetup>& shader) {
-        CustomShaderPipeline = shader;
-	}
+    void SetCustomShaderPipeline(const std::shared_ptr<IAstrumShaderSetup>& shader) { CustomShaderPipeline = shader; }
+    void SetCustomShaderPipeline(std::shared_ptr<IAstrumShaderSetup>&& shader) { CustomShaderPipeline = std::move(shader); }
 
     virtual void Draw() override;
 protected:

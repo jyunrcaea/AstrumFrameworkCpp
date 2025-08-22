@@ -25,10 +25,6 @@ namespace InGame {
 			));
 
 			Position.SetY(data.GetStartOffset() + height / 2.f);
-
-			//GetRenderPolygonsComponent().CustomShaderPipeline = DataManager::Instance().GetIllusionShader();
-			GetRenderPolygonsComponent().SetCustomShaderPipeline(DataManager::Instance().GetIllusionShader());
-			AddComponent(DataManager::Instance().GetIllusionConstantBufferComponent(this));
 		}
 
 	private:

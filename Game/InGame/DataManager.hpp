@@ -18,12 +18,11 @@ namespace InGame {
 		std::shared_ptr< AstrumShaderSetup> GetIllusionShader() {
 			if (nullptr == shader) {
 				shader = AstrumShaderSetup::MakeShared();
-				shader->AddInputLayoutDescription("POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0);
-				shader->AddInputLayoutDescription("COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-
 				AstrumShaderCache::SetDefaultRelativeDirectory("./Game/Shaders/");
 				shader->VertexShader = AstrumShaderCache::LoadVertexShader(L"Illusion.fx", "IllusionVS");
 				shader->PixelShader = AstrumShaderCache::LoadPixelShader(L"Illusion.fx", "IllusionPS");
+				shader->AddInputLayoutDescription("POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0);
+				shader->AddInputLayoutDescription("TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0);
 			}
 			return shader;
 		}

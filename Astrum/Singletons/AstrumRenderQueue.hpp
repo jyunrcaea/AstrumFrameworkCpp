@@ -14,14 +14,23 @@ class AstrumRenderQueueSingleton : public AstrumSingleton<AstrumRenderQueueSingl
 	friend class AstrumRenderQueue;
 
 private:
-	void Enqueue(const std::shared_ptr<IAstrumRenderable>& renderable);
-	void Enqueue(std::shared_ptr<IAstrumRenderable>&& renderable);
+	void Enqueue(const std::shared_ptr<IAstrumRenderable>& renderable) {
+		if (nullptr != renderable) {
+			renderQueue.emplace_back(renderable);
+		}
+	}
+	void Enqueue(std::shared_ptr<IAstrumRenderable>&& renderable) {
+		if (nullptr != renderable) {
+			renderQueue.emplace_back(std::move(renderable));
+		}
+	}
 	void PeekToPreRender();
 	void DequeueToRender();
 	void Dispose();
 
 private:
-	std::queue<std::shared_ptr<IAstrumRenderable>> renderQueue;
+	// 추가는 그때그때 하지만, 렌더링시 한번에 비우기 때문에 vector 사용 가능
+	std::vector<std::shared_ptr<IAstrumRenderable>> renderQueue;
 };
 
 class AstrumRenderQueue

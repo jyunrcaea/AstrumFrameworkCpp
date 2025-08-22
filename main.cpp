@@ -4,8 +4,8 @@
 #include <iostream>
 #endif
 
-#include "Game/RectMoving.hpp"
-//#include "Game/NoteTest.hpp"
+//#include "Game/RectMoving.hpp"
+#include "Game/NoteTest.hpp"
 
 int main()
 {
@@ -23,4 +23,4 @@ int main()
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
     return main();
-} 
+}

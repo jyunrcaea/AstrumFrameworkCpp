@@ -15,7 +15,9 @@ AstrumPostProcessGroupObject::AstrumPostProcessGroupObject() {
 	);
 	unbindRenderTarget = AstrumSimpleRenderable::MakeShared(
 		nullptr,
-		[this]() { this->renderTarget->Unbind(); }
+		[this]() { 
+			this->renderTarget->Unbind(); 
+		}
 	);
 }
 
@@ -28,7 +30,4 @@ void AstrumPostProcessGroupObject::Draw() {
 
 std::shared_ptr<IAstrumShaderSetup> AstrumPostProcessGroupObject::GetCustomShaderPipeline() const {
 	return renderMaterialComponent->GetCustomShaderPipeline();
-}
-void AstrumPostProcessGroupObject::SetCustomShaderPipeline(const std::shared_ptr<IAstrumShaderSetup>& customShaderPipeline) {
-	renderMaterialComponent->SetCustomShaderPipeline(customShaderPipeline);
 }

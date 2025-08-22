@@ -8,7 +8,7 @@
 // D3D11 렌더 타깃을 관리하는 클래스
 class AstrumRenderTarget : public IAstrumTexture {
 public:
-    AstrumRenderTarget(unsigned int width, unsigned int height, DXGI_FORMAT format = DXGI_FORMAT_R8G8B8A8_UNORM, unsigned int sampleCount = 64);
+    AstrumRenderTarget(unsigned int width, unsigned int height, DXGI_FORMAT format = DXGI_FORMAT_R8G8B8A8_UNORM, unsigned int sampleCount = 32);
 
     // RenderTarget 바인딩 (이 타깃에 그리기 시작)
     void Bind();
@@ -36,6 +36,8 @@ private:
     Microsoft::WRL::ComPtr<ID3D11RenderTargetView> previousRTV;
     Microsoft::WRL::ComPtr<ID3D11DepthStencilView> previousDSV;
 
+    void ResetViewPort() const;
+    void ClearShaderResourceView() const;
 public:
     static std::shared_ptr<AstrumRenderTarget> MakeShared(unsigned int width, unsigned int height, DXGI_FORMAT format = DXGI_FORMAT_R8G8B8A8_UNORM, unsigned int sampleCount = 512) {
         return std::make_shared<AstrumRenderTarget>(width, height, format, sampleCount);

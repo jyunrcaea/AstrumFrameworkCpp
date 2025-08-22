@@ -17,6 +17,9 @@ namespace InGame {
 
 			AddObject(groupObject = std::make_shared<NoteGroupObject>());
 			groupObject->SetPositionZ(-1);
+
+			SetCustomShaderPipeline(DataManager::Instance().GetIllusionShader());
+			AddComponent(DataManager::Instance().GetIllusionConstantBufferComponent(this));
 		}
 
 	private:
