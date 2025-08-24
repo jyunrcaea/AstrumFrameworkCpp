@@ -42,45 +42,39 @@ struct PixelShaderOutput
 };
 
 SamplerState BaseSampler : register(s0);
-Texture2DMS<float4> BaseTexture : register(t0);
+Texture2D BaseTexture : register(t0);
+
+//VertexShaderOutput IllusionVS(VertexShaderInput input)
+//{
+//    VertexShaderOutput output = (VertexShaderOutput) 0;
+//    output.Pos = mul(float4(input.Pos, 1.f), WorldViewProjectionMatrix);
+//    output.UV = input.UV;
+//    return output;
+//}
 
 VertexShaderOutput IllusionVS(VertexShaderInput input)
 {
     VertexShaderOutput output = (VertexShaderOutput) 0;
-    output.Pos = mul(float4(input.Pos, 1.f), WorldViewProjectionMatrix);
+
+    // 1. Y좌표를 화면 비율에 맞춰 정규화합니다. (-1.0 ~ 1.0 범위)
+    // 화면 중앙(Y=0)이 0, 화면 상단(Y=WindowHeight/2)이 1, 하단(Y=-WindowHeight/2)이 -1이 됩니다.
+    float normalizedY = input.Pos.y / (max(720.f, WindowHeight) / 2.0f);
+
+    // 2. Y좌표에 따라 X축 스케일 값을 계산합니다.
+    // normalizedY가 1(상단)일 때 스케일은 (1 - DistortionStrength)가 되어 수축합니다.
+    // normalizedY가 -1(하단)일 때 스케일은 (1 + DistortionStrength)가 되어 팽창합니다.
+    float scaleX = 1.0f - normalizedY * DistortionStrength;
+
+    // 3. 계산된 스케일 값을 X좌표에 적용합니다.
+    float3 modifiedPos = input.Pos;
+    modifiedPos.x *= scaleX;
+
+    // 4. 변형된 위치(modifiedPos)를 최종 행렬과 곱하여 클립 공간 좌표로 변환합니다.
+    output.Pos = mul(float4(modifiedPos, 1.f), WorldViewProjectionMatrix);
     output.UV = input.UV;
+
     return output;
 }
-
-// idk why not working. Fix it later
-//VertexShaderOutput IllusionVS(VertexShaderInput input)
-//{
-//    VertexShaderOutput output = (VertexShaderOutput) 0;
-    
-//    float3 pos = input.Pos;
-    
-//    // 회전 역변환
-//    float cosZ = cos(-RotationZ);
-//    float sinZ = sin(-RotationZ);
-//    float2 rotatedPos;
-//    rotatedPos.x = pos.x * cosZ - pos.y * sinZ;
-//    rotatedPos.y = pos.x * sinZ + pos.y * cosZ;
-    
-//    // Y 좌표를 화면 높이로 정규화 (-1 ~ 1 범위로)
-//    float normalizedY = (rotatedPos.y / (WindowHeight * 0.5f)) - 1.0f;
-    
-//    // 왜곡 적용
-//    float scaleX = 1.0f + normalizedY * DistortionStrength;
-//    rotatedPos.x *= scaleX;
-    
-//    // 다시 회전 적용
-//    pos.x = rotatedPos.x * cosZ - rotatedPos.y * sinZ;
-//    pos.y = rotatedPos.x * sinZ + rotatedPos.y * cosZ;
-    
-//    output.Pos = mul(float4(pos, 1.f), WorldViewProjectionMatrix);
-//    output.UV = input.UV;
-//    return output;
-//}
 
 PixelShaderOutput IllusionPS(VertexShaderOutput input)
 {
@@ -91,7 +85,7 @@ PixelShaderOutput IllusionPS(VertexShaderOutput input)
     if (MaterialFlip & 2)
         input.UV.y = 1 - input.UV.y;
     
-    float4 color = BaseTexture.Load(int2(input.UV * float2(MaterialTextureWidth, MaterialTextureHeight)), 0);
+    float4 color = BaseTexture.Sample(BaseSampler, input.UV);
     
     color.rgb *= MaterialBaseColor.rgb;
     color.a *= MaterialOpacity;

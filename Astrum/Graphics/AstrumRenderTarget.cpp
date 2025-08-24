@@ -9,8 +9,6 @@ AstrumRenderTarget::AstrumRenderTarget(unsigned int width, unsigned int height, 
 {
     ID3D11Device* const device = AstrumRenderer::Instance().GetDevice();
 
-    if (sampleCount >= 32) sampleCount = AstrumRenderer::Instance().GetSampleCount();
-
 #pragma region DepthStencilView 생성
     D3D11_TEXTURE2D_DESC depthDesc = {};
     depthDesc.Width = width;
