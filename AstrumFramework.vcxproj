@@ -140,6 +140,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Astrum\Components\AstrumPostProcessRenderComponent.cpp" />
     <ClCompile Include="Astrum\Graphics\AstrumRenderTarget.cpp" />
     <ClCompile Include="Astrum\Objects\AstrumPostProcessGroupObject.cpp" />
     <ClCompile Include="Astrum\Singletons\AstrumShaderCache.cpp" />
@@ -213,6 +214,7 @@
     <ClCompile Include="Astrum\Vectors\AstrumObservedVector4.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Astrum\Components\AstrumPostProcessRenderComponent.hpp" />
     <ClInclude Include="Astrum\Graphics\AstrumRenderTarget.hpp" />
     <ClInclude Include="Astrum\Graphics\AstrumSimpleRenderable.hpp" />
     <ClInclude Include="Astrum\Objects\AstrumPostProcessGroupObject.hpp" />

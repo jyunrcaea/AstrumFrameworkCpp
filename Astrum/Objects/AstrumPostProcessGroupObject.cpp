@@ -4,8 +4,6 @@
 #include "../Singletons/AstrumRenderer.hpp"
 
 AstrumPostProcessGroupObject::AstrumPostProcessGroupObject() {
-	renderMaterialComponent->Material = AstrumMaterial::MakeShared(renderTarget);
-	renderMaterialComponent->SetupMeshFromTexture();
 	bindRenderTarget = AstrumSimpleRenderable::MakeShared(
 		nullptr,
 		[this]() { 
@@ -19,15 +17,25 @@ AstrumPostProcessGroupObject::AstrumPostProcessGroupObject() {
 			this->renderTarget->Unbind(); 
 		}
 	);
+	renderComponent->Material = AstrumMaterial::MakeShared(renderTarget);
+	renderComponent->SetupMeshFromTexture();
+}
+AstrumPostProcessGroupObject::AstrumPostProcessGroupObject(const std::shared_ptr<IAstrumConstantBuffer>& constantBuffer)
+	: AstrumPostProcessGroupObject() {
+	renderComponent->ConstantBuffer = constantBuffer;
+}
+AstrumPostProcessGroupObject::AstrumPostProcessGroupObject(std::shared_ptr<IAstrumConstantBuffer>&& constantBuffer)
+	: AstrumPostProcessGroupObject() {
+	renderComponent->ConstantBuffer = std::move(constantBuffer);
 }
 
 void AstrumPostProcessGroupObject::Draw() {
 	AstrumRenderQueue::Enqueue(bindRenderTarget);
 	AstrumGroupObject::Draw();
 	AstrumRenderQueue::Enqueue(unbindRenderTarget);
-	AstrumRenderQueue::Enqueue(renderMaterialComponent);
+	AstrumRenderQueue::Enqueue(renderComponent);
 }
 
 std::shared_ptr<IAstrumShaderSetup> AstrumPostProcessGroupObject::GetCustomShaderPipeline() const {
-	return renderMaterialComponent->GetCustomShaderPipeline();
+	return renderComponent->GetCustomShaderPipeline();
 }

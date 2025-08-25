@@ -9,7 +9,7 @@ namespace InGame {
 	class PlayFieldObject : public AstrumPostProcessGroupObject
 	{
 	public:
-		PlayFieldObject() {
+		PlayFieldObject() : AstrumPostProcessGroupObject(DataManager::Instance().GetIllusionConstantBuffer(this)) {
 			SetPositionZ(100);
 
 			AddObject(boardObject = std::make_shared<NoteBoardObject>());
@@ -19,7 +19,6 @@ namespace InGame {
 			groupObject->SetPositionZ(-1);
 
 			SetCustomShaderPipeline(DataManager::Instance().GetIllusionShader());
-			AddComponent(DataManager::Instance().GetIllusionConstantBufferComponent(this));
 		}
 
 	private:
