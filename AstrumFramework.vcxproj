@@ -103,23 +103,25 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp23</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <DisableSpecificWarnings>28251;4819</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;dxguid.lib;dinput8.lib;User32.lib;Gdi32.lib;Ole32.lib;comdlg32.lib;winspool.lib;uuid.lib;odbc32.lib;odbccp32.lib;oleaut32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/IGNORE:4099 %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
@@ -128,198 +130,211 @@
       <LanguageStandard>stdcpp23</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <DisableSpecificWarnings>28251;4819</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;dxguid.lib;dinput8.lib;User32.lib;Gdi32.lib;Ole32.lib</AdditionalDependencies>
+      <AdditionalOptions>/IGNORE:4099 %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Components\AstrumTextRenderComponent.cpp" />
-    <ClCompile Include="Singletons\AstrumRenderQueue.cpp" />
-    <ClCompile Include="Components\AstrumCircleColliderComponent.cpp" />
-    <ClCompile Include="Components\AstrumAABBColliderComponent.cpp" />
-    <ClCompile Include="Components\AstrumAnimatorComponent.cpp" />
-    <ClCompile Include="Components\AstrumConstantBufferComponent.cpp" />
-    <ClCompile Include="Graphics\AstrumCamera.cpp" />
-    <ClCompile Include="Tests\Arcaea\ArcaeaChartParser.cpp" />
-    <ClCompile Include="Objects\AstrumTransformObject.cpp" />
-    <ClCompile Include="Objects\IAstrumMaterialObject.cpp" />
-    <ClCompile Include="Resources\AstrumChannelGroup.cpp" />
-    <ClCompile Include="Resources\AstrumFonts.cpp" />
-    <ClCompile Include="Singletons\AstrumChrono.cpp" />
-    <ClCompile Include="Objects\AstrumCircleObject.cpp" />
-    <ClCompile Include="Meshes\AstrumCirclePolygons.cpp" />
-    <ClCompile Include="Components\AstrumColliderComponent.cpp" />
-    <ClCompile Include="Singletons\AstrumCollisionSystem.cpp" />
-    <ClCompile Include="Components\AstrumComponent.cpp" />
-    <ClCompile Include="Collections\AstrumComponentList.cpp" />
-    <ClCompile Include="Buffers\AstrumConstantBuffer.cpp" />
-    <ClCompile Include="Singletons\AstrumDirectInput.cpp" />
-    <ClCompile Include="Shaders\AstrumDomainShader.cpp" />
-    <ClCompile Include="Components\AstrumFrameAnimationComponent.cpp" />
-    <ClCompile Include="Shaders\AstrumGeometryShader.cpp" />
-    <ClCompile Include="Objects\AstrumGroupObject.cpp" />
-    <ClCompile Include="Shaders\AstrumHullShader.cpp" />
-    <ClCompile Include="Resources\AstrumImage.cpp" />
-    <ClCompile Include="Singletons\AstrumKeyBinder.cpp" />
-    <ClCompile Include="Resources\AstrumMaterial.cpp" />
-    <ClCompile Include="Buffers\AstrumMaterialConstantBuffer.cpp" />
-    <ClCompile Include="Objects\AstrumMaterialObject.cpp" />
-    <ClCompile Include="Units\AstrumMatrix.cpp" />
-    <ClCompile Include="Components\AstrumOBBColliderComponent.cpp" />
-    <ClCompile Include="Objects\AstrumObject.cpp" />
-    <ClCompile Include="Collections\AstrumObjectList.cpp" />
-    <ClCompile Include="Shaders\AstrumPixelShader.cpp" />
-    <ClCompile Include="Objects\AstrumPolygonsObject.cpp" />
-    <ClCompile Include="Units\AstrumQuaternion.cpp" />
-    <ClCompile Include="Objects\AstrumRectangleObject.cpp" />
-    <ClCompile Include="Meshes\AstrumRectanglePolygons.cpp" />
-    <ClCompile Include="Components\AstrumRenderComponent.cpp" />
-    <ClCompile Include="Singletons\AstrumRenderer.cpp" />
-    <ClCompile Include="Components\AstrumRenderMaterialComponent.cpp" />
-    <ClCompile Include="Components\AstrumRenderPolygonsComponent.cpp" />
-    <ClCompile Include="Shaders\AstrumShader.cpp" />
-    <ClCompile Include="Shaders\AstrumShaderSetup.cpp" />
-    <ClCompile Include="Resources\AstrumSound.cpp" />
-    <ClCompile Include="Singletons\AstrumSoundManager.cpp" />
-    <ClCompile Include="States\AstrumStateBuilder.cpp" />
-    <ClCompile Include="Components\AstrumStateComponent.cpp" />
-    <ClCompile Include="States\AstrumStateGraph.cpp" />
-    <ClCompile Include="Resources\AstrumTexture.cpp" />
-    <ClCompile Include="Singletons\AstrumTextureCache.cpp" />
-    <ClCompile Include="Meshes\AstrumTextureMesh.cpp" />
-    <ClCompile Include="Graphics\AstrumTextureSampler.cpp" />
-    <ClCompile Include="Buffers\AstrumTransformConstantBuffer.cpp" />
-    <ClCompile Include="Objects\AstrumTriangleObject.cpp" />
-    <ClCompile Include="Vectors\AstrumVector4.cpp" />
-    <ClCompile Include="Shaders\AstrumVertexShader.cpp" />
-    <ClCompile Include="Singletons\AstrumWindow.cpp" />
-    <ClCompile Include="Singletons\AstrumFramework.cpp" />
-    <ClCompile Include="Animations\AstrumAnimator.cpp" />
-    <ClCompile Include="Resources\IAstrumMaterial.cpp" />
-    <ClCompile Include="Objects\IAstrumObject.cpp" />
+    <ClCompile Include="Astrum\Components\AstrumPostProcessRenderComponent.cpp" />
+    <ClCompile Include="Astrum\Graphics\AstrumRenderTarget.cpp" />
+    <ClCompile Include="Astrum\Objects\AstrumPostProcessGroupObject.cpp" />
+    <ClCompile Include="Astrum\Singletons\AstrumShaderCache.cpp" />
+    <ClCompile Include="Astrum\Components\AstrumTextRenderComponent.cpp" />
+    <ClCompile Include="Astrum\Singletons\AstrumRenderQueue.cpp" />
+    <ClCompile Include="Astrum\Components\AstrumCircleColliderComponent.cpp" />
+    <ClCompile Include="Astrum\Components\AstrumAABBColliderComponent.cpp" />
+    <ClCompile Include="Astrum\Components\AstrumAnimatorComponent.cpp" />
+    <ClCompile Include="Astrum\Components\AstrumConstantBufferComponent.cpp" />
+    <ClCompile Include="Astrum\Graphics\AstrumCamera.cpp" />
+    <ClCompile Include="Game\Arcaea\ArcaeaChartParser.cpp" />
+    <ClCompile Include="Astrum\Objects\AstrumTransformObject.cpp" />
+    <ClCompile Include="Astrum\Objects\IAstrumMaterialObject.cpp" />
+    <ClCompile Include="Astrum\Resources\AstrumChannelGroup.cpp" />
+    <ClCompile Include="Astrum\Resources\AstrumFonts.cpp" />
+    <ClCompile Include="Astrum\Singletons\AstrumChrono.cpp" />
+    <ClCompile Include="Astrum\Objects\AstrumCircleObject.cpp" />
+    <ClCompile Include="Astrum\Meshes\AstrumCirclePolygons.cpp" />
+    <ClCompile Include="Astrum\Components\AstrumColliderComponent.cpp" />
+    <ClCompile Include="Astrum\Singletons\AstrumCollisionSystem.cpp" />
+    <ClCompile Include="Astrum\Components\AstrumComponent.cpp" />
+    <ClCompile Include="Astrum\Collections\AstrumComponentList.cpp" />
+    <ClCompile Include="Astrum\Buffers\AstrumConstantBuffer.cpp" />
+    <ClCompile Include="Astrum\Singletons\AstrumDirectInput.cpp" />
+    <ClCompile Include="Astrum\Shaders\AstrumDomainShader.cpp" />
+    <ClCompile Include="Astrum\Components\AstrumFrameAnimationComponent.cpp" />
+    <ClCompile Include="Astrum\Shaders\AstrumGeometryShader.cpp" />
+    <ClCompile Include="Astrum\Objects\AstrumGroupObject.cpp" />
+    <ClCompile Include="Astrum\Shaders\AstrumHullShader.cpp" />
+    <ClCompile Include="Astrum\Resources\AstrumImage.cpp" />
+    <ClCompile Include="Astrum\Singletons\AstrumKeyBinder.cpp" />
+    <ClCompile Include="Astrum\Resources\AstrumMaterial.cpp" />
+    <ClCompile Include="Astrum\Buffers\AstrumMaterialConstantBuffer.cpp" />
+    <ClCompile Include="Astrum\Objects\AstrumMaterialObject.cpp" />
+    <ClCompile Include="Astrum\Units\AstrumMatrix.cpp" />
+    <ClCompile Include="Astrum\Components\AstrumOBBColliderComponent.cpp" />
+    <ClCompile Include="Astrum\Objects\AstrumObject.cpp" />
+    <ClCompile Include="Astrum\Collections\AstrumObjectList.cpp" />
+    <ClCompile Include="Astrum\Shaders\AstrumPixelShader.cpp" />
+    <ClCompile Include="Astrum\Objects\AstrumPolygonsObject.cpp" />
+    <ClCompile Include="Astrum\Units\AstrumQuaternion.cpp" />
+    <ClCompile Include="Astrum\Objects\AstrumRectangleObject.cpp" />
+    <ClCompile Include="Astrum\Meshes\AstrumRectanglePolygons.cpp" />
+    <ClCompile Include="Astrum\Components\AstrumRenderComponent.cpp" />
+    <ClCompile Include="Astrum\Singletons\AstrumRenderer.cpp" />
+    <ClCompile Include="Astrum\Components\AstrumRenderMaterialComponent.cpp" />
+    <ClCompile Include="Astrum\Components\AstrumRenderPolygonsComponent.cpp" />
+    <ClCompile Include="Astrum\Shaders\AstrumShader.cpp" />
+    <ClCompile Include="Astrum\Shaders\AstrumShaderSetup.cpp" />
+    <ClCompile Include="Astrum\Resources\AstrumSound.cpp" />
+    <ClCompile Include="Astrum\Singletons\AstrumSoundManager.cpp" />
+    <ClCompile Include="Astrum\States\AstrumStateBuilder.cpp" />
+    <ClCompile Include="Astrum\Components\AstrumStateComponent.cpp" />
+    <ClCompile Include="Astrum\States\AstrumStateGraph.cpp" />
+    <ClCompile Include="Astrum\Resources\AstrumTexture.cpp" />
+    <ClCompile Include="Astrum\Singletons\AstrumTextureCache.cpp" />
+    <ClCompile Include="Astrum\Meshes\AstrumTextureMesh.cpp" />
+    <ClCompile Include="Astrum\Graphics\AstrumTextureSampler.cpp" />
+    <ClCompile Include="Astrum\Buffers\AstrumTransformConstantBuffer.cpp" />
+    <ClCompile Include="Astrum\Objects\AstrumTriangleObject.cpp" />
+    <ClCompile Include="Astrum\Shaders\AstrumVertexShader.cpp" />
+    <ClCompile Include="Astrum\Singletons\AstrumWindow.cpp" />
+    <ClCompile Include="Astrum\Singletons\AstrumFramework.cpp" />
+    <ClCompile Include="Astrum\Animations\AstrumAnimator.cpp" />
+    <ClCompile Include="Astrum\Resources\IAstrumMaterial.cpp" />
+    <ClCompile Include="Astrum\Objects\IAstrumObject.cpp" />
+    <ClCompile Include="Astrum\Resources\AstrumTargetFont.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Vectors\AstrumObservedVector2.cpp" />
-    <ClCompile Include="Vectors\AstrumObservedVector3.cpp" />
-    <ClCompile Include="Vectors\AstrumObservedVector4.cpp" />
+    <ClCompile Include="Astrum\Vectors\AstrumObservedVector2.cpp" />
+    <ClCompile Include="Astrum\Vectors\AstrumObservedVector3.cpp" />
+    <ClCompile Include="Astrum\Vectors\AstrumObservedVector4.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Tests\Arcaea\ArcaeaChart.hpp" />
-    <ClInclude Include="Buffers\AstrumSimpleConstantBuffer.hpp" />
-    <ClInclude Include="Collections\AstrumList.hpp" />
-    <ClInclude Include="Components\AstrumTextRenderComponent.hpp" />
-    <ClInclude Include="Singletons\AstrumRenderQueue.hpp" />
-    <ClInclude Include="Components\AstrumAABBColliderComponent.hpp" />
-    <ClInclude Include="Animations\AstrumAnimationFunctions.hpp" />
-    <ClInclude Include="Components\AstrumCircleColliderComponent.hpp" />
-    <ClInclude Include="Tests\Arcaea\ArcaeaChartManager.hpp" />
-    <ClInclude Include="Tests\Arcaea\ArcaeaChartParser.hpp" />
-    <ClInclude Include="Components\AstrumConstantBufferComponent.hpp" />
-    <ClInclude Include="Components\IAstrumColliderComponent.hpp" />
-    <ClInclude Include="Meshes\AstrumCirclePolygons.hpp" />
-    <ClInclude Include="Objects\AstrumTransformObject.hpp" />
-    <ClInclude Include="Objects\IAstrumMaterialObject.hpp" />
-    <ClInclude Include="Resources\AstrumFonts.hpp" />
-    <ClInclude Include="Resources\AstrumTargetFont.hpp" />
-    <ClInclude Include="Tests\InGame\ArcObject.hpp" />
-    <ClInclude Include="Tests\InGame\DataManager.hpp" />
-    <ClInclude Include="Tests\InGame\HoldNoteObject.hpp" />
-    <ClInclude Include="Tests\InGame\NoteBoardObject.hpp" />
-    <ClInclude Include="Tests\InGame\NoteGroupObject.hpp" />
-    <ClInclude Include="Tests\InGame\PlayFieldObject.hpp" />
-    <ClInclude Include="Tests\InGame\SceneObject.hpp" />
-    <ClInclude Include="Tests\InGame\NoteObject.hpp" />
-    <ClInclude Include="Tests\InGame\SkyNoteObject.hpp" />
-    <ClInclude Include="Tests\InGame\TraceObject.hpp" />
-    <ClInclude Include="Tests\NoteTest.hpp" />
-    <ClInclude Include="Tests\RectMoving.hpp" />
-    <ClInclude Include="Singletons\AstrumKeyBinder.hpp" />
-    <ClInclude Include="Animations\AstrumMovementAnimator.hpp" />
-    <ClInclude Include="Meshes\AstrumRectanglePolygons.hpp" />
-    <ClInclude Include="Components\AstrumRenderComponent.hpp" />
-    <ClInclude Include="Components\AstrumRenderMaterialComponent.hpp" />
-    <ClInclude Include="Components\AstrumRenderPolygonsComponent.hpp" />
-    <ClInclude Include="Animations\AstrumRotationAnimator.hpp" />
-    <ClInclude Include="Animations\AstrumScaleAnimator.hpp" />
-    <ClInclude Include="Animations\AstrumAnimator.hpp" />
-    <ClInclude Include="Components\AstrumAnimatorComponent.hpp" />
-    <ClInclude Include="Graphics\AstrumCamera.hpp" />
-    <ClInclude Include="Resources\AstrumChannelGroup.hpp" />
-    <ClInclude Include="Singletons\AstrumChrono.hpp" />
-    <ClInclude Include="Objects\AstrumCircleObject.hpp" />
-    <ClInclude Include="Components\AstrumColliderComponent.hpp" />
-    <ClInclude Include="Singletons\AstrumCollisionSystem.hpp" />
-    <ClInclude Include="Units\AstrumColor.hpp" />
-    <ClInclude Include="Components\AstrumComponent.hpp" />
-    <ClInclude Include="Collections\AstrumComponentList.hpp" />
-    <ClInclude Include="Buffers\AstrumConstantBuffer.hpp" />
-    <ClInclude Include="Singletons\AstrumDirectInput.hpp" />
-    <ClInclude Include="Shaders\AstrumDomainShader.hpp" />
-    <ClInclude Include="Objects\AstrumShapeObject.hpp" />
-    <ClInclude Include="AstrumException.hpp" />
-    <ClInclude Include="Components\AstrumFrameAnimationComponent.hpp" />
-    <ClInclude Include="Shaders\AstrumGeometryShader.hpp" />
-    <ClInclude Include="Objects\AstrumGroupObject.hpp" />
-    <ClInclude Include="Shaders\AstrumHullShader.hpp" />
-    <ClInclude Include="Resources\AstrumImage.hpp" />
-    <ClInclude Include="Resources\AstrumMaterial.hpp" />
-    <ClInclude Include="Buffers\AstrumMaterialConstantBuffer.hpp" />
-    <ClInclude Include="Data\AstrumMaterialData.hpp" />
-    <ClInclude Include="Objects\AstrumMaterialObject.hpp" />
-    <ClInclude Include="Units\AstrumMatrix.hpp" />
-    <ClInclude Include="Meshes\AstrumMesh.hpp" />
-    <ClInclude Include="Components\AstrumOBBColliderComponent.hpp" />
-    <ClInclude Include="Objects\AstrumObject.hpp" />
-    <ClInclude Include="Collections\AstrumObjectList.hpp" />
-    <ClInclude Include="Shaders\AstrumPixelShader.hpp" />
-    <ClInclude Include="Meshes\AstrumPolygons.hpp" />
-    <ClInclude Include="Objects\AstrumPolygonsObject.hpp" />
-    <ClInclude Include="Units\AstrumQuaternion.hpp" />
-    <ClInclude Include="Objects\AstrumRectangleObject.hpp" />
-    <ClInclude Include="Singletons\AstrumRenderer.hpp" />
-    <ClInclude Include="Shaders\AstrumShader.hpp" />
-    <ClInclude Include="Shaders\AstrumShaderSetup.hpp" />
-    <ClInclude Include="Resources\AstrumSound.hpp" />
-    <ClInclude Include="Singletons\AstrumSoundManager.hpp" />
-    <ClInclude Include="States\AstrumStateBuilder.hpp" />
-    <ClInclude Include="Components\AstrumStateComponent.hpp" />
-    <ClInclude Include="States\AstrumStateGraph.hpp" />
-    <ClInclude Include="Resources\AstrumTexture.hpp" />
-    <ClInclude Include="Singletons\AstrumTextureCache.hpp" />
-    <ClInclude Include="Meshes\AstrumTextureMesh.hpp" />
-    <ClInclude Include="Graphics\AstrumTextureSampler.hpp" />
-    <ClInclude Include="Buffers\AstrumTransformConstantBuffer.hpp" />
-    <ClInclude Include="Data\AstrumTransformData.hpp" />
-    <ClInclude Include="Objects\AstrumTriangleObject.hpp" />
-    <ClInclude Include="Vectors\AstrumVector2.hpp" />
-    <ClInclude Include="Vectors\AstrumVector3.hpp" />
-    <ClInclude Include="Vectors\AstrumVector4.hpp" />
-    <ClInclude Include="Units\AstrumVertexColor.hpp" />
-    <ClInclude Include="Shaders\AstrumVertexShader.hpp" />
-    <ClInclude Include="Units\AstrumTextureVertex.hpp" />
-    <ClInclude Include="Singletons\AstrumWindow.hpp" />
-    <ClInclude Include="Singletons\AstrumFramework.hpp" />
-    <ClInclude Include="Components\IAstrumAABBColliderComponent.hpp" />
-    <ClInclude Include="Animations\IAstrumAnimator.hpp" />
-    <ClInclude Include="Components\IAstrumCircleColliderComponent.hpp" />
-    <ClInclude Include="Components\IAstrumComponent.hpp" />
-    <ClInclude Include="Collections\IAstrumComponentList.hpp" />
-    <ClInclude Include="Buffers\IAstrumConstantBuffer.hpp" />
-    <ClInclude Include="Components\IAstrumFrameAnimationComponent.hpp" />
-    <ClInclude Include="Objects\IAstrumGroupObject.hpp" />
-    <ClInclude Include="Resources\IAstrumMaterial.hpp" />
-    <ClInclude Include="Components\IAstrumOBBColliderComponent.hpp" />
-    <ClInclude Include="Objects\IAstrumObject.hpp" />
-    <ClInclude Include="Collections\IAstrumObjectList.hpp" />
-    <ClInclude Include="Graphics\IAstrumRenderable.hpp" />
-    <ClInclude Include="Shaders\IAstrumShaders.hpp" />
-    <ClInclude Include="Vectors\AstrumObservedVector2.hpp" />
-    <ClInclude Include="Vectors\AstrumObservedVector3.hpp" />
-    <ClInclude Include="Vectors\AstrumObservedVector4.hpp" />
-    <ClInclude Include="States\IAstrumStateGraph.hpp" />
-    <ClInclude Include="Singletons\AstrumSingleton.hpp" />
+    <ClInclude Include="Astrum\Components\AstrumPostProcessRenderComponent.hpp" />
+    <ClInclude Include="Astrum\Graphics\AstrumRenderTarget.hpp" />
+    <ClInclude Include="Astrum\Graphics\AstrumSimpleRenderable.hpp" />
+    <ClInclude Include="Astrum\Objects\AstrumPostProcessGroupObject.hpp" />
+    <ClInclude Include="Astrum\Resources\IAstrumTexture.hpp" />
+    <ClInclude Include="Astrum\Singletons\AstrumShaderCache.hpp" />
+    <ClInclude Include="Game\Arcaea\ArcaeaChart.hpp" />
+    <ClInclude Include="Astrum\Buffers\AstrumSimpleConstantBuffer.hpp" />
+    <ClInclude Include="Astrum\Collections\AstrumList.hpp" />
+    <ClInclude Include="Astrum\Components\AstrumTextRenderComponent.hpp" />
+    <ClInclude Include="Astrum\Singletons\AstrumRenderQueue.hpp" />
+    <ClInclude Include="Astrum\Components\AstrumAABBColliderComponent.hpp" />
+    <ClInclude Include="Astrum\Animations\AstrumAnimationFunctions.hpp" />
+    <ClInclude Include="Astrum\Components\AstrumCircleColliderComponent.hpp" />
+    <ClInclude Include="Game\Arcaea\ArcaeaChartManager.hpp" />
+    <ClInclude Include="Game\Arcaea\ArcaeaChartParser.hpp" />
+    <ClInclude Include="Astrum\Components\AstrumConstantBufferComponent.hpp" />
+    <ClInclude Include="Astrum\Components\IAstrumColliderComponent.hpp" />
+    <ClInclude Include="Astrum\Meshes\AstrumCirclePolygons.hpp" />
+    <ClInclude Include="Astrum\Objects\AstrumTransformObject.hpp" />
+    <ClInclude Include="Astrum\Objects\IAstrumMaterialObject.hpp" />
+    <ClInclude Include="Astrum\Resources\AstrumFonts.hpp" />
+    <ClInclude Include="Astrum\Resources\AstrumTargetFont.hpp" />
+    <ClInclude Include="Game\FrameworkTest.hpp" />
+    <ClInclude Include="Game\InGame\ArcObject.hpp" />
+    <ClInclude Include="Game\InGame\DataManager.hpp" />
+    <ClInclude Include="Game\InGame\HoldNoteObject.hpp" />
+    <ClInclude Include="Game\InGame\NoteBoardObject.hpp" />
+    <ClInclude Include="Game\InGame\NoteGroupObject.hpp" />
+    <ClInclude Include="Game\InGame\PlayFieldObject.hpp" />
+    <ClInclude Include="Game\InGame\SceneObject.hpp" />
+    <ClInclude Include="Game\InGame\NoteObject.hpp" />
+    <ClInclude Include="Game\InGame\SkyNoteObject.hpp" />
+    <ClInclude Include="Game\InGame\TraceObject.hpp" />
+    <ClInclude Include="Game\NoteTest.hpp" />
+    <ClInclude Include="Game\RectMoving.hpp" />
+    <ClInclude Include="Astrum\Singletons\AstrumKeyBinder.hpp" />
+    <ClInclude Include="Astrum\Animations\AstrumMovementAnimator.hpp" />
+    <ClInclude Include="Astrum\Meshes\AstrumRectanglePolygons.hpp" />
+    <ClInclude Include="Astrum\Components\AstrumRenderComponent.hpp" />
+    <ClInclude Include="Astrum\Components\AstrumRenderMaterialComponent.hpp" />
+    <ClInclude Include="Astrum\Components\AstrumRenderPolygonsComponent.hpp" />
+    <ClInclude Include="Astrum\Animations\AstrumRotationAnimator.hpp" />
+    <ClInclude Include="Astrum\Animations\AstrumScaleAnimator.hpp" />
+    <ClInclude Include="Astrum\Animations\AstrumAnimator.hpp" />
+    <ClInclude Include="Astrum\Components\AstrumAnimatorComponent.hpp" />
+    <ClInclude Include="Astrum\Graphics\AstrumCamera.hpp" />
+    <ClInclude Include="Astrum\Resources\AstrumChannelGroup.hpp" />
+    <ClInclude Include="Astrum\Singletons\AstrumChrono.hpp" />
+    <ClInclude Include="Astrum\Objects\AstrumCircleObject.hpp" />
+    <ClInclude Include="Astrum\Components\AstrumColliderComponent.hpp" />
+    <ClInclude Include="Astrum\Singletons\AstrumCollisionSystem.hpp" />
+    <ClInclude Include="Astrum\Units\AstrumColor.hpp" />
+    <ClInclude Include="Astrum\Components\AstrumComponent.hpp" />
+    <ClInclude Include="Astrum\Collections\AstrumComponentList.hpp" />
+    <ClInclude Include="Astrum\Buffers\AstrumConstantBuffer.hpp" />
+    <ClInclude Include="Astrum\Singletons\AstrumDirectInput.hpp" />
+    <ClInclude Include="Astrum\Shaders\AstrumDomainShader.hpp" />
+    <ClInclude Include="Astrum\Objects\AstrumShapeObject.hpp" />
+    <ClInclude Include="Astrum\AstrumException.hpp" />
+    <ClInclude Include="Astrum\Components\AstrumFrameAnimationComponent.hpp" />
+    <ClInclude Include="Astrum\Shaders\AstrumGeometryShader.hpp" />
+    <ClInclude Include="Astrum\Objects\AstrumGroupObject.hpp" />
+    <ClInclude Include="Astrum\Shaders\AstrumHullShader.hpp" />
+    <ClInclude Include="Astrum\Resources\AstrumImage.hpp" />
+    <ClInclude Include="Astrum\Resources\AstrumMaterial.hpp" />
+    <ClInclude Include="Astrum\Buffers\AstrumMaterialConstantBuffer.hpp" />
+    <ClInclude Include="Astrum\Data\AstrumMaterialData.hpp" />
+    <ClInclude Include="Astrum\Objects\AstrumMaterialObject.hpp" />
+    <ClInclude Include="Astrum\Units\AstrumMatrix.hpp" />
+    <ClInclude Include="Astrum\Meshes\AstrumMesh.hpp" />
+    <ClInclude Include="Astrum\Components\AstrumOBBColliderComponent.hpp" />
+    <ClInclude Include="Astrum\Objects\AstrumObject.hpp" />
+    <ClInclude Include="Astrum\Collections\AstrumObjectList.hpp" />
+    <ClInclude Include="Astrum\Shaders\AstrumPixelShader.hpp" />
+    <ClInclude Include="Astrum\Meshes\AstrumPolygons.hpp" />
+    <ClInclude Include="Astrum\Objects\AstrumPolygonsObject.hpp" />
+    <ClInclude Include="Astrum\Units\AstrumQuaternion.hpp" />
+    <ClInclude Include="Astrum\Objects\AstrumRectangleObject.hpp" />
+    <ClInclude Include="Astrum\Singletons\AstrumRenderer.hpp" />
+    <ClInclude Include="Astrum\Shaders\AstrumShader.hpp" />
+    <ClInclude Include="Astrum\Shaders\AstrumShaderSetup.hpp" />
+    <ClInclude Include="Astrum\Resources\AstrumSound.hpp" />
+    <ClInclude Include="Astrum\Singletons\AstrumSoundManager.hpp" />
+    <ClInclude Include="Astrum\States\AstrumStateBuilder.hpp" />
+    <ClInclude Include="Astrum\Components\AstrumStateComponent.hpp" />
+    <ClInclude Include="Astrum\States\AstrumStateGraph.hpp" />
+    <ClInclude Include="Astrum\Resources\AstrumTexture.hpp" />
+    <ClInclude Include="Astrum\Singletons\AstrumTextureCache.hpp" />
+    <ClInclude Include="Astrum\Meshes\AstrumTextureMesh.hpp" />
+    <ClInclude Include="Astrum\Graphics\AstrumTextureSampler.hpp" />
+    <ClInclude Include="Astrum\Buffers\AstrumTransformConstantBuffer.hpp" />
+    <ClInclude Include="Astrum\Data\AstrumTransformData.hpp" />
+    <ClInclude Include="Astrum\Objects\AstrumTriangleObject.hpp" />
+    <ClInclude Include="Astrum\Vectors\AstrumVector2.hpp" />
+    <ClInclude Include="Astrum\Vectors\AstrumVector3.hpp" />
+    <ClInclude Include="Astrum\Vectors\AstrumVector4.hpp" />
+    <ClInclude Include="Astrum\Units\AstrumVertexColor.hpp" />
+    <ClInclude Include="Astrum\Shaders\AstrumVertexShader.hpp" />
+    <ClInclude Include="Astrum\Units\AstrumTextureVertex.hpp" />
+    <ClInclude Include="Astrum\Singletons\AstrumWindow.hpp" />
+    <ClInclude Include="Astrum\Singletons\AstrumFramework.hpp" />
+    <ClInclude Include="Astrum\Components\IAstrumAABBColliderComponent.hpp" />
+    <ClInclude Include="Astrum\Animations\IAstrumAnimator.hpp" />
+    <ClInclude Include="Astrum\Components\IAstrumCircleColliderComponent.hpp" />
+    <ClInclude Include="Astrum\Components\IAstrumComponent.hpp" />
+    <ClInclude Include="Astrum\Collections\IAstrumComponentList.hpp" />
+    <ClInclude Include="Astrum\Buffers\IAstrumConstantBuffer.hpp" />
+    <ClInclude Include="Astrum\Components\IAstrumFrameAnimationComponent.hpp" />
+    <ClInclude Include="Astrum\Objects\IAstrumGroupObject.hpp" />
+    <ClInclude Include="Astrum\Resources\IAstrumMaterial.hpp" />
+    <ClInclude Include="Astrum\Components\IAstrumOBBColliderComponent.hpp" />
+    <ClInclude Include="Astrum\Objects\IAstrumObject.hpp" />
+    <ClInclude Include="Astrum\Collections\IAstrumObjectList.hpp" />
+    <ClInclude Include="Astrum\Graphics\IAstrumRenderable.hpp" />
+    <ClInclude Include="Astrum\Shaders\IAstrumShaders.hpp" />
+    <ClInclude Include="Astrum\Vectors\AstrumObservedVector2.hpp" />
+    <ClInclude Include="Astrum\Vectors\AstrumObservedVector3.hpp" />
+    <ClInclude Include="Astrum\Vectors\AstrumObservedVector4.hpp" />
+    <ClInclude Include="Astrum\States\IAstrumStateGraph.hpp" />
+    <ClInclude Include="Astrum\Singletons\AstrumSingleton.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />

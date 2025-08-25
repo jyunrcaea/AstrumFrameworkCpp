@@ -4,8 +4,9 @@
 #include <iostream>
 #endif
 
-//#include "Tests/RectMoving.hpp"
-#include "Tests/NoteTest.hpp"
+//#include "Game/RectMoving.hpp"
+#include "Game/NoteTest.hpp"
+//#include "Game/FrameworkTest.hpp"
 
 int main()
 {
@@ -20,7 +21,7 @@ int main()
     Program::Main();
 }
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
+int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
     return main();
-} 
+}

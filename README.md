@@ -2,6 +2,10 @@
 
 **C++23**과 **DirectX 11**을 기반으로 구축된 2D 게임 개발 프레임워크.
 
+## 폴더 구조
+- `Astum` 폴더 : 프레임워크를 구성하는 코드들입니다.
+- `Game` 폴더 : 프레임워크를 사용하는 코드들입니다.
+
 ## 특징
 ### 1. 게임 객체의 기본 책임
  `AstrumObject`에서 트랜스폼(Position, Rotation, Scale)을 컴포넌트로 분리하지 않고 통합하여 같이 관리합니다.  
@@ -45,6 +49,7 @@
   - `AstrumFrameAnimationComponent`  : 여러장의 머터리얼을 순회해주는 스프라이트 애니메이션 컴포넌트입니다.
   - `AstrumRenderMaterialComponent` : 머터리얼을 렌더링 할수있는 컴포넌트입니다.
   - `AstrumRenderPolygonsComponent` : 다각형을 렌더링 할수있는 컴포넌트입니다.
+  - `AstrumConstantBufferComponent` : 상수 버퍼를 관리하는 컴포넌트입니다. (주로 커스텀 셰이더를 사용했을때 필요해집니다)
 
 ### 3. 렌더링 파이프라인
 1.  `IAstrumObject::Draw()` 호출 : `Update()`가 끝난 이후 `Draw()` 메소드가 호출됩니다.
@@ -63,13 +68,21 @@
 
 ---
 ## 싱글톤 소개
-- `AstrumFramework`: WinAPI 창 생성, 메시지 루프 처리, 그리고 엔진의 핵심 모듈(Renderer, Input, Sound, Chrono)을 초기화하고 관리하는 메인 클래스입니다.
+### 기본적인 싱글톤
+- `AstrumFramework`: 엔진을 초기화하고 실행하는 메인 클래스입니다.
+- `AstrumWindow`: WinAPI 창을 생성하고 메시지 루프를 처리하는 클래스입니다.
 - `AstrumRenderer`: DirectX 11 디바이스 및 스왑 체인 설정, 렌더링 큐 관리, 기본 셰이더 파이프라인 제공 등 모든 그래픽 처리를 담당합니다.
+- `AstrumChrono`: 시간 관련 기능을 제공하는 클래스입니다. 프레임 제한, 델타 타임 등을 관리합니다.
 - `AstrumCollisionSystem`: 모든 `AstrumColliderComponent`를 관리하며, 매 프레임 충돌을 검사하고 `OnCollisionEnter`, `OnCollisionExit` 이벤트를 발생시킵니다.
 - `AstrumDirectInput`: DirectInput 8을 사용하여 키보드 및 마우스 입력을 처리합니다. `WasKeyPressed` (방금 눌림), `IsKeyPressed` (누르고 있음) 등 상태 기반의 직관적인 입력 확인을 지원합니다.
-- `AstrumSoundManager`: FMOD 시스템을 초기화하고 마스터 채널 그룹을 관리합니다. `AstrumSound`와 `AstrumChannelGroup` 래퍼 클래스를 통해 사운드 리소스를 쉽게 제어할 수 있습니다.
-- `AstrumTextureCache`: `DirectXTex` 라이브러리를 활용하여 DDS, PNG, JPG, TGA 등 다양한 형식의 이미지 파일을 로드하고, 한 번 로드된 텍스처는 캐싱하여 재사용함으로써 성능을 향상시킵니다.
+
+위 싱글톤들은 모두 의존성을 가집니다.
+
+### 유용한 싱글톤
 - `AstrumKeyBinder` : 한개 이상의 키 목록에 이름을 부여해서(`AddKeyBind(name, key)`), 해당 목록중에서 눌린 키가 하나라도 있는지 이름을 통해 조회합니다(`IsKeyPressed(name)`).
+- `AstrumTextureCache` : 텍스쳐를 캐싱하여 중복 로딩을 방지합니다. `GetTexture(path)`를 통해 경로로 텍스쳐를 가져오고, 없으면 로드하여 캐싱합니다.
+
+위 싱글톤들은 모두 편의를 위해 존재하며, 사용하지 않는 한, 기본적으로 의존성을 가지지 않습니다.
 
 ---
 ## 시작하기
