@@ -22,6 +22,10 @@ public:
 	std::shared_ptr<IAstrumConstantBuffer> GetConstantBuffer() const { return renderComponent->ConstantBuffer; }
 	void SetConstantBuffer(const std::shared_ptr<IAstrumConstantBuffer>& constantBuffer) { renderComponent->ConstantBuffer = constantBuffer; }
 	void SetConstantBuffer(std::shared_ptr<IAstrumConstantBuffer>&& constantBuffer) { renderComponent->ConstantBuffer = std::move(constantBuffer); }
+
+	std::shared_ptr<AstrumTextureMesh> GetMaterialMesh() const { return renderComponent->Mesh; }
+	void SetMaterialMesh(const std::shared_ptr<AstrumTextureMesh>& mesh) { renderComponent->Mesh = mesh; }
+	void SetMaterialMesh(std::shared_ptr<AstrumTextureMesh>&& mesh) { renderComponent->Mesh = std::move(mesh); }
 private:
 	std::shared_ptr<AstrumRenderTarget> renderTarget = AstrumRenderTarget::MakeShared(AstrumWindow::GetWidth(), AstrumWindow::GetHeight());
 	std::shared_ptr<AstrumPostProcessRenderComponent> renderComponent = AstrumPostProcessRenderComponent::MakeShared();
