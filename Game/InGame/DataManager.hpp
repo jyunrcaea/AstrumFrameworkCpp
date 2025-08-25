@@ -29,10 +29,10 @@ namespace InGame {
 
 		std::shared_ptr<AstrumSimpleConstantBuffer> GetIllusionConstantBuffer(IAstrumObject* owner) {
 			return AstrumSimpleConstantBuffer::MakeShared([this, owner](AstrumConstantBuffer* buffer) {
-				AstrumVector4 data{ static_cast<float>(AstrumWindow::GetWidth()), static_cast<float>(AstrumWindow::GetHeight()), owner->GetRotation().GetZ(), 0.4f };
+				AstrumVector4 data{ static_cast<float>(AstrumWindow::GetWidth()), static_cast<float>(AstrumWindow::GetHeight()), owner->GetRotation().GetZ(), 0.7f };
 				buffer->UpdateConstantBuffer(data);
-				buffer->SetVertexShaderConstantBuffer(2);
-				//buffer->SetPixelShaderConstantBuffer(2);
+				//buffer->SetVertexShaderConstantBuffer(2);
+				buffer->SetPixelShaderConstantBuffer(2);
 			}, sizeof(AstrumVector4));
 		}
 
