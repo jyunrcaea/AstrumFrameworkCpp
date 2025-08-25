@@ -1,0 +1,16 @@
+#include "AstrumCircleObject.hpp"
+#include "../Singletons/AstrumRenderQueue.hpp"
+
+AstrumCircleObject::AstrumCircleObject() {}
+AstrumCircleObject::AstrumCircleObject(const std::shared_ptr<AstrumCirclePolygons>& circlePolygon) {
+	SetCirclePolygons(circlePolygon);
+}
+AstrumCircleObject::AstrumCircleObject(const AstrumVertexColor& center, float radius, const unsigned short segment) {
+	SetCirclePolygons(AstrumCirclePolygons::MakeShared(center, radius, segment));
+}
+
+std::shared_ptr<AstrumCirclePolygons> AstrumCircleObject::GetCirclePolygons() const { return circlePolygon; }
+
+void AstrumCircleObject::SetCirclePolygons(const std::shared_ptr<AstrumCirclePolygons>& newCirclePolygon) {
+	renderPolygonsComponent->Polygons = (this->circlePolygon = newCirclePolygon);
+}

@@ -1,5 +1,0 @@
-﻿#include "AstrumCamera.hpp"
-
-void AstrumCamera::UpdateCameraView()
-{
-}
