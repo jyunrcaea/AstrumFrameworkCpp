@@ -243,6 +243,8 @@
     <ClInclude Include="Game\InGame\HoldNoteObject.hpp" />
     <ClInclude Include="Game\InGame\NoteBoardObject.hpp" />
     <ClInclude Include="Game\InGame\NoteGroupObject.hpp" />
+    <ClInclude Include="Game\InGame\NoteState.hpp" />
+    <ClInclude Include="Game\InGame\ParticleObject.hpp" />
     <ClInclude Include="Game\InGame\PlayFieldObject.hpp" />
     <ClInclude Include="Game\InGame\SceneObject.hpp" />
     <ClInclude Include="Game\InGame\NoteObject.hpp" />

@@ -2,16 +2,15 @@
 
 std::shared_ptr<AstrumTexture> AstrumTextureCacheSingleton::Load(const std::filesystem::path& path)
 {
-    std::wstring name;
-    if (path.is_absolute()) name = path;
-    else name= std::filesystem::absolute(DefaultRelativeDirectory / path);
-
-    std::shared_ptr<AstrumTexture> texture;
-    if (textureMap.contains(name) && (texture = textureMap[name].lock())) {
-        return texture;
-    }
-	textureMap[name] = texture = AstrumTexture::MakeShared(name);
-    return texture;
+	return LoadTextureFromAbsolutePath(
+        path.is_absolute() ? path : std::filesystem::absolute(DefaultRelativeDirectory / path)
+    );
+}
+std::shared_ptr<AstrumTexture> AstrumTextureCacheSingleton::Load(std::filesystem::path&& path)
+{
+    return LoadTextureFromAbsolutePath(
+        path.is_absolute() ? std::move(path) : std::filesystem::absolute(DefaultRelativeDirectory / path)
+    );
 }
 
 void AstrumTextureCacheSingleton::CleanUp() {
@@ -22,4 +21,13 @@ void AstrumTextureCacheSingleton::CleanUp() {
             ++it;
         }
 	}
+}
+
+std::shared_ptr<AstrumTexture> AstrumTextureCacheSingleton::LoadTextureFromAbsolutePath(std::wstring&& name) {
+    std::shared_ptr<AstrumTexture> texture;
+    if (textureMap.contains(name) && (texture = textureMap[name].lock())) {
+        return texture;
+    }
+    textureMap[name] = texture = AstrumTexture::MakeShared(name);
+    return texture;
 }

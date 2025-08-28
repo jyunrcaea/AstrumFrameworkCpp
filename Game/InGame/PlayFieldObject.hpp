@@ -21,12 +21,6 @@ namespace InGame {
 			SetCustomShaderPipeline(DataManager::Instance().GetIllusionShader());
 
 			const float halfHeight = static_cast<float>(AstrumWindow::GetHeight()) * 0.5f;
-			SetMaterialMesh(AstrumTextureMesh::MakeShared(
-				AstrumVector3 { -NoteWidth, halfHeight },
-				AstrumVector3{ NoteWidth, halfHeight },
-				AstrumVector3{ -3 * NoteWidth, -halfHeight },
-				AstrumVector3{ 3 * NoteWidth, -halfHeight }
-			));
 		}
 
 	private:

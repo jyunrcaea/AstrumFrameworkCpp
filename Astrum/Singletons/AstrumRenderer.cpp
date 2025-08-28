@@ -57,7 +57,7 @@ void AstrumRenderer::Initialize(unsigned int width, unsigned int height, bool wi
 #endif
 
     ComPtr<IDXGIDevice> dxgiDevice;
-    ComPtr<IDXGIAdapter>  adapter;
+    ComPtr<IDXGIAdapter> adapter;
     ComPtr<IDXGIFactory>  factory;
     device.As(&dxgiDevice);
     dxgiDevice->GetAdapter(&adapter);

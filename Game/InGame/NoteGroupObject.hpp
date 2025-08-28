@@ -53,6 +53,5 @@ namespace InGame {
 				break;
 			}
 		}
-	private:
 	};
 }

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Astrum\Components\AstrumPostProcessRenderComponent.cpp" />
     <ClCompile Include="Astrum\Graphics\AstrumRenderTarget.cpp" />
     <ClCompile Include="Astrum\Objects\AstrumPostProcessGroupObject.cpp" />
     <ClCompile Include="Astrum\Singletons\AstrumShaderCache.cpp" />
@@ -69,12 +69,17 @@
     <ClCompile Include="Astrum\Resources\IAstrumMaterial.cpp" />
     <ClCompile Include="Astrum\Objects\IAstrumObject.cpp" />
     <ClCompile Include="Astrum\Resources\AstrumTargetFont.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="Astrum\Vectors\AstrumObservedVector2.cpp" />
     <ClCompile Include="Astrum\Vectors\AstrumObservedVector3.cpp" />
     <ClCompile Include="Astrum\Vectors\AstrumObservedVector4.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Astrum\Components\AstrumPostProcessRenderComponent.hpp" />
     <ClInclude Include="Astrum\Graphics\AstrumRenderTarget.hpp" />
+    <ClInclude Include="Astrum\Graphics\AstrumSimpleRenderable.hpp" />
     <ClInclude Include="Astrum\Objects\AstrumPostProcessGroupObject.hpp" />
+    <ClInclude Include="Astrum\Resources\IAstrumTexture.hpp" />
     <ClInclude Include="Astrum\Singletons\AstrumShaderCache.hpp" />
     <ClInclude Include="Game\Arcaea\ArcaeaChart.hpp" />
     <ClInclude Include="Astrum\Buffers\AstrumSimpleConstantBuffer.hpp" />
@@ -93,11 +98,13 @@
     <ClInclude Include="Astrum\Objects\IAstrumMaterialObject.hpp" />
     <ClInclude Include="Astrum\Resources\AstrumFonts.hpp" />
     <ClInclude Include="Astrum\Resources\AstrumTargetFont.hpp" />
+    <ClInclude Include="Game\FrameworkTest.hpp" />
     <ClInclude Include="Game\InGame\ArcObject.hpp" />
     <ClInclude Include="Game\InGame\DataManager.hpp" />
     <ClInclude Include="Game\InGame\HoldNoteObject.hpp" />
     <ClInclude Include="Game\InGame\NoteBoardObject.hpp" />
     <ClInclude Include="Game\InGame\NoteGroupObject.hpp" />
+    <ClInclude Include="Game\InGame\ParticleObject.hpp" />
     <ClInclude Include="Game\InGame\PlayFieldObject.hpp" />
     <ClInclude Include="Game\InGame\SceneObject.hpp" />
     <ClInclude Include="Game\InGame\NoteObject.hpp" />
@@ -190,58 +197,7 @@
     <ClInclude Include="Astrum\Vectors\AstrumObservedVector4.hpp" />
     <ClInclude Include="Astrum\States\IAstrumStateGraph.hpp" />
     <ClInclude Include="Astrum\Singletons\AstrumSingleton.hpp" />
-    <ClInclude Include="Astrum\Graphics\AstrumSimpleRenderable.hpp" />
-    <ClInclude Include="Astrum\Resources\IAstrumTexture.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="Objects">
-      <UniqueIdentifier>{5570f703-fe3d-4cf1-83c2-5027cfbf9e95}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics">
-      <UniqueIdentifier>{422956a3-e1e0-4e2e-9d32-da739704f899}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Units">
-      <UniqueIdentifier>{e612a411-30b5-4d71-8986-8b03e03aaa0b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Collections">
-      <UniqueIdentifier>{ab4552d9-099d-4a43-a13f-dee4e0f21029}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Components">
-      <UniqueIdentifier>{c036c422-68aa-4f11-88c9-ce16354b88fe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resources">
-      <UniqueIdentifier>{638d4afa-4978-4454-ba29-74b3daa8fea4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\Shaders">
-      <UniqueIdentifier>{1e60c7c7-464a-4052-8af4-aa6bf350760e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Singletons">
-      <UniqueIdentifier>{e372baca-b6de-46fd-971f-372ec1fbaaf4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Buffers">
-      <UniqueIdentifier>{4766994f-fc62-45d4-85ce-b3516694818f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Etc">
-      <UniqueIdentifier>{98e882a3-52e5-48a3-8df9-b3af66fe4756}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scenes">
-      <UniqueIdentifier>{dc9b0465-5d8c-4ec5-9f43-91e036c9664f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Animations">
-      <UniqueIdentifier>{71b3832c-eca5-43d8-914a-020fd668acbe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Components\Interfaces">
-      <UniqueIdentifier>{c4ed2c7e-5d94-4805-bff4-c90630b30465}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Objects\Interface">
-      <UniqueIdentifier>{1a9ffc4a-51e5-4f2f-885f-77c5c6603222}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Arcaea">
-      <UniqueIdentifier>{eb2d8059-c080-4fab-8f84-926ce00e7242}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Tests">
-      <UniqueIdentifier>{dbde0ab1-258b-46a1-812d-de1eb9dd2ca6}</UniqueIdentifier>
-    </Filter>
+    <ClInclude Include="Game\InGame\NoteState.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
