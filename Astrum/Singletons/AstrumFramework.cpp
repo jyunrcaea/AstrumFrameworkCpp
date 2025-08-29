@@ -6,7 +6,6 @@
 #include "AstrumCollisionSystem.hpp"
 #include "AstrumWindow.hpp"
 #include "AstrumRenderer.hpp"
-#include "AstrumDirectInput.hpp"
 #include "AstrumChrono.hpp"
 #include "AstrumSoundManager.hpp"
 #include "AstrumKeyBinder.hpp"
@@ -27,7 +26,6 @@ void AstrumFrameworkSingleton::Initialize(const std::wstring& title, unsigned in
 {
     AstrumWindow::Initialize(title, width, height); //winapi 초기화
     AstrumRenderer::Instance().Initialize(width, height); //dx11 초기화
-    AstrumDirectInput::Initialize(); // direct input 초기화
     AstrumSoundManager::Initialize(); // fmod 초기화
     AstrumChrono::Initialize();
 }
@@ -69,7 +67,7 @@ void AstrumFrameworkSingleton::Prepare() {
 void AstrumFrameworkSingleton::Update() {
     if (!AstrumChrono::IsUpdateNow()) return;
 
-    AstrumDirectInput::Update();
+    AstrumRawInput::Update();
     AstrumKeyBinder::Update();
     RootObject->Update();
     AstrumCollisionSystemSingleton::Instance().Update();
@@ -81,7 +79,6 @@ void AstrumFrameworkSingleton::Update() {
 
 void AstrumFrameworkSingleton::Release() {
     RootObject->Release();
-    AstrumDirectInput::Dispose();
     AstrumChrono::Dispose();
     AstrumRenderer::Instance().Dispose();
     AstrumWindow::Dispose();

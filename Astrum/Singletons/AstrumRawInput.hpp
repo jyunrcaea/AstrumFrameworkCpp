@@ -2,14 +2,9 @@
 #include <vector>
 #include <windows.h>
 #include "AstrumSingleton.hpp"
-
-struct AstrumRawInputInformation
-{
-public:
-	unsigned short ScanCode;
-	bool IsPressed;
-	double Timestamp;
-};
+#include "../Data/AstrumRawInputKeyData.hpp"
+#include "../Enums/AstrumMouseButtonType.hpp"
+#include "../Vectors/AstrumVector2.hpp"
 
 class AstrumRawInputSingleton : public AstrumSingleton<AstrumRawInputSingleton>
 {
@@ -18,15 +13,44 @@ class AstrumRawInputSingleton : public AstrumSingleton<AstrumRawInputSingleton>
 
 private:
 	void Initialize();
-	void Update(const RAWKEYBOARD& kb);
-	void Clear() { inputQueue.clear(); }
+	void Update();
+	void Enqueue(const RAWINPUT& raw);
+	void EnqueueKeyboard(const RAWKEYBOARD& kb);
+	void EnqueueMouse(const RAWMOUSE& mouse);
+	void Clear() { keyQueue.clear(); }
 	void Dispose();
 
 public:
-	const std::vector<AstrumRawInputInformation>& GetQueue() const { return inputQueue; }
+	const std::vector<AstrumRawInputKeyData>& GetQueue() const { return keyQueue; }
+
+public:
+	bool IsKeyPressed(uint8_t vk) const { return keyState[vk]; }
+	bool IsKeyReleased(uint8_t vk) const { return keyState[vk]; }
+	bool WasKeyPressed(uint8_t vk) const { return false == previousKeyState[vk] && keyState[vk]; }
+	bool WasKeyReleased(uint8_t vk) const { return previousKeyState[vk] && false == keyState[vk]; }
+
+	AstrumDoubleVector2 GetMousePosition() const { return mousePosition; }
+	AstrumDoubleVector2 GetMouseMovement() const { return mouseMovement; }
+	bool IsMousePressed(AstrumMouseButtonType button) const { return mouseState[button]; }
+	bool WasMousePressed(AstrumMouseButtonType button) const { return !previousMouseState[button] && mouseState[button]; }
+	bool WasMouseReleased(AstrumMouseButtonType button) const { return previousMouseState[button] && !mouseState[button]; }
 
 private:
-	std::vector<AstrumRawInputInformation> inputQueue;
+	// 마우스 절대 좌표 갱신
+	void UpdateMousePosition();
+
+	bool keyState[256]{ false, };
+	bool previousKeyState[256]{ false, };
+
+	bool mouseState[AstrumMouseButtonType_Count]{};
+	bool previousMouseState[AstrumMouseButtonType_Count]{};
+
+	AstrumDoubleVector2 mouseMovement{};
+	AstrumDoubleVector2 mousePosition{};
+
+private:
+	std::vector<AstrumRawInputKeyData> keyQueue;
+	//std::vector<AstrumRawInputKeyInformation> mouseQueue;
 };
 
 class AstrumRawInput {
@@ -34,14 +58,28 @@ private:
 	friend class AstrumWindowSingleton;
 
 	static void Initialize() { AstrumRawInputSingleton::Instance().Initialize(); }
-	static void Update(const RAWKEYBOARD& kb) { AstrumRawInputSingleton::Instance().Update(kb); }
+	static void Enqueue(const RAWINPUT& raw) { AstrumRawInputSingleton::Instance().Enqueue(raw); }
 	static void Dispose() { AstrumRawInputSingleton::Instance().Dispose(); }
 
 private:
 	friend class AstrumFrameworkSingleton;
 
 	static void Clear() { AstrumRawInputSingleton::Instance().Clear(); }
+	static void Update() { AstrumRawInputSingleton::Instance().Update(); }
 
 public:
-	static const std::vector<AstrumRawInputInformation>& GetQueue() { return AstrumRawInputSingleton::Instance().GetQueue(); }
+	// 이전 업데이트 이후 쌓이게 된 입력들을 가져옵니다.
+	static const std::vector<AstrumRawInputKeyData>& GetKeyboardQueue() { return AstrumRawInputSingleton::Instance().GetQueue(); }
+	//static const std::vector<AstrumRawInputKeyInformation>& GetMouseQueue() { return AstrumRawInputSingleton::Instance().GetQueue(); }
+
+	static bool IsKeyPressed(uint8_t vk) { return AstrumRawInputSingleton::Instance().IsKeyPressed(vk); }
+	static bool IsKeyReleased(uint8_t vk) { return AstrumRawInputSingleton::Instance().IsKeyReleased(vk); }
+	static bool WasKeyPressed(uint8_t vk) { return AstrumRawInputSingleton::Instance().WasKeyPressed(vk); }
+	static bool WasKeyReleased(uint8_t vk) { return AstrumRawInputSingleton::Instance().WasKeyReleased(vk); }
+
+	static AstrumDoubleVector2 GetMousePosition() { return AstrumRawInputSingleton::Instance().GetMousePosition(); }
+	static AstrumDoubleVector2 GetMouseMovement() { return AstrumRawInputSingleton::Instance().GetMouseMovement(); }
+	static bool IsMousePressed(AstrumMouseButtonType button) { return AstrumRawInputSingleton::Instance().IsMousePressed(button); }
+	static bool WasMousePressed(AstrumMouseButtonType button) { return AstrumRawInputSingleton::Instance().WasMousePressed(button); }
+	static bool WasMouseReleased(AstrumMouseButtonType button) { return AstrumRawInputSingleton::Instance().WasMouseReleased(button); }
 };

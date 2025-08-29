@@ -153,6 +153,7 @@
     <ClCompile Include="Astrum\Components\AstrumAnimatorComponent.cpp" />
     <ClCompile Include="Astrum\Components\AstrumConstantBufferComponent.cpp" />
     <ClCompile Include="Astrum\Graphics\AstrumCamera.cpp" />
+    <ClCompile Include="Astrum\Vectors\AstrumDoubleVector3.cpp" />
     <ClCompile Include="Game\Arcaea\ArcaeaChartParser.cpp" />
     <ClCompile Include="Astrum\Objects\AstrumTransformObject.cpp" />
     <ClCompile Include="Astrum\Objects\IAstrumMaterialObject.cpp" />
@@ -166,7 +167,6 @@
     <ClCompile Include="Astrum\Components\AstrumComponent.cpp" />
     <ClCompile Include="Astrum\Collections\AstrumComponentList.cpp" />
     <ClCompile Include="Astrum\Buffers\AstrumConstantBuffer.cpp" />
-    <ClCompile Include="Astrum\Singletons\AstrumDirectInput.cpp" />
     <ClCompile Include="Astrum\Shaders\AstrumDomainShader.cpp" />
     <ClCompile Include="Astrum\Components\AstrumFrameAnimationComponent.cpp" />
     <ClCompile Include="Astrum\Shaders\AstrumGeometryShader.cpp" />
@@ -218,12 +218,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Astrum\Components\AstrumPostProcessRenderComponent.hpp" />
+    <ClInclude Include="Astrum\Data\AstrumRawInputKeyData.hpp" />
+    <ClInclude Include="Astrum\Data\AstrumRawInputMouseMoveData.hpp" />
+    <ClInclude Include="Astrum\Enums\AstrumMaterialFlipType.hpp" />
+    <ClInclude Include="Astrum\Enums\AstrumMouseButtonType.hpp" />
     <ClInclude Include="Astrum\Graphics\AstrumRenderTarget.hpp" />
     <ClInclude Include="Astrum\Graphics\AstrumSimpleRenderable.hpp" />
     <ClInclude Include="Astrum\Objects\AstrumPostProcessGroupObject.hpp" />
     <ClInclude Include="Astrum\Resources\IAstrumTexture.hpp" />
     <ClInclude Include="Astrum\Singletons\AstrumRawInput.hpp" />
     <ClInclude Include="Astrum\Singletons\AstrumShaderCache.hpp" />
+    <ClInclude Include="Astrum\Vectors\AstrumDoubleVector2.hpp" />
     <ClInclude Include="Game\Arcaea\ArcaeaChart.hpp" />
     <ClInclude Include="Astrum\Buffers\AstrumSimpleConstantBuffer.hpp" />
     <ClInclude Include="Astrum\Collections\AstrumList.hpp" />
@@ -278,7 +283,6 @@
     <ClInclude Include="Astrum\Components\AstrumComponent.hpp" />
     <ClInclude Include="Astrum\Collections\AstrumComponentList.hpp" />
     <ClInclude Include="Astrum\Buffers\AstrumConstantBuffer.hpp" />
-    <ClInclude Include="Astrum\Singletons\AstrumDirectInput.hpp" />
     <ClInclude Include="Astrum\Shaders\AstrumDomainShader.hpp" />
     <ClInclude Include="Astrum\Objects\AstrumShapeObject.hpp" />
     <ClInclude Include="Astrum\AstrumException.hpp" />

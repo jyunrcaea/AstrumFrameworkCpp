@@ -1,4 +1,5 @@
 #include "AstrumException.hpp"
+#include <iostream>
 #include <windows.h>
 
 std::string AstrumException::wstr2str(const std::wstring& wstr) {
@@ -26,4 +27,8 @@ std::string AstrumException::wstr2str(const std::wstring& wstr) {
     );
 
     return str;
+}
+
+void AstrumException::print() {
+    std::cout << "[AstrumException]" << this->what() << std::endl;
 }
