@@ -9,9 +9,9 @@ struct AstrumDoubleVector3 {
     constexpr AstrumDoubleVector3() = default;
     constexpr AstrumDoubleVector3(double x, double y, double z = 0) noexcept : X(x), Y(y), Z(z) { }
 
-    constexpr double Magnitude() const noexcept { return std::sqrt(X * X + Y * Y + Z * Z); }
-    constexpr AstrumDoubleVector3 Normalize() const noexcept { double mag = Magnitude(); return (mag == 0.0) ? *this : (*this / mag); }
-    constexpr double Distance(const AstrumDoubleVector3& other) const noexcept { return std::sqrt((X - other.X) * (X - other.X) + (Y - other.Y) * (Y - other.Y) + (Z - other.Z) * (Z - other.Z)); }
+    const double Magnitude() const noexcept { return std::sqrt(X * X + Y * Y + Z * Z); }
+    const AstrumDoubleVector3 Normalize() const noexcept { double mag = Magnitude(); return (mag == 0.0) ? *this : (*this / mag); }
+    const double Distance(const AstrumDoubleVector3& other) const noexcept { return std::sqrt((X - other.X) * (X - other.X) + (Y - other.Y) * (Y - other.Y) + (Z - other.Z) * (Z - other.Z)); }
     constexpr double Dot(const AstrumDoubleVector3& other) const noexcept { return X * other.X + Y * other.Y + Z * other.Z; }
     constexpr AstrumDoubleVector3 Cross(const AstrumDoubleVector3& other) const noexcept { return { Y * other.Z - Z * other.Y, Z * other.X - X * other.Z, X * other.Y - Y * other.X }; }
 
