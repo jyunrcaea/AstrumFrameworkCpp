@@ -10,6 +10,7 @@
 #include "AstrumChrono.hpp"
 #include "AstrumSoundManager.hpp"
 #include "AstrumKeyBinder.hpp"
+#include "AstrumRawInput.hpp"
 #include "../Resources/AstrumSound.hpp"
 
 AstrumFrameworkSingleton::AstrumFrameworkSingleton() { }
@@ -74,6 +75,8 @@ void AstrumFrameworkSingleton::Update() {
     AstrumCollisionSystemSingleton::Instance().Update();
     RootObject->Draw();
     AstrumRenderer::Instance().Rendering();
+
+    AstrumRawInput::Clear();
 }
 
 void AstrumFrameworkSingleton::Release() {

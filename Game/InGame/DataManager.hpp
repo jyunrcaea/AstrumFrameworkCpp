@@ -32,7 +32,6 @@ namespace InGame {
 				AstrumVector4 data{ static_cast<float>(AstrumWindow::GetWidth()), static_cast<float>(AstrumWindow::GetHeight()), owner->GetRotation().GetZ(), 0.3f };
 				buffer->UpdateConstantBuffer(data);
 				buffer->SetVertexShaderConstantBuffer(2);
-				//buffer->SetPixelShaderConstantBuffer(2);
 			}, sizeof(AstrumVector4));
 		}
 
