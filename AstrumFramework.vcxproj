@@ -347,6 +347,7 @@
     <ClInclude Include="Astrum\Vectors\AstrumObservedVector4.hpp" />
     <ClInclude Include="Astrum\States\IAstrumStateGraph.hpp" />
     <ClInclude Include="Astrum\Singletons\AstrumSingleton.hpp" />
+    <ClInclude Include="Game\Selector\MusicBar.hpp" />
     <ClInclude Include="Game\Selector\SceneObject.hpp" />
   </ItemGroup>
   <ItemGroup>

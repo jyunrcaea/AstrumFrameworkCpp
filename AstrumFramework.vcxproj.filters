@@ -209,6 +209,7 @@
     <ClInclude Include="Astrum\Data\AstrumRawInputKeyData.hpp" />
     <ClInclude Include="Astrum\Data\AstrumRawInputMouseMoveData.hpp" />
     <ClInclude Include="Astrum\Vectors\AstrumDoubleVector2.hpp" />
+    <ClInclude Include="Game\Selector\MusicBar.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
