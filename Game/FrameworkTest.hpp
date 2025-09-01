@@ -1,7 +1,7 @@
 #include "../Astrum/Vectors/AstrumVector4.hpp"
 #include "../Astrum/Units/AstrumColor.hpp"
 #include "../Astrum/Singletons/AstrumFramework.hpp"
-#include "../Astrum/Singletons/AstrumDirectInput.hpp"
+#include "../Astrum/Singletons/AstrumRawInput.hpp"
 #include "../Astrum/Objects/AstrumRectangleObject.hpp"
 #include "../Astrum/Components/AstrumStateComponent.hpp"
 #include "../Astrum/Components/AstrumAnimatorComponent.hpp"

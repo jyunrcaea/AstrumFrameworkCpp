@@ -1,13 +1,13 @@
 #pragma once
-#include "DataManager.hpp"
-#include "../Arcaea/ArcaeaChartManager.hpp"
-#include "../../Astrum/Objects/AstrumRectangleObject.hpp"
+#include "../DataManager.hpp"
+#include "../../Arcaea/ArcaeaChartManager.hpp"
+#include "../../../Astrum/Objects/AstrumRectangleObject.hpp"
 
 namespace InGame {
-	class HoldNoteObject : public AstrumRectangleObject
+	class HoldNoteViewObject : public AstrumRectangleObject
 	{
 	public:
-		HoldNoteObject(const Arcaea::NoteData& data) {
+		HoldNoteViewObject(const Arcaea::NoteData& data) {
 			height = static_cast<float>(data.Data[1] - data.Data[0]);
 
 			SetRectanglePolygons(AstrumRectanglePolygons::MakeShared(

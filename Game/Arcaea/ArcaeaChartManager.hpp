@@ -6,6 +6,16 @@
 #include "../../Astrum/Resources/AstrumSound.hpp"
 
 namespace Arcaea {
+	enum LaneType : unsigned char
+	{
+		Lane1 = 0,
+		Lane2,
+		Lane3,
+		Lane4,
+		SkyNote,
+		End,
+	};
+
 	class ChartManager : public AstrumSingleton<ChartManager>
 	{
 		friend class AstrumSingleton<ChartManager>;
@@ -14,6 +24,7 @@ namespace Arcaea {
 		void Setup(const std::filesystem::path& filePath) {
 			Arcaea::ChartParser parser(filePath);
 			chart = parser.ToParse();
+			FillQueue();
 			nextNoteIndex = 0;
 		}
 
@@ -69,10 +80,46 @@ namespace Arcaea {
 			}
 		}
 
+		const Arcaea::NoteData* PeekNextNote(const LaneType type) {
+			auto& q = noteQueue[static_cast<unsigned char>(type)];
+			if (false == q.empty()) {
+				return &q.front();
+			}
+			return nullptr;
+		}
+		std::unique_ptr<Arcaea::NoteData> PopNextNote(const LaneType type) {
+			auto& q = noteQueue[static_cast<unsigned char>(type)];
+			if (false == q.empty()) {
+				auto ret = std::make_unique<Arcaea::NoteData>(std::move(q.front()));
+				q.pop();
+				return ret;
+			}
+			return nullptr;
+		}
 	private:
 		Arcaea::ChartData chart;
 		int nextNoteIndex = 0;
-		double playedTime = -1.f;
 		float noteSpeed = 1000;
+		double playedTime = -1.f;
+
+		std::queue<Arcaea::NoteData> noteQueue[LaneType::End];
+		void FillQueue() {
+			for(auto& note : chart.Notes) {
+				switch (note.NoteType) {
+				case Arcaea::NoteType::Tap:
+					noteQueue[static_cast<unsigned char>(note.Data[1]) - 1].push(note);
+					break;
+				case Arcaea::NoteType::Hold:
+					noteQueue[static_cast<unsigned char>(note.Data[2]) - 1].push(note);
+					break;
+				case Arcaea::NoteType::Arc:
+				case Arcaea::NoteType::Trace:
+					break;
+				case Arcaea::NoteType::ArcTap:
+					noteQueue[LaneType::SkyNote].push(note);
+					break;
+				}
+			}
+		}
 	};
 }

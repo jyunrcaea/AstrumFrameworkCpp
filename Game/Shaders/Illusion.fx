@@ -50,13 +50,6 @@ VertexShaderOutput IllusionVS(VertexShaderInput input)
     
     output.Pos = mul(float4(input.Pos, 1.f), WorldViewProjectionMatrix);
     output.UV = input.UV;
-    
-    // 클립 공간에서 작업 (-1 ~ +1 범위)
-    float normalizedY = output.Pos.y / output.Pos.w; // perspective divide 고려
-    float scaleX = 1.0f + normalizedY * DistortionStrength; // 위쪽(+1)이면 팽창
-    
-    output.Pos.x *= scaleX;
-    
     return output;
 }
 

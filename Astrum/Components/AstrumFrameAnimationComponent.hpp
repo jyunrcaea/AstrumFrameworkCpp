@@ -41,4 +41,9 @@ public:
 		component->frames = frames;
 		return component;
 	}
+	static std::shared_ptr<AstrumFrameAnimationComponent> MakeShared(std::vector<std::shared_ptr<AstrumMaterial>>&& frames) {
+		auto component = std::make_shared<AstrumFrameAnimationComponent>();
+		component->frames = std::move(frames);
+		return component;
+	}
 };

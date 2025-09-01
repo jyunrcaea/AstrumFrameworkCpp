@@ -4,7 +4,6 @@
 #include <unordered_map>
 #include <vector>
 #include <string>
-#include <dinput.h>
 #include "AstrumSingleton.hpp"
 
 class AstrumKeyBinderSingleton : public AstrumSingleton<AstrumKeyBinderSingleton>

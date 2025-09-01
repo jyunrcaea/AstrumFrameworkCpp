@@ -4,7 +4,7 @@
 
 namespace {
 	std::pair<float, float> GetProjection(const AstrumVector2& axis, const AstrumRotatedRect& rect) {
-		float min = std::numeric_limits<float>::max();
+		float min = (std::numeric_limits<float>::max)();
 		float max = std::numeric_limits<float>::lowest();
 		for (const auto& point : { rect.LeftBottom, rect.RightBottom, rect.RightTop, rect.LeftTop }) {
 			float projection = point.Dot(axis);
@@ -107,8 +107,8 @@ void AstrumCollisionSystemSingleton::Update()
 bool AstrumCollisionSystemSingleton::IsOverlapAABBToAABB(IAstrumAABBColliderComponent* aAABB, IAstrumAABBColliderComponent* bAABB) const {
 	auto a = aAABB->GetRect();
 	auto b = bAABB->GetRect();
-	float w = std::min(a.RightTop.X, b.RightTop.X) - std::max(a.LeftBottom.X, b.LeftBottom.X);
-	float h = std::min(a.RightTop.Y, b.RightTop.Y) - std::max(a.LeftBottom.Y, b.LeftBottom.Y);
+	float w = (std::min)(a.RightTop.X, b.RightTop.X) - (std::max)(a.LeftBottom.X, b.LeftBottom.X);
+	float h = (std::min)(a.RightTop.Y, b.RightTop.Y) - (std::max)(a.LeftBottom.Y, b.LeftBottom.Y);
 	return w >= 0 && h >= 0;
 }
 
@@ -123,8 +123,8 @@ bool AstrumCollisionSystemSingleton::IsOverlapAABBToCircle(IAstrumAABBColliderCo
 	AstrumRect rect = aAABB->GetRect();
 	AstrumCircle circle = bCircle->GetCircle();
 
-	float closestX = std::max(rect.LeftBottom.X, std::min(circle.Center.X, rect.RightTop.X));
-	float closestY = std::max(rect.LeftBottom.Y, std::min(circle.Center.Y, rect.RightTop.Y));
+	float closestX = (std::max)(rect.LeftBottom.X, (std::min)(circle.Center.X, rect.RightTop.X));
+	float closestY = (std::max)(rect.LeftBottom.Y, (std::min)(circle.Center.Y, rect.RightTop.Y));
 
 	float dx = circle.Center.X - closestX;
 	float dy = circle.Center.Y - closestY;
@@ -174,8 +174,8 @@ bool AstrumCollisionSystemSingleton::IsOverlapCircleToOBB(IAstrumCircleColliderC
 	const float localX = diff.Dot(axes.first);
 	const float localY = diff.Dot(axes.second);
 
-	const float clampedX = std::max(-centerRect.HalfWidth, std::min(centerRect.HalfWidth, localX));
-	const float clampedY = std::max(-centerRect.HalfHeight, std::min(centerRect.HalfHeight, localY));
+	const float clampedX = (std::max)(-centerRect.HalfWidth, (std::min)(centerRect.HalfWidth, localX));
+	const float clampedY = (std::max)(-centerRect.HalfHeight, (std::min)(centerRect.HalfHeight, localY));
 
 	const float dx = localX - clampedX;
 	const float dy = localY - clampedY;

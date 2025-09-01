@@ -29,6 +29,7 @@ private:
 	void SetupTextureSize();
 
 public:
-	static std::shared_ptr<class AstrumMaterial> MakeShared(const std::shared_ptr<IAstrumTexture>& texture) { return std::make_shared<AstrumMaterial>(texture); }
 	static std::shared_ptr<class AstrumMaterial> MakeShared(const std::wstring& path) { return std::make_shared<AstrumMaterial>(path); }
+	static std::shared_ptr<class AstrumMaterial> MakeShared(const std::shared_ptr<IAstrumTexture>& texture) { return std::make_shared<AstrumMaterial>(texture); }
+	static std::shared_ptr<class AstrumMaterial> MakeShared(std::shared_ptr<IAstrumTexture>&& texture) { return std::make_shared<AstrumMaterial>(std::move(texture)); }
 };

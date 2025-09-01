@@ -2,7 +2,7 @@
 #include <memory>
 #include "DataManager.hpp"
 #include "NoteBoardObject.hpp"
-#include "NoteGroupObject.hpp"
+#include "ViewModels/NoteViewModelObject.hpp"
 #include "../../Astrum/Objects/AstrumPostProcessGroupObject.hpp"
 
 namespace InGame {
@@ -15,14 +15,14 @@ namespace InGame {
 			AddObject(boardObject = std::make_shared<NoteBoardObject>());
 			boardObject->SetPositionZ(0);
 
-			AddObject(groupObject = std::make_shared<NoteGroupObject>());
-			groupObject->SetPositionZ(-1);
+			AddObject(noteViewModelObject = std::make_shared<NoteViewModelObject>());
+			noteViewModelObject->SetPositionZ(-1);
 
 			SetCustomShaderPipeline(DataManager::Instance().GetIllusionShader());
 		}
 
 	private:
 		std::shared_ptr<NoteBoardObject> boardObject = nullptr;
-		std::shared_ptr<NoteGroupObject> groupObject = nullptr;
+		std::shared_ptr<NoteViewModelObject> noteViewModelObject = nullptr;
 	};
 }

@@ -1,5 +1,5 @@
 #include "AstrumKeyBinder.hpp"
-#include "AstrumDirectInput.hpp"
+#include "AstrumRawInput.hpp"
 
 AstrumKeyBinderSingleton::AstrumKeyBinderSingleton() {}
 
@@ -34,7 +34,7 @@ void AstrumKeyBinderSingleton::Update() {
 	for (auto& [_, tag] : name2key) {
 		tag.pressed = false;
 		for (auto k : tag.keys) {
-			if (AstrumDirectInput::IsKeyPressed(k)) {
+			if (AstrumRawInput::IsKeyPressed(k)) {
 				tag.pressed = true;
 				break;
 			}

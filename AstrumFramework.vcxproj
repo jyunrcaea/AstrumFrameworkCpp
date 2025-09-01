@@ -143,6 +143,8 @@
     <ClCompile Include="Astrum\Components\AstrumPostProcessRenderComponent.cpp" />
     <ClCompile Include="Astrum\Graphics\AstrumRenderTarget.cpp" />
     <ClCompile Include="Astrum\Objects\AstrumPostProcessGroupObject.cpp" />
+    <ClCompile Include="Astrum\AstrumException.cpp" />
+    <ClCompile Include="Astrum\Singletons\AstrumRawInput.cpp" />
     <ClCompile Include="Astrum\Singletons\AstrumShaderCache.cpp" />
     <ClCompile Include="Astrum\Components\AstrumTextRenderComponent.cpp" />
     <ClCompile Include="Astrum\Singletons\AstrumRenderQueue.cpp" />
@@ -151,6 +153,7 @@
     <ClCompile Include="Astrum\Components\AstrumAnimatorComponent.cpp" />
     <ClCompile Include="Astrum\Components\AstrumConstantBufferComponent.cpp" />
     <ClCompile Include="Astrum\Graphics\AstrumCamera.cpp" />
+    <ClCompile Include="Astrum\Vectors\AstrumDoubleVector3.cpp" />
     <ClCompile Include="Game\Arcaea\ArcaeaChartParser.cpp" />
     <ClCompile Include="Astrum\Objects\AstrumTransformObject.cpp" />
     <ClCompile Include="Astrum\Objects\IAstrumMaterialObject.cpp" />
@@ -164,7 +167,6 @@
     <ClCompile Include="Astrum\Components\AstrumComponent.cpp" />
     <ClCompile Include="Astrum\Collections\AstrumComponentList.cpp" />
     <ClCompile Include="Astrum\Buffers\AstrumConstantBuffer.cpp" />
-    <ClCompile Include="Astrum\Singletons\AstrumDirectInput.cpp" />
     <ClCompile Include="Astrum\Shaders\AstrumDomainShader.cpp" />
     <ClCompile Include="Astrum\Components\AstrumFrameAnimationComponent.cpp" />
     <ClCompile Include="Astrum\Shaders\AstrumGeometryShader.cpp" />
@@ -208,6 +210,7 @@
     <ClCompile Include="Astrum\Resources\IAstrumMaterial.cpp" />
     <ClCompile Include="Astrum\Objects\IAstrumObject.cpp" />
     <ClCompile Include="Astrum\Resources\AstrumTargetFont.cpp" />
+    <ClCompile Include="Game\InGame\ViewModels\NoteViewModelObject.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Astrum\Vectors\AstrumObservedVector2.cpp" />
     <ClCompile Include="Astrum\Vectors\AstrumObservedVector3.cpp" />
@@ -215,11 +218,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Astrum\Components\AstrumPostProcessRenderComponent.hpp" />
+    <ClInclude Include="Astrum\Data\AstrumRawInputKeyData.hpp" />
+    <ClInclude Include="Astrum\Data\AstrumRawInputMouseMoveData.hpp" />
+    <ClInclude Include="Astrum\Enums\AstrumMaterialFlipType.hpp" />
+    <ClInclude Include="Astrum\Enums\AstrumMouseButtonType.hpp" />
     <ClInclude Include="Astrum\Graphics\AstrumRenderTarget.hpp" />
     <ClInclude Include="Astrum\Graphics\AstrumSimpleRenderable.hpp" />
     <ClInclude Include="Astrum\Objects\AstrumPostProcessGroupObject.hpp" />
     <ClInclude Include="Astrum\Resources\IAstrumTexture.hpp" />
+    <ClInclude Include="Astrum\Singletons\AstrumRawInput.hpp" />
     <ClInclude Include="Astrum\Singletons\AstrumShaderCache.hpp" />
+    <ClInclude Include="Astrum\Vectors\AstrumDoubleVector2.hpp" />
     <ClInclude Include="Game\Arcaea\ArcaeaChart.hpp" />
     <ClInclude Include="Astrum\Buffers\AstrumSimpleConstantBuffer.hpp" />
     <ClInclude Include="Astrum\Collections\AstrumList.hpp" />
@@ -238,16 +247,20 @@
     <ClInclude Include="Astrum\Resources\AstrumFonts.hpp" />
     <ClInclude Include="Astrum\Resources\AstrumTargetFont.hpp" />
     <ClInclude Include="Game\FrameworkTest.hpp" />
-    <ClInclude Include="Game\InGame\ArcObject.hpp" />
+    <ClInclude Include="Game\InGame\Models\INoteModel.hpp" />
+    <ClInclude Include="Game\InGame\Views\ArcViewObject.hpp" />
     <ClInclude Include="Game\InGame\DataManager.hpp" />
-    <ClInclude Include="Game\InGame\HoldNoteObject.hpp" />
+    <ClInclude Include="Game\InGame\Views\HoldNoteViewObject.hpp" />
+    <ClInclude Include="Game\InGame\Models\NoteModel.hpp" />
     <ClInclude Include="Game\InGame\NoteBoardObject.hpp" />
-    <ClInclude Include="Game\InGame\NoteGroupObject.hpp" />
+    <ClInclude Include="Game\InGame\ViewModels\NoteViewModelObject.hpp" />
+    <ClInclude Include="Game\InGame\NoteState.hpp" />
+    <ClInclude Include="Game\InGame\ParticleObject.hpp" />
     <ClInclude Include="Game\InGame\PlayFieldObject.hpp" />
     <ClInclude Include="Game\InGame\SceneObject.hpp" />
-    <ClInclude Include="Game\InGame\NoteObject.hpp" />
-    <ClInclude Include="Game\InGame\SkyNoteObject.hpp" />
-    <ClInclude Include="Game\InGame\TraceObject.hpp" />
+    <ClInclude Include="Game\InGame\Views\NoteViewObject.hpp" />
+    <ClInclude Include="Game\InGame\Views\SkyNoteViewObject.hpp" />
+    <ClInclude Include="Game\InGame\Views\TraceLineViewObject.hpp" />
     <ClInclude Include="Game\NoteTest.hpp" />
     <ClInclude Include="Game\RectMoving.hpp" />
     <ClInclude Include="Astrum\Singletons\AstrumKeyBinder.hpp" />
@@ -270,7 +283,6 @@
     <ClInclude Include="Astrum\Components\AstrumComponent.hpp" />
     <ClInclude Include="Astrum\Collections\AstrumComponentList.hpp" />
     <ClInclude Include="Astrum\Buffers\AstrumConstantBuffer.hpp" />
-    <ClInclude Include="Astrum\Singletons\AstrumDirectInput.hpp" />
     <ClInclude Include="Astrum\Shaders\AstrumDomainShader.hpp" />
     <ClInclude Include="Astrum\Objects\AstrumShapeObject.hpp" />
     <ClInclude Include="Astrum\AstrumException.hpp" />
@@ -335,6 +347,8 @@
     <ClInclude Include="Astrum\Vectors\AstrumObservedVector4.hpp" />
     <ClInclude Include="Astrum\States\IAstrumStateGraph.hpp" />
     <ClInclude Include="Astrum\Singletons\AstrumSingleton.hpp" />
+    <ClInclude Include="Game\Selector\MusicBar.hpp" />
+    <ClInclude Include="Game\Selector\SceneObject.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
