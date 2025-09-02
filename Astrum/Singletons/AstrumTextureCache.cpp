@@ -9,7 +9,7 @@ std::shared_ptr<AstrumTexture> AstrumTextureCacheSingleton::Load(const std::file
 std::shared_ptr<AstrumTexture> AstrumTextureCacheSingleton::Load(std::filesystem::path&& path)
 {
     return LoadTextureFromAbsolutePath(
-        path.is_absolute() ? std::move(path) : std::filesystem::absolute(DefaultRelativeDirectory / path)
+        path.is_absolute() ? std::move(path) : std::filesystem::canonical(DefaultRelativeDirectory / path)
     );
 }
 

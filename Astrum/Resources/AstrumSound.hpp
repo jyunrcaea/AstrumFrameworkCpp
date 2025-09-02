@@ -29,8 +29,6 @@ private:
 	static FMOD_RESULT OnPlaySoundFinish(FMOD_CHANNELCONTROL* ChannelControl, FMOD_CHANNELCONTROL_TYPE type, FMOD_CHANNELCONTROL_CALLBACK_TYPE callBackType, void* commanddata1, void* commandData2);
 
 public:
-	static inline std::filesystem::path DefaultRelativeDirectory = L"./";
-
 	static std::shared_ptr<AstrumSound> MakeShared(const std::filesystem::path& soundFilePath, bool loop = false, std::shared_ptr<AstrumChannelGroup> group = nullptr) {
 		return std::make_shared<AstrumSound>(soundFilePath, loop, group);
 	}

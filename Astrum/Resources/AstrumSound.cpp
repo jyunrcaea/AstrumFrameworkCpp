@@ -21,13 +21,9 @@ namespace {
 AstrumSound::AstrumSound(const std::filesystem::path& soundFilePath, bool loop, std::shared_ptr<AstrumChannelGroup> group)
 	: group(nullptr == group ? AstrumSoundManager::GetMasterChannelGroup() : group)
 {
-	std::filesystem::path loadFrom;
-	if (soundFilePath.is_absolute()) loadFrom = soundFilePath;
-	else loadFrom = DefaultRelativeDirectory / soundFilePath;
-
 	FMOD::Sound* soundPtr = nullptr;
 	if (auto result = AstrumSoundManager::GetFmodSystem()->createSound(
-		loadFrom.string().c_str(),
+		soundFilePath.string().c_str(),
 		loop ? FMOD_LOOP_NORMAL : FMOD_DEFAULT,
 		nullptr,
 		&soundPtr
