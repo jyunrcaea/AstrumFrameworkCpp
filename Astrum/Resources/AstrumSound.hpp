@@ -34,4 +34,7 @@ public:
 	static std::shared_ptr<AstrumSound> MakeShared(const std::filesystem::path& soundFilePath, bool loop = false, std::shared_ptr<AstrumChannelGroup> group = nullptr) {
 		return std::make_shared<AstrumSound>(soundFilePath, loop, group);
 	}
+	static std::shared_ptr<AstrumSound> MakeShared(std::filesystem::path&& soundFilePath, bool loop = false, std::shared_ptr<AstrumChannelGroup> group = nullptr) {
+		return std::make_shared<AstrumSound>(std::move(soundFilePath), loop, group);
+	}
 };

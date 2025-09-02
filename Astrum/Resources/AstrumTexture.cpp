@@ -1,10 +1,11 @@
 #include "AstrumTexture.hpp"
 #include "../AstrumException.hpp"
 
-AstrumTexture::AstrumTexture(const std::wstring& path)
-    : AstrumTexture(AstrumImage(path))
-{
-}
+AstrumTexture::AstrumTexture(const std::filesystem::path& path)
+    : AstrumTexture(AstrumImage(path)) { }
+
+AstrumTexture::AstrumTexture(std::filesystem::path&& path)
+    : AstrumTexture(AstrumImage(std::move(path))) {}
 
 AstrumTexture::AstrumTexture(const AstrumImage& image)
 {

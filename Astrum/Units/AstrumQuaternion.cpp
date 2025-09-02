@@ -100,24 +100,31 @@ AstrumQuaternion AstrumQuaternion::Inverse() const {
 }
 
 AstrumVector3 AstrumQuaternion::ToEuler() const {
-    AstrumVector3 angles;
+    AstrumVector3 euler;
+    // X축 회전
+    euler.X = std::atan2(
+        2.0f * (W * X + Y * Z),
+        1.0f - 2.0f * (X * X + Y * Y)
+    );
 
-    // roll (x축 회전)
-    double sinr_cosp = 2.0 * (q.w * q.x + q.y * q.z);
-    double cosr_cosp = 1.0 - 2.0 * (q.x * q.x + q.y * q.y);
-    angles.X = std::atan2(sinr_cosp, cosr_cosp);
-
-    // pitch (y축 회전)
-    double sinp = 2.0 * (q.w * q.y - q.z * q.x);
-    if (std::abs(sinp) >= 1)
-        angles.Y = std::copysign(std::numbers::pi / 2, sinp); // 범위를 벗어나면 ±90도로 고정
+    // Y축 회전
+    float sinp = 2.0f * (W * Y - Z * X);
+    if (std::fabs(sinp) >= 1.0f)
+        euler.Y = std::copysign(std::numbers::pi_v<float> / 2.0f, sinp); // 90° 클램핑
     else
-        angles.Y = std::asin(sinp);
+        euler.Y = std::asin(sinp);
 
-    // yaw (z축 회전)
-    double siny_cosp = 2.0 * (q.w * q.z + q.x * q.y);
-    double cosy_cosp = 1.0 - 2.0 * (q.y * q.y + q.z * q.z);
-    angles.Z = std::atan2(siny_cosp, cosy_cosp);
+    // Z축 회전
+    euler.Z = std::atan2(
+        2.0f * (W * Z + X * Y),
+        1.0f - 2.0f * (Y * Y + Z * Z)
+    );
 
-    return angles;
+    // 라디안 → 도 단위
+    const float rad2deg = 180.0f / std::numbers::pi_v<float>;
+    euler.X *= rad2deg;
+    euler.Y *= rad2deg;
+    euler.Z *= rad2deg;
+
+    return euler;
 }

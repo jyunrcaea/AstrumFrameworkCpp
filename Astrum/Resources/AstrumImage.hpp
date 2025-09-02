@@ -20,6 +20,7 @@ class AstrumImage
 {
 public:
 	AstrumImage(const std::filesystem::path& path);
+	AstrumImage(std::filesystem::path&& path);
     ~AstrumImage();
 
 	size_t GetWidth() const;
@@ -29,5 +30,5 @@ public:
 	const size_t GetImageCount() const;
 	const DirectX::TexMetadata& GetMetadata() const;
 private:
-	std::unique_ptr<DirectX::ScratchImage> image;
+	std::unique_ptr<DirectX::ScratchImage> image = std::make_unique<DirectX::ScratchImage>();
 };

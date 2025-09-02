@@ -15,6 +15,7 @@ namespace Arcaea {
 	{
 	public:
 		ChartParser(const std::filesystem::path& path);
+		ChartParser(std::filesystem::path&& path);
 		ChartData ToParse();
 
 	private:

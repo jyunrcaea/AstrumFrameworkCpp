@@ -209,7 +209,10 @@
     <ClInclude Include="Astrum\Data\AstrumRawInputKeyData.hpp" />
     <ClInclude Include="Astrum\Data\AstrumRawInputMouseMoveData.hpp" />
     <ClInclude Include="Astrum\Vectors\AstrumDoubleVector2.hpp" />
-    <ClInclude Include="Game\Selector\MusicBar.hpp" />
+    <ClInclude Include="Game\Arcaea\ArcaeaMusicData.hpp" />
+    <ClInclude Include="Game\Selector\MusicBarObject.hpp" />
+    <ClInclude Include="Game\Selector\MusicBarListObject.hpp" />
+    <ClInclude Include="Game\Arcaea\ArcaeaMusicDataManager.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />

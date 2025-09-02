@@ -246,7 +246,8 @@
     <ClInclude Include="Astrum\Objects\IAstrumMaterialObject.hpp" />
     <ClInclude Include="Astrum\Resources\AstrumFonts.hpp" />
     <ClInclude Include="Astrum\Resources\AstrumTargetFont.hpp" />
-    <ClInclude Include="Game\Arcaea\ArcaeaMusic.hpp" />
+    <ClInclude Include="Game\Arcaea\ArcaeaMusicData.hpp" />
+    <ClInclude Include="Game\Arcaea\ArcaeaMusicDataManager.hpp" />
     <ClInclude Include="Game\FrameworkTest.hpp" />
     <ClInclude Include="Game\InGame\Models\INoteModel.hpp" />
     <ClInclude Include="Game\InGame\Views\ArcViewObject.hpp" />

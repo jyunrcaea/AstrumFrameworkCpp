@@ -1,6 +1,6 @@
 #pragma once
 #include "../../Astrum/Objects/AstrumGroupObject.hpp"
-#include "MusicBar.hpp"
+#include "MusicBarObject.hpp"
 
 namespace Selector {
 	class SceneObject : public AstrumGroupObject
@@ -8,7 +8,7 @@ namespace Selector {
 	public:
 		SceneObject() {
 			AddObjects({
-				std::make_shared<MusicBar>()
+				std::make_shared<MusicBarObject>()
 			});
 		}
 	};
