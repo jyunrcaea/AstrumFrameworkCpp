@@ -18,4 +18,6 @@ struct AstrumQuaternion {
     AstrumQuaternion Normalized() const;
     AstrumQuaternion Conjugate() const;
     AstrumQuaternion Inverse() const;
+
+    AstrumVector3 ToEuler() const;
 };

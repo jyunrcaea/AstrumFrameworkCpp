@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -246,6 +246,7 @@
     <ClInclude Include="Astrum\Objects\IAstrumMaterialObject.hpp" />
     <ClInclude Include="Astrum\Resources\AstrumFonts.hpp" />
     <ClInclude Include="Astrum\Resources\AstrumTargetFont.hpp" />
+    <ClInclude Include="Game\Arcaea\ArcaeaMusic.hpp" />
     <ClInclude Include="Game\FrameworkTest.hpp" />
     <ClInclude Include="Game\InGame\Models\INoteModel.hpp" />
     <ClInclude Include="Game\InGame\Views\ArcViewObject.hpp" />
@@ -347,7 +348,8 @@
     <ClInclude Include="Astrum\Vectors\AstrumObservedVector4.hpp" />
     <ClInclude Include="Astrum\States\IAstrumStateGraph.hpp" />
     <ClInclude Include="Astrum\Singletons\AstrumSingleton.hpp" />
-    <ClInclude Include="Game\Selector\MusicBar.hpp" />
+    <ClInclude Include="Game\Selector\MusicBarObject.hpp" />
+    <ClInclude Include="Game\Selector\MusicBarListObject.hpp" />
     <ClInclude Include="Game\Selector\SceneObject.hpp" />
   </ItemGroup>
   <ItemGroup>

@@ -47,4 +47,9 @@ public:
     bool IsVisible() const override { return AstrumObject::IsVisible(); }
     void SetVisible(bool enable) override { AstrumObject::SetVisible(enable); }
 #pragma endregion
+
+public:
+    static std::shared_ptr<AstrumMaterialObject> MakeShared() { return std::make_shared<AstrumMaterialObject>();}
+    static std::shared_ptr<AstrumMaterialObject> MakeShared(const std::shared_ptr<IAstrumTexture>& texture) { return std::make_shared<AstrumMaterialObject>(texture);}
+    static std::shared_ptr<AstrumMaterialObject> MakeShared(const std::shared_ptr<AstrumMaterial>& material, const std::shared_ptr<AstrumTextureMesh>& mesh = nullptr) { return std::make_shared<AstrumMaterialObject>(material, mesh);  }
 };
