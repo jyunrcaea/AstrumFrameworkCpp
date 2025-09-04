@@ -15,6 +15,7 @@ namespace Selector
 				AstrumMaterial::MakeShared(music->GetThumbnailTexture())
 			));
 			thumbnailObject->SetTextureMesh(thumbnailObject->GetMaterial()->CreateTextureSizeMesh());
+			thumbnailObject->SetPositionZ(-1);
 
 			AddObject(backgroundObject = AstrumMaterialObject::MakeShared(
 				barMaterial,
