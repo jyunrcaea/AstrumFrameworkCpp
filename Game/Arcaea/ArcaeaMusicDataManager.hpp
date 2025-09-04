@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include "../../Astrum/Singletons/AstrumSingleton.hpp"
 #include "ArcaeaMusicData.hpp"
 
@@ -14,15 +15,15 @@ namespace Arcaea {
 				if (false == entry.is_directory()) continue;
 
  				if (auto path = entry.path();  std::filesystem::exists(path / L"base.ogg")) {
-					musics.emplace_back(std::move(path));
+					musics.emplace_back(std::make_unique<MusicData>(std::move(path)));
 				}
 			}
 		}
 
-		const std::vector<MusicData>& GetMusics() { return musics; }
+		const std::vector<std::unique_ptr<MusicData>>& GetMusics() { return musics; }
 
 	private:
-		std::vector<MusicData> musics;
+		std::vector<std::unique_ptr<MusicData>> musics;
 
 	public:
 		inline static std::filesystem::path FolderPath = L"Game/Assets/songs";
@@ -32,6 +33,6 @@ namespace Arcaea {
 	{
 		MusicDataManager() = delete;
 	public:
-		static const std::vector<MusicData>& GetMusics() { return MusicDataManagerSingleton::Instance().GetMusics(); }
+		static const std::vector<std::unique_ptr<MusicData>>& GetMusics() { return MusicDataManagerSingleton::Instance().GetMusics(); }
 	};
 }

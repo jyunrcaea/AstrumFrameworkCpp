@@ -77,6 +77,10 @@
     <ClCompile Include="Game\InGame\ViewModels\NoteViewModelObject.cpp" />
     <ClCompile Include="Astrum\Vectors\AstrumDoubleVector3.cpp" />
     <ClCompile Include="Astrum\Singletons\AstrumFontsCache.cpp" />
+    <ClCompile Include="Game\Selector\SelectorSceneObject.cpp" />
+    <ClCompile Include="Game\Result\ResultSceneObject.cpp" />
+    <ClCompile Include="Game\Loading\LoadingSceneObject.cpp" />
+    <ClCompile Include="Game\InGame\InGameSceneObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Astrum\Components\AstrumPostProcessRenderComponent.hpp" />
@@ -110,7 +114,7 @@
     <ClInclude Include="Game\InGame\ViewModels\NoteViewModelObject.hpp" />
     <ClInclude Include="Game\InGame\ParticleObject.hpp" />
     <ClInclude Include="Game\InGame\PlayFieldObject.hpp" />
-    <ClInclude Include="Game\InGame\SceneObject.hpp" />
+    <ClInclude Include="Game\InGame\InGameSceneObject.hpp" />
     <ClInclude Include="Game\InGame\Views\NoteViewObject.hpp" />
     <ClInclude Include="Game\InGame\Views\SkyNoteViewObject.hpp" />
     <ClInclude Include="Game\InGame\Views\TraceLineViewObject.hpp" />
@@ -204,7 +208,7 @@
     <ClInclude Include="Game\InGame\Models\NoteModel.hpp" />
     <ClInclude Include="Astrum\Singletons\AstrumRawInput.hpp" />
     <ClInclude Include="Game\InGame\Models\INoteModel.hpp" />
-    <ClInclude Include="Game\Selector\SceneObject.hpp" />
+    <ClInclude Include="Game\Selector\SelectorSceneObject.hpp" />
     <ClInclude Include="Astrum\Enums\AstrumMouseButtonType.hpp" />
     <ClInclude Include="Astrum\Enums\AstrumMaterialFlipType.hpp" />
     <ClInclude Include="Astrum\Data\AstrumRawInputKeyData.hpp" />
@@ -217,6 +221,12 @@
     <ClInclude Include="Astrum\Enums\AstrumTextAlignmentType.hpp" />
     <ClInclude Include="Astrum\Singletons\AstrumFontsCache.hpp" />
     <ClInclude Include="Astrum\Vectors\AstrumLongVector2.hpp" />
+    <ClInclude Include="Game\Selector\MusicThumbnailObject.hpp" />
+    <ClInclude Include="Game\Selector\DataManager.hpp" />
+    <ClInclude Include="Game\Result\ResultSceneObject.hpp" />
+    <ClInclude Include="Game\Loading\LoadingSceneObject.hpp" />
+    <ClInclude Include="Game\Loading\SlideBackgroundObject.hpp" />
+    <ClInclude Include="Game\SceneManager.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />

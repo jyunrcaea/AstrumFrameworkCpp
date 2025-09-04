@@ -28,11 +28,17 @@ void AstrumRawInputSingleton::Update() {
 	memcpy(previousKeyState, keyState, sizeof(keyState));
 	memcpy(previousMouseState, mouseState, sizeof(mouseState));
 
-	mouseMovement = { 0.0f, 0.0f };
 	mouseState[AstrumMouseButtonType_ScrollUp] = false;
 	mouseState[AstrumMouseButtonType_ScrollDown] = false;
 
 	UpdateMousePosition();
+}
+
+void AstrumRawInputSingleton::Clear() {
+	mouseMovement = { 0, 0 };
+	wheelMovement = 0;
+
+	keyQueue.clear();
 }
 
 void AstrumRawInputSingleton::Enqueue(const RAWINPUT& raw) {
@@ -82,7 +88,7 @@ void AstrumRawInputSingleton::EnqueueMouse(const RAWMOUSE& mouse) {
 		else if (wheelDelta < 0) {
 			mouseState[AstrumMouseButtonType_ScrollDown] = true;
 		}
-		wheelMovement += wheelDelta;
+		wheelMovement += wheelDelta; // 휠 누적
 	}
 }
 

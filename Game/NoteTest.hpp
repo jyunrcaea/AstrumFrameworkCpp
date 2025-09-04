@@ -5,8 +5,10 @@
 #include <memory>
 #include "../Astrum/Singletons/AstrumFramework.hpp"
 #include "../Astrum/Singletons/AstrumTextureCache.hpp"
-#include "InGame/SceneObject.hpp"
-#include  "Selector/SceneObject.hpp"
+#include "InGame/InGameSceneObject.hpp"
+#include  "Selector/SelectorSceneObject.hpp"
+#include "Loading/LoadingSceneObject.hpp"
+#include "SceneManager.hpp"
 
 class Program
 {
@@ -21,12 +23,13 @@ private:
 		AstrumTextureCache::SetDefaultRelativeDirectory(L"Game/Assets/img");
 
 		AstrumFramework::GetRootObject()->AddObject(
-			//std::make_shared<InGame::SceneObject>()
-			std::make_shared<Selector::SceneObject>()
+			std::make_shared<Loading::SceneObject>()
 		);
-#if _DEBUG
-		Arcaea::ChartManager::Instance().PrintChart();
-#endif
+		Game::SceneManager::LoadingScene->LoadScene([](auto*) {
+			AstrumFramework::GetRootObject()->AddObject(
+				std::make_shared<Selector::SceneObject>()
+			);
+		});
 		AstrumFramework::Run();
 	}
 };

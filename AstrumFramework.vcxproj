@@ -211,7 +211,11 @@
     <ClCompile Include="Astrum\Resources\IAstrumMaterial.cpp" />
     <ClCompile Include="Astrum\Objects\IAstrumObject.cpp" />
     <ClCompile Include="Astrum\Resources\AstrumTargetFont.cpp" />
+    <ClCompile Include="Game\InGame\InGameSceneObject.cpp" />
     <ClCompile Include="Game\InGame\ViewModels\NoteViewModelObject.cpp" />
+    <ClCompile Include="Game\Loading\LoadingSceneObject.cpp" />
+    <ClCompile Include="Game\Result\ResultSceneObject.cpp" />
+    <ClCompile Include="Game\Selector\SelectorSceneObject.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Astrum\Vectors\AstrumObservedVector2.cpp" />
     <ClCompile Include="Astrum\Vectors\AstrumObservedVector3.cpp" />
@@ -263,10 +267,12 @@
     <ClInclude Include="Game\InGame\NoteState.hpp" />
     <ClInclude Include="Game\InGame\ParticleObject.hpp" />
     <ClInclude Include="Game\InGame\PlayFieldObject.hpp" />
-    <ClInclude Include="Game\InGame\SceneObject.hpp" />
+    <ClInclude Include="Game\InGame\InGameSceneObject.hpp" />
     <ClInclude Include="Game\InGame\Views\NoteViewObject.hpp" />
     <ClInclude Include="Game\InGame\Views\SkyNoteViewObject.hpp" />
     <ClInclude Include="Game\InGame\Views\TraceLineViewObject.hpp" />
+    <ClInclude Include="Game\Loading\SlideBackgroundObject.hpp" />
+    <ClInclude Include="Game\Loading\LoadingSceneObject.hpp" />
     <ClInclude Include="Game\NoteTest.hpp" />
     <ClInclude Include="Game\RectMoving.hpp" />
     <ClInclude Include="Astrum\Singletons\AstrumKeyBinder.hpp" />
@@ -353,9 +359,13 @@
     <ClInclude Include="Astrum\Vectors\AstrumObservedVector4.hpp" />
     <ClInclude Include="Astrum\States\IAstrumStateGraph.hpp" />
     <ClInclude Include="Astrum\Singletons\AstrumSingleton.hpp" />
+    <ClInclude Include="Game\Result\ResultSceneObject.hpp" />
+    <ClInclude Include="Game\SceneManager.hpp" />
+    <ClInclude Include="Game\Selector\DataManager.hpp" />
     <ClInclude Include="Game\Selector\MusicBarObject.hpp" />
     <ClInclude Include="Game\Selector\MusicBarListObject.hpp" />
-    <ClInclude Include="Game\Selector\SceneObject.hpp" />
+    <ClInclude Include="Game\Selector\MusicThumbnailObject.hpp" />
+    <ClInclude Include="Game\Selector\SelectorSceneObject.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />

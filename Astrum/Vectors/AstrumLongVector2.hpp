@@ -9,18 +9,18 @@
 
 struct AstrumLongVector2
 {
-    long long int X = 0.0;
-    long long int Y = 0.0;
+    long long int X = 0;
+    long long int Y = 0;
 
     constexpr AstrumLongVector2() = default;
     constexpr AstrumLongVector2(long long x, long long y) noexcept : X(x), Y(y) {}
 
     double Magnitude() const noexcept { return std::sqrt(X * X + Y * Y); }
     double Distance(const AstrumLongVector2& other) const noexcept {
-        const long dx = X - other.X, dy = Y - other.Y;
+        const long long dx = X - other.X, dy = Y - other.Y;
         return std::sqrt(dx * dx + dy * dy);
     }
-    constexpr double Dot(const AstrumLongVector2& other) const noexcept { return X * other.X + Y * other.Y; }
+    constexpr long long Dot(const AstrumLongVector2& other) const noexcept { return X * other.X + Y * other.Y; }
 
     constexpr AstrumLongVector2 operator+(const AstrumLongVector2& v) const noexcept { return { X + v.X, Y + v.Y }; }
     constexpr AstrumLongVector2 operator-(const AstrumLongVector2& v) const noexcept { return { X - v.X, Y - v.Y }; }

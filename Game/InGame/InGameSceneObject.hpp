@@ -10,11 +10,8 @@ namespace InGame {
 	class SceneObject : public AstrumGroupObject
 	{
 	public:
-		SceneObject() {
-			SetPositionZ(100);
-
-			AddObject(std::make_shared<PlayFieldObject>());
-		}
+		SceneObject();
+		virtual ~SceneObject();
 
 		virtual void Update() override {
 			for (auto& key : AstrumRawInput::GetKeyboardQueue()) {
@@ -27,5 +24,6 @@ namespace InGame {
 
 			AstrumGroupObject::Update();
 		}
+
 	};
 }

@@ -120,7 +120,7 @@ void AstrumRenderer::Initialize(unsigned int width, unsigned int height, bool wi
     blendDescription.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
     blendDescription.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
     // 알파 마스크를 만들텐데, 투명한 물체의 외곽선을 부드럽게
-    blendDescription.AlphaToCoverageEnable = true;
+    //blendDescription.AlphaToCoverageEnable = true; // 라기에는 투명도를 잘 표현하지 못하는 문제가 생기므로 취소.
     // 여러개의 렌더 타겟에서 각각 다른 블렌딩 설정을 쓸지
     blendDescription.IndependentBlendEnable = false;
     if (FAILED(device->CreateBlendState(&blendDescription, &blendState)))

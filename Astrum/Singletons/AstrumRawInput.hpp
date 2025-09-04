@@ -18,7 +18,7 @@ private:
 	void Enqueue(const RAWINPUT& raw);
 	void EnqueueKeyboard(const RAWKEYBOARD& kb);
 	void EnqueueMouse(const RAWMOUSE& mouse);
-	void Clear() { keyQueue.clear(); }
+	void Clear();
 	void Dispose();
 
 public:
@@ -35,6 +35,8 @@ public:
 	bool IsMousePressed(AstrumMouseButtonType button) const { return mouseState[button]; }
 	bool WasMousePressed(AstrumMouseButtonType button) const { return !previousMouseState[button] && mouseState[button]; }
 	bool WasMouseReleased(AstrumMouseButtonType button) const { return previousMouseState[button] && !mouseState[button]; }
+
+	double GetMouseWheelMovement() const { return wheelMovement / 120.0; }
 
 private:
 	// 마우스 절대 좌표 갱신
@@ -85,4 +87,6 @@ public:
 	static bool IsMousePressed(AstrumMouseButtonType button) { return AstrumRawInputSingleton::Instance().IsMousePressed(button); }
 	static bool WasMousePressed(AstrumMouseButtonType button) { return AstrumRawInputSingleton::Instance().WasMousePressed(button); }
 	static bool WasMouseReleased(AstrumMouseButtonType button) { return AstrumRawInputSingleton::Instance().WasMouseReleased(button); }
+
+	static double GetMouseWheelMovement() { return AstrumRawInputSingleton::Instance().GetMouseWheelMovement(); }
 };

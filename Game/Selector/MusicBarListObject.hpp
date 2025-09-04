@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include "../../Astrum/Objects/AstrumGroupObject.hpp"
+#include "../../Astrum/Singletons/AstrumRawInput.hpp"
 #include "../Arcaea/ArcaeaMusicDataManager.hpp"
 #include "MusicBarObject.hpp"
 
@@ -18,6 +19,14 @@ namespace Selector {
 				child->SetPositionY(offsetY);
 				offsetY += paddingY;
 			}
+		}
+
+		virtual void Update() override {
+			if (auto wheel = AstrumRawInput::GetMouseWheelMovement(); 0 != wheel) {
+				Position.AddY(static_cast<float>(wheel * 100));
+			}
+
+			AstrumGroupObject::Update();
 		}
 
 	private:
