@@ -76,6 +76,7 @@
     <ClCompile Include="Astrum\AstrumException.cpp" />
     <ClCompile Include="Game\InGame\ViewModels\NoteViewModelObject.cpp" />
     <ClCompile Include="Astrum\Vectors\AstrumDoubleVector3.cpp" />
+    <ClCompile Include="Astrum\Singletons\AstrumFontsCache.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Astrum\Components\AstrumPostProcessRenderComponent.hpp" />
@@ -213,6 +214,9 @@
     <ClInclude Include="Game\Selector\MusicBarObject.hpp" />
     <ClInclude Include="Game\Selector\MusicBarListObject.hpp" />
     <ClInclude Include="Game\Arcaea\ArcaeaMusicDataManager.hpp" />
+    <ClInclude Include="Astrum\Enums\AstrumTextAlignmentType.hpp" />
+    <ClInclude Include="Astrum\Singletons\AstrumFontsCache.hpp" />
+    <ClInclude Include="Astrum\Vectors\AstrumLongVector2.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />

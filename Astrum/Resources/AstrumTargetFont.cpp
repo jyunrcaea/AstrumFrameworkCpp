@@ -15,10 +15,9 @@ ComPtr<IDWriteTextLayout> AstrumTargetFont::CreateTextLayout(const std::wstring&
         layoutWidth,
         layoutHeight,
         layout.GetAddressOf()
-    ))) {
-        return nullptr;
-    }
+    ))) return nullptr;
+
+    layout->SetFontSize(fontSize, DWRITE_TEXT_RANGE{ 0, static_cast<unsigned int>(text.length()) });
 
     return layout;
 }
-

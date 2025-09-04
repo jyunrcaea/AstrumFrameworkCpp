@@ -11,6 +11,7 @@
 #include "../Astrum/Objects/AstrumMaterialObject.hpp"
 #include "../Astrum/Objects/AstrumTextObject.hpp"
 #include "../Astrum/Resources/AstrumFonts.hpp"
+#include "../Astrum/Singletons/AstrumFontsCache.hpp"
 
 class Program
 {
@@ -20,17 +21,16 @@ private:
     static void Main() {
         AstrumFramework::Initialize();
 
-        AstrumFonts fonts(L"Game/Assets/fonts/Outfit-Medium.ttf");
-        auto font = fonts.GetFont(L"Outfit Medium", DWRITE_FONT_WEIGHT_NORMAL, 36.0f);
-
-        auto hello = std::make_shared<AstrumTextObject>(L"Hello Astrum!", font);
-        hello->SetColor(AstrumColor{ 1.0f, 0.92f, 0.2f, 1.0f }); // yellow
-        hello->SetPivot(0.5f, 0.5f); // center pivot
-        hello->SetAlignment(DWRITE_TEXT_ALIGNMENT_CENTER, DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
-        hello->SetPosition( 0, 0, 0 );
+        AstrumFontsCache::SetDefaultRelativeDirectory(L"Game/Assets/fonts");
+        auto helloObject = AstrumTextObject::MakeShared(
+            L"Hello Astrum!",
+            AstrumFontsCache::Load(L"Outfit-Medium.ttf")->GetFont(L"Outfit", DWRITE_FONT_WEIGHT_NORMAL, 24.0f)
+        );
+        helloObject->SetAlignment(AstrumTextHorizontalAlignmentType_Center, AstrumTextVerticalAlignmentType_Center);
+        //helloObject->SetAlignment(AstrumTextHorizontalAlignmentType_Leading, AstrumTextVerticalAlignmentType_Near);
 
         AstrumFramework::GetRootObject()->AddObjects({
-            hello
+            helloObject
         });
         AstrumFramework::Run();
     }

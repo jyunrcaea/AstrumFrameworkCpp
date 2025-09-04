@@ -13,7 +13,7 @@ namespace Arcaea {
 			for (const auto& entry : std::filesystem::directory_iterator(FolderPath)) {
 				if (false == entry.is_directory()) continue;
 
-				if (auto path = entry.path();  std::filesystem::exists(path / L"base.ogg")) {
+ 				if (auto path = entry.path();  std::filesystem::exists(path / L"base.ogg")) {
 					musics.emplace_back(std::move(path));
 				}
 			}

@@ -10,14 +10,13 @@ class AstrumTextureCacheSingleton : public AstrumSingleton<AstrumTextureCacheSin
     friend class AstrumSingleton<AstrumTextureCacheSingleton>;
     friend class AstrumTextureCache;
 public:
-    std::shared_ptr<AstrumTexture> Load(const std::filesystem::path& path);
-    std::shared_ptr<AstrumTexture> Load(std::filesystem::path&& path);
+    template <typename PathType>
+    requires std::same_as<std::remove_cvref_t<PathType>, std::filesystem::path>
+    std::shared_ptr<AstrumTexture> Load(PathType&& path);
     void CleanUp();
-	// 기본적으로 상대 경로로 Game/Assets 폴더를 사용합니다.
     std::filesystem::path DefaultRelativeDirectory = L"./Game/Assets/";
 private:
     std::unordered_map<std::wstring, std::weak_ptr<AstrumTexture>> textureMap;
-    std::shared_ptr<AstrumTexture> LoadTextureFromAbsolutePath(std::wstring&& path);
 };
 
 class AstrumTextureCache {
@@ -34,3 +33,17 @@ public:
     static void SetDefaultRelativeDirectory(const std::filesystem::path& path) { AstrumTextureCacheSingleton::Instance().DefaultRelativeDirectory = path; }
     static void SetDefaultRelativeDirectory(std::filesystem::path&& path) { AstrumTextureCacheSingleton::Instance().DefaultRelativeDirectory = std::move(path); }
 };
+
+template<typename PathType>
+requires std::same_as<std::remove_cvref_t<PathType>, std::filesystem::path>
+inline std::shared_ptr<AstrumTexture> AstrumTextureCacheSingleton::Load(PathType&& path) {
+    std::wstring name{
+        std::forward<PathType>(path).is_absolute() ? std::forward<PathType>(path) : std::filesystem::canonical(DefaultRelativeDirectory / std::forward<PathType>(path))
+    };
+    std::shared_ptr<AstrumTexture> texture;
+    if (textureMap.contains(name) && (texture = textureMap[name].lock())) {
+        return texture;
+    }
+    textureMap[name] = texture = AstrumTexture::MakeShared(name);
+    return texture;
+}

@@ -6,6 +6,9 @@ void IAstrumObject::SetScale(const AstrumObservedVector3& vec) { GetScale().Rese
 void IAstrumObject::SetPosition(const AstrumVector3& vec) { GetPosition().Reset(vec); }
 void IAstrumObject::SetRotation(const AstrumVector3& vec) { GetRotation().Reset(vec); }
 void IAstrumObject::SetScale(const AstrumVector3& vec) { GetScale().Reset(vec); }
+void IAstrumObject::SetPosition(AstrumVector3&& vec) { GetPosition().Reset(std::move(vec)); }
+void IAstrumObject::SetRotation(AstrumVector3&& vec) { GetRotation().Reset(std::move(vec)); }
+void IAstrumObject::SetScale(AstrumVector3&& vec) { GetScale().Reset(std::move(vec)); }
 
 void IAstrumObject::SetPosition(float x, float y, float z) { GetPosition().Reset(x, y, z); }
 void IAstrumObject::SetPositionX(float x) { GetPosition().SetX(x); }

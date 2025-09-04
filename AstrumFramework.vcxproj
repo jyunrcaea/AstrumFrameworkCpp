@@ -144,6 +144,7 @@
     <ClCompile Include="Astrum\Graphics\AstrumRenderTarget.cpp" />
     <ClCompile Include="Astrum\Objects\AstrumPostProcessGroupObject.cpp" />
     <ClCompile Include="Astrum\AstrumException.cpp" />
+    <ClCompile Include="Astrum\Singletons\AstrumFontsCache.cpp" />
     <ClCompile Include="Astrum\Singletons\AstrumRawInput.cpp" />
     <ClCompile Include="Astrum\Singletons\AstrumShaderCache.cpp" />
     <ClCompile Include="Astrum\Components\AstrumTextRenderComponent.cpp" />
@@ -222,13 +223,16 @@
     <ClInclude Include="Astrum\Data\AstrumRawInputMouseMoveData.hpp" />
     <ClInclude Include="Astrum\Enums\AstrumMaterialFlipType.hpp" />
     <ClInclude Include="Astrum\Enums\AstrumMouseButtonType.hpp" />
+    <ClInclude Include="Astrum\Enums\AstrumTextAlignmentType.hpp" />
     <ClInclude Include="Astrum\Graphics\AstrumRenderTarget.hpp" />
     <ClInclude Include="Astrum\Graphics\AstrumSimpleRenderable.hpp" />
     <ClInclude Include="Astrum\Objects\AstrumPostProcessGroupObject.hpp" />
     <ClInclude Include="Astrum\Resources\IAstrumTexture.hpp" />
+    <ClInclude Include="Astrum\Singletons\AstrumFontsCache.hpp" />
     <ClInclude Include="Astrum\Singletons\AstrumRawInput.hpp" />
     <ClInclude Include="Astrum\Singletons\AstrumShaderCache.hpp" />
     <ClInclude Include="Astrum\Vectors\AstrumDoubleVector2.hpp" />
+    <ClInclude Include="Astrum\Vectors\AstrumLongVector2.hpp" />
     <ClInclude Include="Game\Arcaea\ArcaeaChart.hpp" />
     <ClInclude Include="Astrum\Buffers\AstrumSimpleConstantBuffer.hpp" />
     <ClInclude Include="Astrum\Collections\AstrumList.hpp" />

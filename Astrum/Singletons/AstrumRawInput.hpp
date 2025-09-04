@@ -4,7 +4,8 @@
 #include "AstrumSingleton.hpp"
 #include "../Data/AstrumRawInputKeyData.hpp"
 #include "../Enums/AstrumMouseButtonType.hpp"
-#include "../Vectors/AstrumVector2.hpp"
+#include "../Vectors/AstrumLongVector2.hpp"
+#include "../Vectors/AstrumDoubleVector2.hpp"
 
 class AstrumRawInputSingleton : public AstrumSingleton<AstrumRawInputSingleton>
 {
@@ -21,7 +22,7 @@ private:
 	void Dispose();
 
 public:
-	const std::vector<AstrumRawInputKeyData>& GetQueue() const { return keyQueue; }
+	const std::vector<AstrumRawInputKeyData>& GetKeyboardQueue() const { return keyQueue; }
 
 public:
 	bool IsKeyPressed(uint8_t vk) const { return keyState[vk]; }
@@ -30,7 +31,7 @@ public:
 	bool WasKeyReleased(uint8_t vk) const { return previousKeyState[vk] && false == keyState[vk]; }
 
 	AstrumDoubleVector2 GetMousePosition() const { return mousePosition; }
-	AstrumDoubleVector2 GetMouseMovement() const { return mouseMovement; }
+	AstrumLongVector2 GetMouseMovement() const { return mouseMovement; }
 	bool IsMousePressed(AstrumMouseButtonType button) const { return mouseState[button]; }
 	bool WasMousePressed(AstrumMouseButtonType button) const { return !previousMouseState[button] && mouseState[button]; }
 	bool WasMouseReleased(AstrumMouseButtonType button) const { return previousMouseState[button] && !mouseState[button]; }
@@ -45,7 +46,9 @@ private:
 	bool mouseState[AstrumMouseButtonType_Count]{};
 	bool previousMouseState[AstrumMouseButtonType_Count]{};
 
-	AstrumDoubleVector2 mouseMovement{};
+	int wheelMovement = 0;
+
+	AstrumLongVector2 mouseMovement{};
 	AstrumDoubleVector2 mousePosition{};
 
 private:
@@ -69,7 +72,7 @@ private:
 
 public:
 	// 이전 업데이트 이후 쌓이게 된 입력들을 가져옵니다.
-	static const std::vector<AstrumRawInputKeyData>& GetKeyboardQueue() { return AstrumRawInputSingleton::Instance().GetQueue(); }
+	static const std::vector<AstrumRawInputKeyData>& GetKeyboardQueue() { return AstrumRawInputSingleton::Instance().GetKeyboardQueue(); }
 	//static const std::vector<AstrumRawInputKeyInformation>& GetMouseQueue() { return AstrumRawInputSingleton::Instance().GetQueue(); }
 
 	static bool IsKeyPressed(uint8_t vk) { return AstrumRawInputSingleton::Instance().IsKeyPressed(vk); }
@@ -78,7 +81,7 @@ public:
 	static bool WasKeyReleased(uint8_t vk) { return AstrumRawInputSingleton::Instance().WasKeyReleased(vk); }
 
 	static AstrumDoubleVector2 GetMousePosition() { return AstrumRawInputSingleton::Instance().GetMousePosition(); }
-	static AstrumDoubleVector2 GetMouseMovement() { return AstrumRawInputSingleton::Instance().GetMouseMovement(); }
+	static AstrumLongVector2 GetMouseMovement() { return AstrumRawInputSingleton::Instance().GetMouseMovement(); }
 	static bool IsMousePressed(AstrumMouseButtonType button) { return AstrumRawInputSingleton::Instance().IsMousePressed(button); }
 	static bool WasMousePressed(AstrumMouseButtonType button) { return AstrumRawInputSingleton::Instance().WasMousePressed(button); }
 	static bool WasMouseReleased(AstrumMouseButtonType button) { return AstrumRawInputSingleton::Instance().WasMouseReleased(button); }

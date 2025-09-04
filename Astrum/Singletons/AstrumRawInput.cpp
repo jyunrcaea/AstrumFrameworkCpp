@@ -62,26 +62,27 @@ void AstrumRawInputSingleton::EnqueueKeyboard(const RAWKEYBOARD& keyboard) {
 
 void AstrumRawInputSingleton::EnqueueMouse(const RAWMOUSE& mouse) {
 	// 상대 이동량 누적
-	mouseMovement.X += static_cast<double>(mouse.lLastX);
-	mouseMovement.Y += static_cast<double>(mouse.lLastY);
+	mouseMovement.X += mouse.lLastX;
+	mouseMovement.Y += mouse.lLastY;
 
 	// 버튼 상태 갱신
-	if (mouse.usButtonFlags & RI_MOUSE_LEFT_BUTTON_DOWN)   mouseState[AstrumMouseButtonType_Left] = true;
-	if (mouse.usButtonFlags & RI_MOUSE_LEFT_BUTTON_UP)     mouseState[AstrumMouseButtonType_Left] = false;
-	if (mouse.usButtonFlags & RI_MOUSE_RIGHT_BUTTON_DOWN)  mouseState[AstrumMouseButtonType_Right] = true;
-	if (mouse.usButtonFlags & RI_MOUSE_RIGHT_BUTTON_UP)    mouseState[AstrumMouseButtonType_Right] = false;
+	if (mouse.usButtonFlags & RI_MOUSE_LEFT_BUTTON_DOWN) mouseState[AstrumMouseButtonType_Left] = true;
+	if (mouse.usButtonFlags & RI_MOUSE_LEFT_BUTTON_UP) mouseState[AstrumMouseButtonType_Left] = false;
+	if (mouse.usButtonFlags & RI_MOUSE_RIGHT_BUTTON_DOWN) mouseState[AstrumMouseButtonType_Right] = true;
+	if (mouse.usButtonFlags & RI_MOUSE_RIGHT_BUTTON_UP) mouseState[AstrumMouseButtonType_Right] = false;
 	if (mouse.usButtonFlags & RI_MOUSE_MIDDLE_BUTTON_DOWN) mouseState[AstrumMouseButtonType_Center] = true;
-	if (mouse.usButtonFlags & RI_MOUSE_MIDDLE_BUTTON_UP)   mouseState[AstrumMouseButtonType_Center] = false;
+	if (mouse.usButtonFlags & RI_MOUSE_MIDDLE_BUTTON_UP) mouseState[AstrumMouseButtonType_Center] = false;
 
 	// 마우스 휠 처리
 	if (mouse.usButtonFlags & RI_MOUSE_WHEEL) {
-		short wheelDelta = static_cast<short>(mouse.usButtonData);
+		const short wheelDelta = static_cast<short>(mouse.usButtonData);
 		if (wheelDelta > 0) {
 			mouseState[AstrumMouseButtonType_ScrollUp] = true;
 		}
 		else if (wheelDelta < 0) {
 			mouseState[AstrumMouseButtonType_ScrollDown] = true;
 		}
+		wheelMovement += wheelDelta;
 	}
 }
 
@@ -102,14 +103,13 @@ void AstrumRawInputSingleton::UpdateMousePosition() {
 	GetCursorPos(&point);
 	ScreenToClient(AstrumWindow::GetHandle(), &point);
 
-	auto resolution = AstrumRenderer::Instance().GetResolution();
-	auto rsrate = AstrumRenderer::Instance().GetRSRate();
-	AstrumDoubleVector2 newMousePos{
-		point.x * rsrate.X,
-		point.y * rsrate.Y
-	};
-	newMousePos.Y = resolution.Height - newMousePos.Y;
+	const auto resolution = AstrumRenderer::Instance().GetResolution();
+	const auto rsrate = AstrumRenderer::Instance().GetRSRate();
+
 	// Raw Input의 상대 이동량이 아닌, 절대 좌표 기반의 이동량 계산
 	// mouseMovement = newMousePos - mousePosition; 
-	mousePosition = newMousePos;
+	mousePosition = AstrumDoubleVector2{
+		static_cast<double>(point.x) * rsrate.X,
+		static_cast<double>(resolution.Height) - static_cast<double>(point.y) * rsrate.Y
+	};
 }

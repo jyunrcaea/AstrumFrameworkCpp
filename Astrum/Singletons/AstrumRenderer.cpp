@@ -167,24 +167,29 @@ void AstrumRenderer::Rendering() {
     float bg[4] = { c.Red, c.Green, c.Blue, c.Alpha };
 
     context->ClearRenderTargetView(renderTargetView.Get(), bg);
-    context->ClearDepthStencilView(depthStencilView.Get(),
-        D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
+    context->ClearDepthStencilView(depthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
     context->OMSetRenderTargets(1, renderTargetView.GetAddressOf(), depthStencilView.Get());
     // DepthStencilState 바인딩
     context->OMSetDepthStencilState(depthStencilState.Get(), 1);
+
     // 이전 블렌딩 백업
     ID3D11BlendState* prevBlendState;
     float prevBlendFactor[4];
     unsigned int prevSampleMask;
     context->OMGetBlendState(&prevBlendState, prevBlendFactor, &prevSampleMask);
+
     // 알파 블렌딩 켜기
     float blendFactor[4] = { 0,0,0,0 };
     UINT  sampleMask = 0xFFFFFFFF;
     context->OMSetBlendState(blendState.Get(), blendFactor, sampleMask);
-    // 실제 드로우 콜 처리
-	AstrumRenderQueue::DequeueToRender();
+
+    renderTarget2D->BeginDraw(); // D2D 렌더링 시작
+	AstrumRenderQueue::DequeueToRender(); // 실제 드로우 콜 처리
+    renderTarget2D->EndDraw(); // D2D 렌더링 종료
+
     // 이전 블렌딩 돌려놓기
     context->OMSetBlendState(prevBlendState, prevBlendFactor, prevSampleMask);
+
     // 진짜 출력
     swapChain->Present(0, 0);
 }
@@ -222,11 +227,11 @@ AstrumResolution AstrumRenderer::GetResolution() const {
     return resolution;
 }
 
-AstrumVector2 AstrumRenderer::GetRSRate() const {
-    auto clientRect = AstrumWindow::GetClientSize();
-    return AstrumVector2{
-        static_cast<float>(static_cast<double>(resolution.Width) / static_cast<double>(clientRect.Width)),
-        static_cast<float>(static_cast<double>(resolution.Height) / static_cast<double>(clientRect.Height))
+AstrumDoubleVector2 AstrumRenderer::GetRSRate() const {
+    const auto clientRect = AstrumWindow::GetClientSize();
+    return AstrumDoubleVector2{
+        static_cast<double>(resolution.Width) / static_cast<double>(clientRect.Width),
+        static_cast<double>(resolution.Height) / static_cast<double>(clientRect.Height)
      };
 }
 

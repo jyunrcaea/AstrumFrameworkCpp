@@ -17,7 +17,8 @@ private:
 		AstrumFramework::Initialize();
 		AstrumChrono::SetFramerate(300);
 
-		AstrumTextureCache::SetDefaultRelativeDirectory("Game/Assets/img");
+		AstrumFontsCache::SetDefaultRelativeDirectory(L"Game/Assets/fonts");
+		AstrumTextureCache::SetDefaultRelativeDirectory(L"Game/Assets/img");
 
 		AstrumFramework::GetRootObject()->AddObject(
 			//std::make_shared<InGame::SceneObject>()

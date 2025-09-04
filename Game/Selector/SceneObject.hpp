@@ -7,6 +7,7 @@ namespace Selector {
 	{
 	public:
 		SceneObject() {
+			SetPositionZ(100);
 			AddObjects({
 				std::make_shared<MusicBarListObject>()
 			});
