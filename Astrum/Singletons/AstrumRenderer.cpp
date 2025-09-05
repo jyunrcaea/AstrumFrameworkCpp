@@ -112,7 +112,8 @@ void AstrumRenderer::Initialize(unsigned int width, unsigned int height, bool wi
 #pragma region Create blend state
     D3D11_BLEND_DESC blendDescription{};
     blendDescription.RenderTarget[0].BlendEnable = true;
-    blendDescription.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+    //blendDescription.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+    blendDescription.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
     blendDescription.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
     blendDescription.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
     blendDescription.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;

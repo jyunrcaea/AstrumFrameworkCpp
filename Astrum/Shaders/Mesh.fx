@@ -36,6 +36,8 @@ PS_Output_Single DefaultMaterialPS(VS_Output_Tex input)
     color.rgb *= MaterialBaseColor.rgb;
     color.a *= MaterialOpacity;
     
+    color.rgb *= color.a;
+    
     output.Color = color;
     
     return output;
