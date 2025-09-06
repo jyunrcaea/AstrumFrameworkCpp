@@ -26,3 +26,11 @@ void IAstrumMaterialObject::SetTextureMesh(std::shared_ptr<class AstrumTextureMe
 std::shared_ptr<IAstrumTexture> IAstrumMaterialObject::GetTexture() const {
 	return GetMaterial()->GetTexture();
 }
+
+unsigned int IAstrumMaterialObject::GetTextureWidth() const {
+	return GetTexture()->GetWidth();
+}
+
+unsigned int IAstrumMaterialObject::GetTextureHeight() const {
+	return GetTexture()->GetHeight();
+}

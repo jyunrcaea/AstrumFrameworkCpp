@@ -62,6 +62,7 @@ public:
 
     AstrumResolution GetResolution() const;
     AstrumDoubleVector2 GetRSRate() const;
+    AstrumDoubleVector2 GetHalfResolution() const { return { resolution.Width * 0.5, resolution.Height * 0.5 }; }
 	unsigned int GetSampleCount() const;
 private:
     AstrumResolution resolution{};

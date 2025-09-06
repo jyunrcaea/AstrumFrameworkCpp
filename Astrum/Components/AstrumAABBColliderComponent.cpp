@@ -5,6 +5,10 @@ class AstrumCollisionSystemSingleton;
 
 AstrumRect AstrumAABBColliderComponent::GetRect() const
 {
+	if (GetRectFunction) {
+		return GetRectFunction();
+	}
+
 	const auto& position = GetOwner()->GetAbsolutePosition();
 	const auto halfScale = GetOwner()->GetAbsoluteScale() / 2;
 	return {

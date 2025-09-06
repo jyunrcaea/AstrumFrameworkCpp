@@ -11,7 +11,6 @@ class IAstrumMaterial
 	using uint = unsigned int;
 
 public:
-	IAstrumMaterial();
 	virtual ~IAstrumMaterial() = default;
 
 	virtual std::shared_ptr<IAstrumShaderSetup> GetCustomShaderPipeline() const = 0;

@@ -14,6 +14,10 @@ std::pair<AstrumVector2, AstrumVector2> AstrumOBBColliderComponent::GetAxes() co
 
 AstrumRotatedRect AstrumOBBColliderComponent::GetRotatedRect() const
 {
+	if (GetRotatedRectFunction) {
+		return GetRotatedRectFunction();
+	}
+
 	const auto axes = this->GetAxes();
 
 	AstrumVector2 xAxis = axes.first * GetOwner()->GetAbsoluteScale().X / 2;

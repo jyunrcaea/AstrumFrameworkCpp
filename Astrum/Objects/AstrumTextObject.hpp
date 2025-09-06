@@ -5,13 +5,14 @@
 // 텍스트를 그리는 객체
 class AstrumTextObject : public AstrumObject {
 public:
-    AstrumTextObject() {
+    AstrumTextObject(float width = 200, float height = 24) : localLayoutWidth(width), localLayoutHeight(height) {
         AddComponent(textRenderer);
     }
 
     template <typename TextType, typename FontType>
     requires (std::same_as<std::remove_cvref_t<TextType>, std::wstring> && std::same_as<std::remove_cvref_t<FontType>, std::shared_ptr<AstrumTargetFont>>)
-    AstrumTextObject(TextType&& text, FontType&& font) : AstrumTextObject() {
+    AstrumTextObject(TextType&& text, FontType&& font)
+        : AstrumTextObject(std::forward<FontType>(font)->GetFontSize() * std::forward<TextType>(text).length(), std::forward<FontType>(font)->GetFontSize()) {
         textRenderer->SetText(std::forward<TextType>(text));
         textRenderer->SetFont(std::forward<FontType>(font));
     }
@@ -50,7 +51,7 @@ protected:
 
 private:
     std::shared_ptr<AstrumTextRenderComponent> textRenderer = std::make_shared<AstrumTextRenderComponent>();
-    float localLayoutWidth = 400.f, localLayoutHeight = 100.f;
+    float localLayoutWidth, localLayoutHeight;
     void UpdateLayoutWidth() { textRenderer->SetWidth(GetAbsoluteScale().X * localLayoutWidth); }
     void UpdateLayoutHeight() { textRenderer->SetHeight(GetAbsoluteScale().Y * localLayoutHeight); }
 };

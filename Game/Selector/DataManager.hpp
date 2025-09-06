@@ -10,7 +10,7 @@ namespace Selector {
 
 	public:
 		
-		Arcaea::MusicData* CurrentSelectedMusic = nullptr;
+		inline static Arcaea::MusicData* CurrentSelectedMusic = nullptr;
 	private:
 	};
 }

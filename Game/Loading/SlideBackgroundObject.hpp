@@ -8,6 +8,8 @@
 #include "../../Astrum/Singletons/AstrumWindow.hpp"
 
 namespace Loading {
+	constexpr float SlideBackgroundObjectAnimationTime = 0.5f;
+
 	class SlideBackgroundObject : public AstrumGroupObject
 	{
 	public:
@@ -21,6 +23,7 @@ namespace Loading {
 			leftObject->AddComponent(leftMovementComponent = AstrumAnimatorComponent::MakeShared());
 			centerToLeft->AnimationFunction = AstrumAnimationFunctions::EaseOutSine;
 			leftToCenter->AnimationFunction = AstrumAnimationFunctions::EaseOutSine;
+			leftObject->SetPositionZ(1);
 			
 			float leftScale = windowHeight / leftObject->GetTexture()->GetHeight();
 			leftObject->SetScale({ leftScale, leftScale, 1.f });
@@ -31,6 +34,7 @@ namespace Loading {
 			rightObject->AddComponent(rightMovementComponent = AstrumAnimatorComponent::MakeShared());
 			centerToRight->AnimationFunction = AstrumAnimationFunctions::EaseOutSine;
 			rightToCenter->AnimationFunction = AstrumAnimationFunctions::EaseOutSine;
+			rightObject->SetPositionZ(2);
 
 			float rightScale = windowHeight / rightObject->GetTexture()->GetHeight();
 			rightObject->SetScale({ rightScale, rightScale, 1.f });
@@ -65,9 +69,10 @@ namespace Loading {
 		std::shared_ptr<AstrumAnimatorComponent> leftMovementComponent = nullptr;
 		std::shared_ptr<AstrumAnimatorComponent> rightMovementComponent = nullptr;
 
-		std::shared_ptr<AstrumMovementAnimator> leftToCenter = AstrumMovementAnimator::MakeShared(0.4f, 0, NAN, NAN);
-		std::shared_ptr<AstrumMovementAnimator> rightToCenter = AstrumMovementAnimator::MakeShared(0.4f, 0, NAN, NAN);
-		std::shared_ptr<AstrumMovementAnimator> centerToLeft = AstrumMovementAnimator::MakeShared(0.4f, static_cast<float>(-AstrumWindow::GetWidth()), NAN, NAN);
-		std::shared_ptr<AstrumMovementAnimator> centerToRight = AstrumMovementAnimator::MakeShared(0.4f, static_cast<float>(AstrumWindow::GetWidth()), NAN, NAN);
+		std::shared_ptr<AstrumMovementAnimator> leftToCenter = AstrumMovementAnimator::MakeShared(SlideBackgroundObjectAnimationTime, 0, NAN, NAN);
+		std::shared_ptr<AstrumMovementAnimator> rightToCenter = AstrumMovementAnimator::MakeShared(SlideBackgroundObjectAnimationTime, 0, NAN, NAN);
+		std::shared_ptr<AstrumMovementAnimator> centerToLeft = AstrumMovementAnimator::MakeShared(SlideBackgroundObjectAnimationTime, static_cast<float>(-AstrumWindow::GetWidth()), NAN, NAN);
+		std::shared_ptr<AstrumMovementAnimator> centerToRight = AstrumMovementAnimator::MakeShared(SlideBackgroundObjectAnimationTime, static_cast<float>(AstrumWindow::GetWidth()), NAN, NAN);
+
 	};
 }

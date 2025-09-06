@@ -2,15 +2,15 @@
 
 enum AstrumTextHorizontalAlignmentType : unsigned char
 {
-	AstrumTextHorizontalAlignmentType_Leading,
-	AstrumTextHorizontalAlignmentType_Trailing,
+	AstrumTextHorizontalAlignmentType_Left,
+	AstrumTextHorizontalAlignmentType_Right,
 	AstrumTextHorizontalAlignmentType_Center,
 	AstrumTextHorizontalAlignmentType_Justified
 };
 
 enum AstrumTextVerticalAlignmentType : unsigned char
 {
-	AstrumTextVerticalAlignmentType_Near,
-	AstrumTextVerticalAlignmentType_Far,
+	AstrumTextVerticalAlignmentType_Bottom,
+	AstrumTextVerticalAlignmentType_Top,
 	AstrumTextVerticalAlignmentType_Center
 };

@@ -179,12 +179,13 @@ void AstrumRenderer::Rendering() {
     unsigned int prevSampleMask;
     context->OMGetBlendState(&prevBlendState, prevBlendFactor, &prevSampleMask);
 
+    renderTarget2D->BeginDraw(); // D2D 렌더링 시작 (알파 블렌딩 덮어씌워지니 먼저 호출)
+
     // 알파 블렌딩 켜기
     float blendFactor[4] = { 0,0,0,0 };
     UINT  sampleMask = 0xFFFFFFFF;
     context->OMSetBlendState(blendState.Get(), blendFactor, sampleMask);
 
-    renderTarget2D->BeginDraw(); // D2D 렌더링 시작
 	AstrumRenderQueue::DequeueToRender(); // 실제 드로우 콜 처리
     renderTarget2D->EndDraw(); // D2D 렌더링 종료
 
