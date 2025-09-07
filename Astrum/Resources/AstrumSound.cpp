@@ -24,7 +24,7 @@ AstrumSound::AstrumSound(const std::filesystem::path& soundFilePath, bool loop, 
 	FMOD::Sound* soundPtr = nullptr;
 	if (auto result = AstrumSoundManager::GetFmodSystem()->createSound(
 		soundFilePath.string().c_str(),
-		loop ? FMOD_LOOP_NORMAL : FMOD_DEFAULT,
+		loop ? FMOD_LOOP_NORMAL : FMOD_DEFAULT | FMOD_CREATESTREAM,
 		nullptr,
 		&soundPtr
 	)) ThrowInitializeException("Failed to load sound", result);
