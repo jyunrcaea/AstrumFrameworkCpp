@@ -11,7 +11,7 @@ namespace InGame {
 			height = static_cast<float>(data.Data[1] - data.Data[0]);
 
 			SetRectanglePolygons(AstrumRectanglePolygons::MakeShared(
-				200,
+				NoteWidth,
 				height,
 				AstrumColor::LightSeaGreen
 			));
