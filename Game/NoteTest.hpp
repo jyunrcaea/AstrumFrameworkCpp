@@ -5,6 +5,7 @@
 #include <memory>
 #include "../Astrum/Singletons/AstrumFramework.hpp"
 #include "../Astrum/Singletons/AstrumTextureCache.hpp"
+#include "../Astrum/Singletons/AstrumFontsCache.hpp"
 #include "InGame/InGameSceneObject.hpp"
 #include  "Selector/SelectorSceneObject.hpp"
 #include "Loading/LoadingSceneObject.hpp"

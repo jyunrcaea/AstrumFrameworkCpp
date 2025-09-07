@@ -18,6 +18,7 @@ public:
     AstrumTexture(const std::filesystem::path& path);
     AstrumTexture(std::filesystem::path&& path);
     AstrumTexture(const AstrumImage& image);
+    AstrumTexture(AstrumImage&& image);
 
     virtual ID3D11ShaderResourceView* GetShaderResourceView() const override;
     virtual unsigned int GetWidth() const override;

@@ -19,11 +19,11 @@ public:
 	// 텍스쳐를 설정합니다.
 	virtual void SetTexture(const std::shared_ptr<IAstrumTexture>& newTexture) = 0;
 
-	unsigned int GetTextureWidth() const;
-	unsigned int GetTextureHeight() const;
+	unsigned int GetTextureWidth() const { return GetTexture()->GetWidth(); }
+	unsigned int GetTextureHeight() const { return GetTexture()->GetHeight(); }
 
 	// 텍스쳐 원본 크기에 맞는 매시를 생성합니다.
-	std::shared_ptr<AstrumTextureMesh> CreateTextureSizeMesh(float z = 0) const;
+	std::shared_ptr<AstrumTextureMesh> CreateTextureSizeMesh(float z = 0.0f) const { return GetTexture()->CreateTextureSizeMesh(z); }
 	// 텍스쳐에서 일부분만 가져오는 매시를 생성합니다.
 	std::shared_ptr<AstrumTextureMesh> CreateCustomSizeMesh(uint left, uint top, uint width, uint height, float z = 0) const;
 	// 텍스쳐에서 비율을 입력받아 일부분만 가져오는 매시를 생성합니다. (텍스쳐 좌표 기준은 왼쪽 위가 (0.0, 0.0), 오른쪽 아래가 (1.0, 1.0) 입니다.)

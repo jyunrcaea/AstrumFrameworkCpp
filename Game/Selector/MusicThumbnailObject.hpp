@@ -10,17 +10,19 @@ namespace Selector {
 	{
 	public:
 		MusicThumbnailObject() {
-
+			SetScale({ 0.8f, 0.8f, 1.0f });
 		}
 
 		virtual void Update() override {
 			if (auto rotated = GetRotation().GetZ(); rotated < 30) {
-				rotated = (std::max)(30.f, static_cast<float>(rotated + AstrumChrono::GetDeltaTime() * 60));
+				rotated = (std::max)(-5.f, static_cast<float>(rotated + AstrumChrono::GetDeltaTime() * -45.f));
+				SetRotationZ(rotated);
 			}
 
-			if (auto now = DataManager::Instance().CurrentSelectedMusic; appearMusic != now) {
+			if (auto now = DataManager::Instance().GetCurrentSelectedMusic(); appearMusic != now) {
 				appearMusic = now;
 				SetMaterial(AstrumMaterial::MakeShared(appearMusic->GetThumbnailTexture()));
+				SetTextureMesh(GetMaterial()->CreateTextureSizeMesh());
 				SetRotationZ(0);
 			}
 
@@ -28,6 +30,6 @@ namespace Selector {
 		}
 
 	private:
-		Arcaea::MusicData* appearMusic = nullptr;
+		const Arcaea::MusicData* appearMusic = nullptr;
 	};
 }

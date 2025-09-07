@@ -4,13 +4,16 @@
 #include "../Arcaea/ArcaeaMusicData.hpp"
 
 namespace Selector {
+	class MusicBarObject;
+
 	class DataManager : public AstrumSingleton<DataManager>
 	{
-		friend class DataManager;
+		friend class AstrumSingleton<DataManager>;
 
 	public:
-		
-		inline static Arcaea::MusicData* CurrentSelectedMusic = nullptr;
+		MusicBarObject* CurrentSelectedMusicBar = nullptr;
+		const Arcaea::MusicData* GetCurrentSelectedMusic();
+
 	private:
 	};
 }

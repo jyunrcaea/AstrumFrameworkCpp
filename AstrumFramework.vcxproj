@@ -146,6 +146,7 @@
     <ClCompile Include="Astrum\Graphics\AstrumRenderTarget.cpp" />
     <ClCompile Include="Astrum\Objects\AstrumPostProcessGroupObject.cpp" />
     <ClCompile Include="Astrum\AstrumException.cpp" />
+    <ClCompile Include="Astrum\Resources\IAstrumTexture.cpp" />
     <ClCompile Include="Astrum\Singletons\AstrumFontsCache.cpp" />
     <ClCompile Include="Astrum\Singletons\AstrumRawInput.cpp" />
     <ClCompile Include="Astrum\Singletons\AstrumShaderCache.cpp" />
@@ -217,6 +218,7 @@
     <ClCompile Include="Game\InGame\ViewModels\NoteViewModelObject.cpp" />
     <ClCompile Include="Game\Loading\LoadingSceneObject.cpp" />
     <ClCompile Include="Game\Result\ResultSceneObject.cpp" />
+    <ClCompile Include="Game\Selector\DataManager.cpp" />
     <ClCompile Include="Game\Selector\SelectorSceneObject.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Astrum\Vectors\AstrumObservedVector2.cpp" />

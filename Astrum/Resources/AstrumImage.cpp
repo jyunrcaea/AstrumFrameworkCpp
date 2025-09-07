@@ -43,7 +43,10 @@ AstrumImage::AstrumImage(std::filesystem::path&& path) {
 	else throw AstrumException(L"Unsupported image format: " + ext);
 }
 
-AstrumImage::~AstrumImage() { /* ScratchImage is mannaged by unique_ptr. */ }
+AstrumImage::AstrumImage(AstrumImage&& image) noexcept
+	: image(std::move(image.image)) { }
+
+AstrumImage::~AstrumImage() { /* ScratchImage is managed by unique_ptr. */ }
 
 size_t AstrumImage::GetWidth() const { return image->GetMetadata().width; }
 size_t AstrumImage::GetHeight() const { return image->GetMetadata().height; }

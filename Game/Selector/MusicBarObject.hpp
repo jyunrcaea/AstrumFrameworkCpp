@@ -62,16 +62,22 @@ namespace Selector
 		}
 
 		virtual void Update() override {
-			if (AstrumRawInput::WasMousePressed() && backgroundAABB->IsOverlapToMousePointer()) {
-				DataManager::CurrentSelectedMusic = &musicData;
-				std::wcout << L"Selected music: " << musicData.GetName() << std::endl;
+			if (AstrumRawInput::IsMouseClickNow()) {
+				if (backgroundAABB->IsOverlapToMousePointer()) {
+					DataManager::Instance().CurrentSelectedMusicBar = this;
+					std::wcout << L"Selected music: " << musicData.GetName() << std::endl;
+				}
 			}
+			//if (AstrumRawInput::IsMouseClickNow() && backgroundAABB->IsOverlapToMousePointer()) {
+			//	DataManager::Instance().CurrentSelectedMusicBar = this;
+			//}
 
 			AstrumGroupObject::Update();
 		}
 
+		const Arcaea::MusicData* GetMusicData() { return &musicData; }
 	private:
-		Arcaea::MusicData& musicData;
+		const Arcaea::MusicData& musicData;
 
 		std::shared_ptr<AstrumMaterialObject> thumbnailObject;
 

@@ -33,8 +33,8 @@ public:
 	AstrumDoubleVector2 GetMousePosition() const { return mousePosition; }
 	AstrumLongVector2 GetMouseMovement() const { return mouseMovement; }
 	bool IsMousePressed(AstrumMouseButtonType button) const { return mouseState[button]; }
-	bool WasMousePressed(AstrumMouseButtonType button) const { return !previousMouseState[button] && mouseState[button]; }
-	bool WasMouseReleased(AstrumMouseButtonType button) const { return previousMouseState[button] && !mouseState[button]; }
+	bool BeforeMousePressed(AstrumMouseButtonType button) const { return previousMouseState[button]; }
+	bool WasMouseReleased(AstrumMouseButtonType button) const { return previousMouseState[button] && false == mouseState[button]; }
 
 	double GetMouseWheelMovement() const { return wheelMovement / 120.0; }
 
@@ -85,11 +85,11 @@ public:
 	static AstrumDoubleVector2 GetMousePosition() { return AstrumRawInputSingleton::Instance().GetMousePosition(); }
 	static AstrumLongVector2 GetMouseMovement() { return AstrumRawInputSingleton::Instance().GetMouseMovement(); }
 	static bool IsMousePressed(AstrumMouseButtonType button = AstrumMouseButtonType_Left) { return AstrumRawInputSingleton::Instance().IsMousePressed(button); }
-	static bool WasMousePressed(AstrumMouseButtonType button = AstrumMouseButtonType_Left) { return AstrumRawInputSingleton::Instance().WasMousePressed(button); }
+	static bool BeforeMousePressed(AstrumMouseButtonType button = AstrumMouseButtonType_Left) { return AstrumRawInputSingleton::Instance().BeforeMousePressed(button); }
 	static bool WasMouseReleased(AstrumMouseButtonType button = AstrumMouseButtonType_Left) { return AstrumRawInputSingleton::Instance().WasMouseReleased(button); }
 
 	// 해당 키가 그전까지 눌려있지 않다가 지금 눌린 상태인지 (즉, 이번 프레임에 눌린 상태인지)
-	static bool IsMouseClickNow(AstrumMouseButtonType button = AstrumMouseButtonType_Left) { return IsMousePressed(button) && false == WasMousePressed(button); }
+	static bool IsMouseClickNow(AstrumMouseButtonType button = AstrumMouseButtonType_Left) { return IsMousePressed(button) && false == BeforeMousePressed(button); }
 
 	static double GetMouseWheelMovement() { return AstrumRawInputSingleton::Instance().GetMouseWheelMovement(); }
 };

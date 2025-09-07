@@ -30,5 +30,10 @@ public:
 
 	virtual bool IsOverlapToPoint(AstrumVector2 point) = 0;
 	// 마우스 포인터와 겹치는지 확인합니다. (렌더러의 해상도 절반을 빼서 중앙 기준 좌표로 변환한 후 확인)
-	bool IsOverlapToMousePointer() { return IsOverlapToPoint(static_cast<AstrumVector2>(AstrumRawInput::GetMousePosition() - AstrumRenderer::Instance().GetHalfResolution())); }
+	bool IsOverlapToMousePointer() { 
+#if _DEBUG && FALSE
+		std::cout << "Mouse Position: " << AstrumRawInput::GetMousePosition() << ", Half Resolution: " << AstrumRenderer::Instance().GetHalfResolution() << ", Adjusted Position: " << (AstrumRawInput::GetMousePosition() - AstrumRenderer::Instance().GetHalfResolution()) << std::endl;
+#endif	
+		return IsOverlapToPoint(static_cast<AstrumVector2>(AstrumRawInput::GetMousePosition() - AstrumRenderer::Instance().GetHalfResolution()));
+	}
 };

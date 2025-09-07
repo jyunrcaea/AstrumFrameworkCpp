@@ -24,10 +24,6 @@ void AstrumRawInputSingleton::Initialize() {
 }
 
 void AstrumRawInputSingleton::Update() {
-	//이전 상태 갱신 및 보존
-	memcpy(previousKeyState, keyState, sizeof(keyState));
-	memcpy(previousMouseState, mouseState, sizeof(mouseState));
-
 	mouseState[AstrumMouseButtonType_ScrollUp] = false;
 	mouseState[AstrumMouseButtonType_ScrollDown] = false;
 
@@ -35,9 +31,12 @@ void AstrumRawInputSingleton::Update() {
 }
 
 void AstrumRawInputSingleton::Clear() {
+	//이전 상태 갱신 및 보존
+	memcpy(previousKeyState, keyState, sizeof(keyState));
+	memcpy(previousMouseState, mouseState, sizeof(mouseState));
+	// 상태 초기화
 	mouseMovement = { 0, 0 };
 	wheelMovement = 0;
-
 	keyQueue.clear();
 }
 

@@ -15,7 +15,6 @@
 #include "../Graphics/AstrumTextureSampler.hpp"
 #include "../Vectors/AstrumVector2.hpp"
 #include "../Vectors/AstrumDoubleVector2.hpp"
-#include "../Graphics/AstrumRenderTarget.hpp"
 
 using Microsoft::WRL::ComPtr;
 
@@ -78,7 +77,7 @@ private:
     ComPtr<ID2D1RenderTarget> renderTarget2D;
 	ComPtr<ID2D1Factory> factory2D;
 
-	std::shared_ptr<AstrumRenderTarget> mainRenderTarget = nullptr;
+	std::shared_ptr<class AstrumRenderTarget> mainRenderTarget = nullptr;
 };
 
 template<typename T>

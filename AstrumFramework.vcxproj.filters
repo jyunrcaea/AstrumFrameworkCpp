@@ -81,6 +81,8 @@
     <ClCompile Include="Game\Result\ResultSceneObject.cpp" />
     <ClCompile Include="Game\Loading\LoadingSceneObject.cpp" />
     <ClCompile Include="Game\InGame\InGameSceneObject.cpp" />
+    <ClCompile Include="Game\Selector\DataManager.cpp" />
+    <ClCompile Include="Astrum\Resources\IAstrumTexture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Astrum\Components\AstrumPostProcessRenderComponent.hpp" />

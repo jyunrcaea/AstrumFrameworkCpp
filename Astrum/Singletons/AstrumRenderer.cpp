@@ -1,6 +1,7 @@
 #include "AstrumRenderer.hpp"
 #include "../Shaders/AstrumShaderSetup.hpp"
 #include "AstrumRenderQueue.hpp"
+#include "../Graphics/AstrumRenderTarget.hpp"
 
 void AstrumRenderer::Initialize(unsigned int width, unsigned int height, bool windowMode) {
     UINT flags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;

@@ -27,7 +27,7 @@ namespace Selector {
 			if (auto wheel = AstrumRawInput::GetMouseWheelMovement(); 0 != wheel) {
 				Position.AddY(static_cast<float>(wheel * -100));
 			}
-			if (AstrumRawInput::WasMousePressed(AstrumMouseButtonType_Left)) {
+			if (AstrumRawInput::IsMouseClickNow()) {
 				std::cout << AstrumRawInput::GetMousePosition() << '\n';
 				std::cout << GetObjectList()[0].GetAbsolutePosition() << std::endl;
 			}
