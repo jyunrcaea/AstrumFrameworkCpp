@@ -14,7 +14,7 @@
 #include "../Shaders/IAstrumShaders.hpp"
 #include "../Graphics/AstrumTextureSampler.hpp"
 #include "../Vectors/AstrumVector2.hpp"
-#include "../Graphics/AstrumRenderTarget.hpp"
+#include "../Vectors/AstrumDoubleVector2.hpp"
 
 using Microsoft::WRL::ComPtr;
 
@@ -60,7 +60,8 @@ public:
     void CreateAndSetDefaultMaterialPipeline();
 
     AstrumResolution GetResolution() const;
-    AstrumVector2 GetRSRate() const;
+    AstrumDoubleVector2 GetRSRate() const;
+    AstrumDoubleVector2 GetHalfResolution() const { return { resolution.Width * 0.5, resolution.Height * 0.5 }; }
 	unsigned int GetSampleCount() const;
 private:
     AstrumResolution resolution{};
@@ -76,7 +77,7 @@ private:
     ComPtr<ID2D1RenderTarget> renderTarget2D;
 	ComPtr<ID2D1Factory> factory2D;
 
-	std::shared_ptr<AstrumRenderTarget> mainRenderTarget = nullptr;
+	std::shared_ptr<class AstrumRenderTarget> mainRenderTarget = nullptr;
 };
 
 template<typename T>

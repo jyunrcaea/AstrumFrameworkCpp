@@ -5,6 +5,10 @@ class AstrumCollisionSystemSingleton;
 
 AstrumRect AstrumAABBColliderComponent::GetRect() const
 {
+	if (GetRectFunction) {
+		return GetRectFunction();
+	}
+
 	const auto& position = GetOwner()->GetAbsolutePosition();
 	const auto halfScale = GetOwner()->GetAbsoluteScale() / 2;
 	return {
@@ -22,5 +26,5 @@ bool AstrumAABBColliderComponent::IsOverlapToPoint(AstrumVector2 point) {
 	const auto& [leftTop, rightBottom] = GetRect();
 	return
 		(leftTop.X <= point.X && point.X <= rightBottom.X) &&
-		(rightBottom.Y <= point.Y && point.Y <= leftTop.Y);
+		(leftTop.Y <= point.Y && point.Y <= rightBottom.Y);
 }

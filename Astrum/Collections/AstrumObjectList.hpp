@@ -21,6 +21,7 @@ public:
     bool Contains(const std::shared_ptr<IAstrumObject>& obj) const override;
     int Count() const override;
     void ForEach(const std::function<void(const std::shared_ptr<IAstrumObject>&)>& func) override;
+	IAstrumObject& operator[](int index) override { Update(); return *objectArray[index]; }
     std::vector<std::shared_ptr<IAstrumObject>> ToArray() const override;
 
 private:

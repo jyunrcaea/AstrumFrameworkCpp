@@ -3,6 +3,10 @@
 
 AstrumCircle AstrumCircleColliderComponent::GetCircle() const
 {
+	if (GetCircleFunction) {
+		return GetCircleFunction();
+	}
+
 	return AstrumCircle(
 		static_cast<AstrumVector2>(GetOwner()->GetAbsolutePosition()),
 		GetOwner()->GetAbsoluteScale().GetMinimum() * 0.5f

@@ -98,3 +98,33 @@ AstrumQuaternion AstrumQuaternion::Inverse() const {
     float len2 = W * W + X * X + Y * Y + Z * Z;
     return Conjugate() * (1.0f / len2);
 }
+
+AstrumVector3 AstrumQuaternion::ToEuler() const {
+    AstrumVector3 euler;
+    // X축 회전
+    euler.X = std::atan2(
+        2.0f * (W * X + Y * Z),
+        1.0f - 2.0f * (X * X + Y * Y)
+    );
+
+    // Y축 회전
+    float sinp = 2.0f * (W * Y - Z * X);
+    if (std::fabs(sinp) >= 1.0f)
+        euler.Y = std::copysign(std::numbers::pi_v<float> / 2.0f, sinp); // 90° 클램핑
+    else
+        euler.Y = std::asin(sinp);
+
+    // Z축 회전
+    euler.Z = std::atan2(
+        2.0f * (W * Z + X * Y),
+        1.0f - 2.0f * (Y * Y + Z * Z)
+    );
+
+    // 라디안 → 도 단위
+    const float rad2deg = 180.0f / std::numbers::pi_v<float>;
+    euler.X *= rad2deg;
+    euler.Y *= rad2deg;
+    euler.Z *= rad2deg;
+
+    return euler;
+}

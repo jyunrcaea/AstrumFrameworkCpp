@@ -18,11 +18,14 @@ namespace InGame {
 			AddObject(noteViewModelObject = std::make_shared<NoteViewModelObject>());
 			noteViewModelObject->SetPositionZ(-1);
 
-			SetCustomShaderPipeline(DataManager::Instance().GetIllusionShader());
+			//SetCustomShaderPipeline(DataManager::Instance().GetIllusionShader());
+			const auto [vertices, indices] = DataManager::Instance().GetIllusionMeshData();
+			SetMaterialMesh(customMesh = AstrumTextureMesh::MakeShared(vertices, indices));
 		}
 
 	private:
 		std::shared_ptr<NoteBoardObject> boardObject = nullptr;
 		std::shared_ptr<NoteViewModelObject> noteViewModelObject = nullptr;
+		std::shared_ptr<AstrumTextureMesh> customMesh = nullptr;
 	};
 }

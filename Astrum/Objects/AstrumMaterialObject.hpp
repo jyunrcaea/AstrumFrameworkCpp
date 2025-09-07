@@ -36,6 +36,9 @@ public:
     void SetPosition(const AstrumVector3& pos) { AstrumObject::SetPosition(pos); }
     void SetRotation(const AstrumVector3& rot) { AstrumObject::SetRotation(rot); }
 	void SetScale(const AstrumVector3& scale) { AstrumObject::SetScale(scale); }
+    void SetPosition(AstrumVector3&& pos) { AstrumObject::SetPosition(std::move(pos)); }
+    void SetRotation(AstrumVector3&& rot) { AstrumObject::SetRotation(std::move(rot)); }
+	void SetScale(AstrumVector3&& scale) { AstrumObject::SetScale(std::move(scale)); }
 	IAstrumComponentList& GetComponents() override { return AstrumObject::GetComponents(); }
 	IAstrumGroupObject* GetParent() const override { return AstrumObject::GetParent(); }
 protected:
@@ -47,4 +50,9 @@ public:
     bool IsVisible() const override { return AstrumObject::IsVisible(); }
     void SetVisible(bool enable) override { AstrumObject::SetVisible(enable); }
 #pragma endregion
+
+public:
+    static std::shared_ptr<AstrumMaterialObject> MakeShared() { return std::make_shared<AstrumMaterialObject>();}
+    static std::shared_ptr<AstrumMaterialObject> MakeShared(const std::shared_ptr<IAstrumTexture>& texture) { return std::make_shared<AstrumMaterialObject>(texture);}
+    static std::shared_ptr<AstrumMaterialObject> MakeShared(const std::shared_ptr<AstrumMaterial>& material, const std::shared_ptr<AstrumTextureMesh>& mesh = nullptr) { return std::make_shared<AstrumMaterialObject>(material, mesh);  }
 };

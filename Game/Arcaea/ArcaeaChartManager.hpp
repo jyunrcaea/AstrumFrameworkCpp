@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include "ArcaeaChartParser.hpp"
+#include "ArcaeaMusicData.hpp"
 #include "../../Astrum/Singletons/AstrumSingleton.hpp"
 #include "../../Astrum/Singletons/AstrumChrono.hpp"
 #include "../../Astrum/Resources/AstrumSound.hpp"
@@ -24,6 +25,14 @@ namespace Arcaea {
 		void Setup(const std::filesystem::path& filePath) {
 			Arcaea::ChartParser parser(filePath);
 			chart = parser.ToParse();
+			FillQueue();
+			nextNoteIndex = 0;
+		}
+		void Setup(const MusicData* data, int level = 0) {
+			if (1 == level) chart = std::move(*data->GetPresentChart());
+			else if (2 == level) chart = std::move(*data->GetFutureChart());
+			else chart = std::move(*data->GetPastChart());
+
 			FillQueue();
 			nextNoteIndex = 0;
 		}

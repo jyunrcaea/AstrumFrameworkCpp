@@ -89,7 +89,8 @@ void AstrumObject::UpdateAbsoluteRotation()
         absoluteRotation = Rotation;
 		return;
     }
-	absoluteRotation = parent->GetAbsoluteRotation() + this->Rotation;
+	//absoluteRotation = parent->GetAbsoluteRotation() + this->Rotation;
+    absoluteRotation = (AstrumQuaternion::FromEuler(parent->GetAbsoluteRotation()) * AstrumQuaternion::FromEuler(this->Rotation)).ToEuler();
 }
 
 void AstrumObject::UpdateAbsoluteScale()

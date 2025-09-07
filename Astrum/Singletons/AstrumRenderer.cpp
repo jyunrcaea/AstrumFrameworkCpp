@@ -1,6 +1,7 @@
 #include "AstrumRenderer.hpp"
 #include "../Shaders/AstrumShaderSetup.hpp"
 #include "AstrumRenderQueue.hpp"
+#include "../Graphics/AstrumRenderTarget.hpp"
 
 void AstrumRenderer::Initialize(unsigned int width, unsigned int height, bool windowMode) {
     UINT flags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
@@ -112,7 +113,8 @@ void AstrumRenderer::Initialize(unsigned int width, unsigned int height, bool wi
 #pragma region Create blend state
     D3D11_BLEND_DESC blendDescription{};
     blendDescription.RenderTarget[0].BlendEnable = true;
-    blendDescription.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+    //blendDescription.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+    blendDescription.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
     blendDescription.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
     blendDescription.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
     blendDescription.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
@@ -120,7 +122,7 @@ void AstrumRenderer::Initialize(unsigned int width, unsigned int height, bool wi
     blendDescription.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
     blendDescription.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
     // 알파 마스크를 만들텐데, 투명한 물체의 외곽선을 부드럽게
-    blendDescription.AlphaToCoverageEnable = true;
+    //blendDescription.AlphaToCoverageEnable = true; // 라기에는 투명도를 잘 표현하지 못하는 문제가 생기므로 취소.
     // 여러개의 렌더 타겟에서 각각 다른 블렌딩 설정을 쓸지
     blendDescription.IndependentBlendEnable = false;
     if (FAILED(device->CreateBlendState(&blendDescription, &blendState)))
@@ -167,24 +169,30 @@ void AstrumRenderer::Rendering() {
     float bg[4] = { c.Red, c.Green, c.Blue, c.Alpha };
 
     context->ClearRenderTargetView(renderTargetView.Get(), bg);
-    context->ClearDepthStencilView(depthStencilView.Get(),
-        D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
+    context->ClearDepthStencilView(depthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
     context->OMSetRenderTargets(1, renderTargetView.GetAddressOf(), depthStencilView.Get());
     // DepthStencilState 바인딩
     context->OMSetDepthStencilState(depthStencilState.Get(), 1);
+
     // 이전 블렌딩 백업
     ID3D11BlendState* prevBlendState;
     float prevBlendFactor[4];
     unsigned int prevSampleMask;
     context->OMGetBlendState(&prevBlendState, prevBlendFactor, &prevSampleMask);
+
+    renderTarget2D->BeginDraw(); // D2D 렌더링 시작 (알파 블렌딩 덮어씌워지니 먼저 호출)
+
     // 알파 블렌딩 켜기
     float blendFactor[4] = { 0,0,0,0 };
     UINT  sampleMask = 0xFFFFFFFF;
     context->OMSetBlendState(blendState.Get(), blendFactor, sampleMask);
-    // 실제 드로우 콜 처리
-	AstrumRenderQueue::DequeueToRender();
+
+	AstrumRenderQueue::DequeueToRender(); // 실제 드로우 콜 처리
+    renderTarget2D->EndDraw(); // D2D 렌더링 종료
+
     // 이전 블렌딩 돌려놓기
     context->OMSetBlendState(prevBlendState, prevBlendFactor, prevSampleMask);
+
     // 진짜 출력
     swapChain->Present(0, 0);
 }
@@ -222,11 +230,11 @@ AstrumResolution AstrumRenderer::GetResolution() const {
     return resolution;
 }
 
-AstrumVector2 AstrumRenderer::GetRSRate() const {
-    auto clientRect = AstrumWindow::GetClientSize();
-    return AstrumVector2{
-        static_cast<float>(static_cast<double>(resolution.Width) / static_cast<double>(clientRect.Width)),
-        static_cast<float>(static_cast<double>(resolution.Height) / static_cast<double>(clientRect.Height))
+AstrumDoubleVector2 AstrumRenderer::GetRSRate() const {
+    const auto clientRect = AstrumWindow::GetClientSize();
+    return AstrumDoubleVector2{
+        static_cast<double>(resolution.Width) / static_cast<double>(clientRect.Width),
+        static_cast<double>(resolution.Height) / static_cast<double>(clientRect.Height)
      };
 }
 

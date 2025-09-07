@@ -5,6 +5,9 @@ Arcaea::ChartParser::ChartParser(const std::filesystem::path& path)
 	
 }
 
+Arcaea::ChartParser::ChartParser(std::filesystem::path&& path)
+	: fileStream(std::move(path)) {}
+
 Arcaea::ChartData Arcaea::ChartParser::ToParse() {
 	ChartData ret{};
 	

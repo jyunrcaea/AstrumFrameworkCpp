@@ -27,12 +27,9 @@ void AstrumObservedVector3::AddX(float x) { value.X += x; Notify(); }
 void AstrumObservedVector3::AddY(float y) { value.Y += y; Notify(); }
 void AstrumObservedVector3::AddZ(float z) { value.Z += z; Notify(); }
 
-void AstrumObservedVector3::Reset(const AstrumVector3& v) {
-    value = v; Notify();
-}
-void AstrumObservedVector3::Reset(const AstrumObservedVector3& v) {
-    value = v.value; Notify();
-}
+void AstrumObservedVector3::Reset(const AstrumVector3& v) { value = v; Notify(); }
+void AstrumObservedVector3::Reset(AstrumVector3&& v) { value = std::move(v); Notify(); }
+void AstrumObservedVector3::Reset(const AstrumObservedVector3& v) { value = v.value; Notify(); }
 
 void AstrumObservedVector3::Reset(float x, float y, float z) {
     if (false == std::isnan(x)) value.X = x;

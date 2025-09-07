@@ -2,10 +2,43 @@
 #include "AstrumTargetFont.hpp"
 #include "../AstrumException.hpp"
 
-AstrumFonts::AstrumFonts(const std::filesystem::path& fontFilePath) {
+std::shared_ptr<AstrumTargetFont> AstrumFonts::GetFont(const std::wstring& fontName, float fontSize, int weight) const {
+	Microsoft::WRL::ComPtr<IDWriteTextFormat> textFormat = nullptr;
+	if (FAILED(GetWriteFactory()->CreateTextFormat(
+		fontName.c_str(),
+		this->fontCollection.Get(),
+		static_cast<DWRITE_FONT_WEIGHT>(weight),
+		DWRITE_FONT_STYLE_NORMAL,
+		DWRITE_FONT_STRETCH_NORMAL,
+		fontSize,
+		L"en-us",
+		textFormat.GetAddressOf()
+	))) throw AstrumException("Failed to create text format for font.");
+
+	return AstrumTargetFont::MakeShared(GetWriteFactory(), std::move(textFormat), fontSize);
+}
+
+const std::wstring& AstrumFonts::GetFaceName() const {
+	return faceName;
+}
+
+Microsoft::WRL::ComPtr<IDWriteFactory5> AstrumFonts::GetWriteFactory() const {
+	static Microsoft::WRL::ComPtr<IDWriteFactory5> factory;
+	if (factory) return factory;
+
+	if (FAILED(DWriteCreateFactory(
+		DWRITE_FACTORY_TYPE_SHARED,
+		__uuidof(IDWriteFactory5),
+		reinterpret_cast<IUnknown**>(factory.GetAddressOf())
+	))) throw AstrumException("Failed to create DWrite factory.");
+
+	return factory;
+}
+
+void AstrumFonts::Initialize(const std::filesystem::path::value_type* pathstr) {
 	Microsoft::WRL::ComPtr<IDWriteFontFile> fontFile = nullptr;
 	if (FAILED(GetWriteFactory()->CreateFontFileReference(
-		fontFilePath.c_str(),
+		pathstr,
 		nullptr,
 		fontFile.GetAddressOf()
 	))) throw AstrumException("Failed to create font file reference.");
@@ -50,37 +83,4 @@ AstrumFonts::AstrumFonts(const std::filesystem::path& fontFilePath) {
 		this->faceName.data(),
 		static_cast<unsigned int>(this->faceName.size())
 	))) throw AstrumException("Failed to get localized font name string.");
-}
-
-std::shared_ptr<AstrumTargetFont> AstrumFonts::GetFont(const std::wstring& fontName, int weight, float fontSize) const {
-	Microsoft::WRL::ComPtr<IDWriteTextFormat> textFormat = nullptr;
-	if (FAILED(GetWriteFactory()->CreateTextFormat(
-		fontName.c_str(),
-		this->fontCollection.Get(),
-		static_cast<DWRITE_FONT_WEIGHT>(weight),
-		DWRITE_FONT_STYLE_NORMAL,
-		DWRITE_FONT_STRETCH_NORMAL,
-		fontSize,
-		L"en-us",
-		textFormat.GetAddressOf()
-	))) throw AstrumException("Failed to create text format for font.");
-
-	return AstrumTargetFont::MakeShared(GetWriteFactory(), std::move(textFormat));
-}
-
-const std::wstring& AstrumFonts::GetFaceName() const {
-	return faceName;
-}
-
-Microsoft::WRL::ComPtr<IDWriteFactory5> AstrumFonts::GetWriteFactory() const {
-	static Microsoft::WRL::ComPtr<IDWriteFactory5> factory;
-	if (factory) return factory;
-
-	if (FAILED(DWriteCreateFactory(
-		DWRITE_FACTORY_TYPE_SHARED,
-		__uuidof(IDWriteFactory5),
-		reinterpret_cast<IUnknown**>(factory.GetAddressOf())
-	))) throw AstrumException("Failed to create DWrite factory.");
-
-	return factory;
 }

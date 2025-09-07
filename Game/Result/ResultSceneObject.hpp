@@ -1,15 +1,13 @@
 #pragma once
 #include "../../Astrum/Objects/AstrumGroupObject.hpp"
-#include "MusicBar.hpp"
 
-namespace Selector {
+namespace Result {
 	class SceneObject : public AstrumGroupObject
 	{
 	public:
-		SceneObject() {
-			AddObjects({
-				std::make_shared<MusicBar>()
-			});
-		}
+		SceneObject();
+		virtual ~SceneObject();
+
+	private:
 	};
 }

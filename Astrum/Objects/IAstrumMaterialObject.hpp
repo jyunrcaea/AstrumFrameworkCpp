@@ -12,7 +12,13 @@ struct IAstrumMaterialObject : public virtual IAstrumObject
 
 	std::shared_ptr<class AstrumMaterial> GetMaterial() const;
 	void SetMaterial(const std::shared_ptr<AstrumMaterial>& material);
+	void SetMaterial(std::shared_ptr<AstrumMaterial>&& material);
+
 	std::shared_ptr<class AstrumTextureMesh> GetTextureMesh() const;
 	void SetTextureMesh(const std::shared_ptr<class AstrumTextureMesh>& mesh);
+	void SetTextureMesh(std::shared_ptr<class AstrumTextureMesh>&& mesh);
+
 	std::shared_ptr<IAstrumTexture> GetTexture() const;
+	unsigned int GetTextureWidth() const;
+	unsigned int GetTextureHeight() const;
 };

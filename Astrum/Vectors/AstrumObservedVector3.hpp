@@ -32,6 +32,7 @@ public:
     void AddZ(float z);
 
     void Reset(const AstrumVector3& v);
+    void Reset(AstrumVector3&& v);
     void Reset(const AstrumObservedVector3& v);
     // NAN일 경우 기존 값이 할당됩니다.
     void Reset(float x, float y, float z = NAN);

@@ -25,6 +25,7 @@ namespace Arcaea {
 
 	struct ChartData
 	{
+	public:
 		int64 AudioOffset = 0;
 		std::vector<NoteData> Notes{};
 	};

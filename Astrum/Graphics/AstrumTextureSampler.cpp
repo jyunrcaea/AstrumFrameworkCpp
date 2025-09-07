@@ -25,9 +25,7 @@ void AstrumTextureSampler::Initialize() {
 	}
 }
 
-void AstrumTextureSampler::Dispose() {
-	// managed by ComPtr.
-}
+void AstrumTextureSampler::Dispose() {/*managed by ComPtr.*/ }
 
 ID3D11SamplerState* const AstrumTextureSampler::GetSampler(AstrumTextureSampleType type) const
 {
