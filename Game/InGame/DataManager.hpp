@@ -50,7 +50,7 @@ namespace InGame {
 			vertices.reserve(static_cast<int>(n + 1) * 2);
 			for (int i = 0; i <= n; i++) {
 				const float percent = i / static_cast<float>(n);
-				vertices.emplace_back(AstrumVector3{ std::lerp(Left * ShrinkScale, Right * ShrinkScale, percent), static_cast<float>(halfHeight) - MinusCeilingY, 0 }, AstrumVector2{ percent, 0 });
+				vertices.emplace_back(AstrumVector3{ std::lerp(Left * ShrinkScale, Right * ShrinkScale, percent), static_cast<float>(halfHeight) - MinusCeilingY, static_cast<float>(halfHeight * 2)}, AstrumVector2{percent, 0});
 			}
 			for (int i = 0; i <= n; i++) {
 				const float percent = i / static_cast<float>(n);
