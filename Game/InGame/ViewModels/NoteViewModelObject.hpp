@@ -14,7 +14,9 @@ namespace InGame {
 	{
 	public:
 		NoteViewModelObject() {
-			Arcaea::ChartManager::Instance().Setup(L"./Game/Assets/songs/goodtek/2.aff");
+			Arcaea::ChartManager::Instance().Setup(
+				DataManager::Instance().CurrentMusic, 2
+			);
 
 			SetPositionZ(10);
 

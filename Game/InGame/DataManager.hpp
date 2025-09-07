@@ -1,4 +1,5 @@
 #pragma once
+#include "../Arcaea/ArcaeaMusicData.hpp"
 #include "../../Astrum/Shaders/AstrumShaderSetup.hpp"
 #include "../../Astrum/Components/AstrumConstantBufferComponent.hpp"
 #include "../../Astrum/Objects/IAstrumObject.hpp"
@@ -35,6 +36,7 @@ namespace InGame {
 			}, sizeof(AstrumVector4));
 		}
 
+		const Arcaea::MusicData* CurrentMusic = nullptr;
 	private:
 		std::shared_ptr<AstrumShaderSetup> shader = nullptr;
 	};

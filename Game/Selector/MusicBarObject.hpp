@@ -16,64 +16,9 @@ namespace Selector
 
 	class MusicBarObject : public AstrumGroupObject {
 	public:
-		MusicBarObject(const std::unique_ptr<Arcaea::MusicData>& music) : musicData(*music) {
-			AddObject(thumbnailObject = AstrumMaterialObject::MakeShared(
-				AstrumMaterial::MakeShared(music->GetThumbnailTexture())
-			));
-			thumbnailObject->SetTextureMesh(thumbnailObject->GetMaterial()->CreateCustomSizeMeshFromRatio(0, 0.3f, 1, 0.7f));
-			thumbnailObject->SetPositionZ(0.5f);
+		MusicBarObject(const std::unique_ptr<Arcaea::MusicData>& music);
 
-			AddObject(backgroundObject = AstrumMaterialObject::MakeShared(
-				barMaterial,
-				barMaterial->CreateTextureSizeMesh()
-			));
-			backgroundObject->SetPositionZ(0);
-			backgroundObject->AddComponent(backgroundAABB);
-
-			AddObject(titleObject = AstrumTextObject::MakeShared(
-				music->GetName(),
-				AstrumFontsCache::Load(L"Outfit-Regular.ttf")->GetFont(music->GetName(), MusicBarTitleObjectFontSize)
-			));
-			titleObject->SetAlignment(AstrumTextHorizontalAlignmentType_Left, AstrumTextVerticalAlignmentType_Top);
-			titleObject->SetPositionZ(-0.5f);
-			titleObject->SetColor(AstrumColor::White);
-
-			const float thumbnailScale = static_cast<float>(backgroundObject->GetTextureHeight()) / static_cast<float>(thumbnailObject->GetTextureHeight() * 0.4) * MusicBarObjectClickableBackgroundAreaScale;
-			thumbnailObject->SetScale({ thumbnailScale, thumbnailScale, 1.f });
-			thumbnailObject->SetPositionX(static_cast<float>(-0.5 * backgroundObject->GetTextureWidth() + 0.5 * thumbnailObject->GetTextureWidth() * thumbnailScale));
-
-			titleObject->SetPositionY(static_cast<float>(-0.5 * backgroundObject->GetTextureHeight() + 0.75 * MusicBarTitleObjectFontSize));
-			titleObject->SetPositionX(static_cast<float>(-0.5 * backgroundObject->GetTextureWidth() + 0.6 * titleObject->GetLayoutWidth()));
-
-			backgroundAABB->GetRectFunction = [this]() {
-				AstrumVector2 leftTop{ static_cast<float>(backgroundObject->GetTextureWidth()), static_cast<float>(backgroundObject->GetTextureHeight()) };
-				leftTop *= -0.5f;
-				leftTop *= MusicBarObjectClickableBackgroundAreaScale;
-				AstrumVector2 rightBottom = leftTop * -1.f;
-
-				leftTop.X += this->GetAbsolutePosition().X;
-				leftTop.Y += this->GetAbsolutePosition().Y;
-
-				rightBottom.X += this->GetAbsolutePosition().X;
-				rightBottom.Y += this->GetAbsolutePosition().Y;
-
-				return AstrumRect(leftTop,rightBottom);
-			};
-		}
-
-		virtual void Update() override {
-			if (AstrumRawInput::IsMouseClickNow()) {
-				if (backgroundAABB->IsOverlapToMousePointer()) {
-					DataManager::Instance().CurrentSelectedMusicBar = this;
-					std::wcout << L"Selected music: " << musicData.GetName() << std::endl;
-				}
-			}
-			//if (AstrumRawInput::IsMouseClickNow() && backgroundAABB->IsOverlapToMousePointer()) {
-			//	DataManager::Instance().CurrentSelectedMusicBar = this;
-			//}
-
-			AstrumGroupObject::Update();
-		}
+		virtual void Update() override;
 
 		const Arcaea::MusicData* GetMusicData() { return &musicData; }
 	private:
