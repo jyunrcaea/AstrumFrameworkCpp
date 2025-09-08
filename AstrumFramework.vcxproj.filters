@@ -83,6 +83,8 @@
     <ClCompile Include="Game\InGame\InGameSceneObject.cpp" />
     <ClCompile Include="Game\Selector\DataManager.cpp" />
     <ClCompile Include="Astrum\Resources\IAstrumTexture.cpp" />
+    <ClCompile Include="Game\Selector\CurrentSelectedObject.cpp" />
+    <ClCompile Include="Game\Selector\MusicBarObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Astrum\Components\AstrumPostProcessRenderComponent.hpp" />
@@ -229,6 +231,8 @@
     <ClInclude Include="Game\Loading\LoadingSceneObject.hpp" />
     <ClInclude Include="Game\Loading\SlideBackgroundObject.hpp" />
     <ClInclude Include="Game\SceneManager.hpp" />
+    <ClInclude Include="Game\Selector\CurrentSelectedObject.hpp" />
+    <ClInclude Include="Game\InGame\BackgroundObject.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
