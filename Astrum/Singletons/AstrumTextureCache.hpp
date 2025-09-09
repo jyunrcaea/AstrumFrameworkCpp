@@ -16,7 +16,7 @@ public:
     void CleanUp();
     std::filesystem::path DefaultRelativeDirectory = L"./Game/Assets/";
 private:
-    std::unordered_map<std::wstring, std::weak_ptr<AstrumTexture>> textureMap;
+    std::unordered_map<std::wstring, std::shared_ptr<AstrumTexture>> textureMap;
 };
 
 class AstrumTextureCache {
@@ -40,10 +40,8 @@ inline std::shared_ptr<AstrumTexture> AstrumTextureCacheSingleton::Load(PathType
     std::wstring name{
         std::forward<PathType>(path).is_absolute() ? std::forward<PathType>(path) : std::filesystem::canonical(DefaultRelativeDirectory / std::forward<PathType>(path))
     };
-    std::shared_ptr<AstrumTexture> texture;
-    if (textureMap.contains(name) && (texture = textureMap[name].lock())) {
-        return texture;
+    if (textureMap.contains(name)) {
+        return textureMap[name];
     }
-    textureMap[name] = texture = AstrumTexture::MakeShared(name);
-    return texture;
+    return textureMap[name] = AstrumTexture::MakeShared(name);
 }

@@ -6,8 +6,6 @@
 #include "../Singletons/AstrumRenderer.hpp"
 #include "IAstrumTexture.hpp"
 
-using Microsoft::WRL::ComPtr;
-
 class AstrumTexture : public IAstrumTexture
 {
 private:
@@ -24,7 +22,7 @@ public:
     virtual unsigned int GetWidth() const override;
     virtual unsigned int GetHeight() const override;
 private:
-    ComPtr<ID3D11ShaderResourceView> shaderResourceView;
+    Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> shaderResourceView;
     unsigned int width = 0, height = 0;
 
 public:
