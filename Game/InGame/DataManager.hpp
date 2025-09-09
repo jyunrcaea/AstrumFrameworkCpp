@@ -74,6 +74,8 @@ namespace InGame {
 		}
 
 		const Arcaea::MusicData* CurrentMusic = nullptr;
+
+		unsigned char LaneBindKey[4]{ 'D', 'F', 'J', 'K' };
 	private:
 		std::shared_ptr<AstrumShaderSetup> shader = nullptr;
 	};
