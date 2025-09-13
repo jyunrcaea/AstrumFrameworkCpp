@@ -8,7 +8,7 @@ namespace InGame {
 	{
 	public:
 		NoteViewObject(const Arcaea::NoteData& data) : AstrumRectangleObject(NoteWidth, 40, AstrumColor::SkyBlue) {
-			Position.SetX(static_cast<float>(LeftX + (NoteWidth / 2.f) + data.Data[1] * NoteWidth));
+			Position.SetX(static_cast<float>(LeftX - (NoteWidth * 0.5f) + data.Data[1] * NoteWidth));
 			Position.SetY(data.GetStartOffset() + 20);
 		}
 	};

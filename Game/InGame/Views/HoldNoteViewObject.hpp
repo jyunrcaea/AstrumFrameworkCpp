@@ -16,8 +16,8 @@ namespace InGame {
 				AstrumColor::LightSeaGreen
 			));
 
-			Position.SetX(static_cast<float>(LeftX + (NoteWidth / 2.f) + data.Data[2] * NoteWidth));
-			Position.SetY(data.GetStartOffset() + height / 2.f);
+			Position.SetX(static_cast<float>(LeftX - (NoteWidth * 0.5f) + data.Data[2] * NoteWidth));
+			Position.SetY(data.GetStartOffset() + height * 0.5f);
 		}
 
 	private:

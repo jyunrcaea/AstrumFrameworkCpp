@@ -11,7 +11,7 @@
 
 namespace InGame {
 	constexpr float NoteWidth = 250.f;
-	constexpr float LeftX = NoteWidth * -3.f;
+	constexpr float LeftX = NoteWidth * -2.f;
 	constexpr float SkyNoteY = 300.f;
 
 	class DataManager : public AstrumSingleton<DataManager>

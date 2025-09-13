@@ -9,8 +9,8 @@ namespace InGame {
 	public:
 		TraceLineViewObject(const Arcaea::NoteData& data) {
 			height = static_cast<float>(data.Data[1] - data.Data[0]);
-			const float startX = static_cast<float>(LeftX + (NoteWidth * 1.5f) + (NoteWidth * 3.f) * data.Data[2]);
-			const float endX = static_cast<float>(LeftX + (NoteWidth * 1.5f) + (NoteWidth * 3.f) * data.Data[3]);
+			const float startX = static_cast<float>(LeftX + (NoteWidth * 0.5f) + (NoteWidth * 3.f) * data.Data[2]);
+			const float endX = static_cast<float>(LeftX + (NoteWidth * 0.5f) + (NoteWidth * 3.f) * data.Data[3]);
 
 			auto color = AstrumColor::Periwinkle;
 			color.Alpha = 0.5f;

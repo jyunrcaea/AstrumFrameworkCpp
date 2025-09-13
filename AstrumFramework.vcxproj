@@ -264,6 +264,7 @@
     <ClInclude Include="Game\Arcaea\ArcaeaMusicDataManager.hpp" />
     <ClInclude Include="Game\FrameworkTest.hpp" />
     <ClInclude Include="Game\InGame\BackgroundObject.hpp" />
+    <ClInclude Include="Game\InGame\Views\LaneObject.hpp" />
     <ClInclude Include="Game\InGame\Models\INoteModel.hpp" />
     <ClInclude Include="Game\InGame\Views\ArcViewObject.hpp" />
     <ClInclude Include="Game\InGame\DataManager.hpp" />

@@ -233,6 +233,7 @@
     <ClInclude Include="Game\SceneManager.hpp" />
     <ClInclude Include="Game\Selector\CurrentSelectedObject.hpp" />
     <ClInclude Include="Game\InGame\BackgroundObject.hpp" />
+    <ClInclude Include="Game\InGame\Views\LaneObject.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
