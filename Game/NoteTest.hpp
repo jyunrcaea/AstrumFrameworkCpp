@@ -16,7 +16,7 @@ class Program
 	friend int main();
 
 private:
-	static void Main() {
+	static int Main() {
 		AstrumFramework::Initialize();
 		AstrumChrono::SetFramerate(300);
 
@@ -31,6 +31,6 @@ private:
 				std::make_shared<Selector::SceneObject>()
 			);
 		});
-		AstrumFramework::Run();
+		return AstrumFramework::Run();
 	}
 };

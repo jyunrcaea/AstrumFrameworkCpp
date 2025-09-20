@@ -2,7 +2,7 @@
 #include <string>
 #include "../AstrumException.hpp"
 
-#define ThrowInitializeException(message, result) AstrumException(__LINE__, __FILE__,std::format("{}. (FMOD_RESULT: {})", message, result)).Alert();
+#define ThrowInitializeException(message, result) AstrumException(__LINE__, __FILE__,std::format("{}. (FMOD_RESULT: {})", message, static_cast<int>(result))).Alert();
 
 AstrumSound::AstrumSound(const std::filesystem::path& soundFilePath, bool loop, std::shared_ptr<AstrumChannelGroup> group)
 	: group(nullptr == group ? AstrumSoundManager::GetMasterChannelGroup() : group)

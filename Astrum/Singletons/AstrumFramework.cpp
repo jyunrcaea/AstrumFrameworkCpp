@@ -30,16 +30,17 @@ bool AstrumFrameworkSingleton::Initialize(const std::wstring& title, unsigned in
     ) return false; 
     AstrumSoundManager::Initialize(); // fmod 초기화
     AstrumChrono::Initialize();
+    return true;
 }
 
 int AstrumFrameworkSingleton::Run() {
     if (!IsInitialized()) {
         AstrumException(__LINE__, __FILE__, "Framework is not initialized.").Alert();
-        return;
+        return 0;
     }
     if (isRunning) {
         AstrumException(__LINE__, __FILE__, "Framework is already running.").Alert();
-        return;
+        return 0;
     }
 
     isRunning = true;

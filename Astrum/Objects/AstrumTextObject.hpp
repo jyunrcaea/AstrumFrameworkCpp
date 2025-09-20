@@ -34,15 +34,6 @@ public:
     float GetLayoutWidth() const { return localLayoutWidth; }
     float GetLayoutHeight() const { return localLayoutWidth; }
 
-public:
-    static std::shared_ptr<AstrumTextObject> MakeShared() { return std::make_shared<AstrumTextObject>(); }
-    static std::shared_ptr<AstrumTextObject> MakeShared(const std::wstring& text, const std::shared_ptr<AstrumTargetFont>& font) {
-        return std::make_shared<AstrumTextObject>(text, font);
-    }
-    static std::shared_ptr<AstrumTextObject> MakeShared(std::wstring&& text, std::shared_ptr<AstrumTargetFont>&& font) {
-        return std::make_shared<AstrumTextObject>(std::move(text), std::move(font));
-    }
-
 protected:
     virtual void UpdateAbsoluteScale() override {
         AstrumObject::UpdateAbsoluteScale();
@@ -61,5 +52,11 @@ public:
     static std::shared_ptr<AstrumTextObject> MakeShared(const std::wstring& text, const std::shared_ptr<AstrumTargetFont>& font) {
         return std::make_shared<AstrumTextObject>(text, font);
 	}
+    static std::shared_ptr<AstrumTextObject> MakeShared(std::wstring&& text, std::shared_ptr<AstrumTargetFont>&& font) {
+        return std::make_shared<AstrumTextObject>(std::move(text), std::move(font));
+    }
+    static std::shared_ptr<AstrumTextObject> MakeShared(std::wstring&& text, const std::shared_ptr<AstrumTargetFont>& font) {
+        return std::make_shared<AstrumTextObject>(std::move(text), font);
+    }
 };
 

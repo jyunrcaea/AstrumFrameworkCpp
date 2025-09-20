@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include <string>
 #include <wrl/client.h>
 #include <d2d1.h>
@@ -42,6 +43,7 @@ public:
 	float GetHeight() const { return layoutHeight; }
 	void SetWidth(float newWidth) { layoutWidth = newWidth; }
 	void SetHeight(float newHeight) { layoutHeight = newHeight; }
+
 private:
 	std::shared_ptr<AstrumTargetFont> targetFont = nullptr;
 	std::wstring text;
@@ -56,6 +58,33 @@ private:
 	Microsoft::WRL::ComPtr<IDWriteTextLayout> textLayout = nullptr;
 	bool layoutDirty = true;
 	bool colorDirty = true;
+
+public:
+	static std::shared_ptr<AstrumTextRenderComponent> MakeShared() { return std::make_shared<AstrumTextRenderComponent>(); }
+	static std::shared_ptr<AstrumTextRenderComponent> MakeShared(const std::wstring& text, const std::shared_ptr<AstrumTargetFont>& font) {
+		auto instance = std::make_shared<AstrumTextRenderComponent>();
+		instance->SetText(text);
+		instance->SetFont(font);
+		return instance;
+	}
+	static std::shared_ptr<AstrumTextRenderComponent> MakeShared(std::wstring&& text, std::shared_ptr<AstrumTargetFont>&& font) {
+		auto instance = std::make_shared<AstrumTextRenderComponent>();
+		instance->SetText(std::move(text));
+		instance->SetFont(std::move(font));
+		return instance;
+	}
+	static std::shared_ptr<AstrumTextRenderComponent> MakeShared(const std::wstring& text, std::shared_ptr<AstrumTargetFont>&& font) {
+		auto instance = std::make_shared<AstrumTextRenderComponent>();
+		instance->SetText(text);
+		instance->SetFont(std::move(font));
+		return instance;
+	}
+	static std::shared_ptr<AstrumTextRenderComponent> MakeShared(std::wstring&& text, const std::shared_ptr<AstrumTargetFont>& font) {
+		auto instance = std::make_shared<AstrumTextRenderComponent>();
+		instance->SetText(std::move(text));
+		instance->SetFont(font);
+		return instance;
+	}
 };
 
 template<typename T>

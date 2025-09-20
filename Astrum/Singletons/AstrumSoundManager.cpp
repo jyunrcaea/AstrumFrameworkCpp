@@ -3,13 +3,13 @@
 #include <format>
 #include "../AstrumException.hpp"
 
-#define ThrowInitalizeException(message, result) AstrumException(__LINE__, __FILE__, std::format("{}. (FMOD_RESULT: {})", message, result)).Alert();
+#define ThrowInitalizeException(message, result) AstrumException(__LINE__, __FILE__, std::format("{} (FMOD_RESULT: {})", message, static_cast<int>(result))).Alert();
 
 AstrumSoundManagerSingleton::AstrumSoundManagerSingleton() { }
 
 void AstrumSoundManagerSingleton::Initialize() {
 	FMOD_RESULT result;
-	auto throwException = [result](const char* message) { ThrowInitalizeException(message, result); };
+	auto throwException = [result](std::string&& message) { ThrowInitalizeException(message, result); };
 
 	if (FMOD::System* systemPtr = nullptr; (result = FMOD::System_Create(&systemPtr)) != FMOD_RESULT::FMOD_OK) {
 		throwException("Failed to create fmod system");
