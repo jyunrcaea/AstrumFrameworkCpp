@@ -3,7 +3,7 @@
 #include "AstrumRenderQueue.hpp"
 #include "../Graphics/AstrumRenderTarget.hpp"
 
-void AstrumRenderer::Initialize(unsigned int width, unsigned int height, bool windowMode) {
+bool AstrumRenderer::Initialize(unsigned int width, unsigned int height, bool windowMode) {
     UINT flags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
 #ifdef _DEBUG
     flags |= D3D11_CREATE_DEVICE_DEBUG;
@@ -14,9 +14,10 @@ void AstrumRenderer::Initialize(unsigned int width, unsigned int height, bool wi
     if (FAILED(D3D11CreateDevice(
         nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, flags,
         nullptr, 0, D3D11_SDK_VERSION,
-        &device, &featureLevel, &context)))
-    {
-        throw AstrumException("Direct3D11 device creating failed.");
+        &device, &featureLevel, &context
+    ))) {
+        AstrumException("Direct3D11 device creating failed.").Alert();
+        return false;
     }
 #pragma endregion
 
@@ -65,18 +66,21 @@ void AstrumRenderer::Initialize(unsigned int width, unsigned int height, bool wi
     adapter->GetParent(IID_PPV_ARGS(&factory));
 
     if (FAILED(factory->CreateSwapChain(device.Get(), &swapChainDesc, &swapChain))) {
-        throw AstrumException("Swap chain creating failed.");
+        AstrumException("Swap chain creating failed.").Alert();
+        return false;
     }
 #pragma endregion
 
 #pragma region Create render target view
     ComPtr<ID3D11Texture2D> backBuffer;
     if (FAILED(swapChain->GetBuffer(0, IID_PPV_ARGS(&backBuffer)))) {
-        throw AstrumException("Get buffer from swap chain failed.");
+        AstrumException("Get buffer from swap chain failed.").Alert();
+        return false;
     }
 
     if (FAILED(device->CreateRenderTargetView(backBuffer.Get(), nullptr, &renderTargetView))) {
-        throw AstrumException("Render target view creating failed.");
+        AstrumException("Render target view creating failed.").Alert();
+        return false;
     }
 #pragma endregion
 
@@ -92,10 +96,12 @@ void AstrumRenderer::Initialize(unsigned int width, unsigned int height, bool wi
 
     ComPtr<ID3D11Texture2D> depthBuffer;
     if (FAILED(device->CreateTexture2D(&depthDesc, nullptr, &depthBuffer))) {
-        throw AstrumException("Create depth buffer failed.");
+        AstrumException("Create depth buffer failed.").Alert();
+        return false;
     }
     if (FAILED(device->CreateDepthStencilView(depthBuffer.Get(), nullptr, &depthStencilView))) {
-        throw AstrumException("Create depth stencil view failed.");
+        AstrumException("Create depth stencil view failed.").Alert();
+        return false;
     }
 #pragma endregion
 
@@ -106,7 +112,8 @@ void AstrumRenderer::Initialize(unsigned int width, unsigned int height, bool wi
     dsDesc.DepthFunc = D3D11_COMPARISON_LESS;
     dsDesc.StencilEnable = FALSE;
     if (FAILED(device->CreateDepthStencilState(&dsDesc, &depthStencilState))) {
-        throw AstrumException("Create depth stencil state failed.");
+        AstrumException("Create depth stencil state failed.").Alert();
+        return false;
     }
 #pragma endregion
 
@@ -125,8 +132,10 @@ void AstrumRenderer::Initialize(unsigned int width, unsigned int height, bool wi
     //blendDescription.AlphaToCoverageEnable = true; // 라기에는 투명도를 잘 표현하지 못하는 문제가 생기므로 취소.
     // 여러개의 렌더 타겟에서 각각 다른 블렌딩 설정을 쓸지
     blendDescription.IndependentBlendEnable = false;
-    if (FAILED(device->CreateBlendState(&blendDescription, &blendState)))
-        throw AstrumException("Failed to create blend state.");
+    if (FAILED(device->CreateBlendState(&blendDescription, &blendState))) {
+        AstrumException("Failed to create blend state.").Alert();
+        return false;
+    }
 #pragma endregion
 
 #pragma region Viewport
@@ -141,16 +150,20 @@ void AstrumRenderer::Initialize(unsigned int width, unsigned int height, bool wi
 
 #pragma region Initialize 2D render target
     if (FAILED(D2D1CreateFactory(D2D1_FACTORY_TYPE_MULTI_THREADED, factory2D.GetAddressOf()))) {
-        throw AstrumException("Failed to create D2D factory.");
-	}
+        AstrumException("Failed to create D2D factory.").Alert();
+        return false;
+    }
 
-	ComPtr<IDXGISurface> backSurface;
-	swapChain->GetBuffer(0, IID_PPV_ARGS(&backSurface));
-	if (FAILED(factory2D->CreateDxgiSurfaceRenderTarget(
-		backSurface.Get(),
+    ComPtr<IDXGISurface> backSurface;
+    swapChain->GetBuffer(0, IID_PPV_ARGS(&backSurface));
+    if (FAILED(factory2D->CreateDxgiSurfaceRenderTarget(
+        backSurface.Get(),
         D2D1::RenderTargetProperties(D2D1_RENDER_TARGET_TYPE_HARDWARE, D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED)),
         renderTarget2D.GetAddressOf()
-	))) throw AstrumException("Failed to create D2D render target.");
+    ))) {
+        AstrumException("Failed to create D2D render target.");
+        return false;
+    }
 #pragma endregion
 
 	mainRenderTarget = AstrumRenderTarget::MakeShared(width, height);

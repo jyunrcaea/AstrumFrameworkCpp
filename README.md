@@ -53,8 +53,8 @@
 
 ### 3. 렌더링 파이프라인
 1.  `IAstrumObject::Draw()` 호출 : `Update()`가 끝난 이후 `Draw()` 메소드가 호출됩니다.
-2.  렌더링 큐에 등록: 그릴수 있는 객체들에 한해 오버라이딩 된 `Draw()` 함수에서 `AstrumRenderer::Instance().EnqueueRenderable(IAstrumRenderable)`를 통해 큐에 등록합니다.
-3.  일괄 렌더링: `AstrumRenderer::Rendering()` 함수에서 큐를 비울때까지, `IAstrumRenderable::PreRender()`와 `IAstrumRenderable::Render()`를 순차적으로 호출합니다.
+2.  렌더링 큐에 등록: 그릴수 있는 객체들에 한해 오버라이딩 된 `Draw()` 함수에서 `AstrumRenderQueue::Enqueue(IAstrumRenderable)`를 통해 큐에 등록합니다.
+3.  일괄 렌더링: `AstrumRenderQueue` 클래스가 큐의 모든 객체를 순회하며`IAstrumRenderable::PreRender()`를 모두 호출해준 후, 큐를 비우면서  `IAstrumRenderable::Render()`를 순차적으로 호출합니다.
     - `PreRender()`: 월드/뷰/투영 행렬과 같은 변환 정보를 계산하고 상수 버퍼를 업데이트합니다. (일부 과정이 추가됬을수도 있지만, 기본적으로 이렇습니다.)
     - `Render()`: 실제 그리기(Draw Call) 명령을 실행합니다.
 
@@ -80,7 +80,9 @@
 
 ### 유용한 싱글톤
 - `AstrumKeyBinder` : 한개 이상의 키 목록에 이름을 부여해서(`AddKeyBind(name, key)`), 해당 목록중에서 눌린 키가 하나라도 있는지 이름을 통해 조회합니다(`IsKeyPressed(name)`).
-- `AstrumTextureCache` : 텍스쳐를 캐싱하여 중복 로딩을 방지합니다. `GetTexture(path)`를 통해 경로로 텍스쳐를 가져오고, 없으면 로드하여 캐싱합니다.
+- `AstrumTextureCache` : 텍스쳐를 캐싱하여 중복 로딩을 방지합니다. `Load(path)`를 통해 경로로 텍스쳐를 가져오고, 없으면 로드하여 캐싱합니다.
+- `AstrumFontCache` : 폰트(컬렉션)를 캐싱하여 중복 로딩을 방지합니다. `Load(path)`를 통해 경로로 폰트를 가져오고, 없으면 로드하여 캐싱합니다.
+- `AstrumSoundCache` : 사운드를 캐싱하여 중복 로딩을 방지합니다. `Load(path)`를 통해 경로로 사운드를 가져오고, 없으면 로드하여 캐싱합니다.
 
 위 싱글톤들은 모두 편의를 위해 존재하며, 사용하지 않는 한, 기본적으로 의존성을 가지지 않습니다.
 
@@ -88,40 +90,34 @@
 ## 시작하기
 `Program.hpp`의 `Main()` 함수를 참고해보세요.
 ```cpp
-#include "AstrumFramework.hpp"
-#include "MyCustomObject.hpp" // 사용자 정의 객체
-
-void PrepareShaders() {
-    // 도형 렌더링을 위한 기본 셰이더 설정
-    auto shapePipeline = AstrumShaderSetup::MakeShared()
-    shapePipeline->VertexShader = AstrumVertexShader::MakeShared(L"./Shaders/ColorMesh.fx", "ColorMeshVS");
-    shapePipeline->PixelShader = AstrumPixelShader::MakeShared(L"./Shaders/ColorMesh.fx", "ColorMeshPS");
-    shapePipeline->AddInputLayoutDescription("POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0);
-    shapePipeline->AddInputLayoutDescription("COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-    AstrumRenderer::Instance().DefaultShapeShaderPipeline = shapePipeline;
-
-    // 텍스처 렌더링을 위한 기본 셰이더 설정
-    // (마찬가지로 shapePipeline처럼 설정해주면 됨.)
-}
+#include "Astrum/Singletons/AstrumFramework.hpp"
+#include "Astrum/Singletons/AstrumTextureCache.hpp"
+#include "Astrum/Objects/AstrumGroupObject.hpp"
+#include "Astrum/Objects/AstrumMaterialObject.hpp"
+#include "Astrum/Resources/AstrumMaterial.hpp"
 
 int main() {
     // 1. 프레임워크 초기화
     AstrumFramework::Initialize(L"My Astrum Game", 1280, 720);
 
-    // 2. 기본 셰이더 준비
-    PrepareShaders();
+    // 2. 리소스 준비
+    auto material = AstrumMaterial::MakeShared(
+        AstrumTextureCache::Load("Assets/Textures/my_texture.png")
+    );
 
-    // 3. 루트 객체에 씬(Scene) 또는 객체 할당
-    auto myScene = std::make_shared<AstrumGroupObject>();
-    auto myObject = std::make_shared<AstrumObject>();
+    // 3. 객체 생성
+    std::shared_ptr<AstrumGroupObject> groupObject = AstrumGroupObject::MakeShared();
+    std::shared_ptr<AstrumMaterialObject> materialObject = AstrumMaterialObject::MakeShared(std::move(material));
 
-    // 3-1. myScene를 부모로, myObject를 자식으로 추가
-    myScene->AddObject(myObject);
+    // 3-1. groupObject를 부모로, materialObject를 자식으로 추가
+    groupObject->AddObject(materialObject);
 
     // 4. 루트 AstrumGroupObject 할당
-    AstrumFramework::RootObject = myScene;
+    AstrumFramework::SetRootObject(groupObject);
 
     // 5. 실행!
     AstrumFramework::Run();
+
+    return 0;
 }
 ```

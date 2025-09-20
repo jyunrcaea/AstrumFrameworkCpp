@@ -32,4 +32,9 @@ private:
 
 	std::shared_ptr<AstrumSimpleRenderable> bindRenderTarget = nullptr;
 	std::shared_ptr<AstrumSimpleRenderable> unbindRenderTarget = nullptr;
+
+public:
+	static std::shared_ptr<AstrumPostProcessGroupObject> MakeShared() { return std::make_shared<AstrumPostProcessGroupObject>(); }
+	static std::shared_ptr<AstrumPostProcessGroupObject> MakeShared(const std::shared_ptr<IAstrumConstantBuffer>& constantBuffer) { return std::make_shared<AstrumPostProcessGroupObject>(constantBuffer); }
+	static std::shared_ptr<AstrumPostProcessGroupObject> MakeShared(std::shared_ptr<IAstrumConstantBuffer>&& constantBuffer) { return std::make_shared<AstrumPostProcessGroupObject>(std::move(constantBuffer)); }
 };

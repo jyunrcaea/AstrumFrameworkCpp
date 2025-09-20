@@ -49,7 +49,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -157,6 +157,7 @@
     <ClCompile Include="Astrum\Components\AstrumAnimatorComponent.cpp" />
     <ClCompile Include="Astrum\Components\AstrumConstantBufferComponent.cpp" />
     <ClCompile Include="Astrum\Graphics\AstrumCamera.cpp" />
+    <ClCompile Include="Astrum\Singletons\AstrumSoundCache.cpp" />
     <ClCompile Include="Astrum\Vectors\AstrumDoubleVector3.cpp" />
     <ClCompile Include="Game\Arcaea\ArcaeaChartParser.cpp" />
     <ClCompile Include="Astrum\Objects\AstrumTransformObject.cpp" />
@@ -237,10 +238,12 @@
     <ClInclude Include="Astrum\Graphics\AstrumRenderTarget.hpp" />
     <ClInclude Include="Astrum\Graphics\AstrumSimpleRenderable.hpp" />
     <ClInclude Include="Astrum\Objects\AstrumPostProcessGroupObject.hpp" />
+    <ClInclude Include="Astrum\Objects\AstrumTextObject.hpp" />
     <ClInclude Include="Astrum\Resources\IAstrumTexture.hpp" />
     <ClInclude Include="Astrum\Singletons\AstrumFontsCache.hpp" />
     <ClInclude Include="Astrum\Singletons\AstrumRawInput.hpp" />
     <ClInclude Include="Astrum\Singletons\AstrumShaderCache.hpp" />
+    <ClInclude Include="Astrum\Singletons\AstrumSoundCache.hpp" />
     <ClInclude Include="Astrum\Vectors\AstrumDoubleVector2.hpp" />
     <ClInclude Include="Astrum\Vectors\AstrumLongVector2.hpp" />
     <ClInclude Include="Game\Arcaea\ArcaeaChart.hpp" />
@@ -375,6 +378,7 @@
     <ClInclude Include="Game\Selector\MusicBarListObject.hpp" />
     <ClInclude Include="Game\Selector\MusicThumbnailObject.hpp" />
     <ClInclude Include="Game\Selector\SelectorSceneObject.hpp" />
+    <ClInclude Include="Game\TestObject.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />

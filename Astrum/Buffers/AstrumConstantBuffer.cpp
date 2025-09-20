@@ -9,7 +9,7 @@ AstrumConstantBuffer::AstrumConstantBuffer(unsigned int size) : bufferSize(size)
     desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
     if (FAILED(AstrumRenderer::Instance().GetDevice()->CreateBuffer(&desc, nullptr, buffer.GetAddressOf())))
-        throw AstrumException("Failed to create constant buffer.");
+        AstrumException("Failed to create constant buffer.").Alert();
 }
 
 AstrumConstantBuffer::~AstrumConstantBuffer() {
@@ -33,11 +33,7 @@ void AstrumConstantBuffer::Update(std::span<const std::byte> data) {
 
     D3D11_MAPPED_SUBRESOURCE mapped{};
     if (FAILED(context->Map(buffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped))) {
-#if _DEBUG
-        throw AstrumException("Failed to map constant buffer.");
-#else
-        std::cout << "[ERROR] Failed to map constant buffer." << std::endl;
-#endif
+        AstrumException("Failed to map constant buffer.").Alert();
     }
 
     std::memcpy(mapped.pData, data.data(), bufferSize);

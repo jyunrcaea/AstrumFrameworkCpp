@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include "../Objects/AstrumObject.hpp"
 #include "../Components/AstrumTextRenderComponent.hpp"
 
@@ -54,5 +55,11 @@ private:
     float localLayoutWidth, localLayoutHeight;
     void UpdateLayoutWidth() { textRenderer->SetWidth(GetAbsoluteScale().X * localLayoutWidth); }
     void UpdateLayoutHeight() { textRenderer->SetHeight(GetAbsoluteScale().Y * localLayoutHeight); }
+
+public:
+	static std::shared_ptr<AstrumTextObject> MakeShared() { return std::make_shared<AstrumTextObject>(); }
+    static std::shared_ptr<AstrumTextObject> MakeShared(const std::wstring& text, const std::shared_ptr<AstrumTargetFont>& font) {
+        return std::make_shared<AstrumTextObject>(text, font);
+	}
 };
 

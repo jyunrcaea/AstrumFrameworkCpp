@@ -1,22 +1,9 @@
 #include "AstrumSoundManager.hpp"
 #include <string>
+#include <format>
 #include "../AstrumException.hpp"
 
-#if _DEBUG
-#include <format>
-#else
-#include <iostream>
-#endif
-
-namespace {
-	void ThrowInitalizeException(const char* message, int result) {
-#if _DEBUG
-		throw AstrumException(__LINE__, __FILE__,std::format("{}. (FMOD_RESULT: {})", message, result));
-#else
-		std::cout << "[ERROR] "<< message << ". (FMOD_RESULT: " << result << ")" << std::endl;
-#endif
-	}
-}
+#define ThrowInitalizeException(message, result) AstrumException(__LINE__, __FILE__, std::format("{}. (FMOD_RESULT: {})", message, result)).Alert();
 
 AstrumSoundManagerSingleton::AstrumSoundManagerSingleton() { }
 

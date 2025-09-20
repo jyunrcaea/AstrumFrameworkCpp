@@ -21,6 +21,10 @@ struct IAstrumObject : public std::enable_shared_from_this<IAstrumObject> {
     virtual AstrumObservedVector3& GetRotation() = 0;
     virtual AstrumObservedVector3& GetScale() = 0;
 
+    virtual const AstrumVector3& GetAbsolutePosition() = 0;
+    virtual const AstrumVector3& GetAbsoluteRotation() = 0;
+    virtual const AstrumVector3& GetAbsoluteScale() = 0;
+
     void SetPosition(const AstrumObservedVector3& vec);
     void SetRotation(const AstrumObservedVector3& vec);
     void SetScale(const AstrumObservedVector3& vec);
@@ -45,10 +49,6 @@ struct IAstrumObject : public std::enable_shared_from_this<IAstrumObject> {
 	void SetScaleX(float x);
 	void SetScaleY(float y);
 	void SetScaleZ(float z);
-
-    virtual const AstrumVector3& GetAbsolutePosition() = 0;
-    virtual const AstrumVector3& GetAbsoluteRotation() = 0;
-    virtual const AstrumVector3& GetAbsoluteScale() = 0;
 
     virtual IAstrumGroupObject* GetParent() const = 0;
     virtual bool SetParent(IAstrumGroupObject* const parent) = 0;

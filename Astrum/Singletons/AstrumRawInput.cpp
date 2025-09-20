@@ -19,7 +19,8 @@ void AstrumRawInputSingleton::Initialize() {
 	rid[1].hwndTarget = AstrumWindow::GetHandle();
 
 	if (false == RegisterRawInputDevices(rid, 2, sizeof(RAWINPUTDEVICE))) {
-		throw AstrumException(std::format("Failed to register raw input device. Error code: {}", GetLastError()));
+		AstrumException(__LINE__, __FILE__, std::format("Failed to register raw input device. Error code: {}", GetLastError())).Alert();
+		return;
 	}
 }
 

@@ -9,10 +9,8 @@ AstrumPixelShader::AstrumPixelShader(const std::wstring& path, const std::string
         blob->GetBufferPointer(),
         blob->GetBufferSize(),
         nullptr,
-        &shader)))
-    {
-        throw AstrumException("CreatePixelShader failed.");
-    }
+        &shader
+    ))) AstrumException(__LINE__, __FILE__, "CreatePixelShader failed.").Alert();
 }
 
 void AstrumPixelShader::SetShader() {

@@ -21,6 +21,9 @@ public:
     virtual ID3D11ShaderResourceView* GetShaderResourceView() const override;
     virtual unsigned int GetWidth() const override;
     virtual unsigned int GetHeight() const override;
+
+	bool IsValid() const noexcept { return shaderResourceView != nullptr; }
+	operator bool() const noexcept { return shaderResourceView != nullptr; }
 private:
     Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> shaderResourceView;
     unsigned int width = 0, height = 0;

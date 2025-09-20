@@ -9,7 +9,14 @@ public:
     AstrumException(const std::wstring& message) : std::runtime_error(wstr2str(message)) { print(); }
     AstrumException(const int line, const std::string& file, const std::string& message) : std::runtime_error(message +" (Line: " + std::to_string(line) + ", File: {" + file +"})") { print(); }
     AstrumException(const int line, const std::string& file, const std::wstring& message) : std::runtime_error(wstr2str(message) +" (Line: " + std::to_string(line) + ", File: '" + file + "')") { print(); }
-
+    
+#if _DEBUG
+	// In debug mode, throw the exception to break execution.
+    void Alert() const { throw this; }
+#else
+	// In release mode, just print the error message.
+    void Alert() noexcept const { print(); }
+#endif
 private:
     std::string wstr2str(const std::wstring& wstr);
     void print();

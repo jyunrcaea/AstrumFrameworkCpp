@@ -4,7 +4,7 @@ AstrumTransformConstantBuffer::AstrumTransformConstantBuffer()
     : AstrumConstantBuffer(sizeof(AstrumTransformData)) {
 #if _DEBUG
     if (GetBufferSize() % 16 != 0)
-        throw AstrumException("Constant buffer size must be 16-byte aligned.");
+        AstrumException("Constant buffer size must be 16-byte aligned.").Alert();
 #endif
     data.View = AstrumMatrix::Identity;
 }
@@ -23,6 +23,6 @@ void AstrumTransformConstantBuffer::UpdateBuffer() {
     UpdateConstantBuffer(data);
     SetVertexShaderConstantBuffer(0);
 #if _DEBUG
-    if (nullptr == buffer) throw AstrumException("Buffer be nullptr.");
+    if (nullptr == buffer) AstrumException("Buffer be nullptr.").Alert();
 #endif
 }

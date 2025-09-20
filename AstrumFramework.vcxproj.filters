@@ -85,6 +85,7 @@
     <ClCompile Include="Astrum\Resources\IAstrumTexture.cpp" />
     <ClCompile Include="Game\Selector\CurrentSelectedObject.cpp" />
     <ClCompile Include="Game\Selector\MusicBarObject.cpp" />
+    <ClCompile Include="Astrum\Singletons\AstrumSoundCache.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Astrum\Components\AstrumPostProcessRenderComponent.hpp" />
@@ -234,6 +235,9 @@
     <ClInclude Include="Game\Selector\CurrentSelectedObject.hpp" />
     <ClInclude Include="Game\InGame\BackgroundObject.hpp" />
     <ClInclude Include="Game\InGame\Views\LaneObject.hpp" />
+    <ClInclude Include="Astrum\Objects\AstrumTextObject.hpp" />
+    <ClInclude Include="Game\TestObject.hpp" />
+    <ClInclude Include="Astrum\Singletons\AstrumSoundCache.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />

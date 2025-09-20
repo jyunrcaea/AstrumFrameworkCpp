@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include <memory>
 #include "IAstrumObject.hpp"
 #include "IAstrumGroupObject.hpp"
 #include "../Vectors/AstrumVector3.hpp"
@@ -70,4 +71,7 @@ private:
     AstrumVector3 absoluteScale;
 
     IAstrumGroupObject* parent = nullptr; // Parent reference me by shared_ptr, and parent did allocate it. so do not need shared_ptr.
+
+public:
+	static std::shared_ptr<AstrumObject> MakeShared() { return std::make_shared<AstrumObject>(); }
 };

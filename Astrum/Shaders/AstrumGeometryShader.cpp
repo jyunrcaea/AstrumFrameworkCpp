@@ -9,10 +9,8 @@ AstrumGeometryShader::AstrumGeometryShader(const std::wstring& path, const std::
         blob->GetBufferPointer(),
         blob->GetBufferSize(),
         nullptr,
-        &shader)))
-    {
-        throw AstrumException("CreateGeometryShader failed.");
-    }
+        &shader
+    ))) AstrumException("CreateGeometryShader failed.").Alert();
 }
 
 void AstrumGeometryShader::SetShader() {

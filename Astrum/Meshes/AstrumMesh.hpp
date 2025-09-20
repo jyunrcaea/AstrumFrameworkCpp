@@ -49,9 +49,7 @@ protected:
 
         D3D11_MAPPED_SUBRESOURCE mapped{};
         if (FAILED(ctx->Map(vertexBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped))) {
-#if _DEBUG
-            throw AstrumException("Failed to map vertex buffer.");
-#endif
+            AstrumException(__LINE__, __FILE__, "Failed to map vertex buffer.").Alert();
         }
 
         std::memcpy(mapped.pData, data.data(), data.size());
@@ -77,22 +75,16 @@ AstrumMesh<VertexType>::AstrumMesh(const std::vector<VertexType>& vertices,
  : vertices(vertices), primitive(primitive), bufferFormat(format), indexCount(static_cast<unsigned int>(indices.size())) {
     // Create vertex buffer
     if (false == AstrumRenderer::Instance().CreateBuffer(vertices, vertexBuffer, D3D11_BIND_VERTEX_BUFFER, vertexUsage)) {
-#if _DEBUG
-        throw AstrumException("Create vertex buffer failed.");
-#else
+        AstrumException(__LINE__, __FILE__, "Create vertex buffer failed.").Alert();
         vertexBuffer.Reset();
         return;
-#endif
     }
     // Create index buffer
     if (false == AstrumRenderer::Instance().CreateBuffer(indices, indexBuffer, D3D11_BIND_INDEX_BUFFER, indexUsage)) {
-#if _DEBUG
-        throw AstrumException("Create index buffer failed.");
-#else
+        AstrumException(__LINE__,__FILE__,"Create index buffer failed.").Alert();
         vertexBuffer.Reset();
         indexBuffer.Reset();
         return;
-#endif
     }
     // done.
 }

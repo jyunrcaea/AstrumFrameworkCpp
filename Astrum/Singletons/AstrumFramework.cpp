@@ -22,19 +22,25 @@ bool AstrumFrameworkSingleton::IsRunning() const {
     return isRunning;
 }
 
-void AstrumFrameworkSingleton::Initialize(const std::wstring& title, unsigned int width, unsigned int height)
+bool AstrumFrameworkSingleton::Initialize(const std::wstring& title, unsigned int width, unsigned int height)
 {
-    AstrumWindow::Initialize(title, width, height); //winapi 초기화
-    AstrumRenderer::Instance().Initialize(width, height); //dx11 초기화
+    if (
+        false == AstrumWindow::Initialize(title, width, height) || //winapi 초기화
+        false == AstrumRenderer::Instance().Initialize(width, height) //dx11 초기화
+    ) return false; 
     AstrumSoundManager::Initialize(); // fmod 초기화
     AstrumChrono::Initialize();
 }
 
 int AstrumFrameworkSingleton::Run() {
-    if (!IsInitialized())
-        throw AstrumException("Framework is not initialized.");
-    if (isRunning)
-        throw AstrumException("Framework is already running.");
+    if (!IsInitialized()) {
+        AstrumException(__LINE__, __FILE__, "Framework is not initialized.").Alert();
+        return;
+    }
+    if (isRunning) {
+        AstrumException(__LINE__, __FILE__, "Framework is already running.").Alert();
+        return;
+    }
 
     isRunning = true;
     Prepare();

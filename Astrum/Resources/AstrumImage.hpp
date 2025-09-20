@@ -31,7 +31,8 @@ public:
 	const size_t GetImageCount() const;
 	const DirectX::TexMetadata& GetMetadata() const;
 
-	operator bool() const { return image != nullptr; }
+	bool IsVaild() const noexcept { return image != nullptr && image->GetImageCount() > 0; }
+	operator bool() const noexcept { return image != nullptr; }
 private:
 	std::unique_ptr<DirectX::ScratchImage> image = std::make_unique<DirectX::ScratchImage>();
 };

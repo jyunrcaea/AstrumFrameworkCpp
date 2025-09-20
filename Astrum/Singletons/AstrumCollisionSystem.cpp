@@ -28,7 +28,8 @@ void AstrumCollisionSystemSingleton::AddCollider(AstrumColliderComponent* const 
 {
 	if (!collider)
 	{
-		throw AstrumException("Cannot add a null collider to the collision system.");
+		AstrumException("Cannot add a null collider to the collision system.").Alert();
+		return;
 	}
 	colliders.push_back(collider);
 }

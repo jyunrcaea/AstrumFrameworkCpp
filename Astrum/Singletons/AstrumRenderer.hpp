@@ -31,7 +31,7 @@ class AstrumRenderer : public AstrumSingleton<AstrumRenderer> {
 
 public:
     // 디바이스와 스왑체인 생성, 뷰포트 설정
-    void Initialize(unsigned int width, unsigned int height, bool windowMode = true);
+    bool Initialize(unsigned int width, unsigned int height, bool windowMode = true);
     // 렌더 큐에 있는 그릴수 있는 객체들을 모두 호출하면서 큐를 비우고 스왑체인을 갱신하는 진짜 렌더링 함수.
     void Rendering();
 

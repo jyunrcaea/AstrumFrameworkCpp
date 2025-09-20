@@ -9,10 +9,8 @@ AstrumHullShader::AstrumHullShader(const std::wstring& path, const std::string& 
         blob->GetBufferPointer(),
         blob->GetBufferSize(),
         nullptr,
-        &shader)))
-    {
-        throw AstrumException("CreateHullShader failed.");
-    }
+        &shader
+    ))) AstrumException(__LINE__, __FILE__, "CreateHullShader failed.").Alert();
 }
 
 void AstrumHullShader::SetShader() {

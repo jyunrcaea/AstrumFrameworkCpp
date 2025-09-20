@@ -13,7 +13,7 @@ std::shared_ptr<AstrumTargetFont> AstrumFonts::GetFont(const std::wstring& fontN
 		fontSize,
 		L"en-us",
 		textFormat.GetAddressOf()
-	))) throw AstrumException("Failed to create text format for font.");
+	))) AstrumException(__LINE__, __FILE__, "Failed to create text format for font.").Alert();
 
 	return AstrumTargetFont::MakeShared(GetWriteFactory(), std::move(textFormat), fontSize);
 }
@@ -30,7 +30,7 @@ Microsoft::WRL::ComPtr<IDWriteFactory5> AstrumFonts::GetWriteFactory() const {
 		DWRITE_FACTORY_TYPE_SHARED,
 		__uuidof(IDWriteFactory5),
 		reinterpret_cast<IUnknown**>(factory.GetAddressOf())
-	))) throw AstrumException("Failed to create DWrite factory.");
+	))) AstrumException(__LINE__, __FILE__, "Failed to create DWrite factory.").Alert();
 
 	return factory;
 }
@@ -41,46 +41,46 @@ void AstrumFonts::Initialize(const std::filesystem::path::value_type* pathstr) {
 		pathstr,
 		nullptr,
 		fontFile.GetAddressOf()
-	))) throw AstrumException("Failed to create font file reference.");
+	))) AstrumException(__LINE__, __FILE__, "Failed to create font file reference.").Alert();
 
 	Microsoft::WRL::ComPtr<IDWriteFontSetBuilder1> fontBuilder = nullptr;
 	if (FAILED(GetWriteFactory()->CreateFontSetBuilder(
 		fontBuilder.GetAddressOf()
-	))) throw AstrumException("Failed to create font set builder.");
+	))) AstrumException(__LINE__, __FILE__, "Failed to create font set builder.").Alert();
 
 	fontBuilder->AddFontFile(fontFile.Get());
 
 	Microsoft::WRL::ComPtr<IDWriteFontSet> fontSet = nullptr;
 	if (FAILED(fontBuilder->CreateFontSet(
 		fontSet.GetAddressOf()
-	))) throw AstrumException("Failed to create font set.");
+	))) AstrumException(__LINE__, __FILE__, "Failed to create font set.").Alert();
 
 	if (FAILED(GetWriteFactory()->CreateFontCollectionFromFontSet(
 		fontSet.Get(),
 		this->fontCollection.GetAddressOf()
-	))) throw AstrumException("Failed to create font collection from font set.");
+	))) AstrumException(__LINE__, __FILE__, "Failed to create font collection from font set.").Alert();
 
 	Microsoft::WRL::ComPtr<IDWriteFontFamily> fontFamily = nullptr;
 	if (FAILED(this->fontCollection->GetFontFamily(
 		0,
 		fontFamily.GetAddressOf()
-	))) throw AstrumException("Failed to get font family from collection.");
+	))) AstrumException(__LINE__, __FILE__, "Failed to get font family from collection.").Alert();
 
 	Microsoft::WRL::ComPtr<IDWriteLocalizedStrings> localName = nullptr;
 	if (FAILED(fontFamily->GetFamilyNames(
 		localName.GetAddressOf()
-	))) throw AstrumException("Failed to get localized font names.");
+	))) AstrumException(__LINE__, __FILE__, "Failed to get localized font names.").Alert();
 
 	unsigned int nameLength;
 	if (FAILED(localName->GetStringLength(
 		0,
 		&nameLength
-	))) throw AstrumException("Failed to get localized font name length.");
+	))) AstrumException(__LINE__, __FILE__, "Failed to get localized font name length.").Alert();
 
 	this->faceName.resize(static_cast<size_t>(nameLength) + 1, L'\0');
 	if (FAILED(localName->GetString(
 		0,
 		this->faceName.data(),
 		static_cast<unsigned int>(this->faceName.size())
-	))) throw AstrumException("Failed to get localized font name string.");
+	))) AstrumException(__LINE__, __FILE__, "Failed to get localized font name string.").Alert();
 }

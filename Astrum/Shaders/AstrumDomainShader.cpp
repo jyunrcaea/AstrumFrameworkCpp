@@ -9,10 +9,8 @@ AstrumDomainShader::AstrumDomainShader(const std::wstring& path, const std::stri
         blob->GetBufferPointer(),
         blob->GetBufferSize(),
         nullptr,
-        &shader)))
-    {
-        throw AstrumException("CreateDomainShader failed.");
-    }
+        &shader
+    ))) AstrumException("CreateDomainShader failed.").Alert();
 }
 
 void AstrumDomainShader::SetShader() {

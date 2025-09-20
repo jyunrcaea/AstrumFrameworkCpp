@@ -17,7 +17,7 @@ AstrumTexture::AstrumTexture(AstrumImage&& moveableImage)
         image.GetImageCount(),
         image.GetMetadata(),
         shaderResourceView.GetAddressOf()
-    ))) throw AstrumException(__LINE__, __FILE__, "Failed to create shader resource view for texture. (HRESULT: {})");
+    ))) AstrumException(__LINE__, __FILE__, "Failed to create shader resource view for texture. (HRESULT: {})").Alert();
 
     width = static_cast<unsigned short>(image.GetImages()[0].width);
     height = static_cast<unsigned short>(image.GetImages()[0].height);
@@ -31,7 +31,7 @@ AstrumTexture::AstrumTexture(const AstrumImage& image)
         image.GetImageCount(),
         image.GetMetadata(),
         shaderResourceView.GetAddressOf()
-    ))) throw AstrumException(__LINE__, __FILE__, "Failed to create shader resource view for texture. (HRESULT: {})");
+    ))) AstrumException(__LINE__, __FILE__, "Failed to create shader resource view for texture. (HRESULT: {})").Alert();
 
     width = static_cast<unsigned short>(image.GetImages()[0].width);
     height = static_cast<unsigned short>(image.GetImages()[0].height);

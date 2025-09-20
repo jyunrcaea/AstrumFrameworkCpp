@@ -124,15 +124,15 @@ class Program
 
 private:
     static void SetupKeyBinding() {
-        AstrumKeyBinder::AddKeyBind("Up", DIK_W);
-        AstrumKeyBinder::AddKeyBind("Down", DIK_S);
-        AstrumKeyBinder::AddKeyBind("Left", DIK_A);
-        AstrumKeyBinder::AddKeyBind("Right", DIK_D);
+        AstrumKeyBinder::AddKeyBind("Up", 'W');
+        AstrumKeyBinder::AddKeyBind("Down", 'S');
+        AstrumKeyBinder::AddKeyBind("Left", 'A');
+        AstrumKeyBinder::AddKeyBind("Right", 'D');
 
-        AstrumKeyBinder::AddKeyBind("Up", DIK_UP);
-        AstrumKeyBinder::AddKeyBind("Down", DIK_DOWN);
-        AstrumKeyBinder::AddKeyBind("Left", DIK_LEFT);
-        AstrumKeyBinder::AddKeyBind("Right", DIK_RIGHT);
+        AstrumKeyBinder::AddKeyBind("Up", VK_UP);
+        AstrumKeyBinder::AddKeyBind("Down", VK_DOWN);
+        AstrumKeyBinder::AddKeyBind("Left", VK_LEFT);
+        AstrumKeyBinder::AddKeyBind("Right", VK_RIGHT);
     }
 
     static void Main() {

@@ -10,7 +10,7 @@ AstrumShaderSetup::~AstrumShaderSetup() {
 
 void AstrumShaderSetup::AddInputLayoutDescription(const std::string& semanticName, UINT semanticIndex, DXGI_FORMAT format, UINT inputSlot, D3D11_INPUT_CLASSIFICATION classification, UINT instanceDataStepRate)
 {
-	char* namePtr = new char[semanticName.size() + 1];
+	char* const namePtr = new char[semanticName.size() + 1];
 	std::copy(semanticName.begin(), semanticName.end(), namePtr);
 	namePtr[semanticName.size()] = '\0';
     semanticNames.push_back(namePtr);
@@ -32,18 +32,21 @@ void AstrumShaderSetup::SetShader() {
     auto* const context = AstrumRenderer::Instance().GetContext();
 
     if (nullptr == inputLayout) {
-        if (nullptr == VertexShader)
-            throw AstrumException("VertexShader is null");
+        if (nullptr == VertexShader) {
+            AstrumException(__LINE__, __FILE__, "VertexShader is null").Alert();
+            return;
+        }
 
-        ID3DBlob* blob = VertexShader->GetShaderBlob();
+        ID3DBlob* const blob = VertexShader->GetShaderBlob();
         if (FAILED(device->CreateInputLayout(
             inputDescriptions.data(),
             static_cast<unsigned int>(inputDescriptions.size()),
             blob->GetBufferPointer(),
             blob->GetBufferSize(),
-            &inputLayout)))
-        {
-            throw AstrumException("CreateInputLayout failed.");
+            &inputLayout
+        ))) {
+            AstrumException(__LINE__, __FILE__, "CreateInputLayout failed.").Alert();
+            return;
         }
     }
 

@@ -11,9 +11,9 @@ AstrumVertexShader::AstrumVertexShader(const std::wstring& path,
         blob->GetBufferPointer(),
         blob->GetBufferSize(),
         nullptr,
-        &shader)))
-    {
-        throw AstrumException("CreateVertexShader failed.");
+        &shader
+    ))) {
+        AstrumException(__LINE__, __FILE__, "CreateVertexShader failed.").Alert();
     }
 }
 

@@ -36,4 +36,7 @@ public:
 
 private:
     AstrumObjectList objects;
+
+public:
+	static std::shared_ptr<AstrumGroupObject> MakeShared() { return std::make_shared<AstrumGroupObject>(); }
 };
