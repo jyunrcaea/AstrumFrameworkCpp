@@ -19,9 +19,9 @@ void AstrumRenderComponent::PreRender() {
 
 	AstrumMatrix scaleMat, rotMat, transMat;
 
-	scaleMat.Scaling(GetOwner()->GetAbsoluteScale());
-	rotMat.Rotation(GetOwner()->GetAbsoluteRotation());
-	transMat.Translation(GetOwner()->GetAbsolutePosition());
+	scaleMat.MakeScaling(GetOwner()->GetAbsoluteScale());
+	rotMat.MakeRotation(GetOwner()->GetAbsoluteRotation());
+	transMat.MakeTranslation(GetOwner()->GetAbsolutePosition());
 
 	transformBuffer.World = scaleMat * rotMat * transMat;
 

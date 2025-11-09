@@ -2,7 +2,7 @@
 
 AstrumObject::AstrumObject()
     : Position(0,0,0,std::bind(&AstrumObject::UpdateAbsolutePosition, this)),
-    Rotation(std::bind(&AstrumObject::UpdateAbsoluteRotation, this)),
+    MakeRotation(std::bind(&AstrumObject::UpdateAbsoluteRotation, this)),
     Scale(1,1,1,std::bind(&AstrumObject::UpdateAbsoluteScale, this)),
     absoluteScale(1,1,1), Components(this) { }
 
@@ -39,7 +39,7 @@ void AstrumObject::Draw() {
 }
 
 AstrumObservedVector3& AstrumObject::GetPosition() { return Position; }
-AstrumObservedVector3& AstrumObject::GetRotation() { return Rotation; }
+AstrumObservedVector3& AstrumObject::GetRotation() { return MakeRotation; }
 AstrumObservedVector3& AstrumObject::GetScale() { return Scale; }
 
 const AstrumVector3& AstrumObject::GetAbsolutePosition() { return absolutePosition; }
@@ -88,11 +88,11 @@ void AstrumObject::UpdateAbsolutePosition()
 void AstrumObject::UpdateAbsoluteRotation()
 {
     if (nullptr == parent) {
-        absoluteRotation = Rotation;
+        absoluteRotation = MakeRotation;
 		return;
     }
 	//absoluteRotation = parent->GetAbsoluteRotation() + this->Rotation;
-    absoluteRotation = (AstrumQuaternion::FromEuler(parent->GetAbsoluteRotation()) * AstrumQuaternion::FromEuler(this->Rotation)).ToEuler();
+    absoluteRotation = (AstrumQuaternion::FromEuler(parent->GetAbsoluteRotation()) * AstrumQuaternion::FromEuler(this->MakeRotation)).ToEuler();
 }
 
 void AstrumObject::UpdateAbsoluteScale()

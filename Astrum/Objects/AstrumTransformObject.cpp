@@ -2,14 +2,14 @@
 
 AstrumTransformObject::AstrumTransformObject()
 	: Position(0,0,0, std::bind(&AstrumTransformObject::CallbackObservedPosition, this)),
-	Rotation(0,0,0, std::bind(&AstrumTransformObject::CallbackObservedRotation, this)),
+	MakeRotation(0,0,0, std::bind(&AstrumTransformObject::CallbackObservedRotation, this)),
 	Scale(1,1,1, std::bind(&AstrumTransformObject::CallbackObservedScale, this))
 {
 
 }
 
 AstrumObservedVector3& AstrumTransformObject::GetPosition() { return Position; }
-AstrumObservedVector3& AstrumTransformObject::GetRotation() { return Rotation; }
+AstrumObservedVector3& AstrumTransformObject::GetRotation() { return MakeRotation; }
 AstrumObservedVector3& AstrumTransformObject::GetScale() { return Scale; }
 
 const AstrumVector3& AstrumTransformObject::GetAbsolutePosition() {

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <DirectXMath.h>
 #include "../Vectors/AstrumVector4.hpp"
 #include "../Vectors/AstrumVector3.hpp"
@@ -6,6 +6,9 @@
 
 using namespace DirectX;
 
+/// <summary>
+/// 4x4 크기를 가지는 행렬입니다.
+/// </summary>
 struct AstrumMatrix {
     XMFLOAT4X4 matrix{};
 
@@ -30,16 +33,16 @@ struct AstrumMatrix {
     void SetIdentity();
     void Transpose();
     void Inverse();
-    void Scaling(float x, float y, float z);
-    void Rotation(float xDeg, float yDeg, float zDeg);
-    void Translation(float x, float y, float z);
+    void MakeScaling(float x, float y, float z);
+    void MakeRotation(float xDeg, float yDeg, float zDeg);
+    void MakeTranslation(float x, float y, float z);
 
     static const AstrumMatrix Identity;
 
-    void Scaling(const AstrumVector3& v);
-    void Rotation(const AstrumVector3& v);
-    void Translation(const AstrumVector3& v);
-    void Scaling(const AstrumObservedVector3& v);
-    void Rotation(const AstrumObservedVector3& v);
-    void Translation(const AstrumObservedVector3& v);
+    void MakeScaling(const AstrumVector3& v);
+    void MakeRotation(const AstrumVector3& v);
+    void MakeTranslation(const AstrumVector3& v);
+    void MakeScaling(const AstrumObservedVector3& v);
+    void MakeRotation(const AstrumObservedVector3& v);
+    void MakeTranslation(const AstrumObservedVector3& v);
 };
