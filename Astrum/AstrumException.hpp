@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <stdexcept>
 #include <string>
 
@@ -15,9 +15,9 @@ public:
     void Alert() const { throw this; }
 #else
 	// In release mode, just print the error message.
-    void Alert() noexcept const { print(); }
+    void Alert() const noexcept { print(); }
 #endif
 private:
     std::string wstr2str(const std::wstring& wstr);
-    void print();
+    void print() const noexcept;
 };

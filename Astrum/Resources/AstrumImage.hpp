@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <string>
 #include <filesystem>
 #include <wincodec.h>
@@ -11,9 +11,9 @@
 #include "../AstrumException.hpp"
 
 #ifdef _DEBUG
-#pragma comment(lib, "Astrum/ThirdParty/DirectXTex_Debug.lib")
+#pragma comment(lib, "DirectXTex_Debug.lib")
 #else
-#pragma comment(lib, "Astrum/ThirdParty/DirectXTex.lib")
+#pragma comment(lib, "DirectXTex.lib")
 #endif
 
 class AstrumImage
@@ -35,4 +35,8 @@ public:
 	operator bool() const noexcept { return image != nullptr; }
 private:
 	std::unique_ptr<DirectX::ScratchImage> image = std::make_unique<DirectX::ScratchImage>();
+
+public:
+	static std::shared_ptr<AstrumImage> MakeShared(const std::filesystem::path& path) { return std::make_shared<AstrumImage>(path); }
+	static std::shared_ptr<AstrumImage> MakeShared(std::filesystem::path&& path) { return std::make_shared<AstrumImage>(std::move(path)); }
 };

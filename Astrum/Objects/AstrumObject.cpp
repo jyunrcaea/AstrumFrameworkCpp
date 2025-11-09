@@ -1,4 +1,4 @@
-﻿#include "AstrumObject.hpp"
+#include "AstrumObject.hpp"
 
 AstrumObject::AstrumObject()
     : Position(0,0,0,std::bind(&AstrumObject::UpdateAbsolutePosition, this)),
@@ -10,6 +10,8 @@ void AstrumObject::Prepare() {
     UpdateAbsoluteScale();
 	UpdateAbsoluteRotation();
     UpdateAbsolutePosition();
+
+    DI.Resolve(this);
 
     for (auto& component : Components) {
         if (component) component->Prepare();

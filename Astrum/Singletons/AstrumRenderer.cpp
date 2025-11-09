@@ -1,6 +1,7 @@
 #include "AstrumRenderer.hpp"
 #include "../Shaders/AstrumShaderSetup.hpp"
 #include "AstrumRenderQueue.hpp"
+#include "../Shaders/AstrumDefaultShaders.hpp"
 #include "../Graphics/AstrumRenderTarget.hpp"
 
 bool AstrumRenderer::Initialize(unsigned int width, unsigned int height, bool windowMode) {
@@ -222,21 +223,11 @@ ID2D1RenderTarget* AstrumRenderer::GetRenderTarget2D() const { return renderTarg
 ID3D11DepthStencilView* AstrumRenderer::GetDepthStencilView() const { return depthStencilView.Get(); }
 
 void AstrumRenderer::CreateAndSetDefaultShapePipeline() {
-    auto shapePipeline = AstrumShaderSetup::MakeShared();
-    shapePipeline->VertexShader = AstrumVertexShader::MakeShared(L"Astrum/Shaders/ColorMesh.fx", "ColorMeshVS");
-    shapePipeline->PixelShader = AstrumPixelShader::MakeShared(L"Astrum/Shaders/ColorMesh.fx", "ColorMeshPS");
-    shapePipeline->AddInputLayoutDescription("POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0);
-    shapePipeline->AddInputLayoutDescription("COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-    AstrumRenderer::Instance().DefaultShapeShaderPipeline = shapePipeline;
+    AstrumRenderer::Instance().DefaultShapeShaderPipeline = AstrumDefaultShaders::CreateShapeShaderSetup();
 }
 
 void AstrumRenderer::CreateAndSetDefaultMaterialPipeline() {
-    auto texturePipeline = AstrumShaderSetup::MakeShared();
-    texturePipeline->VertexShader = AstrumVertexShader::MakeShared(L"Astrum/Shaders/Mesh.fx", "MeshVS");
-    texturePipeline->PixelShader = AstrumPixelShader::MakeShared(L"Astrum/Shaders/Mesh.fx", "DefaultMaterialPS");
-    texturePipeline->AddInputLayoutDescription("POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0);
-    texturePipeline->AddInputLayoutDescription("TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0);
-    AstrumRenderer::Instance().DefaultTextureShaderPipeline = texturePipeline;
+    AstrumRenderer::Instance().DefaultTextureShaderPipeline = AstrumDefaultShaders::CreateMaterialShaderSetup();
 }
 
 AstrumResolution AstrumRenderer::GetResolution() const {

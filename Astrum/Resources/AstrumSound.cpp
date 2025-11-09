@@ -23,7 +23,7 @@ AstrumSound::~AstrumSound() {/* sound is managed by unique_ptr. */ }
 void AstrumSound::Play()
 {
 	AstrumSoundManager::GetFmodSystem()->playSound(sound.get(), group->GetFmodChannelGroup(), false, &channel);
-	channel->setCallback(OnPlaySoundFinish);
+	channel->setCallback(&AstrumSound::OnPlaySoundFinish);
 }
 
 bool AstrumSound::Stop()
@@ -69,10 +69,10 @@ bool AstrumSound::Resume()
 FMOD::Sound* AstrumSound::GetFmodSound() const { return sound.get(); }
 
 FMOD_RESULT AstrumSound::OnPlaySoundFinish(
-	FMOD_CHANNELCONTROL*, //channelControl,
-	FMOD_CHANNELCONTROL_TYPE, //type,
-	FMOD_CHANNELCONTROL_CALLBACK_TYPE, //callBackType,
-	void*, //commanddata1,
+	FMOD_CHANNELCONTROL*, //channelControl
+	FMOD_CHANNELCONTROL_TYPE, //type
+	FMOD_CHANNELCONTROL_CALLBACK_TYPE, //callBackType
+	void*, //commanddata1
 	void* //commandData2
 ) {
 	return FMOD_OK;

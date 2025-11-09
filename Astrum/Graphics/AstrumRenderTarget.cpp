@@ -9,7 +9,7 @@ AstrumRenderTarget::AstrumRenderTarget(unsigned int width, unsigned int height, 
 {
     ID3D11Device* const device = AstrumRenderer::Instance().GetDevice();
 
-#pragma region DepthStencilView 생성
+#pragma region Create DepthStencilView
     D3D11_TEXTURE2D_DESC depthDesc = {};
     depthDesc.Width = width;
     depthDesc.Height = height;
@@ -28,7 +28,7 @@ AstrumRenderTarget::AstrumRenderTarget(unsigned int width, unsigned int height, 
     }
 #pragma endregion
 
-#pragma region RenderTargetTexture 생성
+#pragma region Create RenderTargetTexture
     D3D11_TEXTURE2D_DESC textureDesc = {};
     textureDesc.Width = width;
     textureDesc.Height = height;

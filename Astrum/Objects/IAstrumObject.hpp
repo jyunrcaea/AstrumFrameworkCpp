@@ -4,10 +4,12 @@
 #include "../Vectors/AstrumObservedVector3.hpp"
 #include "../Collections/IAstrumComponentList.hpp"
 #include "../Components/IAstrumComponent.hpp"
+#include "../DI/IAstrumDependencyInjectionService.hpp"
 
 struct IAstrumComponent;
 struct IAstrumComponentList;
 struct IAstrumGroupObject;
+struct IAstrumDependencyInjectionService;
 
 struct IAstrumObject : public std::enable_shared_from_this<IAstrumObject> {
     virtual ~IAstrumObject() = default;
@@ -59,6 +61,8 @@ struct IAstrumObject : public std::enable_shared_from_this<IAstrumObject> {
     bool AddComponent(const std::shared_ptr<struct IAstrumComponent>& component);
     bool RemoveComponent(const std::shared_ptr<struct IAstrumComponent>& component);
     void ClearComponent();
+
+    virtual IAstrumDependencyInjectionService& GetDependencyInjectionService() = 0;
 
     virtual void UpdateAbsolutePosition() = 0;
     virtual void UpdateAbsoluteRotation() = 0;

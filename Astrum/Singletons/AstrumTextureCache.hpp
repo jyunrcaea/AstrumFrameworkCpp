@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <string>
 #include <memory>
 #include <unordered_map>
@@ -40,8 +40,8 @@ inline std::shared_ptr<AstrumTexture> AstrumTextureCacheSingleton::Load(PathType
     std::wstring name{
         std::forward<PathType>(path).is_absolute() ? std::forward<PathType>(path) : std::filesystem::canonical(DefaultRelativeDirectory / std::forward<PathType>(path))
     };
-    if (textureMap.contains(name)) {
-        return textureMap[name];
+    if (false == textureMap.contains(name)) {
+        textureMap[name] = AstrumTexture::MakeShared(name);
     }
-    return textureMap[name] = AstrumTexture::MakeShared(name);
+    return textureMap[name];
 }
