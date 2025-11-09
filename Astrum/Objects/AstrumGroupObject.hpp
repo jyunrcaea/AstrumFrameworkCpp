@@ -19,6 +19,7 @@ public:
 	virtual bool IsVisible() const override { return AstrumObject::IsVisible(); }
     virtual bool IsPrepared() const override { return AstrumObject::IsPrepared(); }
     virtual bool SetParent(IAstrumGroupObject* const p) override { return AstrumObject::SetParent(p); }
+    virtual IAstrumDependencyInjectionService& GetDependencyInjectionService() override { return AstrumObject::GetDependencyInjectionService(); }
 
 public:
     AstrumGroupObject();
@@ -36,4 +37,7 @@ public:
 
 private:
     AstrumObjectList objects;
+
+public:
+	static std::shared_ptr<AstrumGroupObject> MakeShared() { return std::make_shared<AstrumGroupObject>(); }
 };

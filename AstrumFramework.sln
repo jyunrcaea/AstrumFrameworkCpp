@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.14.36221.1 d17.14
+# Visual Studio Version 18
+VisualStudioVersion = 18.0.11201.2 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AstrumFramework", "AstrumFramework.vcxproj", "{E914B259-9E45-47DD-B7D9-4E3CFE5095C2}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ArcaeaCloneProject", "..\ArcaeaCloneProject\ArcaeaCloneProject.vcxproj", "{03B3FAE6-6B17-4B45-9284-7C2C6F25CB7C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,14 @@ Global
 		{E914B259-9E45-47DD-B7D9-4E3CFE5095C2}.Release|x64.Build.0 = Release|x64
 		{E914B259-9E45-47DD-B7D9-4E3CFE5095C2}.Release|x86.ActiveCfg = Release|Win32
 		{E914B259-9E45-47DD-B7D9-4E3CFE5095C2}.Release|x86.Build.0 = Release|Win32
+		{03B3FAE6-6B17-4B45-9284-7C2C6F25CB7C}.Debug|x64.ActiveCfg = Debug|x64
+		{03B3FAE6-6B17-4B45-9284-7C2C6F25CB7C}.Debug|x64.Build.0 = Debug|x64
+		{03B3FAE6-6B17-4B45-9284-7C2C6F25CB7C}.Debug|x86.ActiveCfg = Debug|Win32
+		{03B3FAE6-6B17-4B45-9284-7C2C6F25CB7C}.Debug|x86.Build.0 = Debug|Win32
+		{03B3FAE6-6B17-4B45-9284-7C2C6F25CB7C}.Release|x64.ActiveCfg = Release|x64
+		{03B3FAE6-6B17-4B45-9284-7C2C6F25CB7C}.Release|x64.Build.0 = Release|x64
+		{03B3FAE6-6B17-4B45-9284-7C2C6F25CB7C}.Release|x86.ActiveCfg = Release|Win32
+		{03B3FAE6-6B17-4B45-9284-7C2C6F25CB7C}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -9,7 +9,7 @@ AstrumRenderTarget::AstrumRenderTarget(unsigned int width, unsigned int height, 
 {
     ID3D11Device* const device = AstrumRenderer::Instance().GetDevice();
 
-#pragma region DepthStencilView 생성
+#pragma region Create DepthStencilView
     D3D11_TEXTURE2D_DESC depthDesc = {};
     depthDesc.Width = width;
     depthDesc.Height = height;
@@ -21,14 +21,14 @@ AstrumRenderTarget::AstrumRenderTarget(unsigned int width, unsigned int height, 
 
     ComPtr<ID3D11Texture2D> depthBuffer;
     if (FAILED(device->CreateTexture2D(&depthDesc, nullptr, &depthBuffer))) {
-        throw AstrumException("Failed to create depth buffer.");
+        AstrumException("Failed to create depth buffer.").Alert();
     }
     if (FAILED(device->CreateDepthStencilView(depthBuffer.Get(), nullptr, &depthStencilView))) {
-        throw AstrumException("Failed to create depth stencil view.");
+        AstrumException("Failed to create depth stencil view.").Alert();
     }
 #pragma endregion
 
-#pragma region RenderTargetTexture 생성
+#pragma region Create RenderTargetTexture
     D3D11_TEXTURE2D_DESC textureDesc = {};
     textureDesc.Width = width;
     textureDesc.Height = height;
@@ -43,13 +43,13 @@ AstrumRenderTarget::AstrumRenderTarget(unsigned int width, unsigned int height, 
     textureDesc.MiscFlags = 0;
 
     if (FAILED(device->CreateTexture2D(&textureDesc, nullptr, &texture)))
-        throw AstrumException("Failed to create render target texture");
+        AstrumException("Failed to create render target texture").Alert();
 #pragma endregion
 
     if (FAILED(device->CreateRenderTargetView(texture.Get(), nullptr, &renderTargetView)))
-        throw AstrumException("Failed to create render target view");
+        AstrumException("Failed to create render target view").Alert();
     if (FAILED(device->CreateShaderResourceView(texture.Get(), nullptr, &shaderResourceView)))
-        throw AstrumException("Failed to create shader resource view");
+        AstrumException("Failed to create shader resource view").Alert();
 }
 
 void AstrumRenderTarget::Bind()

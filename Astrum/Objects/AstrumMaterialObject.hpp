@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "AstrumObject.hpp"
 #include "../Meshes/AstrumTextureMesh.hpp"
 #include "../Resources/AstrumMaterial.hpp"
@@ -41,6 +41,7 @@ public:
 	void SetScale(AstrumVector3&& scale) { AstrumObject::SetScale(std::move(scale)); }
 	IAstrumComponentList& GetComponents() override { return AstrumObject::GetComponents(); }
 	IAstrumGroupObject* GetParent() const override { return AstrumObject::GetParent(); }
+    IAstrumDependencyInjectionService& GetDependencyInjectionService() override { return AstrumObject::GetDependencyInjectionService(); }
 protected:
     void UpdateAbsolutePosition() override { AstrumObject::UpdateAbsolutePosition(); }
     void UpdateAbsoluteRotation() override { AstrumObject::UpdateAbsoluteRotation(); }

@@ -1,4 +1,4 @@
-﻿#include "AstrumHullShader.hpp"
+#include "AstrumHullShader.hpp"
 #include "../Singletons/AstrumRenderer.hpp"
 #include "../AstrumException.hpp"
 
@@ -9,10 +9,19 @@ AstrumHullShader::AstrumHullShader(const std::wstring& path, const std::string& 
         blob->GetBufferPointer(),
         blob->GetBufferSize(),
         nullptr,
-        &shader)))
-    {
-        throw AstrumException("CreateHullShader failed.");
-    }
+        &shader
+    ))) AstrumException(__LINE__, __FILE__, "CreateHullShader failed.").Alert();
+}
+
+AstrumHullShader::AstrumHullShader(const char* shaderCode, size_t shaderCodeLength, const std::string& entryPoint, const std::string& profile)
+    : AstrumShader(shaderCode, shaderCodeLength, entryPoint, profile)
+{
+    if (FAILED(AstrumRenderer::Instance().GetDevice()->CreateHullShader(
+        blob->GetBufferPointer(),
+        blob->GetBufferSize(),
+        nullptr,
+        &shader
+    ))) AstrumException(__LINE__, __FILE__, "CreateHullShader failed.").Alert();
 }
 
 void AstrumHullShader::SetShader() {

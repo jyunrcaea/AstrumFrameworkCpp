@@ -4,10 +4,12 @@
 #include "../Vectors/AstrumObservedVector3.hpp"
 #include "../Collections/IAstrumComponentList.hpp"
 #include "../Components/IAstrumComponent.hpp"
+#include "../DI/IAstrumDependencyInjectionService.hpp"
 
 struct IAstrumComponent;
 struct IAstrumComponentList;
 struct IAstrumGroupObject;
+struct IAstrumDependencyInjectionService;
 
 struct IAstrumObject : public std::enable_shared_from_this<IAstrumObject> {
     virtual ~IAstrumObject() = default;
@@ -20,6 +22,10 @@ struct IAstrumObject : public std::enable_shared_from_this<IAstrumObject> {
     virtual AstrumObservedVector3& GetPosition() = 0;
     virtual AstrumObservedVector3& GetRotation() = 0;
     virtual AstrumObservedVector3& GetScale() = 0;
+
+    virtual const AstrumVector3& GetAbsolutePosition() = 0;
+    virtual const AstrumVector3& GetAbsoluteRotation() = 0;
+    virtual const AstrumVector3& GetAbsoluteScale() = 0;
 
     void SetPosition(const AstrumObservedVector3& vec);
     void SetRotation(const AstrumObservedVector3& vec);
@@ -46,10 +52,6 @@ struct IAstrumObject : public std::enable_shared_from_this<IAstrumObject> {
 	void SetScaleY(float y);
 	void SetScaleZ(float z);
 
-    virtual const AstrumVector3& GetAbsolutePosition() = 0;
-    virtual const AstrumVector3& GetAbsoluteRotation() = 0;
-    virtual const AstrumVector3& GetAbsoluteScale() = 0;
-
     virtual IAstrumGroupObject* GetParent() const = 0;
     virtual bool SetParent(IAstrumGroupObject* const parent) = 0;
     virtual bool ClearParent(IAstrumGroupObject* const parent) = 0;
@@ -59,6 +61,8 @@ struct IAstrumObject : public std::enable_shared_from_this<IAstrumObject> {
     bool AddComponent(const std::shared_ptr<struct IAstrumComponent>& component);
     bool RemoveComponent(const std::shared_ptr<struct IAstrumComponent>& component);
     void ClearComponent();
+
+    virtual IAstrumDependencyInjectionService& GetDependencyInjectionService() = 0;
 
     virtual void UpdateAbsolutePosition() = 0;
     virtual void UpdateAbsoluteRotation() = 0;

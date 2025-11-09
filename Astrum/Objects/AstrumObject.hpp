@@ -1,11 +1,12 @@
-﻿#pragma once
+#pragma once
+#include <memory>
 #include "IAstrumObject.hpp"
 #include "IAstrumGroupObject.hpp"
 #include "../Vectors/AstrumVector3.hpp"
 #include "../Vectors/AstrumObservedVector3.hpp"
 #include "../Units/AstrumQuaternion.hpp"
 #include "../Collections/AstrumComponentList.hpp"
-
+#include "../DI/AstrumDependencyInjectionService.hpp"
 
 //게임 객체의 기본 단위.
 class AstrumObject : public virtual IAstrumObject
@@ -15,7 +16,7 @@ public:
     AstrumObject();
     virtual ~AstrumObject() = default;
 
-    // 절대 위치, 회전, 크기를 업데이트하고, 컴포넌트를 준비합니다.
+    // 절대 위치, 회전, 크기를 업데이트하고, 의존성 주입을 해결하며, 컴포넌트를 준비합니다.
     virtual void Prepare() override;
     // 컴포넌트들을 업데이트 합니다.
     virtual void Update() override;
@@ -36,6 +37,7 @@ public:
     virtual bool ClearParent(IAstrumGroupObject* const p) override;
 
     virtual IAstrumComponentList& GetComponents() override;
+    virtual IAstrumDependencyInjectionService& GetDependencyInjectionService() override { return DI; }
 protected:
     // 객체의 좌표입니다. (전체를 재할당 할경우 Absolute 값이 갱신되지 않습니다. Reset() 맴버 함수를 사용해보세요.)
     AstrumObservedVector3 Position;
@@ -49,6 +51,7 @@ protected:
     virtual void UpdateAbsoluteScale() override;
 
     AstrumComponentList Components;
+    AstrumDependencyInjectionService DI;
 
     void SetAbsolutePosition(const AstrumVector3& vec);
     void SetAbsoluteRotation(const AstrumVector3& vec);
@@ -70,4 +73,7 @@ private:
     AstrumVector3 absoluteScale;
 
     IAstrumGroupObject* parent = nullptr; // Parent reference me by shared_ptr, and parent did allocate it. so do not need shared_ptr.
+
+public:
+	static std::shared_ptr<AstrumObject> MakeShared() { return std::make_shared<AstrumObject>(); }
 };

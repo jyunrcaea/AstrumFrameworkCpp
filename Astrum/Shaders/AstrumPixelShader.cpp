@@ -1,4 +1,4 @@
-﻿#include "../Shaders/AstrumPixelShader.hpp"
+#include "../Shaders/AstrumPixelShader.hpp"
 #include "../Singletons/AstrumRenderer.hpp"
 #include "../AstrumException.hpp"
 #include "../Resources/AstrumMaterial.hpp"
@@ -9,10 +9,19 @@ AstrumPixelShader::AstrumPixelShader(const std::wstring& path, const std::string
         blob->GetBufferPointer(),
         blob->GetBufferSize(),
         nullptr,
-        &shader)))
-    {
-        throw AstrumException("CreatePixelShader failed.");
-    }
+        &shader
+    ))) AstrumException(__LINE__, __FILE__, "CreatePixelShader failed.").Alert();
+}
+
+AstrumPixelShader::AstrumPixelShader(const char* shaderCode, size_t shaderCodeLength, const std::string& entryPoint, const std::string& profile)
+    : AstrumShader(shaderCode, shaderCodeLength, entryPoint, profile)
+{
+    if (FAILED(AstrumRenderer::Instance().GetDevice()->CreatePixelShader(
+        blob->GetBufferPointer(),
+        blob->GetBufferSize(),
+        nullptr,
+        &shader
+    ))) AstrumException(__LINE__, __FILE__, "CreatePixelShader failed.").Alert();
 }
 
 void AstrumPixelShader::SetShader() {

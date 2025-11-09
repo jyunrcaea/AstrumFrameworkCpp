@@ -21,6 +21,8 @@ public:
 	bool Resume();
 
 	FMOD::Sound* GetFmodSound() const;
+	bool IsValid() const noexcept { return sound != nullptr; }
+	operator bool() const noexcept { return IsValid(); }
 private:
 	std::unique_ptr<FMOD::Sound, FmodSoundDeleter> sound = nullptr;
 	FMOD::Channel* channel = nullptr;

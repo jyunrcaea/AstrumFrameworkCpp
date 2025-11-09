@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include "IAstrumObject.hpp"
 #include "IAstrumGroupObject.hpp"
 #include "../Vectors/AstrumVector3.hpp"
@@ -48,6 +49,7 @@ private:
     void CallbackObservedPosition();
     void CallbackObservedRotation();
     void CallbackObservedScale();
+
 };
 
 inline AstrumLazyPropTransformType operator|(AstrumLazyPropTransformType left, AstrumLazyPropTransformType right) {

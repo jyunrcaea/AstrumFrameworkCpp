@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <vector>
 #include <string>
 #include <memory>
@@ -26,7 +26,9 @@ public:
     std::shared_ptr<AstrumDomainShader> DomainShader;
     std::shared_ptr<AstrumGeometryShader> GeometryShader;
 
-	// 여기서 입력 레이아웃을 추가할수 있고
+    /// <summary>
+    /// 입력 레이아웃을 추가합니다.
+    /// </summary>
     void AddInputLayoutDescription(
         const std::string& semanticName,
         UINT semanticIndex,

@@ -29,6 +29,6 @@ std::string AstrumException::wstr2str(const std::wstring& wstr) {
     return str;
 }
 
-void AstrumException::print() {
+void AstrumException::print() const noexcept {
     std::cout << "[AstrumException]" << this->what() << std::endl;
 }

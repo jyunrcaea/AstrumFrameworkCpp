@@ -25,6 +25,7 @@ private:
 class AstrumChrono {
     AstrumChrono() = delete;
 public:
+	static inline long long GetNow() { return std::chrono::steady_clock::now().time_since_epoch().count(); }
     static inline double GetDeltaTime() { return AstrumChronoSingleton::Instance().GetDeltaTime(); }
     static inline double GetRunningTime() { auto duration = AstrumChronoSingleton::Instance().GetRunningTime(); return duration.count(); }
     static inline void SetFramerate(uint16_t value) { AstrumChronoSingleton::Instance().SetFramerate(value); }

@@ -17,7 +17,7 @@ public:
     void CleanUp();
     std::filesystem::path DefaultRelativeDirectory = L"./Game/Assets/";
 private:
-    std::unordered_map<std::wstring, std::weak_ptr<AstrumFonts>> fontsMap;
+    std::unordered_map<std::wstring, std::shared_ptr<AstrumFonts>> fontsMap;
 };
 
 class AstrumFontsCache
@@ -42,10 +42,8 @@ inline std::shared_ptr<AstrumFonts> AstrumFontsCacheSingleton::Load(PathType&& p
     std::wstring name{
         std::forward<PathType>(path).is_absolute() ? std::forward<PathType>(path) : std::filesystem::canonical(DefaultRelativeDirectory / std::forward<PathType>(path))
     };
-    std::shared_ptr<AstrumFonts> fonts;
-    if (fontsMap.contains(name) && (fonts = fontsMap[name].lock())) {
-        return fonts;
+    if (!fontsMap.contains(name)) {
+        fontsMap[name] = AstrumFonts::MakeShared(name);
     }
-    fontsMap[name] = fonts = AstrumFonts::MakeShared(name);
-    return fonts;
+    return fontsMap[name];
 }

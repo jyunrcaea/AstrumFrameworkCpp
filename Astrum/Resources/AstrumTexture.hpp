@@ -6,8 +6,6 @@
 #include "../Singletons/AstrumRenderer.hpp"
 #include "IAstrumTexture.hpp"
 
-using Microsoft::WRL::ComPtr;
-
 class AstrumTexture : public IAstrumTexture
 {
 private:
@@ -17,18 +15,22 @@ private:
 public:
     AstrumTexture(const std::filesystem::path& path);
     AstrumTexture(std::filesystem::path&& path);
-    AstrumTexture(const AstrumImage& image);
-    AstrumTexture(AstrumImage&& image);
+    AstrumTexture(const std::shared_ptr<AstrumImage>& image);
+    AstrumTexture(std::shared_ptr<AstrumImage>&& image);
 
     virtual ID3D11ShaderResourceView* GetShaderResourceView() const override;
     virtual unsigned int GetWidth() const override;
     virtual unsigned int GetHeight() const override;
+
+	bool IsValid() const noexcept { return shaderResourceView != nullptr; }
+	operator bool() const noexcept { return shaderResourceView != nullptr; }
 private:
-    ComPtr<ID3D11ShaderResourceView> shaderResourceView;
+    Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> shaderResourceView;
     unsigned int width = 0, height = 0;
+    std::shared_ptr<AstrumImage> sourceImage = nullptr;
 
 public:
     static std::shared_ptr<AstrumTexture> MakeShared(const std::filesystem::path& path) { return std::make_shared<AstrumTexture>(path); }
     static std::shared_ptr<AstrumTexture> MakeShared(std::filesystem::path&& path) { return std::make_shared<AstrumTexture>(std::move(path)); }
-    static std::shared_ptr<AstrumTexture> MakeShared(const AstrumImage& image) { return std::make_shared<AstrumTexture>(image); }
+    static std::shared_ptr<AstrumTexture> MakeShared(const std::shared_ptr<AstrumImage>& image) { return std::make_shared<AstrumTexture>(image); }
 };

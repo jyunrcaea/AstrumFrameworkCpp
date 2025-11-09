@@ -21,6 +21,8 @@ public:
 	std::shared_ptr<AstrumTargetFont> GetFont(const std::wstring& fontName, float fontSize = 24.0f, int weight = DWRITE_FONT_WEIGHT_NORMAL) const;
 
 	const std::wstring& GetFaceName() const;
+	bool IsValid() const noexcept { return fontCollection != nullptr; }
+	operator bool() const noexcept { return IsValid(); }
 private:
 	std::wstring faceName;
 	Microsoft::WRL::ComPtr<IDWriteFactory5> GetWriteFactory() const;

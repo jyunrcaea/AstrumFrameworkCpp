@@ -10,12 +10,12 @@ void AstrumRenderMaterialComponent::PreRender() {
 
 void AstrumRenderMaterialComponent::Render() {
     if (nullptr == Material) return;
-
     AstrumRenderComponent::Render();
-    auto* const context = AstrumRenderer::Instance().GetContext();
-    auto* const srv = Material->GetTexture()->GetShaderResourceView();
-    context->PSSetShaderResources(0, 1, &srv);
-    Mesh->Render();
+
+    if (auto* const srv = Material->GetTexture()->GetShaderResourceView()) {
+        AstrumRenderer::Instance().GetContext()->PSSetShaderResources(0, 1, &srv);
+        Mesh->Render();
+    }
 }
 
 std::shared_ptr<struct IAstrumShaderSetup> AstrumRenderMaterialComponent::GetDefaultShaderPipeline() const {

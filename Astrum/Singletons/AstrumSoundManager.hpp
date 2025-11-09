@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <vector>
 #include <memory>
 #include <string>
@@ -6,7 +6,7 @@
 #include "../FMOD/fmod.hpp"
 #include "AstrumSingleton.hpp"
 
-#pragma comment(lib, "Astrum/ThirdParty/fmod_vc.lib")
+#pragma comment(lib, "fmod_vc.lib")
 
 class AstrumSoundManagerSingleton : public AstrumSingleton<AstrumSoundManagerSingleton> {
     friend class AstrumSingleton<AstrumSoundManagerSingleton>;

@@ -41,7 +41,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -49,7 +49,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -113,12 +113,14 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <DisableSpecificWarnings>28251;4819</DisableSpecificWarnings>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;dxguid.lib;dinput8.lib;User32.lib;Gdi32.lib;Ole32.lib;comdlg32.lib;winspool.lib;uuid.lib;odbc32.lib;odbccp32.lib;oleaut32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;dxguid.lib;dinput8.lib;User32.lib;Gdi32.lib;Ole32.lib;comdlg32.lib;winspool.lib;uuid.lib;odbc32.lib;odbccp32.lib;oleaut32.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/IGNORE:4099 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalLibraryDirectories>$(ProjectDir)Astrum\ThirdParty;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -157,8 +159,8 @@
     <ClCompile Include="Astrum\Components\AstrumAnimatorComponent.cpp" />
     <ClCompile Include="Astrum\Components\AstrumConstantBufferComponent.cpp" />
     <ClCompile Include="Astrum\Graphics\AstrumCamera.cpp" />
+    <ClCompile Include="Astrum\Singletons\AstrumSoundCache.cpp" />
     <ClCompile Include="Astrum\Vectors\AstrumDoubleVector3.cpp" />
-    <ClCompile Include="Game\Arcaea\ArcaeaChartParser.cpp" />
     <ClCompile Include="Astrum\Objects\AstrumTransformObject.cpp" />
     <ClCompile Include="Astrum\Objects\IAstrumMaterialObject.cpp" />
     <ClCompile Include="Astrum\Resources\AstrumChannelGroup.cpp" />
@@ -214,36 +216,34 @@
     <ClCompile Include="Astrum\Resources\IAstrumMaterial.cpp" />
     <ClCompile Include="Astrum\Objects\IAstrumObject.cpp" />
     <ClCompile Include="Astrum\Resources\AstrumTargetFont.cpp" />
-    <ClCompile Include="Game\InGame\InGameSceneObject.cpp" />
-    <ClCompile Include="Game\InGame\ViewModels\NoteViewModelObject.cpp" />
-    <ClCompile Include="Game\Loading\LoadingSceneObject.cpp" />
-    <ClCompile Include="Game\Result\ResultSceneObject.cpp" />
-    <ClCompile Include="Game\Selector\CurrentSelectedObject.cpp" />
-    <ClCompile Include="Game\Selector\DataManager.cpp" />
-    <ClCompile Include="Game\Selector\MusicBarObject.cpp" />
-    <ClCompile Include="Game\Selector\SelectorSceneObject.cpp" />
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="Astrum\Vectors\AstrumObservedVector2.cpp" />
     <ClCompile Include="Astrum\Vectors\AstrumObservedVector3.cpp" />
     <ClCompile Include="Astrum\Vectors\AstrumObservedVector4.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Astrum\AstrumMacro.hpp" />
     <ClInclude Include="Astrum\Components\AstrumPostProcessRenderComponent.hpp" />
     <ClInclude Include="Astrum\Data\AstrumRawInputKeyData.hpp" />
     <ClInclude Include="Astrum\Data\AstrumRawInputMouseMoveData.hpp" />
+    <ClInclude Include="Astrum\DI\AstrumDependencyInjectionService.hpp" />
+    <ClInclude Include="Astrum\DI\AstrumDependencyInjector.hpp" />
+    <ClInclude Include="Astrum\DI\IAstrumDependencyInjectionService.hpp" />
     <ClInclude Include="Astrum\Enums\AstrumMaterialFlipType.hpp" />
     <ClInclude Include="Astrum\Enums\AstrumMouseButtonType.hpp" />
     <ClInclude Include="Astrum\Enums\AstrumTextAlignmentType.hpp" />
     <ClInclude Include="Astrum\Graphics\AstrumRenderTarget.hpp" />
     <ClInclude Include="Astrum\Graphics\AstrumSimpleRenderable.hpp" />
     <ClInclude Include="Astrum\Objects\AstrumPostProcessGroupObject.hpp" />
+    <ClInclude Include="Astrum\Objects\AstrumTextObject.hpp" />
     <ClInclude Include="Astrum\Resources\IAstrumTexture.hpp" />
+    <ClInclude Include="Astrum\Shaders\AstrumDefaultShaders.hpp" />
     <ClInclude Include="Astrum\Singletons\AstrumFontsCache.hpp" />
     <ClInclude Include="Astrum\Singletons\AstrumRawInput.hpp" />
     <ClInclude Include="Astrum\Singletons\AstrumShaderCache.hpp" />
+    <ClInclude Include="Astrum\Singletons\AstrumSoundCache.hpp" />
+    <ClInclude Include="Astrum\Units\AstrumType.hpp" />
     <ClInclude Include="Astrum\Vectors\AstrumDoubleVector2.hpp" />
     <ClInclude Include="Astrum\Vectors\AstrumLongVector2.hpp" />
-    <ClInclude Include="Game\Arcaea\ArcaeaChart.hpp" />
     <ClInclude Include="Astrum\Buffers\AstrumSimpleConstantBuffer.hpp" />
     <ClInclude Include="Astrum\Collections\AstrumList.hpp" />
     <ClInclude Include="Astrum\Components\AstrumTextRenderComponent.hpp" />
@@ -251,8 +251,6 @@
     <ClInclude Include="Astrum\Components\AstrumAABBColliderComponent.hpp" />
     <ClInclude Include="Astrum\Animations\AstrumAnimationFunctions.hpp" />
     <ClInclude Include="Astrum\Components\AstrumCircleColliderComponent.hpp" />
-    <ClInclude Include="Game\Arcaea\ArcaeaChartManager.hpp" />
-    <ClInclude Include="Game\Arcaea\ArcaeaChartParser.hpp" />
     <ClInclude Include="Astrum\Components\AstrumConstantBufferComponent.hpp" />
     <ClInclude Include="Astrum\Components\IAstrumColliderComponent.hpp" />
     <ClInclude Include="Astrum\Meshes\AstrumCirclePolygons.hpp" />
@@ -260,27 +258,6 @@
     <ClInclude Include="Astrum\Objects\IAstrumMaterialObject.hpp" />
     <ClInclude Include="Astrum\Resources\AstrumFonts.hpp" />
     <ClInclude Include="Astrum\Resources\AstrumTargetFont.hpp" />
-    <ClInclude Include="Game\Arcaea\ArcaeaMusicData.hpp" />
-    <ClInclude Include="Game\Arcaea\ArcaeaMusicDataManager.hpp" />
-    <ClInclude Include="Game\FrameworkTest.hpp" />
-    <ClInclude Include="Game\InGame\Models\INoteModel.hpp" />
-    <ClInclude Include="Game\InGame\Views\ArcViewObject.hpp" />
-    <ClInclude Include="Game\InGame\DataManager.hpp" />
-    <ClInclude Include="Game\InGame\Views\HoldNoteViewObject.hpp" />
-    <ClInclude Include="Game\InGame\Models\NoteModel.hpp" />
-    <ClInclude Include="Game\InGame\NoteBoardObject.hpp" />
-    <ClInclude Include="Game\InGame\ViewModels\NoteViewModelObject.hpp" />
-    <ClInclude Include="Game\InGame\NoteState.hpp" />
-    <ClInclude Include="Game\InGame\ParticleObject.hpp" />
-    <ClInclude Include="Game\InGame\PlayFieldObject.hpp" />
-    <ClInclude Include="Game\InGame\InGameSceneObject.hpp" />
-    <ClInclude Include="Game\InGame\Views\NoteViewObject.hpp" />
-    <ClInclude Include="Game\InGame\Views\SkyNoteViewObject.hpp" />
-    <ClInclude Include="Game\InGame\Views\TraceLineViewObject.hpp" />
-    <ClInclude Include="Game\Loading\SlideBackgroundObject.hpp" />
-    <ClInclude Include="Game\Loading\LoadingSceneObject.hpp" />
-    <ClInclude Include="Game\NoteTest.hpp" />
-    <ClInclude Include="Game\RectMoving.hpp" />
     <ClInclude Include="Astrum\Singletons\AstrumKeyBinder.hpp" />
     <ClInclude Include="Astrum\Animations\AstrumMovementAnimator.hpp" />
     <ClInclude Include="Astrum\Meshes\AstrumRectanglePolygons.hpp" />
@@ -365,14 +342,9 @@
     <ClInclude Include="Astrum\Vectors\AstrumObservedVector4.hpp" />
     <ClInclude Include="Astrum\States\IAstrumStateGraph.hpp" />
     <ClInclude Include="Astrum\Singletons\AstrumSingleton.hpp" />
-    <ClInclude Include="Game\Result\ResultSceneObject.hpp" />
-    <ClInclude Include="Game\SceneManager.hpp" />
-    <ClInclude Include="Game\Selector\CurrentSelectedObject.hpp" />
-    <ClInclude Include="Game\Selector\DataManager.hpp" />
-    <ClInclude Include="Game\Selector\MusicBarObject.hpp" />
-    <ClInclude Include="Game\Selector\MusicBarListObject.hpp" />
-    <ClInclude Include="Game\Selector\MusicThumbnailObject.hpp" />
-    <ClInclude Include="Game\Selector\SelectorSceneObject.hpp" />
+    <ClInclude Include="Examples\DependencyInjection.cpp" />
+    <ClInclude Include="Examples\RectMoving.cpp" />
+    <ClInclude Include="Examples\LifeCycle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />

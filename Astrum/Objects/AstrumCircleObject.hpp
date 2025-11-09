@@ -1,4 +1,5 @@
 ﻿#include <vector>
+#include <memory>
 #include "AstrumShapeObject.hpp"
 #include "../Meshes/AstrumCirclePolygons.hpp"
 #include "../Components/AstrumRenderPolygonsComponent.hpp"
@@ -14,4 +15,9 @@ public:
 
 private:
     std::shared_ptr<AstrumCirclePolygons> circlePolygon;
+
+public:
+    static std::shared_ptr<AstrumCircleObject> MakeShared() { return std::make_shared<AstrumCircleObject>(); }
+    static std::shared_ptr<AstrumCircleObject> MakeShared(const std::shared_ptr<AstrumCirclePolygons>& circlePolygon) { return std::make_shared<AstrumCircleObject>(circlePolygon); }
+	static std::shared_ptr<AstrumCircleObject> MakeShared(const AstrumVertexColor& center, float radius, const unsigned short segment = 128) { return std::make_shared<AstrumCircleObject>(center, radius, segment); }
 };

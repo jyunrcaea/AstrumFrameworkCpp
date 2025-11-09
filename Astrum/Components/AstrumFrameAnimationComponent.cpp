@@ -31,7 +31,7 @@ void AstrumFrameAnimationComponent::SetOwner(IAstrumObject* newOwner) {
 		materialOwner = nullptr;
 	}
 	else if (nullptr == (materialOwner = dynamic_cast<IAstrumMaterialObject*>(newOwner))) {
-		throw AstrumException("AstrumFrameAnimationComponent is required IAstrumMaterialObject.");
+		AstrumException("AstrumFrameAnimationComponent is required IAstrumMaterialObject.").Alert();
 	}
 
 	AstrumComponent::SetOwner(newOwner);

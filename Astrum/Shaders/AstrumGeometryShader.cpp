@@ -1,4 +1,4 @@
-﻿#include "AstrumGeometryShader.hpp"
+#include "AstrumGeometryShader.hpp"
 #include "../Singletons/AstrumRenderer.hpp"
 #include "../AstrumException.hpp"
 
@@ -9,10 +9,19 @@ AstrumGeometryShader::AstrumGeometryShader(const std::wstring& path, const std::
         blob->GetBufferPointer(),
         blob->GetBufferSize(),
         nullptr,
-        &shader)))
-    {
-        throw AstrumException("CreateGeometryShader failed.");
-    }
+        &shader
+    ))) AstrumException("CreateGeometryShader failed.").Alert();
+}
+
+AstrumGeometryShader::AstrumGeometryShader(const char* shaderCode, size_t shaderCodeLength, const std::string& entryPoint, const std::string& profile)
+    : AstrumShader(shaderCode, shaderCodeLength, entryPoint, profile)
+{
+    if (FAILED(AstrumRenderer::Instance().GetDevice()->CreateGeometryShader(
+        blob->GetBufferPointer(),
+        blob->GetBufferSize(),
+        nullptr,
+        &shader
+    ))) AstrumException("CreateGeometryShader failed.").Alert();
 }
 
 void AstrumGeometryShader::SetShader() {

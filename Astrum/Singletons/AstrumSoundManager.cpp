@@ -1,28 +1,15 @@
 #include "AstrumSoundManager.hpp"
 #include <string>
+#include <format>
 #include "../AstrumException.hpp"
 
-#if _DEBUG
-#include <format>
-#else
-#include <iostream>
-#endif
-
-namespace {
-	void ThrowInitalizeException(const char* message, int result) {
-#if _DEBUG
-		throw AstrumException(__LINE__, __FILE__,std::format("{}. (FMOD_RESULT: {})", message, result));
-#else
-		std::cout << "[ERROR] "<< message << ". (FMOD_RESULT: " << result << ")" << std::endl;
-#endif
-	}
-}
+#define ThrowInitalizeException(message, result) AstrumException(__LINE__, __FILE__, std::format("{} (FMOD_RESULT: {})", message, static_cast<int>(result))).Alert();
 
 AstrumSoundManagerSingleton::AstrumSoundManagerSingleton() { }
 
 void AstrumSoundManagerSingleton::Initialize() {
 	FMOD_RESULT result;
-	auto throwException = [result](const char* message) { ThrowInitalizeException(message, result); };
+	auto throwException = [result](std::string&& message) { ThrowInitalizeException(message, result); };
 
 	if (FMOD::System* systemPtr = nullptr; (result = FMOD::System_Create(&systemPtr)) != FMOD_RESULT::FMOD_OK) {
 		throwException("Failed to create fmod system");

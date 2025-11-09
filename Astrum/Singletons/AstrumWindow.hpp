@@ -18,7 +18,7 @@ class AstrumWindowSingleton : public AstrumSingleton<AstrumWindowSingleton> {
     AstrumWindowSingleton();
 
 private:
-    void Initialize(const std::wstring& title, unsigned int width, unsigned int height);
+    bool Initialize(const std::wstring& title, unsigned int width, unsigned int height);
     void Dispose();
 
     int GetWidth() const;
@@ -61,7 +61,7 @@ private:
 class AstrumWindow {
     AstrumWindow() = delete;
 public:
-    static inline void Initialize(const std::wstring& title, unsigned int width, unsigned int height) { AstrumWindowSingleton::Instance().Initialize(title, width, height); }
+    static inline bool Initialize(const std::wstring& title, unsigned int width, unsigned int height) { return AstrumWindowSingleton::Instance().Initialize(title, width, height); }
     static inline void Dispose() { AstrumWindowSingleton::Instance().Dispose(); }
 
     static inline int GetWidth() { return AstrumWindowSingleton::Instance().GetWidth(); }

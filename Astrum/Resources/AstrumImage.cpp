@@ -6,20 +6,20 @@ AstrumImage::AstrumImage(const std::filesystem::path& path)
 	std::ranges::transform(ext.begin(), ext.end(), ext.begin(), ::towlower);
 	if (ext == L".dds") {
 		if (FAILED(DirectX::LoadFromDDSFile(path.c_str(), DirectX::DDS_FLAGS_NONE, nullptr, *image ))) {
-			throw AstrumException("Failed to load DDS image from file: " + path.string());
+			AstrumException(__LINE__, __FILE__, "Failed to load DDS image from file: " + path.string()).Alert();
 		}
 	}
 	else if (ext == L".tga") {
 		if (FAILED(DirectX::LoadFromTGAFile(path.c_str(), nullptr, *image ))) {
-			throw AstrumException("Failed to load TGA image from file: " + path.string());
+			AstrumException(__LINE__, __FILE__, "Failed to load TGA image from file: " + path.string()).Alert();
 		}
 	}
 	else if (ext == L".png" || ext == L".jpg" || ext == L".jpeg") {
 		if (FAILED(DirectX::LoadFromWICFile(path.c_str(), DirectX::WIC_FLAGS_FORCE_SRGB, nullptr, *image))) {
-			throw AstrumException("Failed to load WIC image from file: " + path.string());
+			AstrumException(__LINE__, __FILE__, "Failed to load WIC image from file: " + path.string()).Alert();
 		}
 	}
-	else throw AstrumException(L"Unsupported image format: " + ext);
+	else AstrumException(__LINE__, __FILE__, L"Unsupported image format: " + ext).Alert();
 }
 
 AstrumImage::AstrumImage(std::filesystem::path&& path) {
@@ -27,20 +27,20 @@ AstrumImage::AstrumImage(std::filesystem::path&& path) {
 	std::ranges::transform(ext.begin(), ext.end(), ext.begin(), ::towlower);
 	if (ext == L".dds") {
 		if (FAILED(DirectX::LoadFromDDSFile(path.c_str(), DirectX::DDS_FLAGS_NONE, nullptr, *image))) {
-			throw AstrumException("Failed to load DDS image from file: " + path.string());
+			AstrumException(__LINE__, __FILE__, "Failed to load DDS image from file: " + path.string()).Alert();
 		}
 	}
 	else if (ext == L".tga") {
 		if (FAILED(DirectX::LoadFromTGAFile(path.c_str(), nullptr, *image))) {
-			throw AstrumException("Failed to load TGA image from file: " + path.string());
+			AstrumException(__LINE__, __FILE__, "Failed to load TGA image from file: " + path.string()).Alert();
 		}
 	}
 	else if (ext == L".png" || ext == L".jpg" || ext == L".jpeg") {
 		if (FAILED(DirectX::LoadFromWICFile(path.c_str(), DirectX::WIC_FLAGS_FORCE_SRGB, nullptr, *image))) {
-			throw AstrumException("Failed to load WIC image from file: " + path.string());
+			AstrumException(__LINE__, __FILE__, "Failed to load WIC image from file: " + path.string()).Alert();
 		}
 	}
-	else throw AstrumException(L"Unsupported image format: " + ext);
+	else AstrumException(__LINE__, __FILE__, L"Unsupported image format: " + ext).Alert();
 }
 
 AstrumImage::AstrumImage(AstrumImage&& image) noexcept

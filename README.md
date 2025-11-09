@@ -1,4 +1,4 @@
-﻿# ✨ Astrum Framework
+# ✨ Astrum Framework
 
 **C++23**과 **DirectX 11**을 기반으로 구축된 2D 게임 개발 프레임워크.
 
@@ -53,8 +53,8 @@
 
 ### 3. 렌더링 파이프라인
 1.  `IAstrumObject::Draw()` 호출 : `Update()`가 끝난 이후 `Draw()` 메소드가 호출됩니다.
-2.  렌더링 큐에 등록: 그릴수 있는 객체들에 한해 오버라이딩 된 `Draw()` 함수에서 `AstrumRenderer::Instance().EnqueueRenderable(IAstrumRenderable)`를 통해 큐에 등록합니다.
-3.  일괄 렌더링: `AstrumRenderer::Rendering()` 함수에서 큐를 비울때까지, `IAstrumRenderable::PreRender()`와 `IAstrumRenderable::Render()`를 순차적으로 호출합니다.
+2.  렌더링 큐에 등록: 그릴수 있는 객체들에 한해 오버라이딩 된 `Draw()` 함수에서 `AstrumRenderQueue::Enqueue(IAstrumRenderable)`를 통해 큐에 등록합니다.
+3.  일괄 렌더링: `AstrumRenderQueue` 클래스가 큐의 모든 객체를 순회하며`IAstrumRenderable::PreRender()`를 모두 호출해준 후, 큐를 비우면서  `IAstrumRenderable::Render()`를 순차적으로 호출합니다.
     - `PreRender()`: 월드/뷰/투영 행렬과 같은 변환 정보를 계산하고 상수 버퍼를 업데이트합니다. (일부 과정이 추가됬을수도 있지만, 기본적으로 이렇습니다.)
     - `Render()`: 실제 그리기(Draw Call) 명령을 실행합니다.
 
@@ -80,48 +80,108 @@
 
 ### 유용한 싱글톤
 - `AstrumKeyBinder` : 한개 이상의 키 목록에 이름을 부여해서(`AddKeyBind(name, key)`), 해당 목록중에서 눌린 키가 하나라도 있는지 이름을 통해 조회합니다(`IsKeyPressed(name)`).
-- `AstrumTextureCache` : 텍스쳐를 캐싱하여 중복 로딩을 방지합니다. `GetTexture(path)`를 통해 경로로 텍스쳐를 가져오고, 없으면 로드하여 캐싱합니다.
+- `AstrumTextureCache` : 텍스쳐를 캐싱하여 중복 로딩을 방지합니다. `Load(path)`를 통해 경로로 텍스쳐를 가져오고, 없으면 로드하여 캐싱합니다.
+- `AstrumFontCache` : 폰트(컬렉션)를 캐싱하여 중복 로딩을 방지합니다. `Load(path)`를 통해 경로로 폰트를 가져오고, 없으면 로드하여 캐싱합니다.
+- `AstrumSoundCache` : 사운드를 캐싱하여 중복 로딩을 방지합니다. `Load(path)`를 통해 경로로 사운드를 가져오고, 없으면 로드하여 캐싱합니다.
 
-위 싱글톤들은 모두 편의를 위해 존재하며, 사용하지 않는 한, 기본적으로 의존성을 가지지 않습니다.
+위 싱글톤들은 모두 편의를 위해 존재합니다.  
+사용하지 않는 한, 기본적으로 의존성을 가지지 않습니다.
 
+---
+## 편의 기능
+### 의존성 주입
+모든 게임 객체(AstrumObject)는 의존성 주입을 위해, 맴버 변수 ``protected: AstrumDependencyInjectionService DI;``를 제공합니다.  
+아래 예시와 같이 등록은 ``DI.Add<T>(string, T&)``, 참조는 ``T*& t = DI.Reserve<T>(string)`` 으로 사용할수 있습니다.
+```cpp
+class ChildObject : public AstrumGroupObject {
+public:
+    std::string*& title = DI.Reserve<std::string>("title");
+
+    virtual void Prepare() override {
+        AstrumGroupObject::Prepare(); // Prepare()를 호출해야 등록된 의존성이 해결합니다.
+
+        std::cout << *title; //출력: Hello, Dependency Injection!
+    }
+};
+
+class ParentObject : public AstrumGroupObject {
+public:
+    std::string title = "Hello, Dependency Injection!";
+
+    virtual void Prepare() override {
+        AstrumGroupObject::Prepare();
+
+        DI.Add("title", title); // 자식이 참조할수 있게 변수를 등록합니다.
+
+        /*
+        DI를 먼저 등록한 이후에 자식을 추가하는걸 권장합니다. 이유는 다음과 같습니다.
+         1. ParentObject가 이미 AstrumObject::Prepare()를 호출했습니다.
+         2. 이때 자식을 추가하면 자식도 Prepare()가 호출됩니다.
+         3. 자식도 의존성을 해결합니다.
+        */
+        AddObject(std::make_shared<ChildObject>());
+    }
+};
+```
+원리는 다음과 같습니다:
+- 부모가 ``DI.Add``로 등록합니다. DI 내부의 ``unordered_set<string, void*>``에 등록됩니다.
+- 자식은 ``DI.Reserve``를 호출하는 순간, DI 내부에서 void* 변수를 하나 준비하고 참조를 리턴합니다. 선언시 타입이 T*&인 이유입니다.
+- ``AstrumObject::Prepare()``를 호출할때 의존성을 해결합니다. 부모를 재귀적으로 올라가 각 해시맵을 조회하면서 ``DI.Reserve``로 만들어진 여러개의 void*에 유효한 주소를 주입합니다.
+- 모든 조상을 둘러보아도 해결되지 못하면 nullptr로 남습니다.
+### 매크로
+오직 ``AstrumMacro.hpp``에서만 편의를 위해 매크로를 제공합니다.  
+이외의 헤더 파일에서는 선언된 매크로가 없음을 보장하며, ``AstrumMacro.hpp``를 참조하지도 않습니다.  
+(하지만 WinAPI 및 DX11의 매크로는 불가피하게 되었습니다.)
+
+다음과 같이 사용할수 있습니다.
+```cpp
+ASTRUM_OBJECT(MockObject) {
+	DI_GET(int, hello) // int*& hello = DI.Reserve<int>("hello");
+
+	std::string name = "hello world!";
+public:
+	ASTRUM_PREPARE { // virtual void Prepare() override
+		AstrumObject::Prepare();
+		DI_SET(name) // DI.Add("name", name);
+	}
+
+	ASTRUM_RELEASE { // virtual void Release() override
+		AstrumObject::Release();
+	}
+};
+```
 ---
 ## 시작하기
 `Program.hpp`의 `Main()` 함수를 참고해보세요.
 ```cpp
-#include "AstrumFramework.hpp"
-#include "MyCustomObject.hpp" // 사용자 정의 객체
-
-void PrepareShaders() {
-    // 도형 렌더링을 위한 기본 셰이더 설정
-    auto shapePipeline = AstrumShaderSetup::MakeShared()
-    shapePipeline->VertexShader = AstrumVertexShader::MakeShared(L"./Shaders/ColorMesh.fx", "ColorMeshVS");
-    shapePipeline->PixelShader = AstrumPixelShader::MakeShared(L"./Shaders/ColorMesh.fx", "ColorMeshPS");
-    shapePipeline->AddInputLayoutDescription("POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0);
-    shapePipeline->AddInputLayoutDescription("COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-    AstrumRenderer::Instance().DefaultShapeShaderPipeline = shapePipeline;
-
-    // 텍스처 렌더링을 위한 기본 셰이더 설정
-    // (마찬가지로 shapePipeline처럼 설정해주면 됨.)
-}
+#include "Astrum/Singletons/AstrumFramework.hpp"
+#include "Astrum/Singletons/AstrumTextureCache.hpp"
+#include "Astrum/Objects/AstrumGroupObject.hpp"
+#include "Astrum/Objects/AstrumMaterialObject.hpp"
+#include "Astrum/Resources/AstrumMaterial.hpp"
 
 int main() {
     // 1. 프레임워크 초기화
     AstrumFramework::Initialize(L"My Astrum Game", 1280, 720);
 
-    // 2. 기본 셰이더 준비
-    PrepareShaders();
+    // 2. 리소스 준비
+    auto material = AstrumMaterial::MakeShared(
+        AstrumTextureCache::Load("Assets/Textures/my_texture.png")
+    );
 
-    // 3. 루트 객체에 씬(Scene) 또는 객체 할당
-    auto myScene = std::make_shared<AstrumGroupObject>();
-    auto myObject = std::make_shared<AstrumObject>();
+    // 3. 객체 생성
+    std::shared_ptr<AstrumGroupObject> groupObject = AstrumGroupObject::MakeShared();
+    std::shared_ptr<AstrumMaterialObject> materialObject = AstrumMaterialObject::MakeShared(std::move(material));
 
-    // 3-1. myScene를 부모로, myObject를 자식으로 추가
-    myScene->AddObject(myObject);
+    // 3-1. groupObject를 부모로, materialObject를 자식으로 추가
+    groupObject->AddObject(materialObject);
 
     // 4. 루트 AstrumGroupObject 할당
-    AstrumFramework::RootObject = myScene;
+    AstrumFramework::SetRootObject(groupObject);
 
     // 5. 실행!
     AstrumFramework::Run();
+
+    return 0;
 }
 ```

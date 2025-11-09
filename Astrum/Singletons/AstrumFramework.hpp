@@ -14,7 +14,7 @@ class AstrumFrameworkSingleton : public AstrumSingleton<AstrumFrameworkSingleton
 private:
     bool IsInitialized() const;
     bool IsRunning() const;
-    void Initialize(const std::wstring& title = L"Astrum Framework", unsigned int width = 1280, unsigned int height = 720);
+    bool Initialize(const std::wstring& title = L"Astrum Framework", unsigned int width = 1280, unsigned int height = 720);
     int Run();
     void Stop();
     std::shared_ptr<AstrumGroupObject> RootObject = std::make_shared<AstrumGroupObject>();

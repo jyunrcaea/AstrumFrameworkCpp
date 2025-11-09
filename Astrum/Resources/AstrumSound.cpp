@@ -2,21 +2,7 @@
 #include <string>
 #include "../AstrumException.hpp"
 
-#if _DEBUG
-#include <format>
-#else
-#include <iostream>
-#endif
-
-namespace {
-	void ThrowInitializeException(const char* message, int result) {
-#if _DEBUG
-		throw AstrumException(__LINE__, __FILE__,std::format("{}. (FMOD_RESULT: {})", message, result));
-#else
-		std::cout << "[ERROR] " << message << ". (FMOD_RESULT: " << result << ")" << std::endl;
-#endif
-	}
-}
+#define ThrowInitializeException(message, result) AstrumException(__LINE__, __FILE__,std::format("{}. (FMOD_RESULT: {})", message, static_cast<int>(result))).Alert();
 
 AstrumSound::AstrumSound(const std::filesystem::path& soundFilePath, bool loop, std::shared_ptr<AstrumChannelGroup> group)
 	: group(nullptr == group ? AstrumSoundManager::GetMasterChannelGroup() : group)
@@ -37,7 +23,7 @@ AstrumSound::~AstrumSound() {/* sound is managed by unique_ptr. */ }
 void AstrumSound::Play()
 {
 	AstrumSoundManager::GetFmodSystem()->playSound(sound.get(), group->GetFmodChannelGroup(), false, &channel);
-	channel->setCallback(OnPlaySoundFinish);
+	channel->setCallback(&AstrumSound::OnPlaySoundFinish);
 }
 
 bool AstrumSound::Stop()
@@ -83,10 +69,10 @@ bool AstrumSound::Resume()
 FMOD::Sound* AstrumSound::GetFmodSound() const { return sound.get(); }
 
 FMOD_RESULT AstrumSound::OnPlaySoundFinish(
-	FMOD_CHANNELCONTROL*, //channelControl,
-	FMOD_CHANNELCONTROL_TYPE, //type,
-	FMOD_CHANNELCONTROL_CALLBACK_TYPE, //callBackType,
-	void*, //commanddata1,
+	FMOD_CHANNELCONTROL*, //channelControl
+	FMOD_CHANNELCONTROL_TYPE, //type
+	FMOD_CHANNELCONTROL_CALLBACK_TYPE, //callBackType
+	void*, //commanddata1
 	void* //commandData2
 ) {
 	return FMOD_OK;

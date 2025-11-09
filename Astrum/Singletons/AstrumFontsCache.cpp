@@ -2,7 +2,7 @@
 
 void AstrumFontsCacheSingleton::CleanUp() {
     for (auto it = fontsMap.begin(); it != fontsMap.end();) {
-        if (it->second.expired()) {
+        if (it->second.use_count() <= 1) {
             it = fontsMap.erase(it);
         }
         else {
