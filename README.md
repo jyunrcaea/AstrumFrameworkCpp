@@ -71,7 +71,7 @@
 - `AstrumRenderer`: DirectX 11 디바이스 및 스왑 체인 설정, 렌더링 큐 관리, 기본 셰이더 파이프라인 제공 등 모든 그래픽 처리를 담당합니다.
 - `AstrumChrono`: 시간 관련 기능을 제공하는 클래스입니다. 프레임 제한, 델타 타임 등을 관리합니다.
 - `AstrumCollisionSystem`: 모든 `AstrumColliderComponent`를 관리하며, 매 프레임 충돌을 검사하고 `OnCollisionEnter`, `OnCollisionExit` 이벤트를 발생시킵니다.
-- `AstrumDirectInput`: DirectInput 8을 사용하여 키보드 및 마우스 입력을 처리합니다. `WasKeyPressed` (방금 눌림), `IsKeyPressed` (누르고 있음) 등 상태 기반의 직관적인 입력 확인을 지원합니다.
+- `AstrumRawInput`: WinAPI의 Raw Input을 사용하여 더 낮은 지연의 키보드 및 마우스 입력을 처리합니다.
 
 위 싱글톤들은 모두 의존성을 가집니다.
 
@@ -121,10 +121,12 @@ public:
 };
 ```
 원리는 다음과 같습니다:
-- 부모가 ``DI.Add``로 등록합니다. DI 내부의 ``unordered_set<string, void*>``에 등록됩니다.
+- 부모가 ``DI.Add``로 등록합니다. DI 내부의 ``unordered_map<string, void*>``에 등록됩니다.
 - 자식은 ``DI.Reserve``를 호출하는 순간, DI 내부에서 void* 변수를 하나 준비하고 참조를 리턴합니다. 선언시 타입이 T*&인 이유입니다.
 - ``AstrumObject::Prepare()``를 호출할때 의존성을 해결합니다. 부모를 재귀적으로 올라가 각 해시맵을 조회하면서 ``DI.Reserve``로 만들어진 여러개의 void*에 유효한 주소를 주입합니다.
 - 모든 조상을 둘러보아도 해결되지 못하면 nullptr로 남습니다.
+
+⚠**주의사항**: 타입 안정성을 보장하지 않습니다. (C++ 26에 리플렉션이 도입될경우 업캐스팅을 포함한 타입 검사를 추가할 계획입니다.)
 ### 매크로
 오직 ``AstrumMacro.hpp``에서만 편의를 위해 매크로를 제공합니다.  
 이외의 헤더 파일에서는 선언된 매크로가 없음을 보장하며, ``AstrumMacro.hpp``를 참조하지도 않습니다.  
@@ -149,7 +151,21 @@ public:
 ```
 ---
 ## 시작하기
-`Program.hpp`의 `Main()` 함수를 참고해보세요.
+### 준비
+1. AstrumFramework 프로젝트를 클론하고 프로젝트를 열어 새로운 솔루션이 만들어지도록 합니다.
+2. 기존 또는 새 C++ 프로젝트를 솔루션에 추가하고, AstrumFramework를 해당 프로젝트의 참조에 추가합니다.
+3. 추가된 프로젝트의 '속성 -> 링커 -> 추가 종속성'에 다음을 추가합니다. 
+```
+$(SolutionDir)Astrum\ThirdParty\fmod_vc.lib
+$(SolutionDir)Astrum\ThirdParty\DirectXTex.lib
+d3d11.lib
+d3dcompiler.lib
+d2d1.lib
+```
+4. 추가된 프로젝트의 '속성 -> C/C++ -> 일반 -> 추가 포함 디렉터리'에 ``$(SolutionDir)``를 추가합니다.
+5. 간단한 예제와 함께 빌드가 성공하는지 확인해보세요!
+### 예제
+`Examples` 폴더에 각 파일별 예시가 담겨있습니다.
 ```cpp
 #include "Astrum/Singletons/AstrumFramework.hpp"
 #include "Astrum/Singletons/AstrumTextureCache.hpp"
