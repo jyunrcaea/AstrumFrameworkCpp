@@ -1,5 +1,11 @@
 #include "AstrumCompactAllocator.hpp"
 
+struct AstrumCompactMemoryPtrCompare {
+	bool operator()(const std::shared_ptr<AstrumCompactMemory>& lhs, const std::shared_ptr<AstrumCompactMemory>& rhs) const {
+		return lhs < rhs;
+	}
+};
+
 void AstrumCompactAllocator::Initialize(size_t initialSize)
 {
 	if (memoryPool != nullptr) {
@@ -14,49 +20,51 @@ void AstrumCompactAllocator::Initialize(size_t initialSize)
 	remainSize = initialSize;
 }
 
-template <typename T>
-AstrumCompactMemory AstrumCompactAllocator::Allocate()
-{
-	void* aligned = std::align(alignof(T), sizeof(T), poolCursor, remainSize);
-
-	if (size > remainSize || (remainSize - size) < static_cast<size_t>(totalSize * compactionThreshold)) {
-		Resize(std::max(static_cast<size_t>(totalSize * expandScale), totalSize + size));
-	}
-	else if (static_cast<char*>(poolCursor) + size >= static_cast<char*>(memoryPool) + totalSize) {
-		Resize(totalSize);
-	}
-
-	void* result = poolCursor;
-	poolCursor = static_cast<void*>(static_cast<char*>(poolCursor) + size);
-	remainSize -= size;
-	return *allocatedPointers.insert(AstrumCompactMemory{ result, size }).first;
-}
-
-void AstrumCompactAllocator::Free(AstrumCompactMemory& memoryBlock)
-{
-	auto it = allocatedPointers.find(memoryBlock);
-	if (it != allocatedPointers.end()) {
-		allocatedPointers.erase(it);
-		remainSize += memoryBlock.GetSize();
-		memoryBlock.Relocate(nullptr);
-	}
-	else {
-		AstrumException("In AstrumCompactAllocator::Free(AstrumCompactMemory&), memoryBlock not found in allocated pointers.").Alert();
-	}
-}
-
 void AstrumCompactAllocator::Resize(size_t nextSize)
 {
 	void* newPool = ::operator new(nextSize);
-	void* newCursor = 0;
+	void* newCursor = newPool;
 
-	for (auto memoryBlock : allocatedPointers) {
-		memoryBlock.Relocate(newCursor);
-		newCursor = static_cast<void*>(static_cast<char*>(newCursor) + memoryBlock.GetSize());
+	sort(allocatedPointers.begin(), allocatedPointers.end(),
+		[](std::weak_ptr<AstrumCompactMemory> a, std::weak_ptr<AstrumCompactMemory> b) {
+			if (a.expired()) return b.expired(); // expired인 경우 항상 뒤로
+			return (*a.lock().get()) > (*b.lock().get()); // 패딩 우선, 이후 크기 내림차순
+		}
+	);
+	// 만료된 포인터 제거
+	for (long long i = static_cast<long long>(allocatedPointers.size()) - 1; i >= 0 && allocatedPointers[i].expired(); i--) {
+		allocatedPointers.pop_back();
+	}
+
+	auto it = allocatedPointers.begin();
+	// 첫 포인터는 정렬 안맞을수도 있음.
+	if (it != allocatedPointers.end()) {
+		if (size_t temp = std::numeric_limits<size_t>::max()
+			; auto ptr = it->lock()) {
+			std::align(ptr->GetAlignment(), ptr->GetSize(), newCursor, temp);
+			ptr->Relocate(newCursor);
+			++it;
+		}
+		else {
+			it = allocatedPointers.erase(it);
+		}
+	}
+
+	// 두번째부턴 이미 alignment로 정렬했으니 패딩 없이 순차 복사.
+	while (it != allocatedPointers.end()) {
+		if (auto ptr = it->lock()) {
+			ptr->Relocate(newCursor);
+			newCursor = static_cast<void*>(static_cast<char*>(newCursor) + ptr->GetSize());
+			++it;
+		}
+		else {
+			it = allocatedPointers.erase(it);
+		}
 	}
 
 	::operator delete(memoryPool);
 	memoryPool = newPool;
 	poolCursor = newCursor;
 	totalSize = nextSize;
+	remainSize = totalSize - (static_cast<char*>(newCursor) - static_cast<char*>(newPool));
 }

@@ -425,3 +425,6 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# What is this
+*.i

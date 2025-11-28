@@ -21,23 +21,60 @@ public:
 	void* operator*() const { return pointer; }
 
 	/// <summary>
-	/// 저장된 크기를 반환합니다.
+	/// 저장된 크기를 반환합니다. 정렬이 적용된 크기입니다.
 	/// </summary>
 	/// <returns>크기 값</returns>
 	size_t GetSize() const { return size; }
+	/// <summary>
+	/// 정렬 크기를 가져옵니다.
+	/// </summary>
+	/// <returns>정렬 값</returns>
+	size_t GetAlignment() const { return alignment; }
 
+	/// <summary>
+	/// 정렬이 낮은 순서대로 비교합니다. 같은 정렬일 경우 크기로 비교합니다. 포인터 값이 nullptr인 경우 항상 작다고 간주합니다.
+	/// </summary>
+	/// <param name="other">비교할 대상</param>
 	bool operator<(const AstrumCompactMemory& other) const {
-		return pointer < other.pointer;
+		if (nullptr == pointer) return pointer < other.pointer;
+		else if (other.pointer == nullptr) return false; // this는 유효한 포인터
+
+		if (alignment == other.alignment) {
+			return size < other.size;
+		}
+
+		return alignment < other.alignment;
+	}
+	/// <summary>
+	/// 정렬이 큰 순서대로 비교합니다. 같은 정렬일 경우 크기로 비교합니다.
+	/// </summary>
+	/// <param name="other">비교할 대상</param>
+	bool operator>(const AstrumCompactMemory& other) const {
+		if (nullptr == pointer) return pointer > other.pointer;
+		else if (other.pointer == nullptr) return true; // this는 유효한 포인터
+
+		if (alignment == other.alignment) {
+			return size > other.size;
+		}
+
+		return alignment > other.alignment;
 	}
 
+	/// <summary>
+	/// 포인터 간 비교를 수행합니다.
+	/// </summary>
+	/// <param name="other">비교할 대상</param>
 	bool operator==(const AstrumCompactMemory& other) const {
 		return pointer == other.pointer;
 	}
 
+	using RelocatorFunction = void(*)(void* source, void* destination);
 private:
+
 	void* pointer = nullptr;
 	const size_t size = 0;
 	const size_t alignment = alignof(std::max_align_t);
+	RelocatorFunction relocator = nullptr;
 
 	/// <summary>
 	/// 지정된 주소에서 시작하는 메모리 영역 블록을 정의합니다.
@@ -45,7 +82,7 @@ private:
 	/// <param name="offset">시작 포인터</param>
 	/// <param name="size">크기(바이트)</param>
 	/// <param name="align">정렬(바이트)</param>
-	AstrumCompactMemory(void* offset, size_t size, size_t align);
+	AstrumCompactMemory(void* offset, size_t size, size_t align, RelocatorFunction relocator);
 
 	/// <summary>
 	/// 객체의 데이터를 지정된 메모리 위치로 이동합니다.

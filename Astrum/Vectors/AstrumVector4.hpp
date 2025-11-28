@@ -22,7 +22,7 @@ struct AstrumVector4 {
     static consteval bool UseSSE() { return false; }
 #endif
 
-    constexpr AstrumVector4() = default;
+    AstrumVector4() = default;
     constexpr AstrumVector4(float x, float y, float z, float w = 0.0f) : X(x), Y(y), Z(z), W(w) { }
 
     float Magnitude() const {

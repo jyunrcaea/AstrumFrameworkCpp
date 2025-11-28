@@ -2,8 +2,9 @@
 
 #include "AstrumCompactAllocator.hpp"
 
-AstrumCompactMemory::AstrumCompactMemory(void* offset, size_t size, size_t align)
-	: pointer(offset), size(size), alignment(align) {
+AstrumCompactMemory::AstrumCompactMemory(void* offset, size_t size, size_t align, RelocatorFunction relocator)
+	: pointer(offset), size(size), alignment(align), relocator(relocator)
+{
 	if (nullptr == offset) {
 		AstrumException("In AstrumCompactMemory(void*, size_t), offset can't be nullptr.").Alert();
 	}
@@ -19,7 +20,7 @@ void AstrumCompactMemory::Relocate(void* const destination)
 {
 	if (pointer == destination)	return;
 	if (destination != nullptr) {
-		std::memmove(destination, pointer, size);
+		relocator(pointer, destination);
 	}
 	pointer = destination;
 }
