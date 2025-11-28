@@ -28,14 +28,36 @@ public:
 	}
 
 	/// <summary>
-	/// 주소가 언제든 바뀔수 있는 포인터를 반환합니다.
+	/// 주소가 언제든 바뀔수 있는 포인터를 반환합니다. 꼭 필요한 경우가 아니면 사용하지 마세요.
 	/// </summary>
-	/// <returns></returns>
+	/// <returns>주소가 언제든 바뀔수 있는 포인터입니다. 변수에 저장하지 않도록 주의하세요.</returns>
 	ValueType* GetReplaceablePointer() const {
 		return static_cast<ValueType*>(memoryBlockPtr->Get());
 	}
 	ValueType* operator*() const {
 		return static_cast<ValueType*>(memoryBlockPtr->Get());
+	}
+
+	/// <summary>
+	/// 해당 포인터가 가리키는 원본 데이터를 가져옵니다. 언제든 값이 변할수 있습니다. 변수에 저장하는걸 삼가하세요.
+	/// </summary>
+	/// <returns>참조로 가져온 데이터</returns>
+	ValueType& Get() const {
+		return *static_cast<ValueType*>(memoryBlockPtr->Get());
+	}
+	/// <summary>
+	/// 해당 포인터가 가리키는 원본 데이터에 값을 덮어씁니다.
+	/// </summary>
+	/// <param name="value">덮어쓸 데이터</param>
+	void Set(const ValueType& value) {
+		*static_cast<ValueType*>(memoryBlockPtr->Get()) = value;
+	}
+	/// <summary>
+	/// 해당 포인터가 가리키는 원본 데이터에 값을 이동연산자로 덮어씁니다.
+	/// </summary>
+	/// <param name="value">덮어쓸 데이터</param>
+	void Set(ValueType&& value) {
+		*static_cast<ValueType*>(memoryBlockPtr->Get()) = std::move(value);
 	}
 
 private:
