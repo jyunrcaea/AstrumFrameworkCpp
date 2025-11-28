@@ -21,10 +21,10 @@ public:
 	void* operator*() const { return pointer; }
 
 	/// <summary>
-	/// 저장된 크기를 반환합니다. 정렬이 적용된 크기입니다.
+	/// 저장된 크기를 반환합니다. 정렬이 적용된 크기입니다. (풀에서 정렬을 맞추기 위해 사용한 크기는 이보다 클수 있지만, 한번 이상 압축 이후에는 이 크기에 맞게 됩니다.)
 	/// </summary>
 	/// <returns>크기 값</returns>
-	size_t GetSize() const { return size; }
+	size_t GetAlignedSize() const { return alignedSize; }
 	/// <summary>
 	/// 정렬 크기를 가져옵니다.
 	/// </summary>
@@ -40,7 +40,7 @@ public:
 		else if (other.pointer == nullptr) return false; // this는 유효한 포인터
 
 		if (alignment == other.alignment) {
-			return size < other.size;
+			return alignedSize < other.alignedSize;
 		}
 
 		return alignment < other.alignment;
@@ -54,7 +54,7 @@ public:
 		else if (other.pointer == nullptr) return true; // this는 유효한 포인터
 
 		if (alignment == other.alignment) {
-			return size > other.size;
+			return alignedSize > other.alignedSize;
 		}
 
 		return alignment > other.alignment;
@@ -72,7 +72,7 @@ public:
 private:
 
 	void* pointer = nullptr;
-	const size_t size = 0;
+	const size_t alignedSize = 0;
 	const size_t alignment = alignof(std::max_align_t);
 	RelocatorFunction relocator = nullptr;
 

@@ -25,9 +25,10 @@ void AstrumCompactAllocator::Resize(size_t nextSize)
 	void* newPool = ::operator new(nextSize);
 	void* newCursor = newPool;
 
-	sort(allocatedPointers.begin(), allocatedPointers.end(),
+	std::sort(allocatedPointers.begin(), allocatedPointers.end(),
 		[](std::weak_ptr<AstrumCompactMemory> a, std::weak_ptr<AstrumCompactMemory> b) {
 			if (a.expired()) return b.expired(); // expired인 경우 항상 뒤로
+			else if (b.expired()) return false; // b가 expired인 경우 항상 뒤로
 			return (*a.lock().get()) > (*b.lock().get()); // 패딩 우선, 이후 크기 내림차순
 		}
 	);
@@ -41,8 +42,9 @@ void AstrumCompactAllocator::Resize(size_t nextSize)
 	if (it != allocatedPointers.end()) {
 		if (size_t temp = std::numeric_limits<size_t>::max()
 			; auto ptr = it->lock()) {
-			std::align(ptr->GetAlignment(), ptr->GetSize(), newCursor, temp);
+			std::align(ptr->GetAlignment(), ptr->GetAlignedSize(), newCursor, temp);
 			ptr->Relocate(newCursor);
+			newCursor = static_cast<void*>(static_cast<char*>(newCursor) + ptr->GetAlignedSize());
 			++it;
 		}
 		else {
@@ -54,7 +56,7 @@ void AstrumCompactAllocator::Resize(size_t nextSize)
 	while (it != allocatedPointers.end()) {
 		if (auto ptr = it->lock()) {
 			ptr->Relocate(newCursor);
-			newCursor = static_cast<void*>(static_cast<char*>(newCursor) + ptr->GetSize());
+			newCursor = static_cast<void*>(static_cast<char*>(newCursor) + ptr->GetAlignedSize());
 			++it;
 		}
 		else {

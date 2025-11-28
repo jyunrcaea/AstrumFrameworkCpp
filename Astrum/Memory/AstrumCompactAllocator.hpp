@@ -53,7 +53,7 @@ public:
 	/// <param name="value">확장 스케일 (1 이상이여야 함). 1 미만이면 예외 발생</param>
 	inline static void SetExpandScale(float value) {
 		if (value < 1) {
-			AstrumException("In AstrumCompactAllocator::SetExpandScale(float), value must be equlas or greater than 1.").Alert();
+			AstrumException("In AstrumCompactAllocator::SetExpandScale(float), value must be equals or greater than 1.").Alert();
 		}
 		expandScale = value;
 	}
@@ -75,6 +75,11 @@ public:
 	/// <returns>현재 전체 크기</returns>
 	static size_t GetCurrentSize() { return totalSize; }
 
+	/// <summary>
+	/// 즉시 메모리 압축을 수행합니다.
+	/// </summary>
+	inline static void Compact() { Resize(totalSize); }
+
 private:
 	template <typename ValueType>
 	requires AstrumCompactable<ValueType>
@@ -91,22 +96,26 @@ private:
 		size_t tempSize = (std::numeric_limits<size_t>::max)();
 		void* tempPtr = poolCursor;
 
-		void* const alignedPtr = std::align(alignof(T), sizeof(T), tempPtr, tempSize); // 오직 정렬용.
+		// 메모리 풀 변경을 염두해서, 주소는 임시로만.
+		tempPtr = std::align(alignof(T), sizeof(T), tempPtr, tempSize);
 		const size_t alignedSize = (sizeof(T) + alignof(T) - 1) / alignof(T) * alignof(T); // 정렬된 크기
 
-		const size_t continuedSize = (static_cast<char*>(alignedPtr) - static_cast<char*>(poolCursor)) + alignedSize; // 패딩 + 정렬된 크기 = 커서부터 할당 끝까지의 거리
+		const size_t continuedSize = (static_cast<char*>(tempPtr) - static_cast<char*>(poolCursor)) + alignedSize; // 패딩 + 정렬된 크기 = 커서부터 할당 끝까지의 거리
 
 		// 메모리가 부족하거나, 할당 이후 여유 메모리가 이미 임계값 미만 경우 더 큰 크기로 재배치
 		if (const auto distance = static_cast<long long>(remainSize) - static_cast<long long>(continuedSize)
 			; distance < 0 || distance < static_cast<size_t>(totalSize * compactionThreshold)) {
-			Resize((std::max)(static_cast<size_t>(totalSize * expandScale), totalSize + continuedSize));
+			Resize((std::max)(static_cast<size_t>(totalSize * expandScale + totalSize * compactionThreshold), totalSize + continuedSize));
 		}
 		// 남은 공간은 충분한데, 메모리 파편화로 인해 할당 불가능한 경우의 같은 크기의 재배치
 		else if (static_cast<char*>(poolCursor) + continuedSize >= GetPoolEnd()) {
 			Resize(totalSize);
 		}
 
-		poolCursor = static_cast<void*>(static_cast<char*>(poolCursor) + continuedSize);
+		// Resize 이후 메모리 풀이 더이상 변경되지 않으니, 여기서 alignedPtr를 계산하면 됨.
+		void* const alignedPtr = std::align(alignof(T), sizeof(T), poolCursor, remainSize);
+		// std::align이 poolCursor와 remainSize를 참조로 받지만, 수정하지 않음.
+		poolCursor = static_cast<void*>(static_cast<char*>(poolCursor) + alignedSize);
 		remainSize -= continuedSize;
 
 		AstrumCompactMemory::RelocatorFunction relocator;
@@ -125,7 +134,7 @@ private:
 				// T*는 힙 메모리로 만든게 아니므로 소멸자만 호출
 				static_cast<T*>(memoryPtr->Get())->~T();
 				// remainSize 늘려야함
-				remainSize += memoryPtr->GetSize();
+				remainSize += memoryPtr->GetAlignedSize();
 				// memoryPtr은 힙으로 만들었으니 제거
 				delete memoryPtr;
 			}
