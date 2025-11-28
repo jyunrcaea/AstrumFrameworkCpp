@@ -1,8 +1,11 @@
-﻿#pragma once
+#pragma once
 #include <memory>
 #include "AstrumComponent.hpp"
 #include "../Animations/IAstrumAnimator.hpp"
 
+/// <summary>
+/// 애니메이터를 관리하는 컴포넌트입니다.
+/// </summary>
 class AstrumAnimatorComponent : public AstrumComponent
 {
 public:

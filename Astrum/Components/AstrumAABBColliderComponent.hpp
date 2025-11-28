@@ -8,7 +8,7 @@ class AstrumAABBColliderComponent : public AstrumColliderComponent, public IAstr
 {
 public:
 	virtual AstrumColliderType GetColliderType() const override { return AstrumColliderType::AstrumColliderType_AABB; }
-	// Ãæµ¹Ã¼ÀÇ AABB¸¦ ¹İÈ¯ÇÕ´Ï´Ù. GetRectFunctionÀÌ ¼³Á¤µÇ¾î ÀÖÀ¸¸é ÇØ´ç ÇÔ¼ö¸¦ È£ÃâÇÏ°í, ¾Æ´Ï¸é ¼ÒÀ¯ÀÚ °´Ã¼ÀÇ À§Ä¡¿Í ½ºÄÉÀÏÀ» »ç¿ëÇØ °è»êÇÕ´Ï´Ù.
+	// ì¶©ëŒì²´ì˜ AABBë¥¼ ë°˜í™˜í•©ë‹ˆë‹¤. GetRectFunctionì´ ì„¤ì •ë˜ì–´ ìˆìœ¼ë©´ í•´ë‹¹ í•¨ìˆ˜ë¥¼ í˜¸ì¶œí•˜ê³ , ì•„ë‹ˆë©´ ì†Œìœ ì ê°ì²´ì˜ ìœ„ì¹˜ì™€ ìŠ¤ì¼€ì¼ì„ ì‚¬ìš©í•´ ê³„ì‚°í•©ë‹ˆë‹¤.
 	virtual AstrumRect GetRect() const;
 
 	virtual bool IsOverlap(IAstrumColliderComponent* other) override;

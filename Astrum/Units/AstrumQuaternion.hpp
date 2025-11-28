@@ -13,37 +13,99 @@
 #endif
 
 namespace {
-    // 상수들을 헤더 파일 내에서 사용할 수 있도록 처리
+    /// <summary>
+    /// 도(degree)를 라디안(radian)으로 변환하는 상수입니다.
+    /// </summary>
     constexpr float DEG2RAD = static_cast<float>(std::numbers::pi / 180.0);
+    /// <summary>
+    /// 라디안(radian)을 도(degree)로 변환하는 상수입니다.
+    /// </summary>
     constexpr float RAD2DEG = static_cast<float>(180.0 / std::numbers::pi);
 }
 
+/// <summary>
+/// 사원수(쿼터니언)를 나타내는 구조체입니다.
+/// 3D 회전을 효율적으로 표현하고 조합할 수 있습니다.
+/// SSE 명령어를 지원하는 경우 SIMD 최적화를 사용합니다.
+/// </summary>
 struct AstrumQuaternion {
 #if ASTRUM_USE_SSE
+    /// <summary>
+    /// SSE 지원 시 공용체로 정의됩니다. 개별 성분 또는 128비트 SIMD 레지스터로 접근 가능합니다.
+    /// </summary>
     union {
-        struct { float W, X, Y, Z; };
+        struct { 
+            /// <summary>
+            /// 스칼라 성분(회전 축)입니다.
+            /// </summary>
+            float W, 
+            /// <summary>
+            /// 벡터 성분 X입니다.
+            /// </summary>
+            X, 
+            /// <summary>
+            /// 벡터 성분 Y입니다.
+            /// </summary>
+            Y, 
+            /// <summary>
+            /// 벡터 성분 Z입니다.
+            /// </summary>
+            Z; 
+        };
         __m128 m128;
     };
-    // SSE 레지스터에서 바로 생성하는 생성자
+    /// <summary>
+    /// SSE 128비트 레지스터로부터 사원수를 생성합니다.
+    /// </summary>
+    /// <param name="vec">SSE 레지스터입니다.</param>
     AstrumQuaternion(__m128 vec) : m128(vec) {}
 #else
-    float W, X, Y, Z;
+    /// <summary>
+    /// 스칼라 성분(회전 축)입니다.
+    /// </summary>
+    float W, 
+    /// <summary>
+    /// 벡터 성분 X입니다.
+    /// </summary>
+    X, 
+    /// <summary>
+    /// 벡터 성분 Y입니다.
+    /// </summary>
+    Y, 
+    /// <summary>
+    /// 벡터 성분 Z입니다.
+    /// </summary>
+    Z;
 #endif
 
-    // 기본 생성자
+    /// <summary>
+    /// 기본 생성자입니다. (0, 0, 0, 0)으로 초기화됩니다.
+    /// </summary>
     constexpr AstrumQuaternion() : W(0.0f), X(0.0f), Y(0.0f), Z(0.0f) {}
-    // 초기화 생성자
+    /// <summary>
+    /// 지정된 W, X, Y, Z 값으로 사원수를 생성합니다.
+    /// </summary>
+    /// <param name="w">스칼라 성분입니다.</param>
+    /// <param name="x">벡터 성분 X입니다.</param>
+    /// <param name="y">벡터 성분 Y입니다.</param>
+    /// <param name="z">벡터 성분 Z입니다.</param>
     constexpr AstrumQuaternion(float w, float x, float y, float z) : W(w), X(x), Y(y), Z(z) {}
 
-    // --- 정적 함수 (Static Functions) ---
-
+    /// <summary>
+    /// 항등 사원수를 반환합니다. (회전이 없음)
+    /// </summary>
+    /// <returns>항등 사원수 (1, 0, 0, 0)입니다.</returns>
     static inline AstrumQuaternion Identity() {
-        // 단위 사원수: 회전이 없음
         return AstrumQuaternion{ 1.0f, 0.0f, 0.0f, 0.0f };
     }
 
+    /// <summary>
+    /// 축과 각도로부터 사원수를 생성합니다.
+    /// </summary>
+    /// <param name="axis">회전 축입니다. (자동으로 정규화됨)</param>
+    /// <param name="rad">회전 각도(라디안)입니다.</param>
+    /// <returns>생성된 사원수입니다.</returns>
     static inline AstrumQuaternion FromAxisAngle(AstrumVector3 axis, float rad) {
-        // 축을 정규화
         AstrumVector3 norm = axis.Normalize();
         float halfAngle = rad * 0.5f;
         float sinHalf = std::sin(halfAngle);
@@ -51,8 +113,12 @@ struct AstrumQuaternion {
         return AstrumQuaternion{ cosHalf, norm.X * sinHalf, norm.Y * sinHalf, norm.Z * sinHalf };
     }
 
+    /// <summary>
+    /// 오일러 각(도 단위)으로부터 사원수를 생성합니다.
+    /// </summary>
+    /// <param name="deg">각 축의 회전(도)을 포함하는 벡터입니다. (X=롤, Y=피치, Z=요우)</param>
+    /// <returns>생성된 사원수입니다.</returns>
     static inline AstrumQuaternion FromEuler(AstrumVector3 deg) {
-        // 오일러 각(degree)을 라디안으로 변환
         float roll = deg.X * DEG2RAD;
         float pitch = deg.Y * DEG2RAD;
         float yaw = deg.Z * DEG2RAD;
@@ -72,11 +138,12 @@ struct AstrumQuaternion {
         return AstrumQuaternion{ w, x, y, z };
     }
 
-    // --- 연산자 오버로딩 (Operator Overloading) ---
-
-    // 쿼터니언 곱셈 (SSE 최적화가 복잡하므로 C++ 유지)
+    /// <summary>
+    /// 두 사원수를 곱합니다. (사원수 곱셈)
+    /// </summary>
+    /// <param name="rhs">곱할 사원수입니다.</param>
+    /// <returns>곱셈 결과 사원수입니다.</returns>
     inline AstrumQuaternion operator*(const AstrumQuaternion& rhs) const {
-        // 사원수 곱셈 공식
         float nw = W * rhs.W - X * rhs.X - Y * rhs.Y - Z * rhs.Z;
         float nx = W * rhs.X + X * rhs.W + Y * rhs.Z - Z * rhs.Y;
         float ny = W * rhs.Y - X * rhs.Z + Y * rhs.W + Z * rhs.X;
@@ -84,7 +151,11 @@ struct AstrumQuaternion {
         return AstrumQuaternion{ nw, nx, ny, nz };
     }
 
-    // 스칼라 곱셈 (SSE 최적화)
+    /// <summary>
+    /// 사원수에 스칼라값을 곱합니다.
+    /// </summary>
+    /// <param name="scalar">곱할 스칼라값입니다.</param>
+    /// <returns>곱셈 결과 사원수입니다.</returns>
     constexpr AstrumQuaternion operator*(float scalar) const {
 #if ASTRUM_USE_SSE
         if (false == std::is_constant_evaluated()) {
@@ -94,7 +165,11 @@ struct AstrumQuaternion {
         return { W * scalar, X * scalar, Y * scalar, Z * scalar };
     }
 
-    // 스칼라 복합 대입 (SSE 최적화)
+    /// <summary>
+    /// 스칼라값을 곱합니다. (복합 할당)
+    /// </summary>
+    /// <param name="scalar">곱할 스칼라값입니다.</param>
+    /// <returns>이 사원수의 참조입니다.</returns>
     constexpr AstrumQuaternion& operator*=(float scalar) {
 #if ASTRUM_USE_SSE
         if (false == std::is_constant_evaluated()) {
@@ -106,11 +181,12 @@ struct AstrumQuaternion {
         return *this;
     }
 
-    // --- 멤버 함수 (Member Functions) ---
-
-    // 벡터 회전 (Vector3 기반 연산이므로 C++ 유지)
+    /// <summary>
+    /// 벡터를 이 사원수가 나타내는 회전만큼 회전시킵니다.
+    /// </summary>
+    /// <param name="v">회전할 벡터입니다.</param>
+    /// <returns>회전된 벡터입니다.</returns>
     inline AstrumVector3 Rotate(const AstrumVector3& v) const {
-        // 이미 최적화된 공식을 사용하고 계십니다 (q * v * q_inv 보다 빠름)
         AstrumVector3 qVec{ X, Y, Z };
         AstrumVector3 t = qVec.Cross(v);
         t.X *= 2.0f; t.Y *= 2.0f; t.Z *= 2.0f;
@@ -126,7 +202,10 @@ struct AstrumQuaternion {
         };
     }
 
-    // 정규화 (SSE 최적화)
+    /// <summary>
+    /// 정규화된 사원수를 반환합니다. (크기가 1인 사원수)
+    /// </summary>
+    /// <returns>정규화된 사원수입니다.</returns>
     inline AstrumQuaternion Normalized() const {
         // Vector4의 Magnitude와 유사하게 길이의 제곱을 먼저 구합니다.
 #if ASTRUM_USE_SSE
@@ -154,7 +233,11 @@ struct AstrumQuaternion {
         return { W / len, X / len, Y / len, Z / len };
     }
 
-    // 켤레 (SSE 최적화)
+    /// <summary>
+    /// 사원수의 켤레(conjugate)를 반환합니다.
+    /// 켤레 사원수는 벡터 부분의 부호를 반전시킨 것입니다.
+    /// </summary>
+    /// <returns>켤레 사원수입니다.</returns>
     constexpr AstrumQuaternion Conjugate() const {
 #if ASTRUM_USE_SSE
         if (false == std::is_constant_evaluated()) {
@@ -165,7 +248,11 @@ struct AstrumQuaternion {
         return AstrumQuaternion{ W, -X, -Y, -Z };
     }
 
-    // 역 (SSE 최적화)
+    /// <summary>
+    /// 사원수의 역(inverse)을 반환합니다.
+    /// 정규화된 사원수의 경우 켤레와 같습니다.
+    /// </summary>
+    /// <returns>역 사원수입니다.</returns>
     inline AstrumQuaternion Inverse() const {
 #if ASTRUM_USE_SSE
         if (false == std::is_constant_evaluated()) {
@@ -194,29 +281,32 @@ struct AstrumQuaternion {
         return Conjugate() * (1.0f / lenSq);
     }
 
-    // 오일러 각 변환 (삼각함수 기반이므로 C++ 유지)
+    /// <summary>
+    /// 사원수를 오일러 각(도 단위)으로 변환합니다.
+    /// </summary>
+    /// <returns>각 축의 회전(도)을 포함하는 벡터입니다. (X=롤, Y=피치, Z=요우)</returns>
     inline AstrumVector3 ToEuler() const {
         AstrumVector3 euler;
-        // X축 회전
+        // X축 회전 (롤)
         euler.X = std::atan2(
             2.0f * (W * X + Y * Z),
             1.0f - 2.0f * (X * X + Y * Y)
         );
 
-        // Y축 회전
+        // Y축 회전 (피치)
         float sinp = 2.0f * (W * Y - Z * X);
         if (std::fabs(sinp) >= 1.0f)
             euler.Y = std::copysign(std::numbers::pi_v<float> / 2.0f, sinp); // 90° 클램핑
         else
             euler.Y = std::asin(sinp);
 
-        // Z축 회전
+        // Z축 회전 (요우)
         euler.Z = std::atan2(
             2.0f * (W * Z + X * Y),
             1.0f - 2.0f * (Y * Y + Z * Z)
         );
 
-        // 라디안 → 도 단위
+        // 라디안 → 도 단위 변환
         euler.X *= RAD2DEG;
         euler.Y *= RAD2DEG;
         euler.Z *= RAD2DEG;
