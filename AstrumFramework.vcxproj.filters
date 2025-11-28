@@ -201,6 +201,8 @@
     <ClInclude Include="Examples\RectMoving.cpp" />
     <ClInclude Include="Examples\LifeCycle.cpp" />
     <ClInclude Include="Astrum\Units\AstrumQuaternion.hpp" />
+    <ClInclude Include="Astrum\Memory\AstrumManagedAllocator.hpp" />
+    <ClInclude Include="Astrum\Memory\AstrumManagdPointer.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />

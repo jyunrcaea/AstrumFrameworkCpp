@@ -73,7 +73,7 @@
   <PropertyGroup Label="UserMacros" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
@@ -146,6 +146,8 @@
   <ItemGroup>
     <ClCompile Include="Astrum\Components\AstrumPostProcessRenderComponent.cpp" />
     <ClCompile Include="Astrum\Graphics\AstrumRenderTarget.cpp" />
+    <ClCompile Include="Astrum\Memory\AstrumCompactAllocator.cpp" />
+    <ClCompile Include="Astrum\Memory\AstrumCompactMemory.cpp" />
     <ClCompile Include="Astrum\Objects\AstrumPostProcessGroupObject.cpp" />
     <ClCompile Include="Astrum\AstrumException.cpp" />
     <ClCompile Include="Astrum\Resources\IAstrumTexture.cpp" />
@@ -232,6 +234,9 @@
     <ClInclude Include="Astrum\Enums\AstrumTextAlignmentType.hpp" />
     <ClInclude Include="Astrum\Graphics\AstrumRenderTarget.hpp" />
     <ClInclude Include="Astrum\Graphics\AstrumSimpleRenderable.hpp" />
+    <ClInclude Include="Astrum\Memory\AstrumCompactMemory.hpp" />
+    <ClInclude Include="Astrum\Memory\AstrumReplaceablePointer.hpp" />
+    <ClInclude Include="Astrum\Memory\AstrumCompactAllocator.hpp" />
     <ClInclude Include="Astrum\Objects\AstrumPostProcessGroupObject.hpp" />
     <ClInclude Include="Astrum\Objects\AstrumTextObject.hpp" />
     <ClInclude Include="Astrum\Resources\IAstrumTexture.hpp" />

@@ -151,6 +151,7 @@ public:
 ```
 ---
 ## 시작하기
+주의: CoInitialize를 반드시 호출해야 합니다. COM이 초기화되지 않으면 WIC로 불러오는 리소스에 문제가 발생할 여지가 있습니다.
 ### 준비
 1. AstrumFramework 프로젝트를 클론하고 프로젝트를 열어 새로운 솔루션이 만들어지도록 합니다.
 2. 기존 또는 새 C++ 프로젝트를 솔루션에 추가하고, AstrumFramework를 해당 프로젝트의 참조에 추가합니다.
@@ -174,6 +175,9 @@ d2d1.lib
 #include "Astrum/Resources/AstrumMaterial.hpp"
 
 int main() {
+    // 0. COM 초기화 (필수)
+    CoInitialize(nullptr);
+
     // 1. 프레임워크 초기화
     AstrumFramework::Initialize(L"My Astrum Game", 1280, 720);
 
@@ -194,6 +198,9 @@ int main() {
 
     // 5. 실행!
     AstrumFramework::Run();
+
+    // 6. 해제
+    CoUninitialize();
 
     return 0;
 }

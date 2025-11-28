@@ -41,7 +41,7 @@ inline std::shared_ptr<AstrumTexture> AstrumTextureCacheSingleton::Load(PathType
         std::forward<PathType>(path).is_absolute() ? std::forward<PathType>(path) : std::filesystem::canonical(DefaultRelativeDirectory / std::forward<PathType>(path))
     };
     if (false == textureMap.contains(name)) {
-        textureMap[name] = AstrumTexture::MakeShared(name);
+        textureMap.insert({ name , AstrumTexture::MakeShared(name) });
     }
     return textureMap[name];
 }
