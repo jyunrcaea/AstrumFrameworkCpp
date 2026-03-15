@@ -79,8 +79,26 @@ private:
 
 class AstrumTextureSampler {
 public:
+	/// <summary>
+	/// 텍스처 샘플러를 초기화합니다.
+	/// 모든 샘플링 방식의 Direct3D 샘플러 상태를 생성합니다.
+	/// </summary>
 	static inline void Initialize() { AstrumTextureSamplerSingleton::Instance().Initialize(); }
+	/// <summary>
+	/// 텍스처 샘플러를 정리합니다.
+	/// 생성된 모든 샘플러 상태 리소스를 해제합니다.
+	/// </summary>
 	static inline void Dispose() { AstrumTextureSamplerSingleton::Instance().Dispose(); }
+	/// <summary>
+	/// 지정된 샘플링 방식의 Direct3D 샘플러 상태를 반환합니다.
+	/// </summary>
+	/// <param name="type">원하는 샘플링 방식입니다.</param>
+	/// <returns>해당 샘플링 방식의 Direct3D 샘플러 상태 포인터입니다.</returns>
 	static inline ID3D11SamplerState* const GetSampler(AstrumTextureSampleType type) { return AstrumTextureSamplerSingleton::Instance().GetSampler(type);  }
+	/// <summary>
+	/// 렌더링 파이프라인에 지정된 샘플링 방식의 샘플러를 설정합니다.
+	/// </summary>
+	/// <param name="type">설정할 샘플링 방식입니다.</param>
+	/// <returns>성공하면 true, 실패하면 false를 반환합니다.</returns>
 	static inline bool SetSampler(AstrumTextureSampleType type) { return AstrumTextureSamplerSingleton::Instance().SetSampler(type); }
 };

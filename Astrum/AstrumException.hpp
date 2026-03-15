@@ -44,7 +44,7 @@ public:
     /// 릴리스 모드에서는 오류 메시지만 출력하고 계속 실행됩니다.
     /// </summary>
     /// <exception cref="AstrumException">디버그 모드에서만 발생합니다.</exception>
-    void Alert() const { throw this; }
+    void Alert() const { throw *this; }
 #else
     /// <summary>
     /// 디버그 모드에서는 예외를 발생시켜 실행을 중단합니다.
