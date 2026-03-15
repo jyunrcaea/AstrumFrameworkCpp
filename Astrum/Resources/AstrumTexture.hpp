@@ -80,7 +80,7 @@ private:
 	/// </summary>
     unsigned int width = 0, height = 0;
 	/// <summary>
-	/// 원본 이미지 객체입니다.
+	/// 원본 이미지 객체입니다. (GPU가 텍스쳐를 로드하는 동안 원본 이미지가 유효해야하니까.)
 	/// </summary>
     std::shared_ptr<AstrumImage> sourceImage = nullptr;
 

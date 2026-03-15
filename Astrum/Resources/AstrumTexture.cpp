@@ -11,6 +11,8 @@ AstrumTexture::AstrumTexture(std::shared_ptr<AstrumImage>&& image)
     : sourceImage(std::move(image))
 {
     if (nullptr == sourceImage) AstrumException(__LINE__, __FILE__, "Failed to load texture. Because image is nullptr.").Alert();
+    if (false == sourceImage->IsVaild()) AstrumException(__LINE__, __FILE__, "Failed to load texture. Because image is invaild.").Alert();
+
     if (FAILED(DirectX::CreateShaderResourceView(
         AstrumRenderer::Instance().GetDevice(),
         sourceImage->GetImages(),
@@ -27,6 +29,8 @@ AstrumTexture::AstrumTexture(const std::shared_ptr<AstrumImage>& image)
     : sourceImage(image)
 {
     if (nullptr == sourceImage) AstrumException(__LINE__, __FILE__, "Failed to load texture. Because image is nullptr.").Alert();
+    if (false == sourceImage->IsVaild()) AstrumException(__LINE__, __FILE__, "Failed to load texture. Because image is invaild.").Alert();
+    
     if (FAILED(DirectX::CreateShaderResourceView(
         AstrumRenderer::Instance().GetDevice(),
         sourceImage->GetImages(),

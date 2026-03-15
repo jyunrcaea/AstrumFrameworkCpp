@@ -76,5 +76,8 @@ inline std::shared_ptr<AstrumTexture> AstrumTextureCacheSingleton::Load(PathType
     if (false == textureMap.contains(name)) {
         textureMap.insert({ name , AstrumTexture::MakeShared(name) });
     }
+
+    //std::wcout << name << ": " << static_cast<void*>(textureMap[name]->GetShaderResourceView()) <<  '\n';
+
     return textureMap[name];
 }

@@ -1,4 +1,4 @@
-﻿#include "AstrumRenderMaterialComponent.hpp"
+#include "AstrumRenderMaterialComponent.hpp"
 #include "../Singletons/AstrumRenderer.hpp"
 
 void AstrumRenderMaterialComponent::PreRender() {
@@ -9,7 +9,7 @@ void AstrumRenderMaterialComponent::PreRender() {
 }
 
 void AstrumRenderMaterialComponent::Render() {
-    if (nullptr == Material) return;
+    if (nullptr == Material || nullptr == Mesh) return;
     AstrumRenderComponent::Render();
 
     if (auto* const srv = Material->GetTexture()->GetShaderResourceView()) {

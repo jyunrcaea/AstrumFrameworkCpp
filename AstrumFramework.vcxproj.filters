@@ -75,6 +75,9 @@
     <ClCompile Include="Astrum\Singletons\AstrumFontsCache.cpp" />
     <ClCompile Include="Astrum\Resources\IAstrumTexture.cpp" />
     <ClCompile Include="Astrum\Singletons\AstrumSoundCache.cpp" />
+    <ClCompile Include="Astrum\Events\AstrumEvent.cpp" />
+    <ClCompile Include="Astrum\Memory\AstrumCompactAllocator.cpp" />
+    <ClCompile Include="Astrum\Memory\AstrumCompactMemory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Astrum\Components\AstrumPostProcessRenderComponent.hpp" />
@@ -201,8 +204,10 @@
     <ClInclude Include="Examples\RectMoving.cpp" />
     <ClInclude Include="Examples\LifeCycle.cpp" />
     <ClInclude Include="Astrum\Units\AstrumQuaternion.hpp" />
-    <ClInclude Include="Astrum\Memory\AstrumManagedAllocator.hpp" />
-    <ClInclude Include="Astrum\Memory\AstrumManagdPointer.hpp" />
+    <ClInclude Include="Astrum\Events\AstrumEvent.hpp" />
+    <ClInclude Include="Astrum\Memory\AstrumCompactMemory.hpp" />
+    <ClInclude Include="Astrum\Memory\AstrumReplaceablePointer.hpp" />
+    <ClInclude Include="Astrum\Memory\AstrumCompactAllocator.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />

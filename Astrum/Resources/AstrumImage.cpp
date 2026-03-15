@@ -1,4 +1,4 @@
-﻿#include "AstrumImage.hpp"
+#include "AstrumImage.hpp"
 
 AstrumImage::AstrumImage(const std::filesystem::path& path)
 {
@@ -20,6 +20,16 @@ AstrumImage::AstrumImage(const std::filesystem::path& path)
 		}
 	}
 	else AstrumException(__LINE__, __FILE__, L"Unsupported image format: " + ext).Alert();
+
+	if (false == IsVaild() || 0 == GetImageCount())  return;
+
+	if (
+		DirectX::ScratchImage mipChain;
+		SUCCEEDED(DirectX::GenerateMipMaps(GetImages(), GetImageCount(), GetMetadata(), DirectX::TEX_FILTER_DEFAULT, 0, mipChain))
+		) {
+		*image = std::move(mipChain);
+	}
+	else AstrumException(__LINE__, __FILE__, "Failed to create mipmap").Alert();
 }
 
 AstrumImage::AstrumImage(std::filesystem::path&& path) {

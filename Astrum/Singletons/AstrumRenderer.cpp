@@ -40,7 +40,7 @@ bool AstrumRenderer::Initialize(unsigned int width, unsigned int height, bool wi
     swapChainDesc.BufferDesc.Height = height;
     // Use a D2D1-compatible backbuffer format (no sRGB) for CreateDxgiSurfaceRenderTarget.
     swapChainDesc.BufferDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
-    swapChainDesc.BufferDesc.RefreshRate.Numerator = 60;
+    swapChainDesc.BufferDesc.RefreshRate.Numerator = 165;
     swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
     // MSAA must be 1 for D2D to render on the DXGI surface.
     sampleCount = 1;
@@ -109,7 +109,8 @@ bool AstrumRenderer::Initialize(unsigned int width, unsigned int height, bool wi
 #pragma region Create depth stencil state
     D3D11_DEPTH_STENCIL_DESC dsDesc = {};
     dsDesc.DepthEnable = TRUE;
-    dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+    //dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL; /* 투명 픽셀도 픽셀이다. 깊이 버퍼에 매번 새로 덮어써버림. */
+    dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO; /* 깊이를 새로 기록하진 않음. */
     dsDesc.DepthFunc = D3D11_COMPARISON_LESS;
     dsDesc.StencilEnable = FALSE;
     if (FAILED(device->CreateDepthStencilState(&dsDesc, &depthStencilState))) {
@@ -162,18 +163,20 @@ bool AstrumRenderer::Initialize(unsigned int width, unsigned int height, bool wi
         D2D1::RenderTargetProperties(D2D1_RENDER_TARGET_TYPE_HARDWARE, D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED)),
         renderTarget2D.GetAddressOf()
     ))) {
-        AstrumException("Failed to create D2D render target.");
+        AstrumException("Failed to create D2D render target.").Alert();
         return false;
     }
 #pragma endregion
 
 	mainRenderTarget = AstrumRenderTarget::MakeShared(width, height);
 
-    AstrumTextureSampler::Instance().Initialize();
-    AstrumTextureSampler::Instance().SetSampler(AstrumTextureSampleType_Linear);
+    AstrumTextureSampler::Initialize();
+    AstrumTextureSampler::SetSampler(AstrumTextureSampleType_Linear);
 
     CreateAndSetDefaultShapePipeline();
     CreateAndSetDefaultMaterialPipeline();
+
+    return true;
 }
 
 void AstrumRenderer::Rendering() {
@@ -213,7 +216,7 @@ void AstrumRenderer::Rendering() {
 
 void AstrumRenderer::Dispose() {
     // There are not handle something, because ComPtr
-    AstrumTextureSampler::Instance().Dispose(); // Same. Just for design.
+    AstrumTextureSampler::Dispose(); // Same. Just for design.
 	AstrumRenderQueue::Dispose();
 }
 

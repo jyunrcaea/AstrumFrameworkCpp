@@ -1,9 +1,9 @@
-﻿#include "AstrumTextureSampler.hpp"
+#include "AstrumTextureSampler.hpp"
 
-AstrumTextureSampler::AstrumTextureSampler() { }
-AstrumTextureSampler::~AstrumTextureSampler() { }
+AstrumTextureSamplerSingleton::AstrumTextureSamplerSingleton() { }
+AstrumTextureSamplerSingleton::~AstrumTextureSamplerSingleton() { }
 
-void AstrumTextureSampler::Initialize() {
+void AstrumTextureSamplerSingleton::Initialize() {
 	D3D11_SAMPLER_DESC samplerDescription{};
 	samplerDescription.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
 	samplerDescription.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
@@ -25,14 +25,14 @@ void AstrumTextureSampler::Initialize() {
 	}
 }
 
-void AstrumTextureSampler::Dispose() {/*managed by ComPtr.*/ }
+void AstrumTextureSamplerSingleton::Dispose() {/*managed by ComPtr.*/ }
 
-ID3D11SamplerState* const AstrumTextureSampler::GetSampler(AstrumTextureSampleType type) const
+ID3D11SamplerState* const AstrumTextureSamplerSingleton::GetSampler(AstrumTextureSampleType type) const
 {
 	return samplers[type].Get();
 }
 
-bool AstrumTextureSampler::SetSampler(AstrumTextureSampleType type)
+bool AstrumTextureSamplerSingleton::SetSampler(AstrumTextureSampleType type)
 {
 	auto sampler = GetSampler(type);
 	if (sampler) {
