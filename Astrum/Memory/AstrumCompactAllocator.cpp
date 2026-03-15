@@ -25,6 +25,7 @@ void AstrumCompactAllocator::Resize(size_t nextSize)
 	void* newPool = ::operator new(nextSize);
 	void* newCursor = newPool;
 
+	// 메모리 정렬이 큰 순서대로 정렬하는 이유로는 Resize시 순서대로 재배치하면 추가적인 패딩이 필요없음.
 	std::sort(allocatedPointers.begin(), allocatedPointers.end(),
 		[](std::weak_ptr<AstrumCompactMemory> a, std::weak_ptr<AstrumCompactMemory> b) {
 			if (a.expired()) return b.expired(); // expired인 경우 항상 뒤로
