@@ -136,6 +136,12 @@ bool AstrumRenderer::Initialize(unsigned int width, unsigned int height, bool wi
 }
 
 void AstrumRenderer::Rendering() {
+    // 창 크기 변경 중 백버퍼 리소스를 다시 만들지 못한 경우, 이번 프레임은 그리지 않고 큐만 비웁니다.
+    if (nullptr == renderTargetView || nullptr == depthStencilView || nullptr == renderTarget2D) {
+        AstrumRenderQueue::Dispose();
+        return;
+    }
+
     AstrumRenderQueue::PeekToPreRender();
 
     const auto& c = AstrumWindow::BackgroundColor();
