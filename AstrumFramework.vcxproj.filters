@@ -75,7 +75,6 @@
     <ClCompile Include="Astrum\Singletons\AstrumFontsCache.cpp" />
     <ClCompile Include="Astrum\Resources\IAstrumTexture.cpp" />
     <ClCompile Include="Astrum\Singletons\AstrumSoundCache.cpp" />
-    <ClCompile Include="Astrum\Events\AstrumEvent.cpp" />
     <ClCompile Include="Astrum\Memory\AstrumCompactAllocator.cpp" />
     <ClCompile Include="Astrum\Memory\AstrumCompactMemory.cpp" />
   </ItemGroup>
@@ -194,22 +193,22 @@
     <ClInclude Include="Astrum\Vectors\AstrumLongVector2.hpp" />
     <ClInclude Include="Astrum\Objects\AstrumTextObject.hpp" />
     <ClInclude Include="Astrum\Singletons\AstrumSoundCache.hpp" />
-    <ClInclude Include="Astrum\DI\AstrumDependencyInjector.hpp" />
     <ClInclude Include="Astrum\DI\AstrumDependencyInjectionService.hpp" />
     <ClInclude Include="Astrum\DI\IAstrumDependencyInjectionService.hpp" />
     <ClInclude Include="Astrum\Units\AstrumType.hpp" />
     <ClInclude Include="Astrum\AstrumMacro.hpp" />
     <ClInclude Include="Astrum\Shaders\AstrumDefaultShaders.hpp" />
-    <ClInclude Include="Examples\DependencyInjection.cpp" />
-    <ClInclude Include="Examples\RectMoving.cpp" />
-    <ClInclude Include="Examples\LifeCycle.cpp" />
     <ClInclude Include="Astrum\Units\AstrumQuaternion.hpp" />
     <ClInclude Include="Astrum\Events\AstrumEvent.hpp" />
     <ClInclude Include="Astrum\Memory\AstrumCompactMemory.hpp" />
     <ClInclude Include="Astrum\Memory\AstrumReplaceablePointer.hpp" />
     <ClInclude Include="Astrum\Memory\AstrumCompactAllocator.hpp" />
+    <ClInclude Include="Astrum\DirectXTex.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
+    <None Include="Astrum\Shaders\ColorMesh.fx" />
+    <None Include="Astrum\Shaders\Mesh.fx" />
+    <None Include="Astrum\Shaders\Share.fx" />
   </ItemGroup>
 </Project>
