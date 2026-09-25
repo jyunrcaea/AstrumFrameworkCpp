@@ -25,9 +25,6 @@ void AstrumRawInputSingleton::Initialize() {
 }
 
 void AstrumRawInputSingleton::Update() {
-	mouseState[AstrumMouseButtonType_ScrollUp] = false;
-	mouseState[AstrumMouseButtonType_ScrollDown] = false;
-
 	UpdateMousePosition();
 }
 
@@ -36,6 +33,10 @@ void AstrumRawInputSingleton::Clear() {
 	memcpy(previousKeyState, keyState, sizeof(keyState));
 	memcpy(previousMouseState, mouseState, sizeof(mouseState));
 	// 상태 초기화
+	// 휠은 '눌림'이 한 프레임만 유지되는 입력이므로, 게임 로직이 이번 프레임에 확인한 뒤(프레임 끝)에 초기화합니다.
+	// (프레임 시작 시점에 초기화하면 프레임 사이에 들어온 휠 입력이 게임 로직에 전달되기 전에 지워집니다.)
+	mouseState[AstrumMouseButtonType_ScrollUp] = false;
+	mouseState[AstrumMouseButtonType_ScrollDown] = false;
 	mouseMovement = { 0, 0 };
 	wheelMovement = 0;
 	keyQueue.clear();

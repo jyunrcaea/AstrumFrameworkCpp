@@ -8,8 +8,9 @@
 AstrumSoundManagerSingleton::AstrumSoundManagerSingleton() { }
 
 void AstrumSoundManagerSingleton::Initialize() {
-	FMOD_RESULT result;
-	auto throwException = [result](std::string&& message) { ThrowInitalizeException(message, result); };
+	FMOD_RESULT result = FMOD_RESULT::FMOD_OK;
+	// result는 아래에서 계속 갱신되므로 참조로 캡처합니다. (값 캡처 시 초기화되지 않은 값이 출력됨)
+	auto throwException = [&result](std::string&& message) { ThrowInitalizeException(message, result); };
 
 	if (FMOD::System* systemPtr = nullptr; (result = FMOD::System_Create(&systemPtr)) != FMOD_RESULT::FMOD_OK) {
 		throwException("Failed to create fmod system");

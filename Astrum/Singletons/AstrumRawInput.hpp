@@ -40,7 +40,7 @@ public:
 	/// </summary>
 	/// <param name="vk">확인할 가상 키 코드입니다.</param>
 	/// <returns>키가 놓여있으면 true, 아니면 false를 반환합니다.</returns>
-	bool IsKeyReleased(uint8_t vk) const { return keyState[vk]; }
+	bool IsKeyReleased(uint8_t vk) const { return false == keyState[vk]; }
 	/// <summary>
 	/// 특정 키가 이번 프레임에 눌렸는지 확인합니다.
 	/// </summary>

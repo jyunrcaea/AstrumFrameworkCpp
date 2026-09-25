@@ -47,6 +47,8 @@ bool AstrumWindowSingleton::Initialize(const std::wstring& title, unsigned int w
 #pragma region raw input
 	AstrumRawInput::Initialize();
 #pragma endregion
+
+    return true;
 }
 
 void AstrumWindowSingleton::Dispose() {
