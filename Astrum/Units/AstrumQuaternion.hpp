@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <numbers>
 #include <cmath>
 #include <algorithm> // for std::is_constant_evaluated

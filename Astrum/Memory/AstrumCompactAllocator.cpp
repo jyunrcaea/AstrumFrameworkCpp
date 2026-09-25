@@ -1,4 +1,4 @@
-#include "AstrumCompactAllocator.hpp"
+﻿#include "AstrumCompactAllocator.hpp"
 
 struct AstrumCompactMemoryPtrCompare {
 	bool operator()(const std::shared_ptr<AstrumCompactMemory>& lhs, const std::shared_ptr<AstrumCompactMemory>& rhs) const {

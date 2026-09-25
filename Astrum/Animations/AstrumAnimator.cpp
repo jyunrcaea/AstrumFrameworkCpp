@@ -1,4 +1,4 @@
-#include "AstrumAnimator.hpp"
+﻿#include "AstrumAnimator.hpp"
 
 double AstrumAnimator::GetStartTime() const { return startTime; }
 double AstrumAnimator::GetAnimationTime() const { return animationTime; }

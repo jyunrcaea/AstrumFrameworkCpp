@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "../Enums/AstrumMaterialFlipType.hpp"
 #include "../Vectors/AstrumVector4.hpp"
 #include "../Graphics/AstrumTextureSampler.hpp"

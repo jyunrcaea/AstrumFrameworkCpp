@@ -1,4 +1,4 @@
-#include "AstrumRenderer.hpp"
+﻿#include "AstrumRenderer.hpp"
 #include "../Shaders/AstrumShaderSetup.hpp"
 #include "AstrumRenderQueue.hpp"
 #include "../Shaders/AstrumDefaultShaders.hpp"

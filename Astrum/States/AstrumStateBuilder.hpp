@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "IAstrumStateGraph.hpp"
 
 struct IAstrumStateGraph;

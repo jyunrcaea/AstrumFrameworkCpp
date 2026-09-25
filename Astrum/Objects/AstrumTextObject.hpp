@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <memory>
 #include "../Objects/AstrumObject.hpp"
 #include "../Components/AstrumTextRenderComponent.hpp"

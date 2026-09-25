@@ -1,4 +1,4 @@
-#include "AstrumComponentList.hpp"
+﻿#include "AstrumComponentList.hpp"
 
 AstrumComponentList::AstrumComponentList(IAstrumObject* ownerObject) : owner(ownerObject) {}
 

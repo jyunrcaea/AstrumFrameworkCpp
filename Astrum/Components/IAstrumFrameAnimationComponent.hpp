@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "../Objects/IAstrumObject.hpp"
 #include <vector>
 #include <memory>

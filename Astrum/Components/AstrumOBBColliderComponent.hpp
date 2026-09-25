@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <algorithm>
 #include <cmath>
 #include <memory>
@@ -13,7 +13,7 @@ class AstrumOBBColliderComponent : public AstrumColliderComponent, public IAstru
 {
 public:
 	virtual AstrumColliderType GetColliderType() const override { return AstrumColliderType::AstrumColliderType_OBB; }
-	// Ãæµ¹Ã¼ÀÇ OBB¸¦ ¹İÈ¯ÇÕ´Ï´Ù. GetRotatedRectFunctionÀÌ ¼³Á¤µÇ¾î ÀÖÀ¸¸é ÇØ´ç ÇÔ¼ö¸¦ È£ÃâÇÏ°í, ¾Æ´Ï¸é ¼ÒÀ¯ÀÚ °´Ã¼ÀÇ À§Ä¡¿Í ½ºÄÉÀÏ, È¸ÀüÀ» »ç¿ëÇØ °è»êÇÕ´Ï´Ù.
+	// ì¶©ëŒì²´ì˜ OBBë¥¼ ë°˜í™˜í•©ë‹ˆë‹¤. GetRotatedRectFunctionì´ ì„¤ì •ë˜ì–´ ìˆìœ¼ë©´ í•´ë‹¹ í•¨ìˆ˜ë¥¼ í˜¸ì¶œí•˜ê³ , ì•„ë‹ˆë©´ ì†Œìœ ì ê°ì²´ì˜ ìœ„ì¹˜ì™€ ìŠ¤ì¼€ì¼, íšŒì „ì„ ì‚¬ìš©í•´ ê³„ì‚°í•©ë‹ˆë‹¤.
 	virtual AstrumRotatedRect GetRotatedRect() const;
 	virtual AstrumCenterHalfRect GetCenterHalfRect() const override;
 	virtual std::pair<AstrumVector2, AstrumVector2> GetAxes() const override;

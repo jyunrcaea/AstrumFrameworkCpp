@@ -1,4 +1,4 @@
-#include "AstrumObjectList.hpp"
+﻿#include "AstrumObjectList.hpp"
 
 AstrumObjectList::AstrumObjectList(IAstrumGroupObject* const owner) : owner(owner)
 {

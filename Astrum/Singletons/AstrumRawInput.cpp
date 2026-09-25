@@ -1,4 +1,4 @@
-#include "AstrumRawInput.hpp"
+﻿#include "AstrumRawInput.hpp"
 #include <string>
 #include <format>
 #include <windows.h>

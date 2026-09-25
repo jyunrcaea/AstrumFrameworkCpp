@@ -1,4 +1,4 @@
-#include "AstrumRenderTarget.hpp"
+﻿#include "AstrumRenderTarget.hpp"
 #include "../Singletons/AstrumRenderer.hpp"
 #include "../AstrumException.hpp"
 

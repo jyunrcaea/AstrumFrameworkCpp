@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "AstrumVector3.hpp"
 #include <functional>

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 /// <summary>
 /// 키보드 입력 데이터를 포함하는 구조체입니다.
 /// </summary>
