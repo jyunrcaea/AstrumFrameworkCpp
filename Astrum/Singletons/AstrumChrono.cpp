@@ -12,7 +12,8 @@ void AstrumChronoSingleton::SetFramerate(uint16_t value) {
         deltaTick = std::chrono::nanoseconds(1'000'000'000) / framerate;
     }
     else {
-        deltaTick = std::chrono::nanoseconds(100);
+        // 프레임 제한 없음
+        deltaTick = std::chrono::nanoseconds(0);
     }
 }
 
@@ -32,6 +33,12 @@ bool AstrumChronoSingleton::IsUpdateNow() {
 
     deltaTime = std::chrono::duration<double>(nextTick - lastTick).count();
     return true;
+}
+
+std::chrono::nanoseconds AstrumChronoSingleton::GetTimeUntilNextUpdate() const {
+    const auto current = std::chrono::steady_clock::now();
+    if (current >= nextTick) return std::chrono::nanoseconds(0);
+    return std::chrono::duration_cast<std::chrono::nanoseconds>(nextTick - current);
 }
 
 void AstrumChronoSingleton::Dispose() { /* nothing to dispose */ }

@@ -73,9 +73,11 @@ LRESULT CALLBACK AstrumWindowSingleton::WindowProc(HWND hwnd, UINT msg, WPARAM w
     switch (msg) {
     case WM_ERASEBKGND: return 1;
     case WM_CLOSE: {
-        if (AstrumWindowSingleton::Instance().StopWhenClose)
+        // StopWhenClose가 false면 창을 닫지 않고 무시합니다. (게임 로직에서 직접 처리)
+        if (AstrumWindowSingleton::Instance().StopWhenClose) {
             AstrumFramework::Stop();
-        PostQuitMessage(0);
+            PostQuitMessage(0);
+        }
         return 0;
     }
     case WM_INPUT: {

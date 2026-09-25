@@ -22,25 +22,14 @@ bool AstrumRenderer::Initialize(unsigned int width, unsigned int height, bool wi
     }
 #pragma endregion
 
-#pragma region Check multisample quality levels
-    for (UINT p = 8; p > 1; p >>= 1) {
-        UINT quality;
-        if (SUCCEEDED(device->CheckMultisampleQualityLevels(
-            DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, p, &quality)) && quality > 0)
-        {
-            sampleCount = p;
-            break;
-        }
-    }
-#pragma endregion
-
 #pragma region Create swap chain
     DXGI_SWAP_CHAIN_DESC swapChainDesc = {};
     swapChainDesc.BufferDesc.Width = width;
     swapChainDesc.BufferDesc.Height = height;
     // Use a D2D1-compatible backbuffer format (no sRGB) for CreateDxgiSurfaceRenderTarget.
     swapChainDesc.BufferDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
-    swapChainDesc.BufferDesc.RefreshRate.Numerator = 165;
+    // 창 모드에서는 주사율이 무시되고, 전체 화면에서는 0/1로 두면 DXGI가 모니터에 맞는 값을 고릅니다. (특정 모니터 값을 하드코딩하지 않음)
+    swapChainDesc.BufferDesc.RefreshRate.Numerator = 0;
     swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
     // MSAA must be 1 for D2D to render on the DXGI surface.
     sampleCount = 1;
@@ -212,8 +201,8 @@ void AstrumRenderer::Rendering() {
     // 이전 블렌딩 돌려놓기
     context->OMSetBlendState(prevBlendState, prevBlendFactor, prevSampleMask);
 
-    // 진짜 출력
-    swapChain->Present(0, 0);
+    // 진짜 출력 (수직 동기화가 켜져 있으면 모니터 주사율에 맞춰 대기)
+    swapChain->Present(vsync ? 1 : 0, 0);
 }
 
 void AstrumRenderer::Dispose() {

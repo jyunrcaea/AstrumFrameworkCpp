@@ -114,6 +114,14 @@ public:
     /// <returns>렌더 해상도의 절반 크기입니다.</returns>
     AstrumDoubleVector2 GetHalfResolution() const { return { resolution.Width * 0.5, resolution.Height * 0.5 }; }
     /// <summary>
+    /// 수직 동기화(VSync) 사용 여부를 설정합니다. 켜면 화면 출력이 모니터 주사율에 맞춰지며, 대기하는 동안 CPU를 사용하지 않습니다. (기본값: false)
+    /// </summary>
+    void SetVSync(bool enable) { vsync = enable; }
+    /// <summary>
+    /// 수직 동기화(VSync) 사용 여부를 반환합니다.
+    /// </summary>
+    bool IsVSync() const { return vsync; }
+    /// <summary>
     /// 다중 샘플링 개수를 반환합니다.
     /// </summary>
     /// <returns>다중 샘플링 개수입니다.</returns>
@@ -121,6 +129,7 @@ public:
 private:
     AstrumResolution resolution{};
     unsigned int sampleCount = 1;
+    bool vsync = false;
 
     ComPtr<ID3D11Device> device;
     ComPtr<ID3D11DeviceContext> context;
