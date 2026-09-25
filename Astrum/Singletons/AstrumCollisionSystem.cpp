@@ -1,4 +1,5 @@
 ﻿#include "AstrumCollisionSystem.hpp"
+#include <algorithm>
 #include "../Vectors/AstrumVector2.hpp"
 #include "../AstrumException.hpp"
 
@@ -31,40 +32,47 @@ void AstrumCollisionSystemSingleton::AddCollider(AstrumColliderComponent* const 
 		AstrumException("Cannot add a null collider to the collision system.").Alert();
 		return;
 	}
+	// Prepare()가 여러번 호출되어도 중복 등록되지 않도록 합니다.
+	if (IsRegistered(collider)) return;
 	colliders.push_back(collider);
 }
 
-bool AstrumCollisionSystemSingleton::RemoveCollider(AstrumColliderComponent* const collider)
+bool AstrumCollisionSystemSingleton::RemoveCollider(AstrumColliderComponent* const collider, bool invokeExitCallbacks)
 {
-	if (auto colliderIter = std::remove(colliders.begin(), colliders.end(), collider); colliderIter != colliders.end())
+	auto colliderIter = std::find(colliders.begin(), colliders.end(), collider);
+	if (colliderIter == colliders.end()) return false;
+	colliders.erase(colliderIter);
+
+	// 1. 내부 상태(쌍 목록)를 먼저 정리하고,
+	std::vector<AstrumColliderComponent*> partners;
+	for (auto it = collidedPairs.begin(); it != collidedPairs.end();)
 	{
-		std::vector<std::pair<AstrumColliderComponent*, AstrumColliderComponent*>> removeTargets;
-		for(auto& pair : collidedPairs)
-		{
-			if (pair.first == collider)
-			{
-				pair.second->InvokeOnCollisionExit(collider);
-				removeTargets.push_back(pair);
-			}
-			else if (pair.second == collider)
-			{
-				pair.first->InvokeOnCollisionExit(collider);
-				removeTargets.push_back(pair);
-			}
-		}
-
-		for (auto& pair : removeTargets) {
-			collidedPairs.erase(pair);
-		}
-
-		colliders.erase(colliderIter, colliders.end());
-		return true;
+		if (it->first == collider) partners.push_back(it->second);
+		else if (it->second == collider) partners.push_back(it->first);
+		else { ++it; continue; }
+		it = collidedPairs.erase(it);
 	}
-	return false;
+
+	if (false == invokeExitCallbacks) return true;
+
+	// 2. 상태가 일관된 뒤에 콜백을 호출합니다. (콜백 안에서 다른 충돌체가 제거될 수 있으므로 매번 등록 여부를 확인)
+	for (auto* const partner : partners)
+	{
+		if (IsRegistered(partner)) partner->InvokeOnCollisionExit(collider);
+	}
+	return true;
+}
+
+bool AstrumCollisionSystemSingleton::IsRegistered(const AstrumColliderComponent* const collider) const
+{
+	return std::find(colliders.begin(), colliders.end(), collider) != colliders.end();
 }
 
 void AstrumCollisionSystemSingleton::Update()
 {
+	std::vector<PendingCollisionEvent> events;
+
+	// 1. 판정: 콜백을 호출하지 않고 충돌 상태 변화만 기록합니다.
 	for (size_t x = 0; x < colliders.size(); x++)
 	{
 		for (size_t y = x + 1; y < colliders.size(); y++)
@@ -88,19 +96,25 @@ void AstrumCollisionSystemSingleton::Update()
 			bool over = collidedPairs.contains(colliderPair);
 
 			if (bool result = colliderX->IsOverlap(colliderY); result != over) {
-				if (result) {
-					colliderX->InvokeOnCollisionEnter(colliderY);
-					colliderY->InvokeOnCollisionEnter(colliderX);
-					collidedPairs.insert(colliderPair);
-				}
-				else {
-					colliderX->InvokeOnCollisionExit(colliderY);
-					colliderY->InvokeOnCollisionExit(colliderX);
-					collidedPairs.erase(colliderPair);
-				}
+				if (result) collidedPairs.insert(colliderPair);
+				else collidedPairs.erase(colliderPair);
+				events.push_back({ colliderX, colliderY, result });
 			}
 			//for end.
 		}
+	}
+
+	// 2. 발생: 콜백에서 충돌체가 제거(해제)되었을 수 있으므로, 호출 직전마다 등록 여부를 확인합니다.
+	// (제거된 충돌체는 RemoveCollider()에서 상대에게 Exit 이벤트를 이미 전달했습니다.)
+	for (const auto& event : events)
+	{
+		if (false == IsRegistered(event.First) || false == IsRegistered(event.Second)) continue;
+		if (event.IsEnter) event.First->InvokeOnCollisionEnter(event.Second);
+		else event.First->InvokeOnCollisionExit(event.Second);
+
+		if (false == IsRegistered(event.First) || false == IsRegistered(event.Second)) continue;
+		if (event.IsEnter) event.Second->InvokeOnCollisionEnter(event.First);
+		else event.Second->InvokeOnCollisionExit(event.First);
 	}
 	//update end.
 }

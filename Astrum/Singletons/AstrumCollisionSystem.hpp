@@ -19,8 +19,11 @@ class AstrumCollisionSystemSingleton : public AstrumSingleton<AstrumCollisionSys
 
 public:
 	void AddCollider(AstrumColliderComponent* const collider);
-	bool RemoveCollider(AstrumColliderComponent* const collider);
+	// 충돌체를 제거합니다. invokeExitCallbacks가 true면 충돌 중이던 상대에게 OnCollisionExit를 호출합니다.
+	bool RemoveCollider(AstrumColliderComponent* const collider, bool invokeExitCallbacks = true);
 	void Update();
+	// 해당 충돌체가 현재 충돌 시스템에 등록되어 있는지 확인합니다.
+	bool IsRegistered(const AstrumColliderComponent* const collider) const;
 
 private:
 	bool IsOverlapAABBToAABB(IAstrumAABBColliderComponent* aAABB, IAstrumAABBColliderComponent* bAABB) const;
@@ -34,6 +37,14 @@ private:
 	// Component is referenced by object, so need not use a shared_ptr
 	std::vector<AstrumColliderComponent*> colliders;
 	std::set<std::pair<AstrumColliderComponent*, AstrumColliderComponent*>> collidedPairs;
+
+	// 충돌 판정 루프가 끝난 뒤에 발생시킬 이벤트.
+	// 콜백 안에서 충돌체/객체가 추가·제거되어도 판정 루프와 내부 상태가 깨지지 않도록, 이벤트는 모아서 나중에 호출합니다.
+	struct PendingCollisionEvent {
+		AstrumColliderComponent* First;
+		AstrumColliderComponent* Second;
+		bool IsEnter;
+	};
 };
 
 class AstrumCollisionSystem {

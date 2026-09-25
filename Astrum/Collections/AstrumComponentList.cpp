@@ -33,18 +33,24 @@ bool AstrumComponentList::Remove(const std::shared_ptr<IAstrumComponent>& compon
 	if (it == this->end()) return false;
 
 	this->erase(it);
+	// Add()에서 owner가 준비된 상태면 Prepare()를 호출하므로, 제거할 때도 대칭적으로 Release()를 호출합니다.
+	if (owner->IsPrepared()) component->Release();
 	component->SetOwner(nullptr);
 	return true;
 }
 
 void AstrumComponentList::Clear()
 {
-	for (auto& component : *this) {
+	// Release() 도중에 목록이 바뀌어도 안전하도록 먼저 비운 뒤 처리합니다.
+	vec removed;
+	removed.swap(static_cast<vec&>(*this));
+	const bool prepared = owner->IsPrepared();
+	for (auto& component : removed) {
 		if (component != nullptr) {
+			if (prepared) component->Release();
 			component->SetOwner(nullptr); // Clear owner reference
 		}
 	}
-	this->clear();
 }
 
 void AstrumComponentList::Prepare()
