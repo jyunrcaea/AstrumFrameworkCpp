@@ -1,5 +1,8 @@
 #include "AstrumMatrix.hpp"
 
+// 헤더에서는 전역 네임스페이스를 오염시키지 않도록 DirectX::를 명시하고, 구현 파일에서만 using을 사용합니다.
+using namespace DirectX;
+
 // Define the static identity matrix
 const AstrumMatrix AstrumMatrix::Identity = AstrumMatrix();
 

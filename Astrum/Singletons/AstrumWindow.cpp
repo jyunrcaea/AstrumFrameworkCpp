@@ -69,6 +69,7 @@ bool AstrumWindowSingleton::Initialize(const std::wstring& title, unsigned int w
 }
 
 void AstrumWindowSingleton::Dispose() {
+    // Raw Input 장치 등록 해제 (창을 파괴하기 전에 한번만)
 	AstrumRawInput::Dispose();
 
     if (nullptr == handle) {
@@ -80,10 +81,6 @@ void AstrumWindowSingleton::Dispose() {
     handle = nullptr;
     UnregisterClassW(className.c_str(), instanceHandle);
     instanceHandle = nullptr;
-
-#pragma region raw input
-    AstrumRawInput::Dispose();
-#pragma endregion
 }
 
 LRESULT CALLBACK AstrumWindowSingleton::WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {

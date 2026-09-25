@@ -4,7 +4,6 @@
 #include "../Vectors/AstrumVector3.hpp"
 #include "../Vectors/AstrumObservedVector3.hpp"
 
-using namespace DirectX;
 
 /// <summary>
 /// 4x4 크기의 행렬을 나타내는 구조체입니다.
@@ -14,18 +13,18 @@ struct AstrumMatrix {
     /// <summary>
     /// DirectXMath XMFLOAT4X4 행렬입니다.
     /// </summary>
-    XMFLOAT4X4 matrix{};
+    DirectX::XMFLOAT4X4 matrix{};
 
     /// <summary>
     /// 항등 행렬(Identity matrix)으로 초기화하여 행렬을 생성합니다.
     /// </summary>
-    AstrumMatrix() { XMStoreFloat4x4(&matrix, XMMatrixIdentity()); }
+    AstrumMatrix() { DirectX::XMStoreFloat4x4(&matrix, DirectX::XMMatrixIdentity()); }
 
     /// <summary>
     /// DirectXMath XMMATRIX로부터 행렬을 생성합니다.
     /// </summary>
     /// <param name="mat">변환할 DirectXMath 행렬입니다.</param>
-    AstrumMatrix(const XMMATRIX& mat);
+    AstrumMatrix(const DirectX::XMMATRIX& mat);
 
     /// <summary>
     /// 16개의 float 값으로 행렬을 생성합니다.
