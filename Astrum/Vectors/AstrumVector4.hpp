@@ -1,8 +1,13 @@
 ﻿#pragma once
 #include <cmath>
+#include <cstddef>
 #include <algorithm>
 
-#if defined(__SSE__) || defined(__SSE2__)
+// SSE2 사용 여부. (GCC/Clang은 __SSE2__, MSVC는 x64 또는 /arch:SSE2 이상일 때 _M_X64/_M_IX86_FP로 확인)
+// 다른 헤더가 같은 이름의 매크로를 쓰더라도 영향을 주지 않도록 push/pop 합니다.
+#pragma push_macro("ASTRUM_USE_SSE")
+#undef ASTRUM_USE_SSE
+#if defined(__SSE2__) || defined(_M_X64) || defined(_M_AMD64) || (defined(_M_IX86_FP) && _M_IX86_FP >= 2)
 #define ASTRUM_USE_SSE 1
 #include <immintrin.h>
 #else
@@ -14,42 +19,6 @@
 /// SSE 명령어를 지원하는 경우 SIMD 최적화를 사용합니다.
 /// </summary>
 struct AstrumVector4 {
-#if ASTRUM_USE_SSE
-    /// <summary>
-    /// SSE 지원 시 공용체로 정의됩니다. 벡터 성분 또는 128비트 SIMD 레지스터로 접근 가능합니다.
-    /// </summary>
-    union {
-        struct { 
-            /// <summary>
-            /// 벡터의 X 성분입니다.
-            /// </summary>
-            float X;
-            /// <summary>
-            /// 벡터의 Y 성분입니다.
-            /// </summary>
-            float Y;
-            /// <summary>
-            /// 벡터의 Z 성분입니다.
-            /// </summary>
-            float Z;
-            /// <summary>
-            /// 벡터의 W 성분입니다.
-            /// </summary>
-            float W;
-        };
-        __m128 m128;
-    };
-    /// <summary>
-    /// SSE 128비트 레지스터로부터 벡터를 생성합니다.
-    /// </summary>
-    /// <param name="vec">SSE 레지스터입니다.</param>
-    AstrumVector4(__m128 vec) : m128(vec) { }
-    /// <summary>
-    /// SSE 명령어 사용 여부를 반환합니다.
-    /// </summary>
-    /// <returns>SSE 지원 시 true입니다.</returns>
-    static consteval bool UseSSE() { return true; }
-#else
     /// <summary>
     /// 벡터의 X 성분입니다. 기본값은 0.0f입니다.
     /// </summary>
@@ -66,10 +35,32 @@ struct AstrumVector4 {
     /// 벡터의 W 성분입니다. 기본값은 0.0f입니다.
     /// </summary>
     float W{ 0.0f };
+#if ASTRUM_USE_SSE
+    // 메모리 배치는 SSE 사용 여부와 관계없이 float 4개(16바이트, 4바이트 정렬)로 동일하게 유지합니다.
+    // (상수 버퍼/정점 구조체의 배치가 바뀌지 않도록 __m128 멤버나 공용체를 두지 않고, 연산할 때만 읽고 씁니다.)
+    /// <summary>
+    /// SSE 128비트 레지스터로부터 벡터를 생성합니다.
+    /// </summary>
+    /// <param name="vec">SSE 레지스터입니다.</param>
+    AstrumVector4(__m128 vec) { Store(vec); }
+    /// <summary>
+    /// 벡터를 SSE 128비트 레지스터로 읽어옵니다.
+    /// </summary>
+    __m128 Load() const { return _mm_loadu_ps(&X); }
+    /// <summary>
+    /// SSE 128비트 레지스터의 값을 벡터에 씁니다.
+    /// </summary>
+    void Store(__m128 vec) { _mm_storeu_ps(&X, vec); }
     /// <summary>
     /// SSE 명령어 사용 여부를 반환합니다.
     /// </summary>
-    /// <returns>SSE 미지원이므로 false입니다.</returns>
+    /// <returns>SSE 지원 시 true입니다.</returns>
+    static consteval bool UseSSE() { return true; }
+#else
+    /// <summary>
+    /// SSE 명령어 사용 여부를 반환합니다.
+    /// </summary>
+    /// <returns>SSE 지원 시 true입니다.</returns>
     static consteval bool UseSSE() { return false; }
 #endif
 
@@ -101,7 +92,7 @@ struct AstrumVector4 {
         float magnitude = Magnitude();
         if (magnitude == 0.0f) return { 0.0f, 0.0f, 0.0f, 0.0f };
 #if ASTRUM_USE_SSE
-        return AstrumVector4(_mm_div_ps(m128, _mm_set1_ps(magnitude)));
+        return AstrumVector4(_mm_div_ps(Load(), _mm_set1_ps(magnitude)));
 #else
         return { X / magnitude, Y / magnitude, Z / magnitude, W / magnitude };
 #endif
@@ -113,11 +104,14 @@ struct AstrumVector4 {
     /// <returns>두 벡터 사이의 거리입니다.</returns>
     float Distance(const AstrumVector4& other) const {
 #if ASTRUM_USE_SSE
-        __m128 diff = _mm_sub_ps(m128, other.m128);
+        __m128 diff = _mm_sub_ps(Load(), other.Load());
         __m128 squared = _mm_mul_ps(diff, diff);
-        __m128 temp = _mm_hadd_ps(squared, squared);
-        temp = _mm_hadd_ps(temp, temp);
-        return _mm_cvtss_f32(_mm_sqrt_ss(temp));
+        // SSE2만으로 네 성분을 더합니다. (_mm_hadd_ps는 SSE3 명령어)
+        __m128 shuffled = _mm_shuffle_ps(squared, squared, _MM_SHUFFLE(2, 3, 0, 1)); // (y, x, w, z)
+        __m128 sums = _mm_add_ps(squared, shuffled);                                  // (x+y, x+y, z+w, z+w)
+        shuffled = _mm_movehl_ps(shuffled, sums);                                     // (z+w, z+w, ...)
+        sums = _mm_add_ss(sums, shuffled);                                            // (x+y+z+w, ...)
+        return _mm_cvtss_f32(_mm_sqrt_ss(sums));
 #else
         return std::sqrt((X - other.X) * (X - other.X) +
             (Y - other.Y) * (Y - other.Y) +
@@ -143,7 +137,7 @@ struct AstrumVector4 {
     constexpr AstrumVector4 operator+(const AstrumVector4& v) const {
 #if ASTRUM_USE_SSE
         if (false == std::is_constant_evaluated()) {
-            return AstrumVector4(_mm_add_ps(m128, v.m128));
+            return AstrumVector4(_mm_add_ps(Load(), v.Load()));
         }
 #endif
         return { X + v.X, Y + v.Y, Z + v.Z, W + v.W };
@@ -154,7 +148,7 @@ struct AstrumVector4 {
     constexpr AstrumVector4 operator-(const AstrumVector4& v) const {
 #if ASTRUM_USE_SSE
         if (false == std::is_constant_evaluated()) {
-            return AstrumVector4(_mm_sub_ps(m128, v.m128));
+            return AstrumVector4(_mm_sub_ps(Load(), v.Load()));
         }
 #endif
         return { X - v.X, Y - v.Y, Z - v.Z, W - v.W };
@@ -165,7 +159,7 @@ struct AstrumVector4 {
     constexpr AstrumVector4 operator*(float scalar) const {
 #if ASTRUM_USE_SSE
         if (false == std::is_constant_evaluated()) {
-            return AstrumVector4(_mm_mul_ps(m128, _mm_set1_ps(scalar)));
+            return AstrumVector4(_mm_mul_ps(Load(), _mm_set1_ps(scalar)));
         }
 #endif
         return { X * scalar, Y * scalar, Z * scalar, W * scalar };
@@ -176,7 +170,7 @@ struct AstrumVector4 {
     constexpr AstrumVector4 operator/(float scalar) const {
 #if ASTRUM_USE_SSE
         if (false == std::is_constant_evaluated()) {
-            return AstrumVector4(_mm_div_ps(m128, _mm_set1_ps(scalar)));
+            return AstrumVector4(_mm_div_ps(Load(), _mm_set1_ps(scalar)));
         }
 #endif
         return { X / scalar, Y / scalar, Z / scalar, W / scalar };
@@ -188,7 +182,7 @@ struct AstrumVector4 {
     constexpr AstrumVector4& operator+=(const AstrumVector4& v) {
 #if ASTRUM_USE_SSE
         if (false == std::is_constant_evaluated()) {
-            m128 = _mm_add_ps(m128, v.m128);
+            Store(_mm_add_ps(Load(), v.Load()));
             return *this;
         }
 #endif
@@ -200,7 +194,7 @@ struct AstrumVector4 {
     constexpr AstrumVector4& operator-=(const AstrumVector4& v) {
 #if ASTRUM_USE_SSE
         if (false == std::is_constant_evaluated()) {
-            m128 = _mm_sub_ps(m128, v.m128);
+            Store(_mm_sub_ps(Load(), v.Load()));
             return *this;
         }
 #endif
@@ -212,7 +206,7 @@ struct AstrumVector4 {
     constexpr AstrumVector4& operator*=(float scalar) {
 #if ASTRUM_USE_SSE
         if (false == std::is_constant_evaluated()) {
-            m128 = _mm_mul_ps(m128, _mm_set1_ps(scalar));
+            Store(_mm_mul_ps(Load(), _mm_set1_ps(scalar)));
             return *this;
         }
 #endif
@@ -224,7 +218,7 @@ struct AstrumVector4 {
     constexpr AstrumVector4& operator/=(float scalar) {
 #if ASTRUM_USE_SSE
         if (false == std::is_constant_evaluated()) {
-            m128 = _mm_div_ps(m128, _mm_set1_ps(scalar));
+            Store(_mm_div_ps(Load(), _mm_set1_ps(scalar)));
             return *this;
         }
 #endif
@@ -243,6 +237,9 @@ struct AstrumVector4 {
     constexpr float GetMaximum() const { return (std::max)({ X, Y, Z, W }); }
 };
 
+// SSE 연산은 X부터 연속된 float 4개를 읽고 쓰므로, 패딩 없이 16바이트로 배치되어야 합니다.
+static_assert(sizeof(AstrumVector4) == sizeof(float) * 4 && offsetof(AstrumVector4, W) == sizeof(float) * 3);
+
 inline constexpr AstrumVector4 AstrumVector4::Origin = { 0.f,0.f,0.f,0.f };
 
-#undef ASTRUM_USE_SSE
+#pragma pop_macro("ASTRUM_USE_SSE")
