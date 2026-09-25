@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <cstdint>
+#include <cstring>
 #include <memory>
 #include <span>
 #include <d3d11.h>

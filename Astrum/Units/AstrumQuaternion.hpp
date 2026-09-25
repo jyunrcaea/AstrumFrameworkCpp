@@ -1,11 +1,16 @@
-#pragma once
+﻿#pragma once
 #include <numbers>
 #include <cmath>
 #include <algorithm> // for std::is_constant_evaluated
+#include <cstddef>
 #include "../Vectors/AstrumVector3.hpp"
 
 // Vector4와 마찬가지로 SSE 지원 여부를 확인합니다.
-#if defined(__SSE__) || defined(__SSE2__)
+// SSE2 사용 여부. (GCC/Clang은 __SSE2__, MSVC는 x64 또는 /arch:SSE2 이상일 때 _M_X64/_M_IX86_FP로 확인)
+// 다른 헤더가 같은 이름의 매크로를 쓰더라도 영향을 주지 않도록 push/pop 합니다.
+#pragma push_macro("ASTRUM_USE_SSE")
+#undef ASTRUM_USE_SSE
+#if defined(__SSE2__) || defined(_M_X64) || defined(_M_AMD64) || (defined(_M_IX86_FP) && _M_IX86_FP >= 2)
 #define ASTRUM_USE_SSE 1
 #include <immintrin.h> // SSE 내장 함수
 #else
@@ -29,37 +34,6 @@ namespace {
 /// SSE 명령어를 지원하는 경우 SIMD 최적화를 사용합니다.
 /// </summary>
 struct AstrumQuaternion {
-#if ASTRUM_USE_SSE
-    /// <summary>
-    /// SSE 지원 시 공용체로 정의됩니다. 개별 성분 또는 128비트 SIMD 레지스터로 접근 가능합니다.
-    /// </summary>
-    union {
-        struct { 
-            /// <summary>
-            /// 스칼라 성분(회전 축)입니다.
-            /// </summary>
-            float W, 
-            /// <summary>
-            /// 벡터 성분 X입니다.
-            /// </summary>
-            X, 
-            /// <summary>
-            /// 벡터 성분 Y입니다.
-            /// </summary>
-            Y, 
-            /// <summary>
-            /// 벡터 성분 Z입니다.
-            /// </summary>
-            Z; 
-        };
-        __m128 m128;
-    };
-    /// <summary>
-    /// SSE 128비트 레지스터로부터 사원수를 생성합니다.
-    /// </summary>
-    /// <param name="vec">SSE 레지스터입니다.</param>
-    AstrumQuaternion(__m128 vec) : m128(vec) {}
-#else
     /// <summary>
     /// 스칼라 성분(회전 축)입니다.
     /// </summary>
@@ -76,6 +50,29 @@ struct AstrumQuaternion {
     /// 벡터 성분 Z입니다.
     /// </summary>
     Z;
+#if ASTRUM_USE_SSE
+    // 메모리 배치는 SSE 사용 여부와 관계없이 float 4개(W, X, Y, Z)로 동일하게 유지하고, 연산할 때만 SSE 레지스터로 읽고 씁니다.
+    /// <summary>
+    /// SSE 128비트 레지스터로부터 사원수를 생성합니다. (W, X, Y, Z 순서)
+    /// </summary>
+    AstrumQuaternion(__m128 vec) { Store(vec); }
+    /// <summary>
+    /// 사원수를 SSE 128비트 레지스터로 읽어옵니다. (W, X, Y, Z 순서)
+    /// </summary>
+    __m128 Load() const { return _mm_loadu_ps(&W); }
+    /// <summary>
+    /// SSE 128비트 레지스터의 값을 사원수에 씁니다.
+    /// </summary>
+    void Store(__m128 vec) { _mm_storeu_ps(&W, vec); }
+private:
+    // 네 성분의 합을 모든 요소에 채워 반환합니다. (SSE2 명령어만 사용)
+    static __m128 HorizontalSum(__m128 v) {
+        __m128 shuffled = _mm_shuffle_ps(v, v, _MM_SHUFFLE(2, 3, 0, 1)); // (b, a, d, c)
+        __m128 sums = _mm_add_ps(v, shuffled);                          // (a+b, a+b, c+d, c+d)
+        shuffled = _mm_shuffle_ps(sums, sums, _MM_SHUFFLE(1, 0, 3, 2));  // (c+d, c+d, a+b, a+b)
+        return _mm_add_ps(sums, shuffled);                              // (a+b+c+d, ...)
+    }
+public:
 #endif
 
     /// <summary>
@@ -159,7 +156,7 @@ struct AstrumQuaternion {
     constexpr AstrumQuaternion operator*(float scalar) const {
 #if ASTRUM_USE_SSE
         if (false == std::is_constant_evaluated()) {
-            return AstrumQuaternion(_mm_mul_ps(m128, _mm_set1_ps(scalar)));
+            return AstrumQuaternion(_mm_mul_ps(Load(), _mm_set1_ps(scalar)));
         }
 #endif
         return { W * scalar, X * scalar, Y * scalar, Z * scalar };
@@ -173,7 +170,7 @@ struct AstrumQuaternion {
     constexpr AstrumQuaternion& operator*=(float scalar) {
 #if ASTRUM_USE_SSE
         if (false == std::is_constant_evaluated()) {
-            m128 = _mm_mul_ps(m128, _mm_set1_ps(scalar));
+            Store(_mm_mul_ps(Load(), _mm_set1_ps(scalar)));
             return *this;
         }
 #endif
@@ -210,21 +207,16 @@ struct AstrumQuaternion {
         // Vector4의 Magnitude와 유사하게 길이의 제곱을 먼저 구합니다.
 #if ASTRUM_USE_SSE
         if (false == std::is_constant_evaluated()) {
-            __m128 v = m128;
-            __m128 dp = _mm_mul_ps(v, v);      // (W*W, X*X, Y*Y, Z*Z)
-            dp = _mm_hadd_ps(dp, dp);       // (W*W+X*X, Y*Y+Z*Z, ...)
-            dp = _mm_hadd_ps(dp, dp);       // (W*W+X*X+Y*Y+Z*Z, ...)
+            __m128 v = Load();
+            __m128 dp = HorizontalSum(_mm_mul_ps(v, v)); // (W*W+X*X+Y*Y+Z*Z, ...)
 
             // 0으로 나누는 것을 방지 (엡실론 값 사용)
             if (_mm_cvtss_f32(dp) < 1e-8f) {
                 return Identity();
             }
 
-            __m128 rsqrt = _mm_rsqrt_ss(dp); // 1 / sqrt(len) (빠른 근사치)
-            // (참고: 더 정확한 값을 원하면 뉴턴-랩슨 반복을 한 번 더 할 수 있습니다)
-            __m128 len_inv = _mm_shuffle_ps(rsqrt, rsqrt, _MM_SHUFFLE(0, 0, 0, 0)); // 모든 요소에 1/len
-
-            return AstrumQuaternion(_mm_mul_ps(v, len_inv));
+            // 정확한 제곱근으로 나눕니다. (역제곱근 근사 명령은 오차가 커서 회전이 조금씩 틀어질 수 있음)
+            return AstrumQuaternion(_mm_div_ps(v, _mm_sqrt_ps(dp)));
         }
 #endif
         float lenSq = W * W + X * X + Y * Y + Z * Z;
@@ -242,7 +234,7 @@ struct AstrumQuaternion {
 #if ASTRUM_USE_SSE
         if (false == std::is_constant_evaluated()) {
             // (1.0, -1.0, -1.0, -1.0)과 곱하기
-            return AstrumQuaternion(_mm_mul_ps(m128, _mm_set_ps(-1.f, -1.f, -1.f, 1.f)));
+            return AstrumQuaternion(_mm_mul_ps(Load(), _mm_set_ps(-1.f, -1.f, -1.f, 1.f)));
         }
 #endif
         return AstrumQuaternion{ W, -X, -Y, -Z };
@@ -256,10 +248,8 @@ struct AstrumQuaternion {
     inline AstrumQuaternion Inverse() const {
 #if ASTRUM_USE_SSE
         if (false == std::is_constant_evaluated()) {
-            __m128 v = m128;
-            __m128 dp = _mm_mul_ps(v, v);
-            dp = _mm_hadd_ps(dp, dp);
-            dp = _mm_hadd_ps(dp, dp); // 길이의 제곱 (lenSq)
+            __m128 v = Load();
+            __m128 dp = HorizontalSum(_mm_mul_ps(v, v)); // 길이의 제곱 (lenSq)
 
             if (_mm_cvtss_f32(dp) < 1e-8f) {
                 return Identity();
@@ -316,4 +306,7 @@ struct AstrumQuaternion {
 };
 
 // .cpp 파일에 있던 내용들을 헤더 파일로 모두 이동
-#undef ASTRUM_USE_SSE
+// SSE 연산은 W부터 연속된 float 4개를 읽고 쓰므로, 패딩 없이 16바이트로 배치되어야 합니다.
+static_assert(sizeof(AstrumQuaternion) == sizeof(float) * 4 && offsetof(AstrumQuaternion, Z) == sizeof(float) * 3);
+
+#pragma pop_macro("ASTRUM_USE_SSE")

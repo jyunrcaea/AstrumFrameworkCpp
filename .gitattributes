@@ -1,0 +1,25 @@
+# 기본: 텍스트 파일은 저장소에 LF로 저장하고, 작업 트리에서는 CRLF로 체크아웃 (Visual Studio 기준)
+* text=auto eol=crlf
+
+*.cpp  text eol=crlf
+*.hpp  text eol=crlf
+*.h    text eol=crlf
+*.inl  text eol=crlf
+*.fx   text eol=crlf
+*.hlsl text eol=crlf
+*.sln      text eol=crlf
+*.vcxproj  text eol=crlf
+*.filters  text eol=crlf
+*.md   text eol=crlf
+
+# 바이너리
+*.lib binary
+*.dll binary
+*.png binary
+*.jpg binary
+*.ico binary
+
+# 서드파티 파일은 원본 그대로 유지
+Astrum/FMOD/**      -text
+Astrum/DirectXTex.h   -text
+Astrum/DirectXTex.inl -text

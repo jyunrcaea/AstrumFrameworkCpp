@@ -1,4 +1,4 @@
-#include "AstrumRenderMaterialComponent.hpp"
+﻿#include "AstrumRenderMaterialComponent.hpp"
 #include "../Singletons/AstrumRenderer.hpp"
 
 void AstrumRenderMaterialComponent::PreRender() {

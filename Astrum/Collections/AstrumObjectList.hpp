@@ -1,15 +1,16 @@
-#pragma once
+﻿#pragma once
 #include <unordered_set>
 #include <vector>
 #include <functional>
 #include <memory>
-#include <set>
 #include "IAstrumObjectList.hpp"
+#include "AstrumIterationSafeVector.hpp"
 #include "../Objects/IAstrumGroupObject.hpp"
 
 struct IAstrumGroupObject;
 
 //자식 객체를 담기 위한 컬렉션 (추가/삭제시 자동으로 부모를 할당/제거 해주며, 부모가 준비된 경우 추가하는 즉시 Prepare() 호출.)
+//객체는 추가된 순서를 유지하며, 이 순서대로 Update/Draw 됩니다. (같은 Z에서는 나중에 추가된 객체가 위에 그려짐)
 class AstrumObjectList : public IAstrumObjectList {
 public:
     /// <summary>
@@ -27,8 +28,8 @@ public:
     /// <summary>
     /// 컬렉션에 여러 객체들을 한 번에 추가합니다.
     /// </summary>
-    /// <param name="objects">추가할 객체들의 초기화 리스트입니다.</param>
-    void AddRange(const std::initializer_list<std::shared_ptr<IAstrumObject>>& objects);
+    /// <param name="list">추가할 객체들의 초기화 리스트입니다.</param>
+    void AddRange(const std::initializer_list<std::shared_ptr<IAstrumObject>>& list);
     /// <summary>
     /// 컬렉션에서 객체를 제거합니다. 제거된 객체의 부모를 자동으로 제거합니다.
     /// </summary>
@@ -51,16 +52,23 @@ public:
     /// <returns>컬렉션의 객체 개수입니다.</returns>
     int Count() const override;
     /// <summary>
-    /// 컬렉션의 모든 객체에 대해 주어진 함수를 실행합니다.
+    /// 컬렉션의 모든 객체에 대해 추가된 순서대로 주어진 함수를 실행합니다. (인터페이스용. 성능이 중요하면 Iterate()를 사용하세요.)
+    /// 순회 도중(중첩 순회 포함)에 객체가 추가/삭제되어도 안전하며, 순회 도중 삭제된 객체는 건너뜁니다. (추가된 객체는 다음 순회부터 포함됩니다.)
     /// </summary>
     /// <param name="func">각 객체에 대해 실행할 함수입니다.</param>
     void ForEach(const std::function<void(const std::shared_ptr<IAstrumObject>&)>& func) override;
+    /// <summary>
+    /// 순회 도중에 추가/삭제해도 안전한 순회 범위를 추가된 순서대로 반환합니다. std::function을 거치지 않아 인라이닝됩니다.
+    /// 예: for (IAstrumObject* obj : objects.Iterate()) obj->Update();
+    /// (순회 도중 삭제된 객체는 건너뛰며, 추가된 객체는 진행 중인 순회에는 포함되지 않고 중첩 순회와 다음 순회부터 포함됩니다.)
+    /// </summary>
+    AstrumIterationSafeVector<IAstrumObject>::Range Iterate() { return objects.Iterate(); }
     /// <summary>
     /// 컬렉션의 특정 인덱스에 있는 객체를 반환합니다.
     /// </summary>
     /// <param name="index">객체의 인덱스입니다.</param>
     /// <returns>인덱스에 해당하는 객체 참조입니다.</returns>
-	IAstrumObject& operator[](int index) override { Update(); return *objectArray[index]; }
+	IAstrumObject& operator[](int index) override { return *objects.At(static_cast<size_t>(index)); }
     /// <summary>
     /// 컬렉션의 모든 객체를 배열로 변환하여 반환합니다.
     /// </summary>
@@ -68,14 +76,9 @@ public:
     std::vector<std::shared_ptr<IAstrumObject>> ToArray() const override;
 
 private:
-    void Update() const;
-
     IAstrumGroupObject* const owner;
-    // 가장 최신의 변경사항이 적용되는 해시셋
-    std::unordered_set<std::shared_ptr<IAstrumObject>> objectSet;
-    // objectSet이 변경점이 생길때마다 복사를 받고, 순회(ForEach)에 사용되는 배열.
-    // 이렇게 설계한 이유로는 vector가 순회가 매우 빠르며, 순회 도중에 객체가 추가/삭제시 해시셋에만 반영되므로 안정적인 순회가 가능해짐.
-    mutable std::vector<std::shared_ptr<IAstrumObject>> objectArray;
-    // objectSet에 변경사항이 생겼는지 여부
-    mutable bool changed = false;
+    // 추가된 순서를 유지하며, 순회 도중 추가/삭제에도 안전한 목록
+    AstrumIterationSafeVector<IAstrumObject> objects;
+    // 빠른 포함 여부 확인을 위한 해시셋
+    std::unordered_set<IAstrumObject*> objectSet;
 };

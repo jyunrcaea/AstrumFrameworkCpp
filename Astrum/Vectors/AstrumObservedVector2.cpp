@@ -1,6 +1,6 @@
 #include "AstrumObservedVector2.hpp"
 
-constexpr AstrumObservedVector2::AstrumObservedVector2() = default;
+AstrumObservedVector2::AstrumObservedVector2() = default;
 
 AstrumObservedVector2::AstrumObservedVector2(const Callback& onChange)
     : onChange_(onChange) {

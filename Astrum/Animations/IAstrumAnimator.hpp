@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <functional>
 
 // 음의 정수는 더이상 갱신되지 않는 종료된 상태를 나타냅니다.

@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AstrumFramework", "AstrumFr
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ArcaeaCloneProject", "..\ArcaeaCloneProject\ArcaeaCloneProject.vcxproj", "{03B3FAE6-6B17-4B45-9284-7C2C6F25CB7C}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AstrumExamples", "Examples\AstrumExamples.vcxproj", "{1AB88ADF-2F23-4022-BD8F-4F50FD4E207F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,12 @@ Global
 		{03B3FAE6-6B17-4B45-9284-7C2C6F25CB7C}.Release|x64.Build.0 = Release|x64
 		{03B3FAE6-6B17-4B45-9284-7C2C6F25CB7C}.Release|x86.ActiveCfg = Release|Win32
 		{03B3FAE6-6B17-4B45-9284-7C2C6F25CB7C}.Release|x86.Build.0 = Release|Win32
+		{1AB88ADF-2F23-4022-BD8F-4F50FD4E207F}.Debug|x64.ActiveCfg = Debug|x64
+		{1AB88ADF-2F23-4022-BD8F-4F50FD4E207F}.Debug|x64.Build.0 = Debug|x64
+		{1AB88ADF-2F23-4022-BD8F-4F50FD4E207F}.Debug|x86.ActiveCfg = Debug|x64
+		{1AB88ADF-2F23-4022-BD8F-4F50FD4E207F}.Release|x64.ActiveCfg = Release|x64
+		{1AB88ADF-2F23-4022-BD8F-4F50FD4E207F}.Release|x64.Build.0 = Release|x64
+		{1AB88ADF-2F23-4022-BD8F-4F50FD4E207F}.Release|x86.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,5 +1,6 @@
 #include "AstrumSound.hpp"
 #include <string>
+#include <format>
 #include "../AstrumException.hpp"
 
 #define ThrowInitializeException(message, result) AstrumException(__LINE__, __FILE__,std::format("{}. (FMOD_RESULT: {})", message, static_cast<int>(result))).Alert();

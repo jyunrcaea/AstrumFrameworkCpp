@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <memory>
 #include "IAstrumTexture.hpp"
 #include "../Meshes/AstrumTextureMesh.hpp"

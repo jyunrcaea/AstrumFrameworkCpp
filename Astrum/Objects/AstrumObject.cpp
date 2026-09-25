@@ -1,8 +1,8 @@
-#include "AstrumObject.hpp"
+﻿#include "AstrumObject.hpp"
 
 AstrumObject::AstrumObject()
     : Position(0,0,0,std::bind(&AstrumObject::UpdateAbsolutePosition, this)),
-    MakeRotation(std::bind(&AstrumObject::UpdateAbsoluteRotation, this)),
+    Rotation(std::bind(&AstrumObject::UpdateAbsoluteRotation, this)),
     Scale(1,1,1,std::bind(&AstrumObject::UpdateAbsoluteScale, this)),
     absoluteScale(1,1,1), Components(this) { }
 
@@ -13,33 +13,28 @@ void AstrumObject::Prepare() {
 
     DI.Resolve(this);
 
-    for (auto& component : Components) {
-        if (component) component->Prepare();
-    }
-
+    // 컴포넌트의 Prepare() 도중에 추가되는 컴포넌트도 즉시 준비되도록, 먼저 준비 상태로 표시합니다.
     isPrepared = true;
+
+    // 컴포넌트가 순회 도중에 자신(또는 다른 컴포넌트)을 추가/제거해도 안전하게 순회합니다.
+    Components.Prepare();
 }
 void AstrumObject::Update() {
-    for(auto& component : Components) {
-        if (component) component->Update();
-	}
+    Components.Update();
 }
 void AstrumObject::Release() {
-    for(auto& component : Components) {
-        if (component) component->Release();
-	}
+    // 컴포넌트의 Release() 도중에 제거되는 컴포넌트도 즉시 해제되도록, 준비 상태 해제는 마지막에 합니다.
+    Components.Release();
 
     isPrepared = false;
 }
 void AstrumObject::Draw() {
 	if (false == IsVisible()) return;
-    for (auto& component : Components) {
-        if (component) component->Draw();
-    }
+    for (IAstrumComponent* component : Components.Iterate()) component->Draw();
 }
 
 AstrumObservedVector3& AstrumObject::GetPosition() { return Position; }
-AstrumObservedVector3& AstrumObject::GetRotation() { return MakeRotation; }
+AstrumObservedVector3& AstrumObject::GetRotation() { return Rotation; }
 AstrumObservedVector3& AstrumObject::GetScale() { return Scale; }
 
 const AstrumVector3& AstrumObject::GetAbsolutePosition() { return absolutePosition; }
@@ -88,11 +83,11 @@ void AstrumObject::UpdateAbsolutePosition()
 void AstrumObject::UpdateAbsoluteRotation()
 {
     if (nullptr == parent) {
-        absoluteRotation = MakeRotation;
+        absoluteRotation = Rotation;
 		return;
     }
 	//absoluteRotation = parent->GetAbsoluteRotation() + this->Rotation;
-    absoluteRotation = (AstrumQuaternion::FromEuler(parent->GetAbsoluteRotation()) * AstrumQuaternion::FromEuler(this->MakeRotation)).ToEuler();
+    absoluteRotation = (AstrumQuaternion::FromEuler(parent->GetAbsoluteRotation()) * AstrumQuaternion::FromEuler(this->Rotation)).ToEuler();
 }
 
 void AstrumObject::UpdateAbsoluteScale()

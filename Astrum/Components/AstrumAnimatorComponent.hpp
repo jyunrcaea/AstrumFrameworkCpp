@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <memory>
 #include "AstrumComponent.hpp"
 #include "../Animations/IAstrumAnimator.hpp"

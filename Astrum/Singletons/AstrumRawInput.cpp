@@ -1,4 +1,4 @@
-#include "AstrumRawInput.hpp"
+﻿#include "AstrumRawInput.hpp"
 #include <string>
 #include <format>
 #include <windows.h>
@@ -25,9 +25,6 @@ void AstrumRawInputSingleton::Initialize() {
 }
 
 void AstrumRawInputSingleton::Update() {
-	mouseState[AstrumMouseButtonType_ScrollUp] = false;
-	mouseState[AstrumMouseButtonType_ScrollDown] = false;
-
 	UpdateMousePosition();
 }
 
@@ -36,6 +33,10 @@ void AstrumRawInputSingleton::Clear() {
 	memcpy(previousKeyState, keyState, sizeof(keyState));
 	memcpy(previousMouseState, mouseState, sizeof(mouseState));
 	// 상태 초기화
+	// 휠은 '눌림'이 한 프레임만 유지되는 입력이므로, 게임 로직이 이번 프레임에 확인한 뒤(프레임 끝)에 초기화합니다.
+	// (프레임 시작 시점에 초기화하면 프레임 사이에 들어온 휠 입력이 게임 로직에 전달되기 전에 지워집니다.)
+	mouseState[AstrumMouseButtonType_ScrollUp] = false;
+	mouseState[AstrumMouseButtonType_ScrollDown] = false;
 	mouseMovement = { 0, 0 };
 	wheelMovement = 0;
 	keyQueue.clear();
@@ -109,13 +110,9 @@ void AstrumRawInputSingleton::UpdateMousePosition() {
 	GetCursorPos(&point);
 	ScreenToClient(AstrumWindow::GetHandle(), &point);
 
-	const auto resolution = AstrumRenderer::Instance().GetResolution();
-	const auto rsrate = AstrumRenderer::Instance().GetRSRate();
-
-	// Raw Input의 상대 이동량이 아닌, 절대 좌표 기반의 이동량 계산
-	// mouseMovement = newMousePos - mousePosition; 
-	mousePosition = AstrumDoubleVector2{
-		static_cast<double>(point.x) * rsrate.X,
-		static_cast<double>(resolution.Height) - static_cast<double>(point.y) * rsrate.Y
-	};
+	// 클라이언트 좌표를 논리 해상도 좌표(왼쪽 아래 원점)로 변환합니다. (창 크기 변경에 따른 확대/축소와 레터박스 여백 반영)
+	mousePosition = AstrumRenderer::Instance().ClientToResolution(
+		static_cast<double>(point.x),
+		static_cast<double>(point.y)
+	);
 }

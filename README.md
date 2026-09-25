@@ -2,7 +2,7 @@
 
 **C++23**과 **DirectX 11**을 기반으로 구축된 2D 게임 개발 프레임워크.
 
-`Astum` 폴더에 프레임워크를 구성하는 모든 코드가 존재합니다.
+`Astrum` 폴더에 프레임워크를 구성하는 모든 코드가 존재합니다.
 ## 특징
 ### 1. 게임 객체의 기본 책임
  `AstrumObject`에서 트랜스폼(Position, Rotation, Scale)을 컴포넌트로 분리하지 않고 통합하여 같이 관리합니다.  
@@ -54,6 +54,22 @@
 3.  일괄 렌더링: `AstrumRenderQueue` 클래스가 큐의 모든 객체를 순회하며`IAstrumRenderable::PreRender()`를 모두 호출해준 후, 큐를 비우면서  `IAstrumRenderable::Render()`를 순차적으로 호출합니다.
     - `PreRender()`: 월드/뷰/투영 행렬과 같은 변환 정보를 계산하고 상수 버퍼를 업데이트합니다. (일부 과정이 추가됬을수도 있지만, 기본적으로 이렇습니다.)
     - `Render()`: 실제 그리기(Draw Call) 명령을 실행합니다.
+
+#### 그려지는 순서
+- `Position.Z`가 작을수록 앞에 그려집니다. (깊이 버퍼 사용, 보이는 범위는 0 ~ 1000)
+- Z가 같으면 나중에 그려진 객체가 위에 보입니다. 자식 객체는 **추가된 순서대로** 갱신/그려지므로, 같은 Z에서는 나중에 추가한 객체가 위에 보입니다.
+- 기본 셰이더는 알파가 1/255 이하인 픽셀을 버리므로(`clip`), 투명한 부분이 뒤의 객체를 가리지 않습니다.
+  (단, 반투명한 픽셀은 깊이를 기록하므로, 반투명한 객체 뒤에 있는 객체는 반투명한 객체보다 **먼저** 그려져야 비쳐 보입니다.)
+- 커스텀 픽셀 셰이더를 사용한다면 같은 이유로 `clip(color.a - 1.0f / 255.0f);`를 넣는 것을 권장합니다.
+
+#### 창 크기와 해상도
+- `AstrumFramework::Initialize(title, width, height)`의 `width`, `height`는 창의 **클라이언트 영역** 크기이자 게임 화면의 **논리 해상도**입니다.
+- 사용자가 창 크기를 바꿔도 논리 해상도(`AstrumWindow::GetWidth()/GetHeight()`)는 그대로이며, 화면은 비율을 유지한 채 확대/축소되고 남는 영역은 배경색으로 채워집니다.
+- 마우스 좌표(`AstrumRawInput::GetMousePosition()`)는 항상 논리 해상도 기준입니다. 실제 클라이언트 영역 크기는 `AstrumWindow::GetClientSize()`로 얻을 수 있습니다.
+
+#### 프레임 제한과 수직 동기화
+- `AstrumChrono::SetFramerate(fps)`로 프레임을 제한할 수 있습니다. (기본값 0 = 제한 없음) 다음 프레임까지는 CPU를 쉬게 합니다.
+- `AstrumRenderer::Instance().SetVSync(true)`로 수직 동기화를 켤 수 있습니다.
 
 ### 4. 리소스
 모두 RAII 패턴이 적용되며, 생성자를 호출하는 즉시 자원이 할당되고, 소멸자를 통해 안전하게 해제됩니다.  
@@ -125,6 +141,7 @@ public:
 - 자식은 ``DI.Reserve``를 호출하는 순간, DI 내부에서 void* 변수를 하나 준비하고 참조를 리턴합니다. 선언시 타입이 T*&인 이유입니다.
 - ``AstrumObject::Prepare()``를 호출할때 의존성을 해결합니다. 부모를 재귀적으로 올라가 각 해시맵을 조회하면서 ``DI.Reserve``로 만들어진 여러개의 void*에 유효한 주소를 주입합니다.
 - 모든 조상을 둘러보아도 해결되지 못하면 nullptr로 남습니다.
+- ``Prepare()``가 호출될 때마다 다시 해결하므로, 객체를 다른 부모로 옮기면 새 부모의 변수로 연결됩니다.
 
 ⚠**주의사항**: 타입 안정성을 보장하지 않습니다. (C++ 26에 리플렉션이 도입될경우 업캐스팅을 포함한 타입 검사를 추가할 계획입니다.)
 ### 매크로
@@ -165,8 +182,11 @@ d2d1.lib
 ```
 4. 추가된 프로젝트의 '속성 -> C/C++ -> 일반 -> 추가 포함 디렉터리'에 ``$(SolutionDir)``를 추가합니다.
 5. 간단한 예제와 함께 빌드가 성공하는지 확인해보세요!
+
+참고: 모든 소스 파일은 BOM이 있는 UTF-8로 저장합니다. (`.editorconfig`에 설정되어 있으며, BOM이 없으면 MSVC가 CP949로 잘못 읽을 수 있습니다.)
 ### 예제
-`Examples` 폴더에 각 파일별 예시가 담겨있습니다.
+`Examples` 폴더에 각 파일별 예시가 담겨있으며, 솔루션의 `AstrumExamples` 프로젝트(x64)로 바로 빌드/실행할 수 있습니다.
+실행 인자로 예제 이름(`RectMoving`, `LifeCycle`, `DependencyInjection`)을 넘기면 해당 예제가 실행됩니다. (기본값: `RectMoving`)
 ```cpp
 #include "Astrum/Singletons/AstrumFramework.hpp"
 #include "Astrum/Singletons/AstrumTextureCache.hpp"

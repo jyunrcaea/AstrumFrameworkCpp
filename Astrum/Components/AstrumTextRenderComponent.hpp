@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <memory>
 #include <string>
 #include <wrl/client.h>
@@ -154,6 +154,9 @@ private:
 	/// Direct2D 고체 색상 브러시입니다. 텍스트 색상 렌더링에 사용됩니다.
 	/// </summary>
 	Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> colorBrush = nullptr;
+	// colorBrush를 만든 D2D 렌더 타겟의 버전 (창 크기 변경으로 렌더 타겟이 바뀌면 브러시를 다시 만듦)
+	unsigned int brushRenderTargetVersion = 0;
+	void CreateColorBrush();
 	/// <summary>
 	/// DirectWrite 텍스트 레이아웃입니다. 텍스트 포맷팅에 사용됩니다.
 	/// </summary>

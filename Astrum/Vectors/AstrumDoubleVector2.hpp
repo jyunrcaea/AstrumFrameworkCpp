@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <string>
 #include <format>
 #include <iostream>
@@ -8,7 +8,11 @@
 #include <type_traits>
 #include <utility>
 
-#if defined(__SSE__) || defined(__SSE2__)
+// SSE2 사용 여부. (GCC/Clang은 __SSE2__, MSVC는 x64 또는 /arch:SSE2 이상일 때 _M_X64/_M_IX86_FP로 확인)
+// 다른 헤더가 같은 이름의 매크로를 쓰더라도 영향을 주지 않도록 push/pop 합니다.
+#pragma push_macro("ASTRUM_USE_SSE")
+#undef ASTRUM_USE_SSE
+#if defined(__SSE2__) || defined(_M_X64) || defined(_M_AMD64) || (defined(_M_IX86_FP) && _M_IX86_FP >= 2)
 #define ASTRUM_USE_SSE 1
 #include <immintrin.h>
 #else
@@ -284,4 +288,4 @@ inline std::ostream& operator<<(std::ostream& os, const AstrumDoubleVector2& p) 
     return os;
 }
 
-#undef ASTRUM_USE_SSE
+#pragma pop_macro("ASTRUM_USE_SSE")

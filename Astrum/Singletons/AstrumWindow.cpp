@@ -2,6 +2,19 @@
 #include "AstrumFramework.hpp"
 #include "AstrumChrono.hpp"
 #include "AstrumRawInput.hpp"
+#include "AstrumRenderer.hpp"
+
+namespace {
+    constexpr DWORD WindowStyle = WS_OVERLAPPEDWINDOW;
+    constexpr DWORD WindowExStyle = WS_EX_APPWINDOW;
+
+    // 클라이언트 영역이 (w, h)가 되도록 테두리/제목 표시줄을 포함한 창 크기를 계산합니다.
+    SIZE CalculateWindowSize(int w, int h, DWORD style, DWORD exStyle) {
+        RECT rect{ 0, 0, w, h };
+        AdjustWindowRectEx(&rect, style, FALSE, exStyle);
+        return { rect.right - rect.left, rect.bottom - rect.top };
+    }
+}
 
 AstrumWindowSingleton::AstrumWindowSingleton() { }
 
@@ -27,12 +40,16 @@ bool AstrumWindowSingleton::Initialize(const std::wstring& title, unsigned int w
 #pragma endregion
 
 #pragma region create window
+    // 요청한 크기가 테두리를 포함한 창 크기가 아닌, 실제 그려지는 클라이언트 영역의 크기가 되도록 합니다.
+    width = static_cast<int>(w);
+    height = static_cast<int>(h);
+    const SIZE windowSize = CalculateWindowSize(width, height, WindowStyle, WindowExStyle);
     handle = CreateWindowExW(
-        WS_EX_APPWINDOW, className.c_str(), title.c_str(),
-        WS_OVERLAPPEDWINDOW,
+        WindowExStyle, className.c_str(), title.c_str(),
+        WindowStyle,
         CW_USEDEFAULT, CW_USEDEFAULT,
-        width = static_cast<int>(w),
-        height = static_cast<int>(h),
+        windowSize.cx,
+        windowSize.cy,
         nullptr, nullptr, instanceHandle, nullptr);
 
     if (!handle) {
@@ -47,9 +64,12 @@ bool AstrumWindowSingleton::Initialize(const std::wstring& title, unsigned int w
 #pragma region raw input
 	AstrumRawInput::Initialize();
 #pragma endregion
+
+    return true;
 }
 
 void AstrumWindowSingleton::Dispose() {
+    // Raw Input 장치 등록 해제 (창을 파괴하기 전에 한번만)
 	AstrumRawInput::Dispose();
 
     if (nullptr == handle) {
@@ -61,19 +81,17 @@ void AstrumWindowSingleton::Dispose() {
     handle = nullptr;
     UnregisterClassW(className.c_str(), instanceHandle);
     instanceHandle = nullptr;
-
-#pragma region raw input
-    AstrumRawInput::Dispose();
-#pragma endregion
 }
 
 LRESULT CALLBACK AstrumWindowSingleton::WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     switch (msg) {
     case WM_ERASEBKGND: return 1;
     case WM_CLOSE: {
-        if (AstrumWindowSingleton::Instance().StopWhenClose)
+        // StopWhenClose가 false면 창을 닫지 않고 무시합니다. (게임 로직에서 직접 처리)
+        if (AstrumWindowSingleton::Instance().StopWhenClose) {
             AstrumFramework::Stop();
-        PostQuitMessage(0);
+            PostQuitMessage(0);
+        }
         return 0;
     }
     case WM_INPUT: {
@@ -87,7 +105,11 @@ LRESULT CALLBACK AstrumWindowSingleton::WindowProc(HWND hwnd, UINT msg, WPARAM w
         return 0;
     }
     case WM_SIZE: {
-        
+        // 클라이언트 영역 크기에 맞춰 백버퍼를 다시 만듭니다. (최소화 시에는 크기가 0이므로 무시)
+        if (SIZE_MINIMIZED != wParam) {
+            AstrumRenderer::Instance().Resize(LOWORD(lParam), HIWORD(lParam));
+        }
+        break;
     }
     default:
         break;
@@ -128,7 +150,11 @@ std::pair<int, int> AstrumWindowSingleton::GetSize() const {
 }
 
 void AstrumWindowSingleton::SetSize(int w, int h) {
-    SetWindowPos(handle, nullptr, 0, 0, width = w, height = h, SWP_NOMOVE | SWP_NOZORDER);
+    // 클라이언트 영역이 (w, h)가 되도록 창 크기를 계산합니다. (논리 해상도인 width/height는 바꾸지 않음)
+    const SIZE windowSize = CalculateWindowSize(w, h,
+        static_cast<DWORD>(GetWindowLongPtrW(handle, GWL_STYLE)),
+        static_cast<DWORD>(GetWindowLongPtrW(handle, GWL_EXSTYLE)));
+    SetWindowPos(handle, nullptr, 0, 0, windowSize.cx, windowSize.cy, SWP_NOMOVE | SWP_NOZORDER);
 }
 
 void AstrumWindowSingleton::Maximize() const { ShowWindow(handle, SW_MAXIMIZE); }

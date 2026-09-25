@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <memory>
 #include "AstrumShapeObject.hpp"
 #include "../Meshes/AstrumRectanglePolygons.hpp"

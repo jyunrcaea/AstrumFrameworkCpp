@@ -1,3 +1,5 @@
+#include <iostream>
+#include <format>
 #include "../Astrum/Vectors/AstrumVector4.hpp"
 #include "../Astrum/Units/AstrumColor.hpp"
 #include "../Astrum/Singletons/AstrumFramework.hpp"
@@ -58,9 +60,8 @@ namespace DependencyInjection {
 
     class Program
     {
-        friend int main();
-
-    private:
+    public:
+        // Examples/Main.cpp에서 호출합니다.
         static int Main() {
             AstrumFramework::Initialize();
             AstrumFramework::GetRootObject()->AddObjects({

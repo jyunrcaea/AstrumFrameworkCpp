@@ -1,4 +1,5 @@
 ﻿#include "AstrumFrameAnimationComponent.hpp"
+#include <algorithm>
 #include "../Singletons/AstrumChrono.hpp"
 
 void AstrumFrameAnimationComponent::Update()
@@ -15,7 +16,7 @@ void AstrumFrameAnimationComponent::Update()
 		sumTime -= TimePerFrame;
 		nextFrame++;
 		if (Loop) nextFrame %= n;
-		else nextFrame = min(n, nextFrame);
+		else nextFrame = (std::min)(n, nextFrame);
 	}
 	FrameIndex = static_cast<unsigned short>(nextFrame);
 

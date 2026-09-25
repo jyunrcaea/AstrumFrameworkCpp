@@ -1,4 +1,5 @@
 #include "AstrumTextureSampler.hpp"
+#include <cfloat>
 
 AstrumTextureSamplerSingleton::AstrumTextureSamplerSingleton() { }
 AstrumTextureSamplerSingleton::~AstrumTextureSamplerSingleton() { }

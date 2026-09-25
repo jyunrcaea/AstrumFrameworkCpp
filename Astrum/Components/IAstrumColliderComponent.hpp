@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "IAstrumAABBColliderComponent.hpp"
 #include "IAstrumOBBColliderComponent.hpp"
 #include "IAstrumCircleColliderComponent.hpp"

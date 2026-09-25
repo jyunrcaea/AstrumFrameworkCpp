@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "AstrumVector2.hpp"
 #include <functional>
 
@@ -17,7 +17,7 @@ public:
     /// <summary>
     /// 기본 생성자입니다. (0, 0)으로 초기화되고 콜백은 없습니다.
     /// </summary>
-    constexpr AstrumObservedVector2();
+    AstrumObservedVector2();
     /// <summary>
     /// 콜백 함수를 지정하여 생성합니다.
     /// </summary>

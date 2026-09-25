@@ -21,6 +21,9 @@ cbuffer Material : register(b1)
     int MaterialFlip;
 }
 
+// 이 값 이하의 알파를 가진 픽셀은 그리지 않으며, 깊이 버퍼에도 기록하지 않습니다. (8비트 기준 1/255)
+static const float AlphaClipThreshold = 1.0f / 255.0f;
+
 SamplerState gBaseSample : register(s0);
 
 Texture2D gBaseTexture : register(t0);
@@ -60,6 +63,9 @@ PS_Output_Single DefaultMaterialPS(VS_Output_Tex input)
     
     color.rgb *= MaterialBaseColor.rgb;
     color.a *= MaterialOpacity;
+    
+    // 깊이 기록이 켜져 있으므로, 완전히 투명한 픽셀은 버려서 뒤쪽 물체를 가리지 않게 합니다.
+    clip(color.a - AlphaClipThreshold);
     
     color.rgb *= color.a;
     

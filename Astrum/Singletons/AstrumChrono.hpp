@@ -31,6 +31,10 @@ class AstrumChronoSingleton : public AstrumSingleton<AstrumChronoSingleton> {
     /// <returns>업데이트해야 하면 true, 아니면 false를 반환합니다.</returns>
     bool IsUpdateNow();
     /// <summary>
+    /// 다음 업데이트 시점까지 남은 시간을 반환합니다. 이미 업데이트 시점이면 0을 반환합니다.
+    /// </summary>
+    std::chrono::nanoseconds GetTimeUntilNextUpdate() const;
+    /// <summary>
     /// 시간 관리 시스템을 정리하고 해제합니다.
     /// </summary>
     void Dispose();
@@ -39,7 +43,8 @@ private:
     std::chrono::steady_clock::time_point startTime;
     std::chrono::steady_clock::time_point lastTick;
     std::chrono::steady_clock::time_point nextTick;
-    std::chrono::nanoseconds deltaTick = std::chrono::nanoseconds(10);
+    // 프레임 간격. 0이면 프레임 제한 없이 매 루프마다 업데이트합니다.
+    std::chrono::nanoseconds deltaTick = std::chrono::nanoseconds(0);
     uint16_t framerate = 0;
     double deltaTime = 0.0;
 };
@@ -63,7 +68,7 @@ public:
     /// <returns>프로그램 실행 시간(초)입니다.</returns>
     static inline double GetRunningTime() { auto duration = AstrumChronoSingleton::Instance().GetRunningTime(); return duration.count(); }
     /// <summary>
-    /// 프레임 레이트를 설정합니다.
+    /// 프레임 레이트를 설정합니다. 0이면 프레임을 제한하지 않습니다. (기본값: 0)
     /// </summary>
     /// <param name="value">설정할 프레임 레이트(초당 프레임 수)입니다.</param>
     static inline void SetFramerate(uint16_t value) { AstrumChronoSingleton::Instance().SetFramerate(value); }
@@ -76,6 +81,10 @@ public:
     /// </summary>
     /// <returns>업데이트해야 하면 true, 아니면 false를 반환합니다.</returns>
     static inline bool IsUpdateNow() { return AstrumChronoSingleton::Instance().IsUpdateNow(); }
+    /// <summary>
+    /// 다음 업데이트 시점까지 남은 시간을 반환합니다. 이미 업데이트 시점이면 0을 반환합니다.
+    /// </summary>
+    static inline std::chrono::nanoseconds GetTimeUntilNextUpdate() { return AstrumChronoSingleton::Instance().GetTimeUntilNextUpdate(); }
     /// <summary>
     /// 시간 관리 시스템을 정리하고 해제합니다.
     /// </summary>

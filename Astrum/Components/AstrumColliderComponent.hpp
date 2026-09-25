@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <functional>
 #include <memory>
 #include "AstrumComponent.hpp"
@@ -17,6 +17,8 @@ public:
 	/// 충돌 컴포넌트를 생성합니다.
 	/// </summary>
 	AstrumColliderComponent();
+	// Release() 없이 소멸되더라도 충돌 시스템에 해제된 포인터가 남지 않도록 등록을 해제합니다.
+	virtual ~AstrumColliderComponent();
 
 	/// <summary>
 	/// 충돌 컴포넌트를 준비합니다.
@@ -79,6 +81,9 @@ protected:
 	virtual void SetOwner(IAstrumObject* const obj) override;
 
 private:
+	// 충돌 시스템에 등록되어 있는지 여부
+	bool registered = false;
+
 	/// <summary>
 	/// 충돌 진입 시 호출될 콜백 함수입니다.
 	/// </summary>

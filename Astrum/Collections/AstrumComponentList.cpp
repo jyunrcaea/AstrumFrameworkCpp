@@ -1,13 +1,11 @@
-#include "AstrumComponentList.hpp"
+﻿#include "AstrumComponentList.hpp"
 
 AstrumComponentList::AstrumComponentList(IAstrumObject* ownerObject) : owner(ownerObject) {}
 
 AstrumComponentList::~AstrumComponentList()
 {
-	for (auto& component : *this) {
-		if (nullptr != component) {
-			component->SetOwner(nullptr); // Clear owner reference
-		}
+	for (auto& component : components.TakeAll()) {
+		component->SetOwner(nullptr); // Clear owner reference
 	}
 }
 
@@ -19,7 +17,7 @@ bool AstrumComponentList::Add(const std::shared_ptr<IAstrumComponent>& component
 		AstrumException("Component already has an owner.").Alert();
 	}
 
-	this->push_back(component);
+	components.PushBack(component);
 	component->SetOwner(owner);
 	if (owner->IsPrepared()) component->Prepare();
 	return true;
@@ -28,54 +26,45 @@ bool AstrumComponentList::Add(const std::shared_ptr<IAstrumComponent>& component
 bool AstrumComponentList::Remove(const std::shared_ptr<IAstrumComponent>& component)
 {
 	if (nullptr == component) return false;
+	// 인자가 목록 안의 shared_ptr를 가리키는 참조일 수도 있으므로 복사해 둡니다.
+	const std::shared_ptr<IAstrumComponent> target = component;
+	if (false == components.Erase(target.get())) return false;
 
-	auto it = std::find(this->begin(), this->end(), component);
-	if (it == this->end()) return false;
-
-	this->erase(it);
-	component->SetOwner(nullptr);
+	// Add()에서 owner가 준비된 상태면 Prepare()를 호출하므로, 제거할 때도 대칭적으로 Release()를 호출합니다.
+	if (owner->IsPrepared()) target->Release();
+	target->SetOwner(nullptr);
 	return true;
 }
 
 void AstrumComponentList::Clear()
 {
-	for (auto& component : *this) {
-		if (component != nullptr) {
-			component->SetOwner(nullptr); // Clear owner reference
-		}
+	// 목록을 먼저 비운 뒤 처리하므로, Release() 도중에 목록이 바뀌어도 안전합니다.
+	const bool prepared = owner->IsPrepared();
+	for (auto& component : components.TakeAll()) {
+		if (prepared) component->Release();
+		component->SetOwner(nullptr); // Clear owner reference
 	}
-	this->clear();
 }
 
 void AstrumComponentList::Prepare()
 {
-	for (auto& component : *this) {
-		component->Prepare();
-	}
+	for (IAstrumComponent* component : components.Iterate()) component->Prepare();
 }
 
 void AstrumComponentList::Update()
 {
-	for (auto& component : *this) {
-		component->Update();
-	}
+	for (IAstrumComponent* component : components.Iterate()) component->Update();
 }
 
 void AstrumComponentList::Release()
 {
-	for (auto& component : *this) {
-		component->Release();
-	}
+	for (IAstrumComponent* component : components.Iterate()) component->Release();
 }
 
 void AstrumComponentList::ForEach(const std::function<void(const std::shared_ptr<IAstrumComponent>&)>& func) {
-	for (auto& component : *this) {
-		if (component != nullptr) {
-			func(component);
-		}
-	}
+	components.ForEachShared(func);
 }
 
 std::vector<std::shared_ptr<IAstrumComponent>> AstrumComponentList::ToArray() const {
-	return vec(*this);
+	return components.ToVector();
 }

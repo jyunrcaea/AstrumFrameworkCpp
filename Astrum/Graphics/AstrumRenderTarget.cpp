@@ -1,4 +1,4 @@
-#include "AstrumRenderTarget.hpp"
+﻿#include "AstrumRenderTarget.hpp"
 #include "../Singletons/AstrumRenderer.hpp"
 #include "../AstrumException.hpp"
 
@@ -57,6 +57,8 @@ void AstrumRenderTarget::Bind()
 	ID3D11DeviceContext* const context = AstrumRenderer::Instance().GetContext();
 
     context->OMGetRenderTargets(1, previousRTV.GetAddressOf(), previousDSV.GetAddressOf()); //이전 상태 저장
+    previousViewportCount = 1;
+    context->RSGetViewports(&previousViewportCount, &previousViewport); // 이전 뷰포트 저장 (메인 화면은 창 크기에 맞춘 뷰포트를 사용)
 	ClearShaderResourceView(); // 셰이더 리소스 뷰 초기화
     context->OMSetRenderTargets(1, renderTargetView.GetAddressOf(), depthStencilView.Get()); // 현재 렌더 타깃으로 바인딩
     ResetViewPort(); // 뷰 포트 맞춰주기
@@ -67,6 +69,9 @@ void AstrumRenderTarget::Unbind()
     ClearShaderResourceView();
 	// 이전 상태로 복원
     AstrumRenderer::Instance().GetContext()->OMSetRenderTargets(1, previousRTV.GetAddressOf(), previousDSV.Get());
+    if (previousViewportCount > 0) {
+        AstrumRenderer::Instance().GetContext()->RSSetViewports(1, &previousViewport);
+    }
     previousRTV = nullptr;
     previousDSV = nullptr;
 }

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <memory>
 #include "IAstrumObject.hpp"
 #include "IAstrumGroupObject.hpp"
@@ -42,7 +42,7 @@ protected:
     // 객체의 좌표입니다. (전체를 재할당 할경우 Absolute 값이 갱신되지 않습니다. Reset() 맴버 함수를 사용해보세요.)
     AstrumObservedVector3 Position;
     // 객체의 회전값입니다. 육십분법을 사용합니다. (전체를 재할당 할경우 Absolute 값이 갱신되지 않습니다. Reset() 맴버 함수를 사용해보세요.)
-    AstrumObservedVector3 MakeRotation;
+    AstrumObservedVector3 Rotation;
     // 객체의 크기값입니다. (전체를 재할당 할경우 Absolute 값이 갱신되지 않습니다. Reset() 맴버 함수를 사용해보세요.)
     AstrumObservedVector3 Scale;
 

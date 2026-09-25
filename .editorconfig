@@ -1,0 +1,13 @@
+root = true
+
+# MSVC가 시스템 코드 페이지(CP949)로 잘못 읽지 않도록, 소스 파일은 BOM이 있는 UTF-8로 저장합니다.
+[*.{cpp,hpp,h,inl,fx,hlsl}]
+charset = utf-8-bom
+end_of_line = crlf
+insert_final_newline = true
+indent_style = tab
+indent_size = 4
+
+[*.md]
+charset = utf-8
+end_of_line = crlf
