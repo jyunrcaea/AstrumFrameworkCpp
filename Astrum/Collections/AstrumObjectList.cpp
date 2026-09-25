@@ -68,7 +68,7 @@ void AstrumObjectList::ForEach(const std::function<void(const std::shared_ptr<IA
     // 예외가 발생해도 순회 깊이가 복구되도록 합니다.
     struct IterationGuard {
         int& depth;
-        IterationGuard(int& depth) : depth(depth) { ++depth; }
+        explicit IterationGuard(int& target) : depth(target) { ++depth; }
         ~IterationGuard() { --depth; }
     } guard(iterationDepth);
 

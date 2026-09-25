@@ -83,7 +83,8 @@ public:
     }
 
     /// <summary>
-    /// 현재 창의 너비를 반환합니다.
+    /// 게임 화면(논리 해상도)의 너비를 반환합니다. Initialize()에 지정한 값이며, 사용자가 창 크기를 바꿔도 유지됩니다.
+    /// (실제 클라이언트 영역 크기는 GetClientSize()를 사용하세요.)
     /// </summary>
     /// <returns>창의 너비를 정수(int) 값으로 반환합니다. (픽셀 단위)</returns>
     static inline int GetWidth() {
@@ -91,7 +92,8 @@ public:
     }
 
     /// <summary>
-    /// 현재 창의 높이를 반환합니다.
+    /// 게임 화면(논리 해상도)의 높이를 반환합니다. Initialize()에 지정한 값이며, 사용자가 창 크기를 바꿔도 유지됩니다.
+    /// (실제 클라이언트 영역 크기는 GetClientSize()를 사용하세요.)
     /// </summary>
     /// <returns>창의 높이를 정수(int) 값으로 반환합니다. (일반적으로 픽셀 단위)</returns>
     static inline int GetHeight() {
@@ -156,10 +158,11 @@ public:
     }
 
     /// <summary>
-    /// 창 크기를 설정합니다.
+    /// 창의 클라이언트(렌더링) 영역 크기를 설정합니다. (테두리/제목 표시줄은 자동으로 더해집니다.)
+    /// 게임 화면의 논리 해상도(GetWidth/GetHeight)는 바뀌지 않으며, 화면이 비율을 유지한 채 확대/축소됩니다.
     /// </summary>
-    /// <param name="w">새 창의 너비.</param>
-    /// <param name="h">새 창의 높이.</param>
+    /// <param name="w">새 클라이언트 영역의 너비.</param>
+    /// <param name="h">새 클라이언트 영역의 높이.</param>
     static inline void SetSize(int w, int h) {
         AstrumWindowSingleton::Instance().SetSize(w, h);
     }

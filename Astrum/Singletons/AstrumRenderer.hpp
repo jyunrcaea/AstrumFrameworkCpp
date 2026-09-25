@@ -33,8 +33,8 @@ public:
     /// <summary>
     /// 렌더러를 초기화하여 DirectX 디바이스와 스왑체인을 생성하고 뷰포트를 설정합니다.
     /// </summary>
-    /// <param name="width">렌더 타겟의 너비(픽셀)입니다.</param>
-    /// <param name="height">렌더 타겟의 높이(픽셀)입니다.</param>
+    /// <param name="width">게임 화면의 논리 해상도 너비(픽셀)입니다. 창 크기가 바뀌어도 유지됩니다.</param>
+    /// <param name="height">게임 화면의 논리 해상도 높이(픽셀)입니다. 창 크기가 바뀌어도 유지됩니다.</param>
     /// <param name="windowMode">창 모드 여부입니다. true이면 창 모드, false이면 전체 화면입니다.</param>
     /// <returns>초기화 성공 여부를 반환합니다.</returns>
     bool Initialize(unsigned int width, unsigned int height, bool windowMode = true);
@@ -42,6 +42,13 @@ public:
     /// 렌더 큐에 등록된 모든 렌더링 가능한 객체들을 그리고 큐를 비운 후 스왑체인을 갱신합니다.
     /// </summary>
     void Rendering();
+    /// <summary>
+    /// 창의 클라이언트 영역 크기가 바뀌었을 때 백버퍼 크기를 맞춥니다. (AstrumWindow가 WM_SIZE에서 호출)
+    /// 논리 해상도는 유지되며, 화면은 비율을 유지한 채 확대/축소되고 남는 영역은 배경색으로 채워집니다.
+    /// </summary>
+    /// <param name="clientWidth">클라이언트 영역 너비(픽셀)</param>
+    /// <param name="clientHeight">클라이언트 영역 높이(픽셀)</param>
+    void Resize(unsigned int clientWidth, unsigned int clientHeight);
 
     /// <summary>
     /// 지정된 타입의 GPU 버퍼를 생성합니다.
@@ -104,10 +111,24 @@ public:
     /// <returns>현재 렌더 해상도입니다.</returns>
     AstrumResolution GetResolution() const;
     /// <summary>
-    /// 현재 렌더 해상도의 비율을 반환합니다.
+    /// 클라이언트 영역 1픽셀당 논리 해상도 단위의 비율을 반환합니다. (비율을 유지하며 확대/축소되므로 X, Y가 같습니다.)
     /// </summary>
     /// <returns>렌더 해상도의 비율입니다.</returns>
     AstrumDoubleVector2 GetRSRate() const;
+    /// <summary>
+    /// 클라이언트 영역 좌표(왼쪽 위 원점, 픽셀)를 논리 해상도 좌표(왼쪽 아래 원점)로 변환합니다. (레터박스 여백과 확대/축소를 반영)
+    /// </summary>
+    AstrumDoubleVector2 ClientToResolution(double clientX, double clientY) const;
+    /// <summary>
+    /// 이후 그리기의 깊이 기록 여부를 설정합니다. (깊이 검사는 항상 수행됩니다.)
+    /// 화면 전체를 덮는 합성처럼 깊이를 기록하면 안 되는 그리기에 사용하고, 끝나면 다시 true로 되돌려야 합니다.
+    /// </summary>
+    void SetDepthWriteEnabled(bool enable);
+    /// <summary>
+    /// D2D 렌더 타겟이 (창 크기 변경 등으로) 다시 만들어질 때마다 증가하는 값입니다.
+    /// 이전 렌더 타겟으로 만든 D2D 리소스(브러시 등)는 이 값이 바뀌면 다시 만들어야 합니다.
+    /// </summary>
+    unsigned int GetRenderTarget2DVersion() const { return renderTarget2DVersion; }
     /// <summary>
     /// 렌더 해상도의 절반 크기를 반환합니다.
     /// </summary>
@@ -131,12 +152,25 @@ private:
     unsigned int sampleCount = 1;
     bool vsync = false;
 
+    // 백버퍼(=클라이언트 영역) 크기
+    unsigned int backBufferWidth = 0;
+    unsigned int backBufferHeight = 0;
+    // 논리 해상도를 비율 유지하며 백버퍼에 맞춘 뷰포트와 그 배율
+    D3D11_VIEWPORT viewport{};
+    float viewportScale = 1.0f;
+    unsigned int renderTarget2DVersion = 0;
+
+    // 백버퍼 크기에 의존하는 리소스(렌더 타겟 뷰, 깊이 버퍼, D2D 렌더 타겟)를 만들고 뷰포트를 갱신합니다.
+    bool CreateSizeDependentResources(unsigned int width, unsigned int height);
+    void UpdateViewport();
+
     ComPtr<ID3D11Device> device;
     ComPtr<ID3D11DeviceContext> context;
     ComPtr<IDXGISwapChain> swapChain;
     ComPtr<ID3D11RenderTargetView> renderTargetView;
     ComPtr<ID3D11DepthStencilView> depthStencilView;
     ComPtr<ID3D11DepthStencilState> depthStencilState;
+    ComPtr<ID3D11DepthStencilState> depthStencilStateNoWrite;
     ComPtr<ID3D11BlendState> blendState;
     ComPtr<ID2D1RenderTarget> renderTarget2D;
 	ComPtr<ID2D1Factory> factory2D;

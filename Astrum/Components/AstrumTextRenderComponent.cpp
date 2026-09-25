@@ -8,11 +8,18 @@
 using Microsoft::WRL::ComPtr;
 
 AstrumTextRenderComponent::AstrumTextRenderComponent() {
+	CreateColorBrush();
+}
+
+void AstrumTextRenderComponent::CreateColorBrush() {
+	colorBrush = nullptr;
 	AstrumRenderer::Instance().GetRenderTarget2D()->CreateSolidColorBrush(
 		//{ textColor.Red, textColor.Green, textColor.Blue, textColor.Alpha },
 		*reinterpret_cast<D2D1_COLOR_F*>(&textColor),
 		colorBrush.GetAddressOf()
 	);
+	brushRenderTargetVersion = AstrumRenderer::Instance().GetRenderTarget2DVersion();
+	colorDirty = false;
 }
 
 void AstrumTextRenderComponent::Draw() {
@@ -24,7 +31,11 @@ void AstrumTextRenderComponent::Draw() {
 void AstrumTextRenderComponent::PreRender() {
 	if (nullptr == targetFont) return;
 
-	 if (colorDirty) {
+	// D2D 렌더 타겟이 다시 만들어졌다면(창 크기 변경) 이전 렌더 타겟의 브러시는 쓸 수 없으므로 다시 만듭니다.
+	if (nullptr == colorBrush || brushRenderTargetVersion != AstrumRenderer::Instance().GetRenderTarget2DVersion()) {
+		CreateColorBrush();
+	}
+	else if (colorDirty) {
 		colorBrush->SetColor(reinterpret_cast<const D2D1_COLOR_F*>(&textColor));
 		colorDirty = false;
 	}

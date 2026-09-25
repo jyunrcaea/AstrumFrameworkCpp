@@ -70,6 +70,8 @@ private:
     // 이전 상태 저장용
     Microsoft::WRL::ComPtr<ID3D11RenderTargetView> previousRTV;
     Microsoft::WRL::ComPtr<ID3D11DepthStencilView> previousDSV;
+    D3D11_VIEWPORT previousViewport{};
+    UINT previousViewportCount = 0;
 
     void ResetViewPort() const;
     void ClearShaderResourceView() const;

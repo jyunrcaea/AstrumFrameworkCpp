@@ -110,13 +110,9 @@ void AstrumRawInputSingleton::UpdateMousePosition() {
 	GetCursorPos(&point);
 	ScreenToClient(AstrumWindow::GetHandle(), &point);
 
-	const auto resolution = AstrumRenderer::Instance().GetResolution();
-	const auto rsrate = AstrumRenderer::Instance().GetRSRate();
-
-	// Raw Input의 상대 이동량이 아닌, 절대 좌표 기반의 이동량 계산
-	// mouseMovement = newMousePos - mousePosition; 
-	mousePosition = AstrumDoubleVector2{
-		static_cast<double>(point.x) * rsrate.X,
-		static_cast<double>(resolution.Height) - static_cast<double>(point.y) * rsrate.Y
-	};
+	// 클라이언트 좌표를 논리 해상도 좌표(왼쪽 아래 원점)로 변환합니다. (창 크기 변경에 따른 확대/축소와 레터박스 여백 반영)
+	mousePosition = AstrumRenderer::Instance().ClientToResolution(
+		static_cast<double>(point.x),
+		static_cast<double>(point.y)
+	);
 }
