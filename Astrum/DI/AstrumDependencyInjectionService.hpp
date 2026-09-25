@@ -11,22 +11,24 @@
 /// </summary>
 class AstrumDependencyInjectionService : public IAstrumDependencyInjectionService {
 private:
-	// for preserve unique_ptr
-	std::vector<std::unique_ptr<void*>> resolvedPointers;
+	// 예약된 포인터 변수의 저장소 (주소가 변하지 않도록 unique_ptr로 보관)
+	std::vector<std::unique_ptr<void*>> reservedPointers;
 protected:
-	// disposable map. be removed when resolved.
-	std::unique_ptr<std::unordered_map<std::string, void**>> resolvedDictionary = std::make_unique<std::unordered_map<std::string, void**>>();
+	// 예약된 키 -> 포인터 변수. 해결된 이후에도 지우지 않고, Prepare()마다 다시 해결합니다.
+	// (객체가 다른 부모로 옮겨지면 새 부모 트리를 기준으로 다시 연결됩니다.)
+	std::unordered_map<std::string, void**> reservedDictionary;
 private:
 	// share variable map
 	std::unordered_map<std::string, void*> cachedDictionary;
 
 public:
 	virtual void*& Reserve(const std::string& key) override {
-		if (false == resolvedDictionary->contains(key)) {
-			(*resolvedDictionary)[key] = resolvedPointers.emplace_back(std::make_unique<void*>(nullptr)).get();
+		auto it = reservedDictionary.find(key);
+		if (it == reservedDictionary.end()) {
+			it = reservedDictionary.emplace(key, reservedPointers.emplace_back(std::make_unique<void*>(nullptr)).get()).first;
 		}
 
-		return *(*resolvedDictionary)[key];
+		return *it->second;
 	}
 
 	/// <summary>
@@ -55,27 +57,27 @@ public:
 	/// </summary>
 	/// <param name="key">문자열 키</param>
 	/// <returns>찾을수 없는 경우 nullptr을 가져옵니다.</returns>
-	void* Lookup(const std::string& key) const {
+	void* Lookup(const std::string& key) const override {
 		const auto it = cachedDictionary.find(key);
 		if (it == cachedDictionary.end()) return nullptr;
 		return it->second;
 	}
 
 	/// <summary>
-	/// 예약된 의존성을 즉시 해결합니다. 이후 해결된 변수는 사라집니다.
+	/// 예약된 모든 의존성을 현재 부모 트리를 기준으로 (다시) 해결합니다. 가장 가까운 조상에 등록된 변수가 연결되며, 찾지 못하면 nullptr이 됩니다.
+	/// Prepare()마다 호출되므로, 객체를 다른 부모로 옮긴 뒤 다시 준비하면 새 부모의 변수로 연결됩니다.
 	/// </summary>
 	/// <param name="owner">해결을 시작할 객체(자식 쪽에서 호출될 때 이 객체의 부모 트리에서 키를 탐색합니다)</param>
 	virtual void Resolve(IAstrumObject* const owner) override {
-		// Ancestors traversal
-		for (auto* parent = owner->GetParent(); false == resolvedDictionary->empty() && parent != nullptr; parent = parent->GetParent()) {
-			// Key-Value traversal
-			for (auto it = resolvedDictionary->begin(); it != resolvedDictionary->end();) {
-				// Try resolve
-				if (auto* const cached = parent->GetDependencyInjectionService().Lookup(it->first)) {
-					*it->second = cached;
-					it = resolvedDictionary->erase(it);
+		// Key-Value traversal
+		for (auto& [key, pointer] : reservedDictionary) {
+			*pointer = nullptr;
+			// Ancestors traversal
+			for (auto* parent = owner->GetParent(); parent != nullptr; parent = parent->GetParent()) {
+				if (auto* const cached = parent->GetDependencyInjectionService().Lookup(key)) {
+					*pointer = cached;
+					break;
 				}
-				else it++;
 			}
 		}
 	}
