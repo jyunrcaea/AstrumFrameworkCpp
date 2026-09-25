@@ -59,6 +59,12 @@ int AstrumObjectList::Count() const {
 void AstrumObjectList::ForEach(const std::function<void(const std::shared_ptr<IAstrumObject>&)>& func) {
     RefreshSnapshot();
 
+    // 바깥 순회 도중에 목록이 바뀐 상태에서 중첩 순회하는 경우(예: 자식을 추가한 뒤 부모를 이동),
+    // 바깥 순회 중인 스냅샷은 건드리지 않고 최신 목록의 복사본을 순회합니다.
+    std::vector<std::shared_ptr<IAstrumObject>> latest;
+    if (changed) latest = objects;
+    const auto& targets = changed ? latest : snapshot;
+
     // 예외가 발생해도 순회 깊이가 복구되도록 합니다.
     struct IterationGuard {
         int& depth;
@@ -66,7 +72,7 @@ void AstrumObjectList::ForEach(const std::function<void(const std::shared_ptr<IA
         ~IterationGuard() { --depth; }
     } guard(iterationDepth);
 
-    for (const auto& obj : snapshot) {
+    for (const auto& obj : targets) {
         // 순회 도중에 이 컬렉션에서 제거된 객체는 건너뜁니다. (Release() 이후에 Update()/Draw()가 호출되지 않도록)
         if (obj->GetParent() != owner) continue;
         func(obj);

@@ -20,6 +20,7 @@ bool AstrumComponentList::Add(const std::shared_ptr<IAstrumComponent>& component
 	}
 
 	this->push_back(component);
+	changed = true;
 	component->SetOwner(owner);
 	if (owner->IsPrepared()) component->Prepare();
 	return true;
@@ -33,6 +34,7 @@ bool AstrumComponentList::Remove(const std::shared_ptr<IAstrumComponent>& compon
 	if (it == this->end()) return false;
 
 	this->erase(it);
+	changed = true;
 	// Add()에서 owner가 준비된 상태면 Prepare()를 호출하므로, 제거할 때도 대칭적으로 Release()를 호출합니다.
 	if (owner->IsPrepared()) component->Release();
 	component->SetOwner(nullptr);
@@ -44,6 +46,7 @@ void AstrumComponentList::Clear()
 	// Release() 도중에 목록이 바뀌어도 안전하도록 먼저 비운 뒤 처리합니다.
 	vec removed;
 	removed.swap(static_cast<vec&>(*this));
+	changed = true;
 	const bool prepared = owner->IsPrepared();
 	for (auto& component : removed) {
 		if (component != nullptr) {
@@ -55,30 +58,47 @@ void AstrumComponentList::Clear()
 
 void AstrumComponentList::Prepare()
 {
-	for (auto& component : *this) {
-		component->Prepare();
-	}
+	ForEach([](const std::shared_ptr<IAstrumComponent>& component) { component->Prepare(); });
 }
 
 void AstrumComponentList::Update()
 {
-	for (auto& component : *this) {
-		component->Update();
-	}
+	ForEach([](const std::shared_ptr<IAstrumComponent>& component) { component->Update(); });
 }
 
 void AstrumComponentList::Release()
 {
-	for (auto& component : *this) {
-		component->Release();
-	}
+	ForEach([](const std::shared_ptr<IAstrumComponent>& component) { component->Release(); });
 }
 
 void AstrumComponentList::ForEach(const std::function<void(const std::shared_ptr<IAstrumComponent>&)>& func) {
-	for (auto& component : *this) {
-		if (component != nullptr) {
+	RefreshSnapshot();
+
+	// 바깥 순회 도중에 목록이 바뀐 상태에서 중첩 순회하는 경우, 바깥 순회 중인 스냅샷은 건드리지 않고 최신 목록의 복사본을 순회합니다.
+	vec latest;
+	if (changed) latest = static_cast<const vec&>(*this);
+	const auto& targets = changed ? latest : snapshot;
+
+	// 예외가 발생해도 순회 깊이가 복구되도록 합니다.
+	struct IterationGuard {
+		int& depth;
+		IterationGuard(int& depth) : depth(depth) { ++depth; }
+		~IterationGuard() { --depth; }
+	} guard(iterationDepth);
+
+	for (const auto& component : targets) {
+		// 순회 도중 이 목록에서 제거된 컴포넌트(owner가 해제됨)는 건너뜁니다.
+		if (component != nullptr && component->GetOwner() == owner) {
 			func(component);
 		}
+	}
+}
+
+void AstrumComponentList::RefreshSnapshot() {
+	// 순회 도중에는 스냅샷을 바꾸면 순회 중인 배열이 무효화되므로 갱신하지 않습니다.
+	if (changed && 0 == iterationDepth) {
+		snapshot = static_cast<const vec&>(*this);
+		changed = false;
 	}
 }
 

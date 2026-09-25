@@ -52,6 +52,7 @@ public:
 
 	/// <summary>
 	/// 컬렉션의 모든 컴포넌트에 대해 주어진 함수를 실행합니다.
+	/// 순회 도중(중첩 순회 포함)에 컴포넌트가 추가/삭제되어도 안전하며, 순회 도중 삭제된 컴포넌트는 건너뜁니다. (추가된 컴포넌트는 다음 순회부터 포함됩니다.)
 	/// </summary>
 	/// <param name="func">각 컴포넌트에 대해 실행할 함수입니다.</param>
 	virtual void ForEach(const std::function<void(const std::shared_ptr<IAstrumComponent>&)>& func) override;
@@ -62,7 +63,7 @@ public:
 	/// <returns>컬렉션의 컴포넌트들을 포함한 벡터 복사본입니다.</returns>
 	virtual std::vector<std::shared_ptr<IAstrumComponent>> ToArray() const override;
 	/// <summary>
-	/// 컬렉션의 시작 반복자를 반환합니다.
+	/// 컬렉션의 시작 반복자를 반환합니다. (주의: 반복자로 순회하는 도중에는 컴포넌트를 추가/삭제하면 안 됩니다. 안전한 순회는 ForEach()를 사용하세요.)
 	/// </summary>
 	/// <returns>시작 반복자입니다.</returns>
 	iter begin() { return vec::begin(); }
@@ -82,5 +83,14 @@ public:
 	/// <returns>역방향 끝 반복자입니다.</returns>
 	auto rend() { return vec::rend(); }
 private:
+	// 순회 중이 아닐 때만 스냅샷을 최신 상태로 갱신합니다.
+	void RefreshSnapshot();
+
 	IAstrumObject* const owner;
+	// ForEach()에서 순회에 사용하는 복사본. 순회 도중에는 갱신하지 않으므로 순회 중 추가/삭제에도 안전합니다.
+	vec snapshot;
+	// 컴포넌트 목록에 변경사항이 생겼는지 여부
+	bool changed = false;
+	// 현재 진행 중인 순회(ForEach)의 깊이
+	int iterationDepth = 0;
 };

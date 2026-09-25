@@ -13,29 +13,24 @@ void AstrumObject::Prepare() {
 
     DI.Resolve(this);
 
-    for (auto& component : Components) {
-        if (component) component->Prepare();
-    }
-
+    // 컴포넌트의 Prepare() 도중에 추가되는 컴포넌트도 즉시 준비되도록, 먼저 준비 상태로 표시합니다.
     isPrepared = true;
+
+    // 컴포넌트가 순회 도중에 자신(또는 다른 컴포넌트)을 추가/제거해도 안전하도록 ForEach로 순회합니다.
+    Components.Prepare();
 }
 void AstrumObject::Update() {
-    for(auto& component : Components) {
-        if (component) component->Update();
-	}
+    Components.Update();
 }
 void AstrumObject::Release() {
-    for(auto& component : Components) {
-        if (component) component->Release();
-	}
+    // 컴포넌트의 Release() 도중에 제거되는 컴포넌트도 즉시 해제되도록, 준비 상태 해제는 마지막에 합니다.
+    Components.Release();
 
     isPrepared = false;
 }
 void AstrumObject::Draw() {
 	if (false == IsVisible()) return;
-    for (auto& component : Components) {
-        if (component) component->Draw();
-    }
+    Components.ForEach([](const std::shared_ptr<IAstrumComponent>& component) { component->Draw(); });
 }
 
 AstrumObservedVector3& AstrumObject::GetPosition() { return Position; }
