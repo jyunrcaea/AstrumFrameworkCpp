@@ -8,32 +8,32 @@ AstrumGroupObject::AstrumGroupObject() : objects(this) { }
 void AstrumGroupObject::Prepare()
 {
     AstrumObject::Prepare();
-    objects.ForEach([](const std::shared_ptr<IAstrumObject>& obj) {
+    for (IAstrumObject* obj : objects.Iterate()) {
         obj->Prepare();
-    });
+    }
 }
 
 //이렇게 자식까지 호출되도록 로직을 구성했어요.
 void AstrumGroupObject::Update() {
     AstrumObject::Update();
-    objects.ForEach([](const std::shared_ptr<IAstrumObject>& obj) {
+    for (IAstrumObject* obj : objects.Iterate()) {
         obj->Update();
-    });
+    }
 }
 
 void AstrumGroupObject::Release() { 
     AstrumObject::Release();
-    objects.ForEach([](const std::shared_ptr<IAstrumObject>& obj) {
+    for (IAstrumObject* obj : objects.Iterate()) {
         obj->Release();
-    });
+    }
 }
 
 void AstrumGroupObject::Draw() {
     if (false == IsVisible()) return;
     AstrumObject::Draw();
-    objects.ForEach([](const std::shared_ptr<IAstrumObject>& obj) {
+    for (IAstrumObject* obj : objects.Iterate()) {
         obj->Draw();
-    });
+    }
 }
 
 IAstrumObjectList& AstrumGroupObject::GetObjectList() { return objects; }
@@ -43,25 +43,25 @@ void AstrumGroupObject::UpdateAbsolutePosition()
 {
     AstrumObject::UpdateAbsolutePosition();
     //이건 자식도 같이 업데이트하도록 순회하는 코드
-    objects.ForEach([](const std::shared_ptr<IAstrumObject>& obj) {
+    for (IAstrumObject* obj : objects.Iterate()) {
         obj->UpdateAbsolutePosition();
-	});
+    }
 }
 
 void AstrumGroupObject::UpdateAbsoluteRotation()
 {
     AstrumObject::UpdateAbsoluteRotation();
-    objects.ForEach([](const std::shared_ptr<IAstrumObject>& obj) {
+    for (IAstrumObject* obj : objects.Iterate()) {
         obj->UpdateAbsoluteRotation();
         obj->UpdateAbsolutePosition();
-    });
+    }
 }
 
 void AstrumGroupObject::UpdateAbsoluteScale()
 {
     AstrumObject::UpdateAbsoluteScale();
-    objects.ForEach([](const std::shared_ptr<IAstrumObject>& obj) {
+    for (IAstrumObject* obj : objects.Iterate()) {
         obj->UpdateAbsoluteScale();
         obj->UpdateAbsolutePosition();
-    });
+    }
 }

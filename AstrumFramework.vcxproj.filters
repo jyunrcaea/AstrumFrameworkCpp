@@ -118,6 +118,7 @@
     <ClInclude Include="Astrum\Units\AstrumColor.hpp" />
     <ClInclude Include="Astrum\Components\AstrumComponent.hpp" />
     <ClInclude Include="Astrum\Collections\AstrumComponentList.hpp" />
+    <ClInclude Include="Astrum\Collections\AstrumIterationSafeVector.hpp" />
     <ClInclude Include="Astrum\Buffers\AstrumConstantBuffer.hpp" />
     <ClInclude Include="Astrum\Shaders\AstrumDomainShader.hpp" />
     <ClInclude Include="Astrum\Objects\AstrumShapeObject.hpp" />

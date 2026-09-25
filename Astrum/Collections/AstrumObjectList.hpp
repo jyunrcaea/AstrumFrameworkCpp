@@ -4,6 +4,7 @@
 #include <functional>
 #include <memory>
 #include "IAstrumObjectList.hpp"
+#include "AstrumIterationSafeVector.hpp"
 #include "../Objects/IAstrumGroupObject.hpp"
 
 struct IAstrumGroupObject;
@@ -51,17 +52,23 @@ public:
     /// <returns>컬렉션의 객체 개수입니다.</returns>
     int Count() const override;
     /// <summary>
-    /// 컬렉션의 모든 객체에 대해 추가된 순서대로 주어진 함수를 실행합니다.
+    /// 컬렉션의 모든 객체에 대해 추가된 순서대로 주어진 함수를 실행합니다. (인터페이스용. 성능이 중요하면 Iterate()를 사용하세요.)
     /// 순회 도중(중첩 순회 포함)에 객체가 추가/삭제되어도 안전하며, 순회 도중 삭제된 객체는 건너뜁니다. (추가된 객체는 다음 순회부터 포함됩니다.)
     /// </summary>
     /// <param name="func">각 객체에 대해 실행할 함수입니다.</param>
     void ForEach(const std::function<void(const std::shared_ptr<IAstrumObject>&)>& func) override;
     /// <summary>
+    /// 순회 도중에 추가/삭제해도 안전한 순회 범위를 추가된 순서대로 반환합니다. std::function을 거치지 않아 인라이닝됩니다.
+    /// 예: for (IAstrumObject* obj : objects.Iterate()) obj->Update();
+    /// (순회 도중 삭제된 객체는 건너뛰며, 추가된 객체는 진행 중인 순회에는 포함되지 않고 중첩 순회와 다음 순회부터 포함됩니다.)
+    /// </summary>
+    AstrumIterationSafeVector<IAstrumObject>::Range Iterate() { return objects.Iterate(); }
+    /// <summary>
     /// 컬렉션의 특정 인덱스에 있는 객체를 반환합니다.
     /// </summary>
     /// <param name="index">객체의 인덱스입니다.</param>
     /// <returns>인덱스에 해당하는 객체 참조입니다.</returns>
-	IAstrumObject& operator[](int index) override { return *objects[index]; }
+	IAstrumObject& operator[](int index) override { return *objects.At(static_cast<size_t>(index)); }
     /// <summary>
     /// 컬렉션의 모든 객체를 배열로 변환하여 반환합니다.
     /// </summary>
@@ -69,19 +76,9 @@ public:
     std::vector<std::shared_ptr<IAstrumObject>> ToArray() const override;
 
 private:
-    // 순회 중이 아닐 때만 스냅샷을 최신 상태로 갱신합니다.
-    void RefreshSnapshot();
-
     IAstrumGroupObject* const owner;
-    // 가장 최신의 변경사항이 적용되는, 추가된 순서를 유지하는 목록
-    std::vector<std::shared_ptr<IAstrumObject>> objects;
+    // 추가된 순서를 유지하며, 순회 도중 추가/삭제에도 안전한 목록
+    AstrumIterationSafeVector<IAstrumObject> objects;
     // 빠른 포함 여부 확인을 위한 해시셋
     std::unordered_set<IAstrumObject*> objectSet;
-    // objects에 변경점이 생길때마다 복사를 받고, 순회(ForEach)에 사용되는 배열.
-    // 순회 도중에는 갱신하지 않으므로, 순회 도중에 객체가 추가/삭제되어도 (중첩 순회를 포함해) 안정적인 순회가 가능함.
-    std::vector<std::shared_ptr<IAstrumObject>> snapshot;
-    // objects에 변경사항이 생겼는지 여부
-    bool changed = false;
-    // 현재 진행 중인 순회(ForEach)의 깊이
-    int iterationDepth = 0;
 };

@@ -1,5 +1,4 @@
 ﻿#include "AstrumObjectList.hpp"
-#include <algorithm>
 
 AstrumObjectList::AstrumObjectList(IAstrumGroupObject* const owner) : owner(owner)
 {
@@ -10,9 +9,8 @@ bool AstrumObjectList::Add(const std::shared_ptr<IAstrumObject>& obj) {
     //컬렉션에 객체를 추가할때마다, 자식에게 부모가 누구인지 할당하는 작업을 해줘요.
     if (false == obj->SetParent(owner)) return false;
 
-    objects.push_back(obj);
+    objects.PushBack(obj);
     objectSet.insert(obj.get());
-    changed = true;
     if (owner->IsPrepared()) obj->Prepare();
     return true;
 }
@@ -27,19 +25,18 @@ bool AstrumObjectList::Remove(const std::shared_ptr<IAstrumObject>& obj) {
     //삭제할때도 자식에게 부모가 더이상 없음을 알려요.
     if (false == obj->ClearParent(owner)) return false;
 
-    objectSet.erase(obj.get());
-    objects.erase(std::find(objects.begin(), objects.end(), obj));
-    changed = true;
-    if (owner->IsPrepared()) obj->Release();
+    // 인자가 목록 안의 shared_ptr를 가리키는 참조일 수도 있으므로 복사해 둡니다.
+    const std::shared_ptr<IAstrumObject> target = obj;
+    objectSet.erase(target.get());
+    objects.Erase(target.get());
+    if (owner->IsPrepared()) target->Release();
     return true;
 }
 
 void AstrumObjectList::Clear() {
-    // Release() 도중에 목록이 바뀌어도 안전하도록 먼저 비운 뒤 처리합니다.
-    std::vector<std::shared_ptr<IAstrumObject>> removed;
-    removed.swap(objects);
+    // 목록을 먼저 비운 뒤 처리하므로, Release() 도중에 목록이 바뀌어도 안전합니다.
+    const auto removed = objects.TakeAll();
     objectSet.clear();
-    changed = true;
 
     const bool prepared = owner->IsPrepared();
     for (auto& obj : removed) {
@@ -53,40 +50,13 @@ bool AstrumObjectList::Contains(const std::shared_ptr<IAstrumObject>& obj) const
 }
 
 int AstrumObjectList::Count() const {
-    return static_cast<int>(objects.size());
+    return static_cast<int>(objects.Count());
 }
 
 void AstrumObjectList::ForEach(const std::function<void(const std::shared_ptr<IAstrumObject>&)>& func) {
-    RefreshSnapshot();
-
-    // 바깥 순회 도중에 목록이 바뀐 상태에서 중첩 순회하는 경우(예: 자식을 추가한 뒤 부모를 이동),
-    // 바깥 순회 중인 스냅샷은 건드리지 않고 최신 목록의 복사본을 순회합니다.
-    std::vector<std::shared_ptr<IAstrumObject>> latest;
-    if (changed) latest = objects;
-    const auto& targets = changed ? latest : snapshot;
-
-    // 예외가 발생해도 순회 깊이가 복구되도록 합니다.
-    struct IterationGuard {
-        int& depth;
-        explicit IterationGuard(int& target) : depth(target) { ++depth; }
-        ~IterationGuard() { --depth; }
-    } guard(iterationDepth);
-
-    for (const auto& obj : targets) {
-        // 순회 도중에 이 컬렉션에서 제거된 객체는 건너뜁니다. (Release() 이후에 Update()/Draw()가 호출되지 않도록)
-        if (obj->GetParent() != owner) continue;
-        func(obj);
-    }
+    objects.ForEachShared(func);
 }
 
 std::vector<std::shared_ptr<IAstrumObject>> AstrumObjectList::ToArray() const {
-    return objects;
-}
-
-void AstrumObjectList::RefreshSnapshot() {
-    // 순회 도중에는 스냅샷을 바꾸면 순회 중인 배열이 무효화되므로 갱신하지 않습니다.
-    if (changed && 0 == iterationDepth) {
-        snapshot = objects;
-        changed = false;
-    }
+    return objects.ToVector();
 }
