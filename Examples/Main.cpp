@@ -2,7 +2,7 @@
 #include <iostream>
 #include <string_view>
 
-// 예제 파일들은 각각 독립된 네임스페이스에 Program::Main()을 정의하고, main()을 friend로 선언합니다.
+// 예제 파일들은 각각 독립된 네임스페이스에 Program::Main()을 정의합니다.
 // 이 파일에서 한번에 포함해 컴파일하므로, 예제 .cpp 파일들은 개별적으로 컴파일하지 않습니다.
 #include "LifeCycle.cpp"
 #include "DependencyInjection.cpp"

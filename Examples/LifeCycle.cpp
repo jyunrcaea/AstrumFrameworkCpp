@@ -78,9 +78,8 @@ namespace LifeCycle {
 
 	class Program
 	{
-		friend int main();
-
-	private:
+	public:
+		// Examples/Main.cpp에서 호출합니다.
 		static int Main() {
 			AstrumFramework::Initialize();
 			AstrumFramework::GetRootObject()->AddObjects({

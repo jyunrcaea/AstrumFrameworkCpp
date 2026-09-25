@@ -61,7 +61,8 @@ void AstrumFonts::Initialize(const std::filesystem::path::value_type* pathstr) {
 	))) AstrumException(__LINE__, __FILE__, "Failed to create font collection from font set.").Alert();
 
 	Microsoft::WRL::ComPtr<IDWriteFontFamily> fontFamily = nullptr;
-	if (FAILED(this->fontCollection->GetFontFamily(
+	// IDWriteFontCollection1은 GetFontFamily(IDWriteFontFamily1**) 오버로드를 추가로 가지므로, 기반 인터페이스로 명시해 호출합니다.
+	if (FAILED(static_cast<IDWriteFontCollection*>(this->fontCollection.Get())->GetFontFamily(
 		0,
 		fontFamily.GetAddressOf()
 	))) AstrumException(__LINE__, __FILE__, "Failed to get font family from collection.").Alert();

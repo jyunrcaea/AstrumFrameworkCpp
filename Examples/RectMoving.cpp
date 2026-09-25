@@ -121,8 +121,6 @@ namespace RectMoving {
 
     class Program
     {
-        friend int main();
-
     private:
         static void SetupKeyBinding() {
             AstrumKeyBinder::AddKeyBind("Up", 'W');
@@ -136,6 +134,8 @@ namespace RectMoving {
             AstrumKeyBinder::AddKeyBind("Right", VK_RIGHT);
         }
 
+    public:
+        // Examples/Main.cpp에서 호출합니다.
         static int Main() {
             AstrumFramework::Initialize();
             SetupKeyBinding();
