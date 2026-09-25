@@ -109,9 +109,11 @@ bool AstrumRenderer::Initialize(unsigned int width, unsigned int height, bool wi
 #pragma region Create depth stencil state
     D3D11_DEPTH_STENCIL_DESC dsDesc = {};
     dsDesc.DepthEnable = TRUE;
-    //dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL; /* 투명 픽셀도 픽셀이다. 깊이 버퍼에 매번 새로 덮어써버림. */
-    dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO; /* 깊이를 새로 기록하진 않음. */
-    dsDesc.DepthFunc = D3D11_COMPARISON_LESS;
+    // 깊이를 기록해서 Position.Z가 앞뒤 순서를 결정하도록 합니다. (Z가 작을수록 앞)
+    // 투명한 픽셀이 깊이 버퍼를 덮어써서 뒤의 물체가 사라지던 문제는 기본 픽셀 셰이더에서 clip()으로 버려서 해결합니다.
+    dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+    // 같은 Z끼리는 나중에 그려진 물체(자식 목록에서 뒤에 추가된 물체)가 위에 보이도록 LESS_EQUAL을 사용합니다.
+    dsDesc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
     dsDesc.StencilEnable = FALSE;
     if (FAILED(device->CreateDepthStencilState(&dsDesc, &depthStencilState))) {
         AstrumException("Create depth stencil state failed.").Alert();
